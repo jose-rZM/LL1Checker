@@ -276,11 +276,6 @@ int main() {
 
   std::cout << "Grammar:\n";
   gr.debug();
-  for (std::pair<const std::string, std::vector<production>> rule : gr.g) {
-    for (production p : rule.second) {
-      std::unordered_set<std::string> ds = director_symbol(gr, rule.first, p);
-    }
-  }
 
   std::cout << "\nInput:" << std::endl;
   std::ifstream file;
