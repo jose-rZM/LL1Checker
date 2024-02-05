@@ -6,9 +6,9 @@
 const std::string symbol_table::EOL{"\\$"};
 const std::string symbol_table::EPSILON{"EPSILON"};
 
-std::unordered_map<std::string, std::pair<symbol_type, std::string>>
+std::map<std::string, std::pair<symbol_type, std::string>>
     symbol_table::st = {{EOL, {TERMINAL, EOL}}, {EPSILON, {TERMINAL, EPSILON}}};
-std::unordered_map<std::string, std::string> symbol_table::rst = {
+std::map<std::string, std::string> symbol_table::rst = {
     {EOL, EOL}, {EPSILON, EPSILON}};
 
 void symbol_table::put_symbol(std::string identifier, symbol_type type,
