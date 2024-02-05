@@ -1,16 +1,16 @@
 #pragma once
 #include <regex>
 #include <string>
-#include <unordered_map>
+#include <map>
 #include <utility>
 #include <vector>
 
 enum symbol_type { NO_TERMINAL, TERMINAL };
 
 struct symbol_table {
-  static std::unordered_map<std::string, std::pair<symbol_type, std::string>>
+  static std::map<std::string, std::pair<symbol_type, std::string>>
       st;
-  static std::unordered_map<std::string, std::string> rst;
+  static std::map<std::string, std::string> rst;
   const static std::string EOL;
   const static std::string EPSILON;
   static void put_symbol(std::string identifier, symbol_type type,
