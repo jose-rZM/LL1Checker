@@ -3,6 +3,8 @@ Check if the grammar is LL1; also, accept an input string and verify if that str
 The program reads the grammar from a file or standard input (by default it reads from a file).
 # Compiling
 A Makefile is provided.
+# TODO
+- Improve the lexer (it can fail sometimes)
 # To consider
 - The code assumes that the grammar file is named "input.txt".
 - The program also checks if a string belongs to the language, that string is in "text.txt".
