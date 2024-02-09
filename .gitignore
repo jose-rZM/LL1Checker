@@ -30,14 +30,11 @@
 *.exe
 *.out
 *.app
+parser
 
 # Vscode
 .vscode
 
-# Exec
-parser
-
 # Lex files
 lex.l
-lex.yy.so
 lex.yy.c
