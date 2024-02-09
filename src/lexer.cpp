@@ -17,7 +17,7 @@ lexer::lexer(const std::string &filename)
 }
 
 void lexer::tokenize() {
-  std::ofstream l{"lex.l"};
+  std::ofstream l{"./src/lex.l"};
   l << "%{\n\t#include<stdio.h>\n%}\n";
   l << "%%\n";
 
@@ -45,9 +45,9 @@ void lexer::tokenize() {
   l << "int yywrap() {\n\treturn 1;\n}\n";
 
   l.close();
-  system("lex lex.l");
-  system("gcc lex.yy.c -o lex.yy.so -O2 -shared -fPIC");
-  void *dynlib = dlopen("./lex.yy.so", RTLD_LAZY);
+  system("lex -t ./src/lex.l > ./src/lex.yy.c");
+  system("gcc src/lex.yy.c -o src/lex.yy.so -O2 -shared -fPIC");
+  void *dynlib = dlopen("./src/lex.yy.so", RTLD_LAZY);
   if (!dynlib) {
     std::cerr << "error loading\n";
     dlclose(dynlib);
@@ -68,15 +68,15 @@ void lexer::tokenize() {
     exit(-1);
   }
 
-  typedef int (*yylex)();
-  yylex create = (yylex)(dlsym(dynlib, "yylex"));
-  if (!create) {
+  typedef int (*yylex_symbol)();
+  yylex_symbol yylex = reinterpret_cast<yylex_symbol>((dlsym(dynlib, "yylex")));
+  if (!yylex) {
     std::cerr << "Error al obtener el símbolo yylex" << std::endl;
     dlclose(dynlib);
     exit(-1);
   }
 
-  int token = create();
+  int token = yylex();
   while (token != 1) {
     if (token == -1) {
       std::cerr << "Lexical error\n";
@@ -84,7 +84,7 @@ void lexer::tokenize() {
       exit(-1);
     }
     tokens.push_back(symbol_table::token_types_r[token]);
-    token = create();
+    token = yylex();
   }
   tokens.push_back("$");
 
