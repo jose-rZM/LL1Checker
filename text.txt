@@ -1,1 +1,1 @@
-not id$
+not x and y and z$

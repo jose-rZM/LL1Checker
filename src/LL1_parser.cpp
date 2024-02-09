@@ -76,13 +76,14 @@ void nextUtil(const grammar &gr, const std::string &arg,
 
   for (std::pair<const std::string, production> rule : rules) {
     production::const_iterator it = rule.second.begin();
-    while ((it = std::find(std::next(it), rule.second.cend(), arg)) != rule.second.cend()) {
+    while ((it = std::find(it, rule.second.cend(), arg)) != rule.second.cend()) {
       production::const_iterator nit = std::next(it);
       if (nit == rule.second.cend()) {
         nextUtil(gr, rule.first, visited, next_symbols);
       } else {
         next_symbols.merge(header(gr, {*nit}));
       }
+      it = std::next(it);
     }
   }
 }
@@ -177,7 +178,6 @@ void create_ll1_table(const grammar &gr, ll1_table &ll1_t) {
     std::unordered_map<std::string, std::vector<std::string>> entry;
     for (production p : rule.second) {
       std::unordered_set<std::string> ds = director_symbol(gr, rule.first, p);
-      print_director_symbols(rule.first, p, ds);
       for (const std::string &str : ds) {
         if (!entry.insert({str, p}).second) {
           std::cout << "Grammar is not LL1!" << std::endl;
@@ -197,7 +197,7 @@ bool ll1_parser(const grammar &gr, const std::string &filename) {
   std::stack<std::string> st;
   st.push(gr.AXIOM);
   std::string l = lex.next();
-  while (!l.empty() && !st.empty()) {
+  while (l != "$" && !st.empty()) {
     if (st.top() == symbol_table::EPSILON) {
       st.pop();
       continue;
@@ -231,7 +231,6 @@ int main() {
 
   std::cout << "Grammar:\n";
   gr.debug();
-  
   std::cout << "\nInput:" << std::endl;
   std::ifstream file;
   file.open("text.txt");
@@ -240,7 +239,7 @@ int main() {
     std::cout << line << std::endl;
   }
   file.close();
- 
+  
 
   if (ll1_parser(gr, "text.txt")) {
     std::cout << "Parsing was successful";
