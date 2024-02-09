@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -g
 SRC_DIR = src
-OBJ_DIR = obj
+OBJ_DIR = out
 
 all: program
 
