@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -O3
+CXXFLAGS = -std=c++20 -g
 
 all: program
 
