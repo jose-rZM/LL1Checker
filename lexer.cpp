@@ -1,6 +1,7 @@
 #include "lexer.hpp"
 #include "symbol_table.hpp"
 #include <cctype>
+#include <dlfcn.h>
 #include <fstream>
 #include <ios>
 #include <iostream>
@@ -11,69 +12,83 @@
 #include <string>
 
 lexer::lexer(const std::string &filename)
-    : file(filename), tokens(), current() {
-  if (!file.is_open()) {
-    throw std::runtime_error("Error opening file " + filename);
-  }
+    : filename(filename), tokens(), current() {
   tokenize();
 }
 
-lexer::~lexer() {
-  if (file.is_open()) {
-    file.close();
-  }
-  file.close();
-}
-
 void lexer::tokenize() {
-  char c;
-  std::string token;
-  std::string id;
-  std::streampos pos;
-  
+  std::ofstream l{"lex.l"};
+  l << "%{\n\t#include<stdio.h>\n%}\n";
+  l << "%%\n";
 
-  while (file.get(c)) {
-    // skip whitespaces (delimiter between tokens)
-    bool match_found = false;
-    if (std::isspace(static_cast<unsigned char>(c))) {
+  for (int i = 0; i < symbol_table::order.size(); ++i) {
+    std::string token_type { symbol_table::token_types_r.at(symbol_table::order[i]) };
+    if (token_type == "EPSILON") {
       continue;
-    }
-    token += c;
+    } else if (token_type == "$") {
+    l << "\\$" << "\t{ return " << symbol_table::order[i] << "; }\n"; 
+    } else {
 
-    for (const auto &entry : symbol_table::rst) {
-      std::regex r{entry.first};
-      if (std::regex_match(token, r)) {
-        match_found = true;
-        std::string lookahead{token};
-        id = entry.second;
-        // advance
-        pos = file.tellg(); // store current position
-        while (file.get(c) && !std::isspace(static_cast<unsigned char>(c))) {
-          lookahead += c;
-          for (const auto &regex : symbol_table::rst) {
-            r = regex.first;
-            if (std::regex_match(lookahead, r)) {
-              pos = file.tellg(); // update current position
-              token = lookahead;
-              id = entry.second;
-              break;
-            }
-          }
-        }
-        file.seekg(pos); // undo lookahead
-      }
+    
+    std::string regex { symbol_table::st.at(token_type).second };
+    l << regex << "\t{ return " << symbol_table::order[i] << "; }\n"; 
     }
-    if (!match_found) {
-      std::cerr << "Lexical error: " << token << std::endl;
-      file.close();
+  }
+
+  l << "[ \\t\\r\\n]\t{}\n";
+  l << ".\t{ return -1; }\n"; // throw lexical error
+  l << "%%\n";
+  l << "int set_yyin(const char* filename) {\n"
+    << "\tFILE* input = fopen(filename, \"r\");\n"
+    << "\tyyrestart(input);\n"
+    << "\treturn 1;\n}\n";
+  l << "int yywrap() {\n\treturn 1;\n}\n";
+
+  l.close();
+  system("lex lex.l");
+  system("gcc lex.yy.c -o lex.yy.so -O2 -shared -fPIC");
+  void *dynlib = dlopen("./lex.yy.so", RTLD_LAZY);
+  if (!dynlib) {
+    std::cerr << "error loading\n";
+    dlclose(dynlib);
+    exit(-1);
+  }
+
+  typedef int (*set_yyin)(const char *);
+  set_yyin set = reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"));
+  if (!set) {
+    std::cerr << "Error al obtener el símbolo set_yyin" << std::endl;
+    dlclose(dynlib);
+    exit(-1);
+  }
+
+  if (set("text.txt") != 1) {
+    std::cerr << "Error al establecer el archivo de entrada" << std::endl;
+    dlclose(dynlib);
+    exit(-1);
+  }
+
+  typedef int (*yylex)();
+  yylex create = (yylex)(dlsym(dynlib, "yylex"));
+  if (!create) {
+    std::cerr << "Error al obtener el símbolo yylex" << std::endl;
+    dlclose(dynlib);
+    exit(-1);
+  }
+
+  int token = create();
+  while (token != 1) {
+    if (token == -1) {
+      std::cerr << "Lexical error\n";
+      dlclose(dynlib);
       exit(-1);
     }
-    tokens.push_back(id);
-    token.clear();
-    id.clear();
-    match_found = false;
+    tokens.push_back(symbol_table::token_types_r[token]);
+    token = create();
   }
-  file.close();
+  tokens.push_back("$");
+
+  dlclose(dynlib);
 }
 
 std::string lexer::next() {

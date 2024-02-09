@@ -9,6 +9,7 @@
 #include <istream>
 #include <iterator>
 #include <map>
+#include <ostream>
 #include <regex>
 #include <stack>
 #include <stdexcept>
@@ -18,6 +19,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <dlfcn.h>
 
 using ll1_table = std::unordered_map<
     std::string, std::unordered_map<std::string, std::vector<std::string>>>;
@@ -74,8 +76,7 @@ void nextUtil(const grammar &gr, const std::string &arg,
 
   for (std::pair<const std::string, production> rule : rules) {
     production::const_iterator it = rule.second.begin();
-    while ((it = std::find(std::next(it), rule.second.cend(), arg)) !=
-           rule.second.cend()) {
+    while ((it = std::find(std::next(it), rule.second.cend(), arg)) != rule.second.cend()) {
       production::const_iterator nit = std::next(it);
       if (nit == rule.second.cend()) {
         nextUtil(gr, rule.first, visited, next_symbols);
@@ -93,7 +94,7 @@ std::unordered_set<std::string> next(const grammar &gr, std::string arg) {
   if (next_symbols.find(symbol_table::EPSILON) != next_symbols.end()) {
     next_symbols.erase(symbol_table::EPSILON);
   }
-  next_symbols.insert(symbol_table::EOL);
+  //next_symbols.insert(symbol_table::EOL);
   return next_symbols;
 }
 
@@ -107,53 +108,6 @@ director_symbol(const grammar &gr, const std::string &antecedent,
     hd.erase(symbol_table::EPSILON);
     hd.merge(next(gr, antecedent));
     return hd;
-  }
-}
-
-void read_from_cmd(grammar &g) {
-  std::cout << "Write the terminal and no terminal symbols as follows:\n";
-  std::cout << "no terminal <NAME>;\n";
-  std::cout << "terminal <NAME> <REGEX>;\n";
-  std::cout << "<NAME> should be alphanumerical\n";
-  std::cout << "End with a ;\n";
-
-  std::string input;
-  std::string id;
-  std::string value;
-  std::regex rx_no_terminal{"no\\s+terminal\\s+([a-zA-Z_][a-zA-Z_0-9]*);"};
-  std::regex rx_terminal{"terminal\\s+([a-zA-Z_][a-zA-Z_0-9]*)\\s+([^]*);"};
-  std::smatch match;
-
-  while (std::getline(std::cin, input) && input != ";") {
-    if (std::regex_match(input, match, rx_no_terminal)) {
-      symbol_table::put_symbol(match[1], NO_TERMINAL);
-    } else if (std::regex_match(input, match, rx_terminal)) {
-      symbol_table::put_symbol(match[1], TERMINAL, match[2]);
-    } else {
-      std::cout << "Error: " << input << "\n";
-      exit(-1);
-    }
-  }
-
-  std::cout << "Write the grammar, it must be LL1, use the following format:\n";
-  std::cout << "<ANTECEDENT> -> <CONSEQUENT>;\n";
-  std::cout << "Use \"<ANTECEDENT> ->;\" for empty string\n";
-  std::cout << "End with ;\n";
-
-  std::regex rx_empty_production{"([a-zA-Z_][a-zA-Z_0-9]*)\\s*->;"};
-  std::regex rx_production{
-      "([a-zA-Z_][a-zA-Z_0-9]*)\\s*->\\s*([a-zA-Z_][a-zA-Z_0-9\\s$]*);"};
-  while (std::getline(std::cin, input) && input != ";") {
-    if (std::regex_match(input, match, rx_production)) {
-      std::string s = match[2];
-      s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
-      g.add_rule(match[1], s);
-    } else if (std::regex_match(input, match, rx_empty_production)) {
-      g.add_rule(match[1], "EPSILON");
-    } else {
-      std::cout << "Error: " << input << "\n";
-      exit(-1);
-    }
   }
 }
 
@@ -213,7 +167,7 @@ void print_director_symbols(const std::string &antecedent, const production &p,
 
   std::cout << p.back() << ") = {";
   for (const std::string &str : ds) {
-    std::cout << symbol_table::get_value(str) << " ";
+    std::cout << str << " ";
   }
   std::cout << "}" << std::endl;
 }
@@ -223,6 +177,7 @@ void create_ll1_table(const grammar &gr, ll1_table &ll1_t) {
     std::unordered_map<std::string, std::vector<std::string>> entry;
     for (production p : rule.second) {
       std::unordered_set<std::string> ds = director_symbol(gr, rule.first, p);
+      print_director_symbols(rule.first, p, ds);
       for (const std::string &str : ds) {
         if (!entry.insert({str, p}).second) {
           std::cout << "Grammar is not LL1!" << std::endl;
@@ -276,7 +231,7 @@ int main() {
 
   std::cout << "Grammar:\n";
   gr.debug();
-
+  
   std::cout << "\nInput:" << std::endl;
   std::ifstream file;
   file.open("text.txt");
@@ -285,6 +240,7 @@ int main() {
     std::cout << line << std::endl;
   }
   file.close();
+ 
 
   if (ll1_parser(gr, "text.txt")) {
     std::cout << "Parsing was successful";
