@@ -1,22 +1,24 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -g
+SRC_DIR = src
+OBJ_DIR = obj
 
 all: program
 
-program: LL1_parser.o symbol_table.o grammar.o lexer.o
-	$(CXX) $(CXXFLAGS) -o parser LL1_parser.o symbol_table.o grammar.o lexer.o
+program: $(OBJ_DIR)/LL1_parser.o $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/grammar.o $(OBJ_DIR)/lexer.o
+	$(CXX) $(CXXFLAGS) -o parser $^
 
-LL1_parser.o: LL1_parser.cpp grammar.hpp
-	$(CXX) $(CXXFLAGS) -c LL1_parser.cpp
+$(OBJ_DIR)/LL1_parser.o: $(SRC_DIR)/LL1_parser.cpp $(SRC_DIR)/grammar.hpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-symbol_table.o: symbol_table.cpp symbol_table.hpp
-	$(CXX) $(CXXFLAGS) -c symbol_table.cpp
+$(OBJ_DIR)/symbol_table.o: $(SRC_DIR)/symbol_table.cpp $(SRC_DIR)/symbol_table.hpp
+	 $(CXX) $(CXXFLAGS) -c $< -o $@
 
-grammar.o: grammar.cpp grammar.hpp
-	$(CXX) $(CXXFLAGS) -c grammar.cpp
+$(OBJ_DIR)/grammar.o: $(SRC_DIR)/grammar.cpp $(SRC_DIR)/grammar.hpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-lexer.o: lexer.cpp lexer.hpp
-	$(CXX) $(CXXFLAGS) -c lexer.cpp
+$(OBJ_DIR)/lexer.o: $(SRC_DIR)/lexer.cpp $(SRC_DIR)/lexer.hpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f program *.o
+	rm -f parser $(OBJ_DIR)/*.o
