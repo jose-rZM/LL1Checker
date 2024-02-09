@@ -1,12 +1,17 @@
 no terminal S;
 no terminal A;
 no terminal B;
-terminal a a;
-terminal b b;
+terminal function f;
+terminal ap \(;
+terminal cp \);
+terminal plus \+;
+terminal N n;
 start with S;
 ;
-S -> A $;
-A -> abB;
-B -> abB;
+S -> A$;
+A->NB;
+A->function ap A cp B;
+B-> plus A;
 B->;
 ;
+
