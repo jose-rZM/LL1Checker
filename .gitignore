@@ -31,7 +31,13 @@
 *.out
 *.app
 
-# Vscodium
+# Vscode
 .vscode
 
+# Exec
 parser
+
+# Lex files
+lex.l
+lex.yy.so
+lex.yy.c
