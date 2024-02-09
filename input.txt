@@ -1,10 +1,12 @@
 no terminal S;
 no terminal A;
+no terminal B;
 terminal a a;
 terminal b b;
 start with S;
 ;
 S -> A $;
-A -> aAb;
-A->;
+A -> abB;
+B -> abB;
+B->;
 ;
