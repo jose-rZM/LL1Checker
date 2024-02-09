@@ -38,3 +38,7 @@ parser
 # Lex files
 lex.l
 lex.yy.c
+
+# Example files
+text.txt 
+input.txt
