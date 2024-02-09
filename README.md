@@ -14,5 +14,8 @@ A Makefile is provided.
 - The program also checks if a string belongs to the language, that string is in "text.txt".
 - The end of line character is "$", currently it cannot be changed.
 - Follow the structure of the provided "input.txt" when writing your grammar.
+- When writing the terminals symbols, it should be noted that they will be evaluated in order. So, if A and B are two regex with common elements, you should put the more specific one first. Example:
+`while { return 1; }
+[a-zA-Z][a-zA-Z]* { return 2; }`
 
 
