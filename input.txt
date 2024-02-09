@@ -12,7 +12,7 @@ terminal ap \(;
 terminal cp \);
 start with S;
 ;
-S -> E$;
+S -> E $;
 E -> T E';
 E' -> or T E';
 E' ->;

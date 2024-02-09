@@ -35,7 +35,7 @@ void lexer::tokenize() {
     }
   }
 
-  l << "[ \\t\\r\\n]\t{}\n";
+  l << "[ \\t\\r\\n]+\t{}\n";
   l << ".\t{ return -1; }\n"; // throw lexical error
   l << "%%\n";
   l << "int set_yyin(const char* filename) {\n"
@@ -45,17 +45,31 @@ void lexer::tokenize() {
   l << "int yywrap() {\n\treturn 1;\n}\n";
 
   l.close();
-  system("lex -t ./src/lex.l > ./src/lex.yy.c");
-  system("gcc src/lex.yy.c -o src/lex.yy.so -O2 -shared -fPIC");
-  void *dynlib = dlopen("./src/lex.yy.so", RTLD_LAZY);
+  int ret = system("lex -t src/lex.l > src/lex.yy.c");
+  if (ret != 0) {
+    std::cerr << "Error while compiling lexer\n";
+    exit(-1);
+  }
+  
+  ret = system("gcc -c src/lex.yy.c -o out/lex.yy.o -fPIC");
+  if (ret != 0) {
+    std::cerr << "Error while compiling lex.yy.c\n";
+    exit(-1);
+  }
+
+  ret = system("gcc -shared -o lib/lex.yy.so out/lex.yy.o");
+if (ret != 0) {
+    std::cerr << "Error while creating dynamic library\n";
+    exit(-1);
+  }
+  void *dynlib = dlopen("./lib/lex.yy.so", RTLD_LAZY);
   if (!dynlib) {
     std::cerr << "error loading\n";
-    dlclose(dynlib);
     exit(-1);
   }
 
   typedef int (*set_yyin)(const char *);
-  set_yyin set = reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"));
+  set_yyin set = (set_yyin)(dlsym(dynlib, "set_yyin"));
   if (!set) {
     std::cerr << "Error al obtener el símbolo set_yyin" << std::endl;
     dlclose(dynlib);
