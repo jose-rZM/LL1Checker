@@ -1,1 +1,1 @@
-id and (not id or id)$
+not id$
