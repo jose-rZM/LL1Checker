@@ -5,14 +5,14 @@ The program reads the grammar from a file.
 A Makefile is provided.
 
 # Requirements
-- This program only works on Linux systems (for now). This is due to the use of dlfcn.h header for loading dynamic libraries.
+- This program only works on Linux systems (for now). This is due to the use of `dlfcn.h` header for loading dynamic libraries.
 - Lex needs to be installed on your system.
-- Within the code, there is a call to the C compiler 'gcc', so, gcc needs to be installed.
+- Within the code, there is a call to the C compiler `gcc`, so, `gcc` needs to be installed.
 
 # To consider
 - The code assumes that the grammar file is named "input.txt" at the moment.
 - The program also checks if a string belongs to the language, that string is in "text.txt".
-- The end of line character is "$", currently it cannot be changed.
+- The end of line character is **$**, currently it cannot be changed.
 - Follow the structure of the provided "input.txt" when writing your grammar.
 - When writing the terminals symbols, it should be noted that they will be evaluated in order. So, if A and B are two regex with common elements, you should put the more specific one first. Example:
 ~~~
