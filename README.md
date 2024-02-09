@@ -15,7 +15,8 @@ A Makefile is provided.
 - The end of line character is "$", currently it cannot be changed.
 - Follow the structure of the provided "input.txt" when writing your grammar.
 - When writing the terminals symbols, it should be noted that they will be evaluated in order. So, if A and B are two regex with common elements, you should put the more specific one first. Example:
-`while { return 1; }
-[a-zA-Z][a-zA-Z]* { return 2; }`
-
+~~~
+no terminal WH while;
+no terminal WORD [a-zA-Z][a-zA-Z]*;
+~~~
 
