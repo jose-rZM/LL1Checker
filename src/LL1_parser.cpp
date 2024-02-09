@@ -190,6 +190,16 @@ void create_ll1_table(const grammar &gr, ll1_table &ll1_t) {
   std::cout << "Grammar is LL1." << std::endl;
 }
 
+bool has_empty_production(const grammar &gr, const std::string &antecedent) {
+  auto rules {gr.g.at(antecedent)};
+  for (const auto& p : rules) {
+    if (p[0] == "EPSILON") {
+      return true;
+    }
+  }
+  return false;
+}
+
 bool ll1_parser(const grammar &gr, const std::string &filename) {
   ll1_table ll1;
   create_ll1_table(gr, ll1);
@@ -197,7 +207,7 @@ bool ll1_parser(const grammar &gr, const std::string &filename) {
   std::stack<std::string> st;
   st.push(gr.AXIOM);
   std::string l = lex.next();
-  while (l != "$" && !st.empty()) {
+  while (!l.empty() && !st.empty()) {
     if (st.top() == symbol_table::EPSILON) {
       st.pop();
       continue;
@@ -208,7 +218,11 @@ bool ll1_parser(const grammar &gr, const std::string &filename) {
     if (!symbol_table::is_terminal(s)) {
       try {
         ds = ll1.at(s).at(l);
-      } catch (const std::out_of_range &s) {
+      } catch (const std::out_of_range &exc) {
+        // check if this rule has an empty production
+        if (has_empty_production(gr, s)) {
+          continue;
+        }
         return false;
       }
       for (std::vector<std::string>::reverse_iterator it = ds.rbegin();
