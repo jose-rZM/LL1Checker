@@ -63,4 +63,4 @@ A ->;
 ;
 ~~~
 This grammar generates the following language: `L(G) = {aa, aaaa, aaaaaa, ...}`, that is, a language with an even number of 'a'.
-And in **text.txt** file, you place the line you want to check (don't forget the **$**)!
+And in **text.txt** file, you place the line you want to check (don't forget the **$**!).
