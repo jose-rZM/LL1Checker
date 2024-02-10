@@ -31,7 +31,7 @@ LL1Parser::LL1Parser(const std::string &grammar_file,
 }
 
 bool LL1Parser::create_ll1_table() {
-    for (std::pair<const std::string, std::vector<production>> rule : gr_.g) {
+    for (std::pair<const std::string, std::vector<production>> rule : gr_.g_) {
         std::unordered_map<std::string, std::vector<std::string>> entry;
         for (production p : rule.second) {
             std::unordered_set<std::string> ds =
@@ -50,7 +50,7 @@ bool LL1Parser::create_ll1_table() {
 bool LL1Parser::parse() {
     lexer lex(text_file_);
     std::stack<std::string> st;
-    st.push(gr_.AXIOM);
+    st.push(gr_.AXIOM_);
     std::string l = lex.next();
     while (!l.empty() && !st.empty()) {
         if (st.top() == symbol_table::EPSILON) {
@@ -100,7 +100,7 @@ LL1Parser::header(const std::vector<std::string> &rule) {
         } else if (symbol_table::is_terminal(current[0])) {
             hd.insert(current[0]);
         } else {
-            for (const std::vector<std::string> &prod : gr_.g.at(current[0])) {
+            for (const std::vector<std::string> &prod : gr_.g_.at(current[0])) {
                 std::vector<std::string> production;
                 for (const std::string &sy : prod) {
                     production.push_back(sy);
@@ -148,7 +148,7 @@ void LL1Parser::next_util(const std::string &arg,
     visited.insert(arg);
     std::vector<std::pair<const std::string, production>> rules;
     // find rules with arg as part of consequence
-    for (std::pair<const std::string, std::vector<production>> rule : gr_.g) {
+    for (std::pair<const std::string, std::vector<production>> rule : gr_.g_) {
         for (const production &prod : rule.second) {
             if (std::find(prod.cbegin(), prod.cend(), arg) != prod.cend()) {
                 rules.push_back({rule.first, prod});
