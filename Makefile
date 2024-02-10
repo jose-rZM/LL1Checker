@@ -5,10 +5,10 @@ OBJ_DIR = out
 
 all: program
 
-program: $(OBJ_DIR)/LL1_parser.o $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/grammar.o $(OBJ_DIR)/lexer.o $(OBJ_DIR)/ll1_parser.o
+program: $(OBJ_DIR)/main.o $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/grammar.o $(OBJ_DIR)/lexer.o $(OBJ_DIR)/ll1_parser.o
 	$(CXX) $(CXXFLAGS) -o parser $^
 
-$(OBJ_DIR)/LL1_parser.o: $(SRC_DIR)/LL1_parser.cpp $(SRC_DIR)/grammar.hpp
+$(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp $(SRC_DIR)/grammar.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/symbol_table.o: $(SRC_DIR)/symbol_table.cpp $(SRC_DIR)/symbol_table.hpp

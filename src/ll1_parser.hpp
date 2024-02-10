@@ -8,7 +8,8 @@
 class LL1Parser {
     using ll1_table = std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::string>>>;
     public:
-    LL1Parser(const grammar& gr, const std::string& grammar_file, const std::string& text_file);
+    LL1Parser(const grammar& gr, const std::string& text_file);
+    LL1Parser(const std::string& grammar_file, const std::string& text_file);
     bool parse();
     
     private:

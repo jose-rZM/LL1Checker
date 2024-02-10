@@ -8,14 +8,22 @@
 #include <unordered_map>
 #include <unordered_set>
 
-LL1Parser::LL1Parser(const grammar &gr, const std::string &grammar_file,
+LL1Parser::LL1Parser(const grammar &gr,
                      const std::string &text_file)
-    : gr_(gr), grammar_file_(grammar_file), text_file_(text_file) {
+    : gr_(gr), text_file_(text_file) {
   if (!create_ll1_table()) {
     std::cerr << "Grammar provided is not LL1. Aborting...\n";
     exit(-1);
   }
 }
+
+LL1Parser::LL1Parser(const std::string& grammar_file, const std::string& text_file) : gr_(grammar_file), text_file_(text_file) {
+    if (!create_ll1_table()) {
+    std::cerr << "Grammar provided is not LL1. Aborting...\n";
+    exit(-1);
+  }
+}
+
 
 bool LL1Parser::create_ll1_table() {
   for (std::pair<const std::string, std::vector<production>> rule : gr_.g) {
