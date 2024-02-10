@@ -12,6 +12,7 @@ class LL1Parser {
   public:
     LL1Parser(const grammar &gr, const std::string &text_file);
     LL1Parser(const std::string &grammar_file, const std::string &text_file);
+    LL1Parser(const std::string &grammar_file);
     bool parse();
 
   private:

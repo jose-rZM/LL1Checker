@@ -16,6 +16,7 @@ LL1Parser::LL1Parser(const grammar &gr, const std::string &text_file)
         gr_.debug();
         exit(-1);
     }
+    std::cout << "Grammar is LL1\n";
 }
 
 LL1Parser::LL1Parser(const std::string &grammar_file,
@@ -69,7 +70,7 @@ bool LL1Parser::parse() {
                 }
                 return false;
             }
-            for (auto & d : std::ranges::reverse_view(ds)) {
+            for (auto &d : std::ranges::reverse_view(ds)) {
                 st.push(d);
             }
         } else {
@@ -148,7 +149,7 @@ void LL1Parser::next_util(const std::string &arg,
     std::vector<std::pair<const std::string, production>> rules;
     // find rules with arg as part of consequence
     for (std::pair<const std::string, std::vector<production>> rule : gr_.g) {
-        for (const production& prod : rule.second) {
+        for (const production &prod : rule.second) {
             if (std::find(prod.cbegin(), prod.cend(), arg) != prod.cend()) {
                 rules.push_back({rule.first, prod});
             }
@@ -168,4 +169,12 @@ void LL1Parser::next_util(const std::string &arg,
             it = std::next(it);
         }
     }
+}
+LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
+    if (!create_ll1_table()) {
+        std::cerr << "Grammar provided is not LL1. Aborting...\n";
+        gr_.debug();
+        exit(-1);
+    }
+    std::cout << "Grammar is LL1\n";
 }
