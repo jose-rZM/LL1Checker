@@ -1,14 +1,9 @@
 #include "lexer.hpp"
 #include "symbol_table.hpp"
-#include <cctype>
 #include <dlfcn.h>
 #include <fstream>
-#include <ios>
 #include <iostream>
 #include <istream>
-#include <iterator>
-#include <regex>
-#include <stdexcept>
 #include <string>
 
 lexer::lexer(const std::string &filename)
