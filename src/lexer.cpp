@@ -58,14 +58,14 @@ void lexer::tokenize() {
     }
     void *dynlib = dlopen("./lib/lex.yy.so", RTLD_LAZY);
     if (!dynlib) {
-        std::cerr << "error loading\n";
+        std::cerr << "Error loading dynamic library lex.yy.so\n";
         exit(-1);
     }
 
     using set_yyin = int (*)(FILE*);
     set_yyin set = reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"));
     if (!set) {
-        std::cerr << "Error al obtener el símbolo set_yyin" << std::endl;
+        std::cerr << "Error while obtaining set_yyin symbol" << std::endl;
         dlclose(dynlib);
         exit(-1);
     }
@@ -74,7 +74,7 @@ void lexer::tokenize() {
     yylex_symbol yylex =
         reinterpret_cast<yylex_symbol>((dlsym(dynlib, "yylex")));
     if (!yylex) {
-        std::cerr << "Error al obtener el símbolo yylex" << std::endl;
+        std::cerr << "Error while obtaining yylex symbol" << std::endl;
         dlclose(dynlib);
         exit(-1);
     }
@@ -83,20 +83,20 @@ void lexer::tokenize() {
     using yylex_destroy = int (*)();
     yylex_destroy destroy = reinterpret_cast<yylex_destroy>(dlsym(dynlib, "yylex_destroy"));
     if (!destroy) {
-        std::cerr << "Error al obtener el simbolo yylex_destroy" << std::endl;
+        std::cerr << "Error while obtaining yylex_destroy symbol" << std::endl;
         dlclose(dynlib);
         exit(-1);
     }
 
     FILE *file = fopen(filename_.c_str(), "r");
     if (!file) {
-        std::cerr << "Error al abrir fichero " << filename_ << "\n";
+        std::cerr << "Error opening the file" << filename_ << "\n";
         dlclose(dynlib);
         exit(-1);
     }
 
     if (set(file) != 1) {
-        std::cerr << "Error al establecer el archivo de entrada" << std::endl;
+        std::cerr << "Error while establishing the input file" << std::endl;
         dlclose(dynlib);
         exit(-1);
     }
