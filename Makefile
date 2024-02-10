@@ -11,11 +11,11 @@ program: $(OBJ_DIR)/main.o $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/grammar.o $(OBJ_
 $(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp $(SRC_DIR)/grammar.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+$(OBJ_DIR)/grammar.o: $(SRC_DIR)/grammar.cpp $(SRC_DIR)/grammar.hpp $(OBJ_DIR)/symbol_table.o
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 $(OBJ_DIR)/symbol_table.o: $(SRC_DIR)/symbol_table.cpp $(SRC_DIR)/symbol_table.hpp
 	 $(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/grammar.o: $(SRC_DIR)/grammar.cpp $(SRC_DIR)/grammar.hpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/lexer.o: $(SRC_DIR)/lexer.cpp $(SRC_DIR)/lexer.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
