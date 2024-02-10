@@ -22,16 +22,17 @@ void lexer::tokenize() {
   l << "%%\n";
 
   for (int i = 0; i < symbol_table::order.size(); ++i) {
-    std::string token_type { symbol_table::token_types_r.at(symbol_table::order[i]) };
+    std::string token_type{
+        symbol_table::token_types_r.at(symbol_table::order[i])};
     if (token_type == "EPSILON") {
       continue;
     } else if (token_type == "$") {
-    l << "\\$" << "\t{ return " << symbol_table::order[i] << "; }\n"; 
+      l << "\\$"
+        << "\t{ return " << symbol_table::order[i] << "; }\n";
     } else {
 
-    
-    std::string regex { symbol_table::st.at(token_type).second };
-    l << regex << "\t{ return " << symbol_table::order[i] << "; }\n"; 
+      std::string regex{symbol_table::st.at(token_type).second};
+      l << regex << "\t{ return " << symbol_table::order[i] << "; }\n";
     }
   }
 
@@ -50,7 +51,7 @@ void lexer::tokenize() {
     std::cerr << "Error while compiling lexer\n";
     exit(-1);
   }
-  
+
   ret = system("gcc -c src/lex.yy.c -o out/lex.yy.o -fPIC");
   if (ret != 0) {
     std::cerr << "Error while compiling lex.yy.c\n";
@@ -58,7 +59,7 @@ void lexer::tokenize() {
   }
 
   ret = system("gcc -shared -o lib/lex.yy.so out/lex.yy.o");
-if (ret != 0) {
+  if (ret != 0) {
     std::cerr << "Error while creating dynamic library\n";
     exit(-1);
   }
@@ -67,7 +68,7 @@ if (ret != 0) {
     std::cerr << "error loading\n";
     exit(-1);
   }
-  
+
   using set_yyin = int (*)(const char *);
   set_yyin set = reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"));
   if (!set) {
