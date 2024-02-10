@@ -25,7 +25,6 @@ void lexer::tokenize() {
             l << "\\$"
               << "\t{ return " << symbol_table::order_[i] << "; }\n";
         } else {
-
             std::string regex{symbol_table::st_.at(token_type).second};
             l << regex << "\t{ return " << symbol_table::order_[i] << "; }\n";
         }
@@ -34,9 +33,8 @@ void lexer::tokenize() {
     l << "[ \\t\\r\\n]+\t{}\n";
     l << ".\t{ return -1; }\n"; // throw lexical error
     l << "%%\n";
-    l << "int set_yyin(const char* filename) {\n"
-      << "\tFILE* input = fopen(filename, \"r\");\n"
-      << "\tyyrestart(input);\n"
+    l << "int set_yyin(FILE* file) {\n"
+      << "\tyyrestart(file);\n"
       << "\treturn 1;\n}\n";
     l << "int yywrap() {\n\treturn 1;\n}\n";
 
@@ -64,16 +62,10 @@ void lexer::tokenize() {
         exit(-1);
     }
 
-    using set_yyin = int (*)(const char *);
+    using set_yyin = int (*)(FILE*);
     set_yyin set = reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"));
     if (!set) {
         std::cerr << "Error al obtener el símbolo set_yyin" << std::endl;
-        dlclose(dynlib);
-        exit(-1);
-    }
-
-    if (set(filename_.c_str()) != 1) {
-        std::cerr << "Error al establecer el archivo de entrada" << std::endl;
         dlclose(dynlib);
         exit(-1);
     }
@@ -83,6 +75,28 @@ void lexer::tokenize() {
         reinterpret_cast<yylex_symbol>((dlsym(dynlib, "yylex")));
     if (!yylex) {
         std::cerr << "Error al obtener el símbolo yylex" << std::endl;
+        dlclose(dynlib);
+        exit(-1);
+    }
+
+    // Without this, the program would have memory leaks!
+    using yylex_destroy = int (*)();
+    yylex_destroy destroy = reinterpret_cast<yylex_destroy>(dlsym(dynlib, "yylex_destroy"));
+    if (!destroy) {
+        std::cerr << "Error al obtener el simbolo yylex_destroy" << std::endl;
+        dlclose(dynlib);
+        exit(-1);
+    }
+
+    FILE *file = fopen(filename_.c_str(), "r");
+    if (!file) {
+        std::cerr << "Error al abrir fichero " << filename_ << "\n";
+        dlclose(dynlib);
+        exit(-1);
+    }
+
+    if (set(file) != 1) {
+        std::cerr << "Error al establecer el archivo de entrada" << std::endl;
         dlclose(dynlib);
         exit(-1);
     }
@@ -99,6 +113,8 @@ void lexer::tokenize() {
     }
     tokens_.push_back("$");
 
+    destroy();
+    fclose(file);
     dlclose(dynlib);
 }
 
