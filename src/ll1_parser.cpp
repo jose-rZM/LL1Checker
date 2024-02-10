@@ -3,6 +3,7 @@
 #include "lexer.hpp"
 #include "symbol_table.hpp"
 #include <iostream>
+#include <ranges>
 #include <stack>
 #include <string>
 #include <unordered_map>
@@ -68,9 +69,8 @@ bool LL1Parser::parse() {
                 }
                 return false;
             }
-            for (std::vector<std::string>::reverse_iterator it = ds.rbegin();
-                 it != ds.rend(); it++) {
-                st.push(*it);
+            for (auto & d : std::ranges::reverse_view(ds)) {
+                st.push(d);
             }
         } else {
             if (s != l) {
@@ -94,7 +94,7 @@ LL1Parser::header(const std::vector<std::string> &rule) {
         if (current[0] == symbol_table::EPSILON) {
             current.erase(current.begin());
         }
-        if (current.size() == 0) {
+        if (current.empty()) {
             hd.insert(symbol_table::EPSILON);
         } else if (symbol_table::is_terminal(current[0])) {
             hd.insert(current[0]);
@@ -148,7 +148,7 @@ void LL1Parser::next_util(const std::string &arg,
     std::vector<std::pair<const std::string, production>> rules;
     // find rules with arg as part of consequence
     for (std::pair<const std::string, std::vector<production>> rule : gr_.g) {
-        for (production prod : rule.second) {
+        for (const production& prod : rule.second) {
             if (std::find(prod.cbegin(), prod.cend(), arg) != prod.cend()) {
                 rules.push_back({rule.first, prod});
             }
