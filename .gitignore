@@ -42,3 +42,6 @@ lex.yy.c
 # Example files
 text.txt 
 input.txt
+
+# IDEA
+.idea
