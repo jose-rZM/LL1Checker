@@ -1,19 +1,11 @@
 f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n)))))) +
 f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n)))))) +
-f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n))))))
-+
-f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n))))))
-+
-f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n))))))
-+
-f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n))))))
-+
-f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n))))))
-+
-f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n))))))
-+
-f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n))))))
-+
-f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n))))))
-+
+f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n)))))) +
+f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n)))))) +
+f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n)))))) +
+f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n)))))) +
+f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n)))))) +
+f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n)))))) +
+f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n)))))) +
+f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n)))))) +
 f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n, f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n))))))))))))$
