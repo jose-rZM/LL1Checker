@@ -67,9 +67,9 @@ if (ret != 0) {
     std::cerr << "error loading\n";
     exit(-1);
   }
-
-  typedef int (*set_yyin)(const char *);
-  set_yyin set = (set_yyin)(dlsym(dynlib, "set_yyin"));
+  
+  using set_yyin = int (*)(const char *);
+  set_yyin set = reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"));
   if (!set) {
     std::cerr << "Error al obtener el símbolo set_yyin" << std::endl;
     dlclose(dynlib);
@@ -82,7 +82,7 @@ if (ret != 0) {
     exit(-1);
   }
 
-  typedef int (*yylex_symbol)();
+  using yylex_symbol = int (*)();
   yylex_symbol yylex = reinterpret_cast<yylex_symbol>((dlsym(dynlib, "yylex")));
   if (!yylex) {
     std::cerr << "Error al obtener el símbolo yylex" << std::endl;
