@@ -10,6 +10,7 @@ struct grammar {
   std::string AXIOM;
   void add_rule(const std::string &antecedent, const std::string &consequent);
   void set_axiom(const std::string &axiom);
+  bool has_empty_production(const std::string &antecedent);
   void debug();
   static std::vector<std::string> split(const std::string &s);
 };

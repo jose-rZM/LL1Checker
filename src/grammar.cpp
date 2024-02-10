@@ -46,6 +46,16 @@ void grammar::add_rule(const std::string &antecedent,
 
 void grammar::set_axiom(const std::string &axiom) { AXIOM = axiom; }
 
+bool grammar::has_empty_production(const std::string &antecedent) {
+  auto rules{g.at(antecedent)};
+  for (const auto &p : rules) {
+    if (p[0] == "EPSILON") {
+      return true;
+    }
+  }
+  return false;
+}
+
 void grammar::debug() {
   for (const auto &entry : g) {
     std::cout << entry.first << " -> ";
