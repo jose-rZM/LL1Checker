@@ -93,17 +93,17 @@ std::vector<std::string> grammar::split(const std::string &s) {
 
 void grammar::add_rule(const std::string &antecedent,
                        const std::string &consequent) {
-    if (g.find(antecedent) == g.end()) {
-        g[antecedent] = {split(consequent)};
+    if (g_.find(antecedent) == g_.end()) {
+        g_[antecedent] = {split(consequent)};
     } else {
-        g[antecedent].push_back(split(consequent));
+        g_[antecedent].push_back(split(consequent));
     }
 }
 
-void grammar::set_axiom(const std::string &axiom) { AXIOM = axiom; }
+void grammar::set_axiom(const std::string &axiom) { AXIOM_ = axiom; }
 
 bool grammar::has_empty_production(const std::string &antecedent) {
-    auto rules{g.at(antecedent)};
+    auto rules{g_.at(antecedent)};
     for (const auto &p : rules) {
         if (p[0] == "EPSILON") {
             return true;
@@ -115,7 +115,7 @@ bool grammar::has_empty_production(const std::string &antecedent) {
 
 void grammar::debug() {
     std::cout << "Grammar:\n";
-    for (const auto &entry : g) {
+    for (const auto &entry : g_) {
         std::cout << entry.first << " -> ";
         for (const std::vector<std::string> &production : entry.second) {
             for (const std::string &s : production) {

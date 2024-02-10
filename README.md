@@ -6,7 +6,7 @@ The program reads the grammar from a file.
 - This program only works on Linux systems (for now). This is due to the use of `dlfcn.h` header for loading dynamic libraries.
 - Flex (the fast lexical analyzer generator) needs to be installed on your system. This is necessary because the program generates a lexer file and compiles it using `flex`.
 - Within the code, there is a call to the C compiler `gcc`, so, `gcc` needs to be installed.
-- The Makefile provided uses `g++`, it can be changed to use other compiles such as `clangd` **(not tested)**.
+- The Makefile provided uses `g_++`, it can be changed to use other compiles such as `clangd` **(not tested)**.
 
 # Compiling
 A Makefile is provided.
@@ -18,7 +18,7 @@ After running `make` simply execute `./parser`. The program can accept at most t
 
 # To consider
 - The end of line character is **$**, currently it cannot be changed.
-- When writing the terminals symbols, it should be noted that they will be evaluated in order. So, if A and B are two regex with common elements, you should put the more specific one first. Example:
+- When writing the terminals symbols, it should be noted that they will be evaluated in order_. So, if A and B are two regex with common elements, you should put the more specific one first. Example:
 ~~~
 terminal WH while;
 terminal WORD [a-zA-Z][a-zA-Z]*;
@@ -50,7 +50,7 @@ A -> aaA;
 A ->;
 ;
 ~~~
-Note that currently, the line `S -> A$` (axiom) is required. However, this will be automated in order to augment the grammar with that rule. As mentioned in the "to consider" section, the EOL character currently used is **$**.
+Note that currently, the line `S -> A$` (axiom) is required. However, this will be automated in order_ to augment the grammar with that rule. As mentioned in the "to consider" section, the EOL character currently used is **$**.
 The line `A->;` represents an empty production.
 So, our **grammar.txt** would be:
 ~~~

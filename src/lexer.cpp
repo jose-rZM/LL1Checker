@@ -7,7 +7,7 @@
 #include <string>
 
 lexer::lexer(const std::string &filename)
-    : filename(filename), tokens(), current() {
+    : filename_(filename), tokens_(), current_() {
     tokenize();
 }
 
@@ -16,18 +16,18 @@ void lexer::tokenize() {
     l << "%{\n\t#include<stdio.h>\n%}\n";
     l << "%%\n";
 
-    for (int i = 0; i < symbol_table::order.size(); ++i) {
+    for (int i = 0; i < symbol_table::order_.size(); ++i) {
         std::string token_type{
-            symbol_table::token_types_r.at(symbol_table::order[i])};
+            symbol_table::token_types_r_.at(symbol_table::order_[i])};
         if (token_type == "EPSILON") {
             continue;
         } else if (token_type == "$") {
             l << "\\$"
-              << "\t{ return " << symbol_table::order[i] << "; }\n";
+              << "\t{ return " << symbol_table::order_[i] << "; }\n";
         } else {
 
-            std::string regex{symbol_table::st.at(token_type).second};
-            l << regex << "\t{ return " << symbol_table::order[i] << "; }\n";
+            std::string regex{symbol_table::st_.at(token_type).second};
+            l << regex << "\t{ return " << symbol_table::order_[i] << "; }\n";
         }
     }
 
@@ -72,7 +72,7 @@ void lexer::tokenize() {
         exit(-1);
     }
 
-    if (set("text.txt") != 1) {
+    if (set(filename_.c_str()) != 1) {
         std::cerr << "Error al establecer el archivo de entrada" << std::endl;
         dlclose(dynlib);
         exit(-1);
@@ -94,14 +94,14 @@ void lexer::tokenize() {
             dlclose(dynlib);
             exit(-1);
         }
-        tokens.push_back(symbol_table::token_types_r[token]);
+        tokens_.push_back(symbol_table::token_types_r_[token]);
         token = yylex();
     }
-    tokens.push_back("$");
+    tokens_.push_back("$");
 
     dlclose(dynlib);
 }
 
 std::string lexer::next() {
-    return current >= tokens.size() ? "" : tokens[current++];
+    return current_ >= tokens_.size() ? "" : tokens_[current_++];
 }
