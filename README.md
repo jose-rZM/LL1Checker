@@ -6,7 +6,7 @@ The program reads the grammar from a file.
 - This program only works on Linux systems (for now). This is due to the use of `dlfcn.h` header for loading dynamic libraries.
 - Flex (the fast lexical analyzer generator) needs to be installed on your system. This is necessary because the program generates a lexer file and compiles it using `flex`.
 - Within the code, there is a call to the C compiler `gcc`, so, `gcc` needs to be installed.
-- The Makefile provided uses `g_++`, it can be changed to use other compiles such as `clangd` **(not tested)**.
+- The Makefile provided uses `g++`, it can be changed to use other compiles such as `clangd` **(not tested)**.
 
 # Compiling
 A Makefile is provided.
