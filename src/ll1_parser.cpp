@@ -13,6 +13,7 @@ LL1Parser::LL1Parser(const grammar &gr,
     : gr_(gr), text_file_(text_file) {
   if (!create_ll1_table()) {
     std::cerr << "Grammar provided is not LL1. Aborting...\n";
+    gr_.debug();
     exit(-1);
   }
 }
@@ -20,8 +21,10 @@ LL1Parser::LL1Parser(const grammar &gr,
 LL1Parser::LL1Parser(const std::string& grammar_file, const std::string& text_file) : gr_(grammar_file), text_file_(text_file) {
     if (!create_ll1_table()) {
     std::cerr << "Grammar provided is not LL1. Aborting...\n";
+    gr_.debug();
     exit(-1);
   }
+    std::cout << "Grammar is LL1\n";
 }
 
 
