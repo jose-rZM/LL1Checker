@@ -148,19 +148,19 @@ void LL1Parser::next_util(const std::string &arg,
     visited.insert(arg);
     std::vector<std::pair<const std::string, production>> rules;
     // find rules with arg as part of consequence
-    for (std::pair<const std::string, std::vector<production>> rule : gr_.g_) {
+    for (const std::pair<const std::string, std::vector<production>>& rule : gr_.g_) {
         for (const production &prod : rule.second) {
             if (std::find(prod.cbegin(), prod.cend(), arg) != prod.cend()) {
-                rules.push_back({rule.first, prod});
+                rules.emplace_back(rule.first, prod);
             }
         }
     }
 
-    for (std::pair<const std::string, production> rule : rules) {
-        production::const_iterator it = rule.second.begin();
+    for (const std::pair<const std::string, production>& rule : rules) {
+        auto it = rule.second.cbegin();
         while ((it = std::find(it, rule.second.cend(), arg)) !=
                rule.second.cend()) {
-            production::const_iterator nit = std::next(it);
+            auto nit = std::next(it);
             if (nit == rule.second.cend()) {
                 next_util(rule.first, visited, next_symbols);
             } else {

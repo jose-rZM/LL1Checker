@@ -104,7 +104,7 @@ void grammar::set_axiom(const std::string &axiom) { AXIOM_ = axiom; }
 bool grammar::has_empty_production(const std::string &antecedent) {
     auto rules{g_.at(antecedent)};
     return std::find_if(rules.cbegin(), rules.cend(), [](const auto &rule) {
-               return rule[0] == "EPSILON";
+               return rule[0] == symbol_table::EPSILON;
            }) != rules.cend();
 }
 

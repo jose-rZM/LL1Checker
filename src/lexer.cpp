@@ -16,17 +16,17 @@ void lexer::tokenize() {
     l << "%{\n\t#include<stdio.h>\n%}\n";
     l << "%%\n";
 
-    for (int i = 0; i < symbol_table::order_.size(); ++i) {
+    for (int i : symbol_table::order_) {
         std::string token_type{
-            symbol_table::token_types_r_.at(symbol_table::order_[i])};
-        if (token_type == "EPSILON") {
+            symbol_table::token_types_r_.at(i)};
+        if (token_type == symbol_table::EPSILON) {
             continue;
-        } else if (token_type == "$") {
-            l << "\\$"
-              << "\t{ return " << symbol_table::order_[i] << "; }\n";
+        } else if (token_type == symbol_table::EOL) {
+            l << "\"" << symbol_table::EOL << "\""
+              << "\t{ return " << i << "; }\n";
         } else {
             std::string regex{symbol_table::st_.at(token_type).second};
-            l << regex << "\t{ return " << symbol_table::order_[i] << "; }\n";
+            l << regex << "\t{ return " << i << "; }\n";
         }
     }
 
@@ -39,9 +39,9 @@ void lexer::tokenize() {
     l << "int yywrap() {\n\treturn 1;\n}\n";
 
     l.close();
-    int ret = system("lex -t src/lex.l > src/lex.yy.c");
+    int ret = system("flex -t src/lex.l > src/lex.yy.c");
     if (ret != 0) {
-        std::cerr << "Error while compiling lexer\n";
+        std::cerr << "Error while compiling lexer. Check if you have flex installed\n";
         exit(-1);
     }
 
@@ -111,7 +111,7 @@ void lexer::tokenize() {
         tokens_.push_back(symbol_table::token_types_r_[token]);
         token = yylex();
     }
-    tokens_.push_back("$");
+    tokens_.push_back(symbol_table::EOL);
 
     destroy();
     fclose(file);
