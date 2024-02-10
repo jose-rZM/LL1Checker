@@ -11,9 +11,8 @@ grammar::grammar(const std::string &filename) : filename_(filename) {
 }
 
 void grammar::read_from_file() {
-    const std::string filename{"input.txt"};
     std::ifstream file;
-    file.open(filename, std::ios::in);
+    file.open(filename_, std::ios::in);
     if (file.is_open()) {
         std::string input;
         std::smatch match;
