@@ -30,6 +30,19 @@ LL1Parser::LL1Parser(const std::string &grammar_file,
     std::cout << "Grammar is LL1\n";
 }
 
+LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
+    if (!create_ll1_table()) {
+        std::cerr << "Grammar provided is not LL1. Aborting...\n";
+        gr_.debug();
+        exit(-1);
+    }
+    std::cout << "Grammar is LL1\n";
+}
+
+/**
+ *
+ * @return true if the ll1 table could be created, that is, the grammar is LL1
+ */
 bool LL1Parser::create_ll1_table() {
     for (std::pair<const std::string, std::vector<production>> rule : gr_.g_) {
         std::unordered_map<std::string, std::vector<std::string>> entry;
@@ -47,6 +60,11 @@ bool LL1Parser::create_ll1_table() {
     return true;
 }
 
+/**
+ *
+ * @return true if the parsing is successfully completed
+ * Parses an input file using LL1 algorithm
+ */
 bool LL1Parser::parse() {
     lexer lex(text_file_);
     std::stack<std::string> st;
@@ -83,6 +101,11 @@ bool LL1Parser::parse() {
     return true;
 }
 
+/**
+ *
+ * @param rule
+ * @return set header symbols for the given rule
+ */
 std::unordered_set<std::string>
 LL1Parser::header(const std::vector<std::string> &rule) {
     std::unordered_set<std::string> hd;
@@ -116,6 +139,11 @@ LL1Parser::header(const std::vector<std::string> &rule) {
     return hd;
 }
 
+/**
+ *
+ * @param arg symbol to calculate next symbols for
+ * @return Set of next symbols for the given arg
+ */
 std::unordered_set<std::string> LL1Parser::next(const std::string &arg) {
     std::unordered_set<std::string> next_symbols;
     std::unordered_set<std::string> visited;
@@ -126,6 +154,12 @@ std::unordered_set<std::string> LL1Parser::next(const std::string &arg) {
     return next_symbols;
 }
 
+/**
+ *
+ * @param antecedent of a rule
+ * @param consequent of a rule
+ * @return set of director symbols for the given rule
+ */
 std::unordered_set<std::string>
 LL1Parser::director_symbols(const std::string &antecedent,
                             const std::vector<std::string> &consequent) {
@@ -139,6 +173,12 @@ LL1Parser::director_symbols(const std::string &antecedent,
     }
 }
 
+/**
+ *
+ * @param arg
+ * @param visited symbols (avoid infinite recursion)
+ * @param next_symbols next symbols accumulated
+ */
 void LL1Parser::next_util(const std::string &arg,
                           std::unordered_set<std::string> &visited,
                           std::unordered_set<std::string> &next_symbols) {
@@ -169,12 +209,4 @@ void LL1Parser::next_util(const std::string &arg,
             it = std::next(it);
         }
     }
-}
-LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
-    if (!create_ll1_table()) {
-        std::cerr << "Grammar provided is not LL1. Aborting...\n";
-        gr_.debug();
-        exit(-1);
-    }
-    std::cout << "Grammar is LL1\n";
 }
