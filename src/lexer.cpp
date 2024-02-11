@@ -85,6 +85,8 @@ void lexer::tokenize() {
     while (token != 1) {
         if (token == -1) {
             std::cerr << "Lexical error\n";
+            destroy();
+            fclose(file);
             dlclose(dynlib);
             exit(-1);
         }
