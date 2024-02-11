@@ -28,6 +28,5 @@ int main(int argc, char *argv[]) {
         } else {
             std::cerr << "Parsing encountered an error.";
         }
-
     }
 }

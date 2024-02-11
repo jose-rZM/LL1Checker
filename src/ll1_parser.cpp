@@ -8,9 +8,10 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
-LL1Parser::LL1Parser(const grammar &gr, const std::string &text_file)
-    : gr_(gr), text_file_(text_file) {
+LL1Parser::LL1Parser(grammar gr, std::string text_file)
+    : gr_(std::move(gr)), text_file_(std::move(text_file)) {
     if (!create_ll1_table()) {
         std::cerr << "Grammar provided is not LL1. Aborting...\n";
         gr_.debug();
@@ -19,9 +20,9 @@ LL1Parser::LL1Parser(const grammar &gr, const std::string &text_file)
     std::cout << "Grammar is LL1\n";
 }
 
-LL1Parser::LL1Parser(const std::string &grammar_file,
-                     const std::string &text_file)
-    : gr_(grammar_file), text_file_(text_file) {
+LL1Parser::LL1Parser(const std::string& grammar_file,
+                     std::string text_file)
+    : gr_(grammar_file), text_file_(std::move(text_file)) {
     if (!create_ll1_table()) {
         std::cerr << "Grammar provided is not LL1. Aborting...\n";
         gr_.debug();
@@ -30,7 +31,7 @@ LL1Parser::LL1Parser(const std::string &grammar_file,
     std::cout << "Grammar is LL1\n";
 }
 
-LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
+LL1Parser::LL1Parser(const std::string& grammar_file) : gr_(grammar_file) {
     if (!create_ll1_table()) {
         std::cerr << "Grammar provided is not LL1. Aborting...\n";
         gr_.debug();
@@ -44,9 +45,9 @@ LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
  * @return true if the ll1 table could be created, that is, the grammar is LL1
  */
 bool LL1Parser::create_ll1_table() {
-    for (std::pair<const std::string, std::vector<production>> rule : gr_.g_) {
+    for (const std::pair<const std::string, std::vector<production>>& rule : gr_.g_) {
         std::unordered_map<std::string, std::vector<std::string>> entry;
-        for (production p : rule.second) {
+        for (const production& p : rule.second) {
             std::unordered_set<std::string> ds =
                 director_symbols(rule.first, p);
             for (const std::string &str : ds) {
@@ -186,17 +187,10 @@ void LL1Parser::next_util(const std::string &arg,
         return;
     }
     visited.insert(arg);
-    std::vector<std::pair<const std::string, production>> rules;
-    // find rules with arg as part of consequence
-    for (const std::pair<const std::string, std::vector<production>>& rule : gr_.g_) {
-        for (const production &prod : rule.second) {
-            if (std::find(prod.cbegin(), prod.cend(), arg) != prod.cend()) {
-                rules.emplace_back(rule.first, prod);
-            }
-        }
-    }
+    std::vector<std::pair<const std::string, production>> rules {
+        gr_.filterRulesByConsequent(arg) };
 
-    for (const std::pair<const std::string, production>& rule : rules) {
+    for (const std::pair<const std::string, production> &rule : rules) {
         auto it = rule.second.cbegin();
         while ((it = std::find(it, rule.second.cend(), arg)) !=
                rule.second.cend()) {
@@ -210,3 +204,4 @@ void LL1Parser::next_util(const std::string &arg,
         }
     }
 }
+
