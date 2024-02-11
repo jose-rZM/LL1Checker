@@ -4,9 +4,10 @@
 #include <iostream>
 #include <regex>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
-grammar::grammar(const std::string &filename) : filename_(filename) {
+grammar::grammar(std::string filename) : filename_(std::move(filename)) {
     read_from_file();
 }
 
@@ -68,8 +69,8 @@ void grammar::read_from_file() {
  * @param s production to be splitted
  * @return vector of tokens
  * Splits the production into tokens. For example, if symbol table contains:
- * {(A, NON TERMINAL), (B, NON TERMINAL), (PLUS, TERMINAL)} and s = APLUSB, the method
- * would return {A, PLUS, B}.
+ * {(A, NON TERMINAL), (B, NON TERMINAL), (PLUS, TERMINAL)} and s = APLUSB, the
+ * method would return {A, PLUS, B}.
  */
 std::vector<std::string> grammar::split(const std::string &s) {
     if (s == symbol_table::EPSILON) {
@@ -133,6 +134,24 @@ bool grammar::has_empty_production(const std::string &antecedent) {
     return std::find_if(rules.cbegin(), rules.cend(), [](const auto &rule) {
                return rule[0] == symbol_table::EPSILON;
            }) != rules.cend();
+}
+
+/**
+ *
+ * @param arg token to be searched in grammar rules
+ * @return vector of rules with args as part of the consequent
+ */
+std::vector<std::pair<const std::string, production>>
+grammar::filterRulesByConsequent(const std::string &arg) {
+    std::vector<std::pair<const std::string, production>> rules;
+    for (const std::pair<const std::string, std::vector<production>> &rule : g_) {
+        for (const production &prod : rule.second) {
+            if (std::find(prod.cbegin(), prod.cend(), arg) != prod.cend()) {
+                rules.emplace_back(rule.first, prod);
+            }
+        }
+    }
+    return rules;
 }
 
 /**

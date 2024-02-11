@@ -5,6 +5,7 @@
 #include <iostream>
 #include <istream>
 #include <string>
+#include <utility>
 
 /**
  *
@@ -14,8 +15,8 @@
  * The program assumes that all the requirements listed in "README.md" are met.
  * If any errors occur the program aborts.
  */
-lexer::lexer(const std::string &filename)
-    : filename_(filename), tokens_(), current_() {
+lexer::lexer(std::string filename)
+    : filename_(std::move(filename)), tokens_(), current_() {
     make_lexer();
     compile();
     tokenize();
@@ -25,8 +26,8 @@ lexer::lexer(const std::string &filename)
  * Open the dynamically generated library and load: "set_yyin", "yylex" and
  * "yylex_destroy". The program aborts if any of these loads fail.
  * If everything goes well, tokenize the input using yylex. Each token is
- * stored in the "tokens" vector. Once the EOL character is reached (with value 1),
- * all resources are freed. This function is called only once.
+ * stored in the "tokens" vector. Once the EOL character is reached (with value
+ * 1), all resources are freed. This function is called only once.
  */
 void lexer::tokenize() {
     // Open dynamic libary (this only works in Linux systems)
@@ -37,7 +38,7 @@ void lexer::tokenize() {
     }
 
     // Load symbol set_yyin, customm function to make yylex read from a file
-    using set_yyin = int (*)(FILE*);
+    using set_yyin = int (*)(FILE *);
     set_yyin set = reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"));
     if (!set) {
         std::cerr << "Error while obtaining set_yyin symbol" << std::endl;
@@ -55,9 +56,11 @@ void lexer::tokenize() {
         exit(-1);
     }
 
-    // Load symbol yylex_destroy. Without this, the program would have memory leaks!
+    // Load symbol yylex_destroy. Without this, the program would have memory
+    // leaks!
     using yylex_destroy = int (*)();
-    yylex_destroy destroy = reinterpret_cast<yylex_destroy>(dlsym(dynlib, "yylex_destroy"));
+    yylex_destroy destroy =
+        reinterpret_cast<yylex_destroy>(dlsym(dynlib, "yylex_destroy"));
     if (!destroy) {
         std::cerr << "Error while obtaining yylex_destroy symbol" << std::endl;
         dlclose(dynlib);
@@ -105,8 +108,9 @@ std::string lexer::next() {
 }
 
 /**
- * Generates a lexer file using the symbol table. The symbols are placed in order.
- * It also generates a custom function "set_yyin" for changing the input of yylex.
+ * Generates a lexer file using the symbol table. The symbols are placed in
+ * order. It also generates a custom function "set_yyin" for changing the input
+ * of yylex.
  */
 void lexer::make_lexer() {
     std::ofstream lex{SRC_PATH + "/" + LEXER_FILENAME};
@@ -114,13 +118,12 @@ void lexer::make_lexer() {
     lex << "%%\n";
 
     for (int i : symbol_table::order_) {
-        std::string token_type{
-            symbol_table::token_types_r_.at(i)};
+        std::string token_type{symbol_table::token_types_r_.at(i)};
         if (token_type == symbol_table::EPSILON) {
             continue;
         } else if (token_type == symbol_table::EOL) {
             lex << "\"" << symbol_table::EOL << "\""
-              << "\t{ return " << i << "; }\n";
+                << "\t{ return " << i << "; }\n";
         } else {
             std::string regex{symbol_table::st_.at(token_type).second};
             lex << regex << "\t{ return " << i << "; }\n";
@@ -131,8 +134,8 @@ void lexer::make_lexer() {
     lex << ".\t{ return -1; }\n"; // throw lexical error
     lex << "%%\n";
     lex << "int set_yyin(FILE* file) {\n"
-      << "\tyyrestart(file);\n"
-      << "\treturn 1;\n}\n";
+        << "\tyyrestart(file);\n"
+        << "\treturn 1;\n}\n";
     lex << "int yywrap() {\n\treturn 1;\n}\n";
 
     lex.close();
@@ -145,7 +148,8 @@ void lexer::make_lexer() {
 void lexer::compile() {
     int ret = system("flex -t src/lex.l > src/lex.yy.c");
     if (ret != 0) {
-        std::cerr << "Error while compiling lexer. Check if you have flex installed\n";
+        std::cerr << "Error while compiling lexer. Check if you have flex "
+                     "installed\n";
         exit(-1);
     }
 

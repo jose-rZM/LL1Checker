@@ -10,9 +10,9 @@ class LL1Parser {
         std::string, std::unordered_map<std::string, std::vector<std::string>>>;
 
   public:
-    LL1Parser(const grammar &gr, const std::string &text_file);
-    LL1Parser(const std::string &grammar_file, const std::string &text_file);
-    LL1Parser(const std::string &grammar_file);
+    LL1Parser(grammar gr, std::string text_file);
+    LL1Parser(const std::string& grammar_file, std::string text_file);
+    LL1Parser(const std::string& grammar_file);
     bool parse();
 
   private:
@@ -31,4 +31,6 @@ class LL1Parser {
     grammar gr_;
     std::string grammar_file_;
     std::string text_file_;
+    std::vector<const std::string, production>
+    filterRulesByConsequent(const std::string &arg);
 };
