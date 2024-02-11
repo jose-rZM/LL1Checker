@@ -46,17 +46,17 @@ LL1Parser::LL1Parser(const std::string& grammar_file) : gr_(grammar_file) {
  */
 bool LL1Parser::create_ll1_table() {
     for (const std::pair<const std::string, std::vector<production>>& rule : gr_.g_) {
-        std::unordered_map<std::string, std::vector<std::string>> entry;
+        std::unordered_map<std::string, std::vector<std::string>> column;
         for (const production& p : rule.second) {
             std::unordered_set<std::string> ds =
                 director_symbols(rule.first, p);
-            for (const std::string &str : ds) {
-                if (!entry.insert({str, p}).second) {
+            for (const std::string &symbol : ds) {
+                if (!column.insert({symbol, p}).second) {
                     return false;
                 }
             }
         }
-        ll1_t_.insert({rule.first, entry});
+        ll1_t_.insert({rule.first, column});
     }
     return true;
 }
@@ -68,35 +68,35 @@ bool LL1Parser::create_ll1_table() {
  */
 bool LL1Parser::parse() {
     lexer lex(text_file_);
-    std::stack<std::string> st;
-    st.push(gr_.AXIOM_);
-    std::string l = lex.next();
-    while (!l.empty() && !st.empty()) {
-        if (st.top() == symbol_table::EPSILON) {
-            st.pop();
+    std::stack<std::string> symbol_stack;
+    symbol_stack.push(gr_.AXIOM_);
+    std::string current_symbol = lex.next();
+    while (!current_symbol.empty() && !symbol_stack.empty()) {
+        if (symbol_stack.top() == symbol_table::EPSILON) {
+            symbol_stack.pop();
             continue;
         }
-        std::vector<std::string> ds;
-        std::string s = st.top();
-        st.pop();
-        if (!symbol_table::is_terminal(s)) {
+        std::vector<std::string> d_symbols;
+        std::string top_symbol = symbol_stack.top();
+        symbol_stack.pop();
+        if (!symbol_table::is_terminal(top_symbol)) {
             try {
-                ds = ll1_t_.at(s).at(l);
+                d_symbols = ll1_t_.at(top_symbol).at(current_symbol);
             } catch (const std::out_of_range &exc) {
                 // check if this rule has an empty production
-                if (gr_.has_empty_production(s)) {
+                if (gr_.has_empty_production(top_symbol)) {
                     continue;
                 }
                 return false;
             }
-            for (auto &d : std::ranges::reverse_view(ds)) {
-                st.push(d);
+            for (auto &d : std::ranges::reverse_view(d_symbols)) {
+                symbol_stack.push(d);
             }
         } else {
-            if (s != l) {
+            if (top_symbol != current_symbol) {
                 return false;
             }
-            l = lex.next();
+            current_symbol = lex.next();
         }
     }
     return true;
@@ -106,38 +106,42 @@ bool LL1Parser::parse() {
  *
  * @param rule
  * @return set header symbols for the given rule
+ * TODO: if grammar consists only in one non terminal (apart the axiom), it could
+ * end with an infinite loop. For example: A -> A & A, A -> ( A ). The grammar obviously
+ * is not LL1, but this will provoke an infinite loop.
  */
 std::unordered_set<std::string>
 LL1Parser::header(const std::vector<std::string> &rule) {
-    std::unordered_set<std::string> hd;
-    std::stack<std::vector<std::string>> st;
-    st.push(rule);
+    std::unordered_set<std::string> current_header;
+    std::stack<std::vector<std::string>> symbol_stack;
+    symbol_stack.push(rule);
 
-    while (!st.empty()) {
-        std::vector<std::string> current = st.top();
-        st.pop();
+    while (!symbol_stack.empty()) {
+        std::vector<std::string> current = symbol_stack.top();
+        symbol_stack.pop();
         if (current[0] == symbol_table::EPSILON) {
             current.erase(current.begin());
         }
         if (current.empty()) {
-            hd.insert(symbol_table::EPSILON);
+            current_header.insert(symbol_table::EPSILON);
         } else if (symbol_table::is_terminal(current[0])) {
-            hd.insert(current[0]);
+            current_header.insert(current[0]);
         } else {
             for (const std::vector<std::string> &prod : gr_.g_.at(current[0])) {
                 std::vector<std::string> production;
                 for (const std::string &sy : prod) {
                     production.push_back(sy);
                 }
+                // Add remaining symbols
                 for (unsigned i = 1; i < current.size(); ++i) {
                     production.push_back(current[i]);
                 }
-                st.push(production);
+                symbol_stack.push(production);
             }
         }
     }
 
-    return hd;
+    return current_header;
 }
 
 /**
@@ -191,14 +195,16 @@ void LL1Parser::next_util(const std::string &arg,
         gr_.filterRulesByConsequent(arg) };
 
     for (const std::pair<const std::string, production> &rule : rules) {
+        // Next must be applied to all Arg symbols, for example
+        // if arg: B; A -> BbBCB, next is applied three times
         auto it = rule.second.cbegin();
         while ((it = std::find(it, rule.second.cend(), arg)) !=
                rule.second.cend()) {
-            auto nit = std::next(it);
-            if (nit == rule.second.cend()) {
+            auto next_it = std::next(it);
+            if (next_it == rule.second.cend()) {
                 next_util(rule.first, visited, next_symbols);
             } else {
-                next_symbols.merge(header({*nit}));
+                next_symbols.merge(header({*next_it}));
             }
             it = std::next(it);
         }

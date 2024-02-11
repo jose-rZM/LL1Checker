@@ -76,6 +76,7 @@ void lexer::tokenize() {
 
     if (set(file) != 1) {
         std::cerr << "Error while establishing the input file" << std::endl;
+        fclose(file);
         dlclose(dynlib);
         exit(-1);
     }

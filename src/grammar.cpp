@@ -18,18 +18,24 @@ grammar::grammar(std::string filename) : filename_(std::move(filename)) {
 void grammar::read_from_file() {
     std::ifstream file;
     file.open(filename_, std::ios::in);
+    std::regex rx_no_terminal{
+        "no\\s+terminal\\s+([a-zA-Z_\\'][a-zA-Z_0-9\\']*);"};
+    std::regex rx_terminal{
+        "terminal\\s+([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s+([^]*);"};
+    std::regex rx_axiom{
+        "start\\s+with\\s+([a-zA-Z_\\'][a-zA-Z_0-9\\']*);"};
+    std::regex rx_empty_production{
+        "([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s*->;"};
+    std::regex rx_production{
+        "([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s*->\\s*([a-zA-"
+        "Z_\\'][a-zA-Z_0-9\\s$\\']*);"};
     if (file.is_open()) {
         std::string input;
         std::smatch match;
         while (getline(file, input) && input != ";") {
             std::string id;
             std::string value;
-            std::regex rx_no_terminal{
-                "no\\s+terminal\\s+([a-zA-Z_\\'][a-zA-Z_0-9\\']*);"};
-            std::regex rx_terminal{
-                "terminal\\s+([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s+([^]*);"};
-            std::regex rx_axiom{
-                "start\\s+with\\s+([a-zA-Z_\\'][a-zA-Z_0-9\\']*);"};
+
             if (std::regex_match(input, match, rx_no_terminal)) {
                 symbol_table::put_symbol(match[1]);
             } else if (std::regex_match(input, match, rx_terminal)) {
@@ -43,11 +49,6 @@ void grammar::read_from_file() {
         }
 
         while (getline(file, input) && input != ";") {
-            std::regex rx_empty_production{
-                "([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s*->;"};
-            std::regex rx_production{
-                "([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s*->\\s*([a-zA-"
-                "Z_\\'][a-zA-Z_0-9\\s$\\']*);"};
             if (std::regex_match(input, match, rx_production)) {
                 std::string s = match[2];
                 s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
