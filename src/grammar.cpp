@@ -10,6 +10,10 @@ grammar::grammar(const std::string &filename) : filename_(filename) {
     read_from_file();
 }
 
+/**
+ * Read the grammar from a file. The structure of grammar.txt is explained in
+ * README.md
+ */
 void grammar::read_from_file() {
     std::ifstream file;
     file.open(filename_, std::ios::in);
@@ -26,9 +30,9 @@ void grammar::read_from_file() {
             std::regex rx_axiom{
                 "start\\s+with\\s+([a-zA-Z_\\'][a-zA-Z_0-9\\']*);"};
             if (std::regex_match(input, match, rx_no_terminal)) {
-                symbol_table::put_symbol(match[1], NO_TERMINAL);
+                symbol_table::put_symbol(match[1]);
             } else if (std::regex_match(input, match, rx_terminal)) {
-                symbol_table::put_symbol(match[1], TERMINAL, match[2]);
+                symbol_table::put_symbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
                 set_axiom(match[1]);
             } else {
@@ -59,6 +63,14 @@ void grammar::read_from_file() {
     file.close();
 }
 
+/**
+ *
+ * @param s production to be splitted
+ * @return vector of tokens
+ * Splits the production into tokens. For example, if symbol table contains:
+ * {(A, NON TERMINAL), (B, NON TERMINAL), (PLUS, TERMINAL)} and s = APLUSB, the method
+ * would return {A, PLUS, B}.
+ */
 std::vector<std::string> grammar::split(const std::string &s) {
     if (s == symbol_table::EPSILON) {
         return {symbol_table::EPSILON};
@@ -90,6 +102,11 @@ std::vector<std::string> grammar::split(const std::string &s) {
     return splitted;
 }
 
+/**
+ *
+ * @param antecedent of the rule
+ * @param consequent of the rule
+ */
 void grammar::add_rule(const std::string &antecedent,
                        const std::string &consequent) {
     if (g_.find(antecedent) == g_.end()) {
@@ -99,8 +116,18 @@ void grammar::add_rule(const std::string &antecedent,
     }
 }
 
+/**
+ *
+ * @param axiom of the grammar
+ * Sets the axiom (entry point) of the grammar
+ */
 void grammar::set_axiom(const std::string &axiom) { AXIOM_ = axiom; }
 
+/**
+ *
+ * @param antecedent of rule
+ * @return true if there exists an empty rule, that is, <antecedent> ->;"
+ */
 bool grammar::has_empty_production(const std::string &antecedent) {
     auto rules{g_.at(antecedent)};
     return std::find_if(rules.cbegin(), rules.cend(), [](const auto &rule) {
@@ -108,6 +135,9 @@ bool grammar::has_empty_production(const std::string &antecedent) {
            }) != rules.cend();
 }
 
+/**
+ * Prints the grammar
+ */
 void grammar::debug() {
     std::cout << "Grammar:\n";
     for (const auto &entry : g_) {

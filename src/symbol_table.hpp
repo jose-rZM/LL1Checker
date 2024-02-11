@@ -17,11 +17,11 @@ struct symbol_table {
 
     const static std::string EOL;
     const static std::string EPSILON;
-    static void put_symbol(const std::string& identifier, symbol_type type,
+    static void put_symbol(const std::string& identifier,
                            const std::string& regex);
-    static void put_symbol(const std::string& identifier, symbol_type type);
+    static void put_symbol(const std::string& identifier);
     static bool in(const std::string& s);
-    static bool is_terminal(std::string s);
-    static std::string get_value(const std::string& no_terminal);
+    static bool is_terminal(const std::string& s);
+    static std::string get_value(const std::string& terminal);
     static void debug();
 };

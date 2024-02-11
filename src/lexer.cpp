@@ -143,7 +143,7 @@ void lexer::make_lexer() {
  * dynamic library using the compiled lexer "lex.yy.c".
  */
 void lexer::compile() {
-    int ret = system("flex -t src/lexer.l > src/lex.yy.c");
+    int ret = system("flex -t src/lex.l > src/lex.yy.c");
     if (ret != 0) {
         std::cerr << "Error while compiling lexer. Check if you have flex installed\n";
         exit(-1);

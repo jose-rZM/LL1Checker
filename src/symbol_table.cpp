@@ -16,22 +16,42 @@ std::unordered_map<int, std::string> symbol_table::token_types_r_ = {{1, EOL}};
 std::vector<int> symbol_table::order_{1};
 int symbol_table::i_{2};
 
-void symbol_table::put_symbol(const std::string& identifier, symbol_type type,
+/**
+ *
+ * @param identifier of the terminal symbol
+ * @param regex  of the terminal symbol
+ * Stores the terminal symbol alongside its regex.
+ * Also, it updates the token types, it also keeps track of the insertion order.
+ */
+void symbol_table::put_symbol(const std::string& identifier,
                               const std::string& regex) {
-    st_[identifier] = {type, regex};
+    st_[identifier] = {TERMINAL, regex};
     token_types_[identifier] = i_;
     order_.push_back(i_);
     token_types_r_[i_++] = identifier;
 }
 
-void symbol_table::put_symbol(const std::string& identifier, symbol_type type) {
-    st_[identifier] = {type, ""};
+/**
+ *
+ * @param identifier of the no terminal symbol
+ * Stores the no terminal symbol in the symbol table.
+ */
+void symbol_table::put_symbol(const std::string& identifier) {
+    st_[identifier] = {NO_TERMINAL, ""};
 }
 
-std::string symbol_table::get_value(const std::string& no_terminal) {
-    return st_[no_terminal].second;
+/**
+ *
+ * @param terminal symbol to retrieve the regex from
+ * @return regex of the symbol
+ */
+std::string symbol_table::get_value(const std::string& terminal) {
+    return st_[terminal].second;
 }
 
+/**
+ * Print all symbols in symbol table
+ */
 void symbol_table::debug() {
     printf(" %-15s %-15s %-15s\n", "Identifier", "Type", "Regex");
     for (const auto &entry : st_) {
@@ -40,8 +60,18 @@ void symbol_table::debug() {
     }
 }
 
+/**
+ *
+ * @param s identifier
+ * @return true if s is in symbol table
+ */
 bool symbol_table::in(const std::string& s) { return st_.find(s) != st_.cend(); }
 
-bool symbol_table::is_terminal(std::string s) {
+/**
+ *
+ * @param s identifier
+ * @return true if s is terminal symbol
+ */
+bool symbol_table::is_terminal(const std::string& s) {
     return st_[s].first == TERMINAL;
 }
