@@ -12,7 +12,7 @@ class lexer {
     void tokenize();
     void make_lexer();
     void compile();
-    const std::string LEXER_FILENAME {"lexer.l"};
+    const std::string LEXER_FILENAME {"lex.l"};
     const std::string SRC_PATH {"./src"};
     const std::string LIB_PATH {"./lib"};
 };
