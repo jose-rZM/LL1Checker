@@ -67,7 +67,7 @@ void lexer::tokenize() {
         exit(-1);
     }
 
-    using yytext = char*;
+    using yytext = char *;
     yytext text = reinterpret_cast<yytext>(dlsym(dynlib, "yytext"));
     if (!text) {
         std::cerr << "Error while obtaining yytext symbol" << std::endl;
@@ -93,7 +93,8 @@ void lexer::tokenize() {
     int token = yylex();
     while (token != 1) {
         if (token == -1) {
-            std::cerr << "Lexical error: " << *text << std::endl;;
+            std::cerr << "Lexical error: " << *text << std::endl;
+            ;
             destroy();
             fclose(file);
             dlclose(dynlib);
@@ -102,7 +103,7 @@ void lexer::tokenize() {
         tokens_.push_back(symbol_table::token_types_r_[token]);
         token = yylex();
     }
-    tokens_.push_back(symbol_table::EOL);
+    tokens_.push_back(symbol_table::EOL_);
 
     // Freeing resources
     destroy();
@@ -130,10 +131,10 @@ void lexer::make_lexer() {
 
     for (int i : symbol_table::order_) {
         std::string token_type{symbol_table::token_types_r_.at(i)};
-        if (token_type == symbol_table::EPSILON) {
+        if (token_type == symbol_table::EPSILON_) {
             continue;
-        } else if (token_type == symbol_table::EOL) {
-            lex << "\"" << symbol_table::EOL << "\""
+        } else if (token_type == symbol_table::EOL_) {
+            lex << "\"" << symbol_table::EOL_ << "\""
                 << "\t{ return " << i << "; }\n";
         } else {
             std::string regex{symbol_table::st_.at(token_type).second};
