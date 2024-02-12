@@ -67,6 +67,14 @@ void lexer::tokenize() {
         exit(-1);
     }
 
+    using yytext = char*;
+    yytext text = reinterpret_cast<yytext>(dlsym(dynlib, "yytext"));
+    if (!text) {
+        std::cerr << "Error while obtaining yytext symbol" << std::endl;
+        dlclose(dynlib);
+        exit(-1);
+    }
+
     FILE *file = fopen(filename_.c_str(), "r");
     if (!file) {
         std::cerr << "Error opening the file" << filename_ << "\n";
@@ -85,7 +93,7 @@ void lexer::tokenize() {
     int token = yylex();
     while (token != 1) {
         if (token == -1) {
-            std::cerr << "Lexical error\n";
+            std::cerr << "Lexical error: " << *text << std::endl;;
             destroy();
             fclose(file);
             dlclose(dynlib);

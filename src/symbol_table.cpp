@@ -35,7 +35,7 @@ void symbol_table::put_symbol(const std::string &identifier) {
  * @return regex of the symbol
  */
 std::string symbol_table::get_value(const std::string &terminal) {
-    return st_[terminal].second;
+    return st_.at(terminal).second;
 }
 
 /**
@@ -64,5 +64,5 @@ bool symbol_table::in(const std::string &s) {
  * @return true if s is terminal symbol
  */
 bool symbol_table::is_terminal(const std::string &s) {
-    return st_[s].first == TERMINAL;
+    return st_.at(s).first == TERMINAL;
 }

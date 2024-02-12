@@ -1,1 +1,17 @@
-f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n, f(f(f(n+f(n,n)),f(n + f(n)))+n, f(n, f(n, f(n, f(f(n) + f(n))))))))))))$
+n = 10;
+nn = 20;
+while (x < 10) {
+    nn = 1;
+    do {
+        n = nn;
+        i = 1;
+        while (i < n)
+            x = i;
+            if (x < 5) {
+                xx = 10;
+            } else {
+                zz = 1;
+            }
+        
+    } while (n < 20);
+}$
