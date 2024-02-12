@@ -20,7 +20,8 @@ After running `make` simply execute `./parser`. The program can accept at most t
 - `./parser <GRAMMAR_FILENAME> <INPUT_FILENAME>`. Check if the provided grammar is LL1 and verifies if the input provided conforms to the grammar.
 
 # To consider
-- The end of line character is **$**, currently it cannot be changed.
+- The default end of line character is **$**, you can change it using the instruction `set EOL char (...)`. 
+- You can omit the EOL character in the grammar (see grammar.txt), but this feature is not fully tested. I recommend augmenting the grammar with a first rule, such as `S -> E EOL`, where S is the axiom.
 - When writing the terminals symbols, it should be noted that they will be evaluated in order_. So, if A and B are two regex with common elements, you should put the more specific one first. Example:
 ~~~
 terminal WH while;
@@ -35,7 +36,7 @@ no terminal S;
 no terminal A;
 start with S;
 ~~~
-You should write the last line to designate S as the axiom (this will be changed).
+You should write the last line to designate S as the axiom.
 The terminal symbols follows the following structure: `terminal <IDENTIFIER> <REGEX>;`. The `<IDENTIFIER>` should adhere to the following regex pattern: `[a-zA-Z_\'][a-zA-Z_\'0-9]*`. This rule also applies to no terminal definition.
 An example of the first section would be:
 ~~~
@@ -53,7 +54,6 @@ A -> aaA;
 A ->;
 ;
 ~~~
-Note that currently, the line `S -> A$` (axiom) is required. However, this will be automated in order_ to augment the grammar with that rule. As mentioned in the "to consider" section, the EOL_ character currently used is **$**.
 The line `A->;` represents an empty production.
 So, our **grammar.txt** would be:
 ~~~
@@ -68,4 +68,4 @@ A ->;
 ;
 ~~~
 This grammar generates the following language: `L(G) = {aa, aaaa, aaaaaa, ...}`, that is, a language with an even number of 'a'.
-And in **input.txt** file, you place the line you want to check (don't forget the **$**!).
+And in **input.txt** file, you place the line you want to check.
