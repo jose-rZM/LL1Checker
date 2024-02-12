@@ -1,4 +1,5 @@
 #include "ll1_parser.hpp"
+#include "errors/grammar_error.hpp"
 #include "grammar.hpp"
 #include "lexer.hpp"
 #include "symbol_table.hpp"
@@ -13,30 +14,24 @@
 LL1Parser::LL1Parser(grammar gr, std::string text_file)
     : gr_(std::move(gr)), text_file_(std::move(text_file)) {
     if (!create_ll1_table()) {
-        std::cerr << "Grammar provided is not LL1. Aborting...\n";
         gr_.debug();
-        exit(-1);
+        throw GrammarError("Grammar provided is not LL1.");
     }
-    std::cout << "Grammar is LL1\n";
 }
 
 LL1Parser::LL1Parser(const std::string &grammar_file, std::string text_file)
     : gr_(grammar_file), text_file_(std::move(text_file)) {
     if (!create_ll1_table()) {
-        std::cerr << "Grammar provided is not LL1. Aborting...\n";
         gr_.debug();
-        exit(-1);
+        throw GrammarError("Grammar provided is not LL1.");
     }
-    std::cout << "Grammar is LL1\n";
 }
 
 LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
     if (!create_ll1_table()) {
-        std::cerr << "Grammar provided is not LL1. Aborting...\n";
         gr_.debug();
-        exit(-1);
+        throw GrammarError("Grammar provided is not LL1.");
     }
-    std::cout << "Grammar is LL1\n";
 }
 
 /**
@@ -68,6 +63,7 @@ bool LL1Parser::create_ll1_table() {
  */
 bool LL1Parser::parse() {
     lexer lex(text_file_);
+
     std::stack<std::string> symbol_stack;
     symbol_stack.push(gr_.AXIOM_);
     std::string current_symbol = lex.next();
@@ -99,6 +95,7 @@ bool LL1Parser::parse() {
             current_symbol = lex.next();
         }
     }
+
     return true;
 }
 
