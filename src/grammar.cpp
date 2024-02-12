@@ -18,47 +18,54 @@ grammar::grammar(std::string filename) : filename_(std::move(filename)) {
 void grammar::read_from_file() {
     std::ifstream file;
     file.open(filename_, std::ios::in);
+
+    if (!file.is_open()) {
+        std::cerr << "Error opening " << filename_ << "\n";
+        exit(-1);
+    }
+
     std::regex rx_no_terminal{
-        "no\\s+terminal\\s+([a-zA-Z_\\'][a-zA-Z_0-9\\']*);"};
+        R"(no\s+terminal\s+([a-zA-Z_\'][a-zA-Z_0-9\']*);\s*)"};
     std::regex rx_terminal{
-        "terminal\\s+([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s+([^]*);"};
-    std::regex rx_axiom{
-        "start\\s+with\\s+([a-zA-Z_\\'][a-zA-Z_0-9\\']*);"};
-    std::regex rx_empty_production{
-        "([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s*->;"};
-    std::regex rx_production{
-        "([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s*->\\s*([a-zA-"
-        "Z_\\'][a-zA-Z_0-9\\s$\\']*);"};
-    if (file.is_open()) {
-        std::string input;
-        std::smatch match;
-        while (getline(file, input) && input != ";") {
-            std::string id;
-            std::string value;
+        R"(terminal\s+([a-zA-Z_\'][a-zA-Z_0-9\']*)\s+([^]*);\s*)"};
+    std::regex rx_eol{R"(set\s+EOL\s+char\s+([^]*);\s*)"};
+    std::regex rx_axiom{R"(start\s+with\s+([a-zA-Z_\'][a-zA-Z_0-9\']*);\s*)"};
+    std::regex rx_empty_production{R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->;\s*)"};
+    std::regex rx_production{"([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s*->\\s*([a-zA-"
+                             "Z_\\'][a-zA-Z_0-9\\s$\\']*);"};
 
-            if (std::regex_match(input, match, rx_no_terminal)) {
-                symbol_table::put_symbol(match[1]);
-            } else if (std::regex_match(input, match, rx_terminal)) {
-                symbol_table::put_symbol(match[1], match[2]);
-            } else if (std::regex_match(input, match, rx_axiom)) {
-                set_axiom(match[1]);
-            } else {
-                std::cout << "Error while reading tokens: " << input << "\n";
-                exit(-1);
-            }
+    std::string input;
+    std::smatch match;
+    while (getline(file, input) && input != ";") {
+        std::string id;
+        std::string value;
+
+        if (std::regex_match(input, match, rx_no_terminal)) {
+            symbol_table::put_symbol(match[1]);
+        } else if (std::regex_match(input, match, rx_terminal)) {
+            symbol_table::put_symbol(match[1], match[2]);
+        } else if (std::regex_match(input, match, rx_axiom)) {
+            set_axiom(match[1]);
+        } else if (std::regex_match(input, match, rx_eol)) {
+            symbol_table::set_eol(match[1]);
+        } else {
+            std::cout << "Error while reading tokens: " << input << "\n";
+            file.close();
+            exit(-1);
         }
+    }
 
-        while (getline(file, input) && input != ";") {
-            if (std::regex_match(input, match, rx_production)) {
-                std::string s = match[2];
-                s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
-                add_rule(match[1], s);
-            } else if (std::regex_match(input, match, rx_empty_production)) {
-                add_rule(match[1], symbol_table::EPSILON);
-            } else {
-                std::cout << "Error while reading grammar: " << input << "\n";
-                exit(-1);
-            }
+    while (getline(file, input) && input != ";") {
+        if (std::regex_match(input, match, rx_production)) {
+            std::string s = match[2];
+            s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
+            add_rule(match[1], s);
+        } else if (std::regex_match(input, match, rx_empty_production)) {
+            add_rule(match[1], symbol_table::EPSILON_);
+        } else {
+            std::cout << "Error while reading grammar: " << input << "\n";
+            file.close();
+            exit(-1);
         }
     }
 
@@ -74,8 +81,8 @@ void grammar::read_from_file() {
  * method would return {A, PLUS, B}.
  */
 std::vector<std::string> grammar::split(const std::string &s) {
-    if (s == symbol_table::EPSILON) {
-        return {symbol_table::EPSILON};
+    if (s == symbol_table::EPSILON_) {
+        return {symbol_table::EPSILON_};
     }
     std::vector<std::string> splitted;
     std::string str;
@@ -133,7 +140,7 @@ void grammar::set_axiom(const std::string &axiom) { AXIOM_ = axiom; }
 bool grammar::has_empty_production(const std::string &antecedent) {
     auto rules{g_.at(antecedent)};
     return std::find_if(rules.cbegin(), rules.cend(), [](const auto &rule) {
-               return rule[0] == symbol_table::EPSILON;
+               return rule[0] == symbol_table::EPSILON_;
            }) != rules.cend();
 }
 
@@ -145,7 +152,8 @@ bool grammar::has_empty_production(const std::string &antecedent) {
 std::vector<std::pair<const std::string, production>>
 grammar::filterRulesByConsequent(const std::string &arg) {
     std::vector<std::pair<const std::string, production>> rules;
-    for (const std::pair<const std::string, std::vector<production>> &rule : g_) {
+    for (const std::pair<const std::string, std::vector<production>> &rule :
+         g_) {
         for (const production &prod : rule.second) {
             if (std::find(prod.cbegin(), prod.cend(), arg) != prod.cend()) {
                 rules.emplace_back(rule.first, prod);

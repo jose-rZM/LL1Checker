@@ -53,7 +53,7 @@ A -> aaA;
 A ->;
 ;
 ~~~
-Note that currently, the line `S -> A$` (axiom) is required. However, this will be automated in order_ to augment the grammar with that rule. As mentioned in the "to consider" section, the EOL character currently used is **$**.
+Note that currently, the line `S -> A$` (axiom) is required. However, this will be automated in order_ to augment the grammar with that rule. As mentioned in the "to consider" section, the EOL_ character currently used is **$**.
 The line `A->;` represents an empty production.
 So, our **grammar.txt** would be:
 ~~~

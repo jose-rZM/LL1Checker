@@ -66,3 +66,5 @@ bool symbol_table::in(const std::string &s) {
 bool symbol_table::is_terminal(const std::string &s) {
     return st_.at(s).first == TERMINAL;
 }
+
+void symbol_table::set_eol(const std::string &eol) { EOL_ = eol; }

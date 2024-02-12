@@ -20,8 +20,7 @@ LL1Parser::LL1Parser(grammar gr, std::string text_file)
     std::cout << "Grammar is LL1\n";
 }
 
-LL1Parser::LL1Parser(const std::string& grammar_file,
-                     std::string text_file)
+LL1Parser::LL1Parser(const std::string &grammar_file, std::string text_file)
     : gr_(grammar_file), text_file_(std::move(text_file)) {
     if (!create_ll1_table()) {
         std::cerr << "Grammar provided is not LL1. Aborting...\n";
@@ -31,7 +30,7 @@ LL1Parser::LL1Parser(const std::string& grammar_file,
     std::cout << "Grammar is LL1\n";
 }
 
-LL1Parser::LL1Parser(const std::string& grammar_file) : gr_(grammar_file) {
+LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
     if (!create_ll1_table()) {
         std::cerr << "Grammar provided is not LL1. Aborting...\n";
         gr_.debug();
@@ -45,9 +44,10 @@ LL1Parser::LL1Parser(const std::string& grammar_file) : gr_(grammar_file) {
  * @return true if the ll1 table could be created, that is, the grammar is LL1
  */
 bool LL1Parser::create_ll1_table() {
-    for (const std::pair<const std::string, std::vector<production>>& rule : gr_.g_) {
+    for (const std::pair<const std::string, std::vector<production>> &rule :
+         gr_.g_) {
         std::unordered_map<std::string, std::vector<std::string>> column;
-        for (const production& p : rule.second) {
+        for (const production &p : rule.second) {
             std::unordered_set<std::string> ds =
                 director_symbols(rule.first, p);
             for (const std::string &symbol : ds) {
@@ -72,7 +72,7 @@ bool LL1Parser::parse() {
     symbol_stack.push(gr_.AXIOM_);
     std::string current_symbol = lex.next();
     while (!current_symbol.empty() && !symbol_stack.empty()) {
-        if (symbol_stack.top() == symbol_table::EPSILON) {
+        if (symbol_stack.top() == symbol_table::EPSILON_) {
             symbol_stack.pop();
             continue;
         }
@@ -106,9 +106,9 @@ bool LL1Parser::parse() {
  *
  * @param rule
  * @return set header symbols for the given rule
- * TODO: if grammar consists only in one non terminal (apart the axiom), it could
- * end with an infinite loop. For example: A -> A & A, A -> ( A ). The grammar obviously
- * is not LL1, but this will provoke an infinite loop.
+ * TODO: if grammar consists only in one non terminal (apart the axiom), it
+ * could end with an infinite loop. For example: A -> A & A, A -> ( A ). The
+ * grammar obviously is not LL1, but this will provoke an infinite loop.
  */
 std::unordered_set<std::string>
 LL1Parser::header(const std::vector<std::string> &rule) {
@@ -119,11 +119,11 @@ LL1Parser::header(const std::vector<std::string> &rule) {
     while (!symbol_stack.empty()) {
         std::vector<std::string> current = symbol_stack.top();
         symbol_stack.pop();
-        if (current[0] == symbol_table::EPSILON) {
+        if (current[0] == symbol_table::EPSILON_) {
             current.erase(current.begin());
         }
         if (current.empty()) {
-            current_header.insert(symbol_table::EPSILON);
+            current_header.insert(symbol_table::EPSILON_);
         } else if (symbol_table::is_terminal(current[0])) {
             current_header.insert(current[0]);
         } else {
@@ -153,8 +153,8 @@ std::unordered_set<std::string> LL1Parser::next(const std::string &arg) {
     std::unordered_set<std::string> next_symbols;
     std::unordered_set<std::string> visited;
     next_util(arg, visited, next_symbols);
-    if (next_symbols.find(symbol_table::EPSILON) != next_symbols.end()) {
-        next_symbols.erase(symbol_table::EPSILON);
+    if (next_symbols.find(symbol_table::EPSILON_) != next_symbols.end()) {
+        next_symbols.erase(symbol_table::EPSILON_);
     }
     return next_symbols;
 }
@@ -169,10 +169,10 @@ std::unordered_set<std::string>
 LL1Parser::director_symbols(const std::string &antecedent,
                             const std::vector<std::string> &consequent) {
     std::unordered_set<std::string> hd{header({consequent})};
-    if (hd.find(symbol_table::EPSILON) == hd.end()) {
+    if (hd.find(symbol_table::EPSILON_) == hd.end()) {
         return hd;
     } else {
-        hd.erase(symbol_table::EPSILON);
+        hd.erase(symbol_table::EPSILON_);
         hd.merge(next(antecedent));
         return hd;
     }
@@ -191,8 +191,8 @@ void LL1Parser::next_util(const std::string &arg,
         return;
     }
     visited.insert(arg);
-    std::vector<std::pair<const std::string, production>> rules {
-        gr_.filterRulesByConsequent(arg) };
+    std::vector<std::pair<const std::string, production>> rules{
+        gr_.filterRulesByConsequent(arg)};
 
     for (const std::pair<const std::string, production> &rule : rules) {
         // Next must be applied to all Arg symbols, for example
@@ -210,4 +210,3 @@ void LL1Parser::next_util(const std::string &arg,
         }
     }
 }
-
