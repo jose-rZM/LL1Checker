@@ -91,10 +91,9 @@ void lexer::tokenize() {
 
     // Read the file
     int token = yylex();
-    while (token != 1) {
+    while (token != 0) {
         if (token == -1) {
             std::cerr << "Lexical error: " << *text << std::endl;
-            ;
             destroy();
             fclose(file);
             dlclose(dynlib);
@@ -103,7 +102,6 @@ void lexer::tokenize() {
         tokens_.push_back(symbol_table::token_types_r_[token]);
         token = yylex();
     }
-    tokens_.push_back(symbol_table::EOL_);
 
     // Freeing resources
     destroy();
@@ -126,6 +124,10 @@ std::string lexer::next() {
  */
 void lexer::make_lexer() {
     std::ofstream lex{SRC_PATH + "/" + LEXER_FILENAME};
+    if (!lex.is_open()) {
+        std::cerr << "Error opening " << SRC_PATH + "/" + LEXER_FILENAME << std::endl;
+        exit(-1);
+    }
     lex << "%{\n\t#include<stdio.h>\n%}\n";
     lex << "%%\n";
 
@@ -160,8 +162,7 @@ void lexer::make_lexer() {
 void lexer::compile() {
     int ret = system("flex -t src/lex.l > src/lex.yy.c");
     if (ret != 0) {
-        std::cerr << "Error while compiling lexer. Check if you have flex "
-                     "installed\n";
+        std::cerr << "Error while compiling lexer. Check if you have flex installed or if there are errors in the lexer (check the tokens)\n";
         exit(-1);
     }
 
