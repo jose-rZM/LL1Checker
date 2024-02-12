@@ -29,7 +29,7 @@ terminal WORD [a-zA-Z][a-zA-Z]*;
 # Structure of grammar.txt
 It consists of two sections: symbol definition and grammar; each section is separated by **;**.
 At the moment it is necessary to designate a symbol to serve as the axiom.
-## Symmbol definition
+## Symbol definition
 ~~~
 no terminal S;
 no terminal A;
