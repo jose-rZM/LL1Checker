@@ -1,4 +1,5 @@
 #include "lexer.hpp"
+#include "errors/lexer_error.hpp"
 #include "symbol_table.hpp"
 #include <dlfcn.h>
 #include <fstream>
@@ -30,77 +31,65 @@ lexer::lexer(std::string filename)
  * 1), all resources are freed. This function is called only once.
  */
 void lexer::tokenize() {
-    // Open dynamic libary (this only works in Linux systems)
-    void *dynlib = dlopen("./lib/lex.yy.so", RTLD_LAZY);
-    if (!dynlib) {
-        std::cerr << "Error loading dynamic library lex.yy.so\n";
-        exit(-1);
-    }
 
-    // Load symbol set_yyin, customm function to make yylex read from a file
+    void *dynlib = nullptr;
+    FILE *file = nullptr;
     using set_yyin = int (*)(FILE *);
-    set_yyin set = reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"));
-    if (!set) {
-        std::cerr << "Error while obtaining set_yyin symbol" << std::endl;
-        dlclose(dynlib);
-        exit(-1);
-    }
-
-    // Load symbol yylex
     using yylex_symbol = int (*)();
-    yylex_symbol yylex =
-        reinterpret_cast<yylex_symbol>((dlsym(dynlib, "yylex")));
-    if (!yylex) {
-        std::cerr << "Error while obtaining yylex symbol" << std::endl;
-        dlclose(dynlib);
-        exit(-1);
-    }
-
-    // Load symbol yylex_destroy. Without this, the program would have memory
-    // leaks!
     using yylex_destroy = int (*)();
-    yylex_destroy destroy =
-        reinterpret_cast<yylex_destroy>(dlsym(dynlib, "yylex_destroy"));
-    if (!destroy) {
-        std::cerr << "Error while obtaining yylex_destroy symbol" << std::endl;
-        dlclose(dynlib);
-        exit(-1);
-    }
 
-    using yytext = char *;
-    yytext text = reinterpret_cast<yytext>(dlsym(dynlib, "yytext"));
-    if (!text) {
-        std::cerr << "Error while obtaining yytext symbol" << std::endl;
-        dlclose(dynlib);
-        exit(-1);
-    }
+    yylex_destroy destroy = nullptr;
 
-    FILE *file = fopen(filename_.c_str(), "r");
-    if (!file) {
-        std::cerr << "Error opening the file" << filename_ << "\n";
-        dlclose(dynlib);
-        exit(-1);
-    }
-
-    if (set(file) != 1) {
-        std::cerr << "Error while establishing the input file" << std::endl;
-        fclose(file);
-        dlclose(dynlib);
-        exit(-1);
-    }
-
-    // Read the file
-    int token = yylex();
-    while (token != 0) {
-        if (token == -1) {
-            std::cerr << "Lexical error: " << *text << std::endl;
-            destroy();
-            fclose(file);
-            dlclose(dynlib);
-            exit(-1);
+    try {
+        dynlib = dlopen("./lib/lex.yy.so", RTLD_LAZY);
+        if (!dynlib) {
+            throw LexerError("Error loading dynamic library lex.yy.so");
         }
-        tokens_.push_back(symbol_table::token_types_r_[token]);
-        token = yylex();
+
+        // Load symbol set_yyin, customm function to make yylex read from a file
+        set_yyin set = reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"));
+        // Load symbol yylex
+        yylex_symbol yylex =
+            reinterpret_cast<yylex_symbol>((dlsym(dynlib, "yylex")));
+        // Load symbol yylex_destroy. Without this, the program would have
+        // memory leaks!
+        destroy =
+            reinterpret_cast<yylex_destroy>(dlsym(dynlib, "yylex_destroy"));
+        if (!set || !yylex || !destroy) {
+            throw LexerError("Error while obtaining one or more symbols");
+        }
+
+        file = fopen(filename_.c_str(), "r");
+        if (!file) {
+            throw std::runtime_error("Error opening the file " + filename_);
+        }
+
+        if (set(file) != 1) {
+            throw LexerError("Error while establishing the input file");
+        }
+
+        // Read the file
+        int token = yylex();
+        while (token != 0) {
+            if (token == -1) {
+                throw LexerError("Lexical error");
+            }
+            tokens_.push_back(symbol_table::token_types_r_[token]);
+            token = yylex();
+        }
+    } catch (const std::exception &e) {
+        if (file) {
+            fclose(file);
+        }
+
+        if (destroy) {
+            destroy();
+        }
+
+        if (dynlib) {
+            dlclose(dynlib);
+        }
+        throw;
     }
 
     // Freeing resources
@@ -125,7 +114,8 @@ std::string lexer::next() {
 void lexer::make_lexer() {
     std::ofstream lex{SRC_PATH + "/" + LEXER_FILENAME};
     if (!lex.is_open()) {
-        std::cerr << "Error opening " << SRC_PATH + "/" + LEXER_FILENAME << std::endl;
+        std::cerr << "Error opening " << SRC_PATH + "/" + LEXER_FILENAME
+                  << std::endl;
         exit(-1);
     }
     lex << "%{\n\t#include<stdio.h>\n%}\n";
@@ -162,19 +152,18 @@ void lexer::make_lexer() {
 void lexer::compile() {
     int ret = system("flex -t src/lex.l > src/lex.yy.c");
     if (ret != 0) {
-        std::cerr << "Error while compiling lexer. Check if you have flex installed or if there are errors in the lexer (check the tokens)\n";
-        exit(-1);
+        throw LexerError(
+            "Error while compiling lexer. Check if you have flex installed or "
+            "if there are errors in the lexer (check the tokens).");
     }
 
     ret = system("gcc -c src/lex.yy.c -o out/lex.yy.o -fPIC");
     if (ret != 0) {
-        std::cerr << "Error while compiling lex.yy.c\n";
-        exit(-1);
+        throw LexerError("Error while compiling lex.yy.c.");
     }
 
     ret = system("gcc -shared -o lib/lex.yy.so out/lex.yy.o");
     if (ret != 0) {
-        std::cerr << "Error while creating dynamic library\n";
-        exit(-1);
+        throw LexerError("Error while creating dynamic library.");
     }
 }

@@ -31,6 +31,4 @@ class LL1Parser {
     grammar gr_;
     std::string grammar_file_;
     std::string text_file_;
-    std::vector<const std::string, production>
-    filterRulesByConsequent(const std::string &arg);
 };

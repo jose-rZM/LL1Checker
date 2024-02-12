@@ -1,4 +1,5 @@
 #include "grammar.hpp"
+#include "errors/grammar_error.hpp"
 #include "symbol_table.hpp"
 #include <fstream>
 #include <iostream>
@@ -12,16 +13,16 @@ grammar::grammar(std::string filename) : filename_(std::move(filename)) {
 }
 
 /**
- * Read the grammar from a file. The structure of grammar.txt is explained in
- * README.md
+ * @throws GrammarError if something went wrong while reading the symbols,
+ * grammar or while splitting the rules Read the grammar from a file. The
+ * structure of grammar.txt is explained in README.md
  */
 void grammar::read_from_file() {
     std::ifstream file;
     file.open(filename_, std::ios::in);
 
     if (!file.is_open()) {
-        std::cerr << "Error opening " << filename_ << "\n";
-        exit(-1);
+        throw std::runtime_error("Error opening " + filename_);
     }
 
     std::regex rx_no_terminal{
@@ -36,37 +37,40 @@ void grammar::read_from_file() {
 
     std::string input;
     std::smatch match;
-    while (getline(file, input) && input != ";") {
-        std::string id;
-        std::string value;
+    try {
+        while (getline(file, input) && input != ";") {
+            std::string id;
+            std::string value;
 
-        if (std::regex_match(input, match, rx_no_terminal)) {
-            symbol_table::put_symbol(match[1]);
-        } else if (std::regex_match(input, match, rx_terminal)) {
-            symbol_table::put_symbol(match[1], match[2]);
-        } else if (std::regex_match(input, match, rx_axiom)) {
-            set_axiom(match[1]);
-        } else if (std::regex_match(input, match, rx_eol)) {
-            symbol_table::set_eol(match[1]);
-        } else {
-            std::cout << "Error while reading tokens: " << input << "\n";
-            file.close();
-            exit(-1);
+            if (std::regex_match(input, match, rx_no_terminal)) {
+                symbol_table::put_symbol(match[1]);
+            } else if (std::regex_match(input, match, rx_terminal)) {
+                symbol_table::put_symbol(match[1], match[2]);
+            } else if (std::regex_match(input, match, rx_axiom)) {
+                set_axiom(match[1]);
+            } else if (std::regex_match(input, match, rx_eol)) {
+                symbol_table::set_eol(match[1]);
+            } else {
+                throw GrammarError("Error while reading tokens " + input);
+            }
         }
-    }
 
-    while (getline(file, input) && input != ";") {
-        if (std::regex_match(input, match, rx_production)) {
-            std::string s = match[2];
-            s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
-            add_rule(match[1], s);
-        } else if (std::regex_match(input, match, rx_empty_production)) {
-            add_rule(match[1], symbol_table::EPSILON_);
-        } else {
-            std::cout << "Error while reading grammar: " << input << "\n";
-            file.close();
-            exit(-1);
+        while (getline(file, input) && input != ";") {
+            if (std::regex_match(input, match, rx_production)) {
+                std::string s = match[2];
+                s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
+                add_rule(match[1], s);
+            } else if (std::regex_match(input, match, rx_empty_production)) {
+                add_rule(match[1], symbol_table::EPSILON_);
+            } else {
+                throw GrammarError("Error while reading grammar " + input);
+            }
         }
+    } catch (const std::exception &e) {
+        if (file) {
+            file.close();
+        }
+        std::cerr << e.what() << std::endl;
     }
 
     file.close();
@@ -106,6 +110,11 @@ std::vector<std::string> grammar::split(const std::string &s) {
         } else {
             ++end;
         }
+    }
+
+    // If start < end - 1 there is at least one symbol not recognized
+    if (start < end - 1) {
+        throw GrammarError("Error processing the line " + s.substr(start, end));
     }
 
     return splitted;
