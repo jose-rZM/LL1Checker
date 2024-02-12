@@ -1,0 +1,15 @@
+no terminal S;
+no terminal A;
+no terminal B;
+terminal function f;
+terminal ap "(";
+terminal cp ")";
+terminal num "n";
+terminal plus "+";
+start with S;
+;
+S -> A$;
+A -> num B;
+A -> function ap A cp B;
+B -> plus A;
+B ->;
