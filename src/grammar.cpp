@@ -20,6 +20,7 @@ void grammar::read_from_file() {
         throw std::runtime_error("Error opening " + filename_);
     }
 
+    std::unordered_map<std::string, std::vector<std::string>> p_grammar;
     std::regex rx_no_terminal{
         R"(no\s+terminal\s+([a-zA-Z_\'][a-zA-Z_0-9\']*);\s*)"};
     std::regex rx_terminal{
@@ -54,9 +55,10 @@ void grammar::read_from_file() {
             if (std::regex_match(input, match, rx_production)) {
                 std::string s = match[2];
                 s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
-                add_rule(match[1], s);
+                p_grammar[match[1]].push_back(s);
             } else if (std::regex_match(input, match, rx_empty_production)) {
-                add_rule(match[1], symbol_table::EPSILON_);
+                p_grammar[match[1]].push_back(symbol_table::EPSILON_);
+
             } else {
                 throw GrammarError("Error while reading grammar " + input);
             }
@@ -67,8 +69,14 @@ void grammar::read_from_file() {
         }
         throw;
     }
-
     file.close();
+
+    // Add all rules
+    for (const auto& entry : p_grammar) {
+        for (const auto& production : entry.second) {
+            add_rule(entry.first, production);
+        }
+    }
 }
 
 std::vector<std::string> grammar::split(const std::string &s) {
