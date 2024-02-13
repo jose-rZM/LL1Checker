@@ -61,7 +61,8 @@ struct grammar {
      * @param consequent vector of tokens
      * @return true if grammar has left recursion, for example: A -> A + A
      */
-    static bool has_left_recursion(const std::string& antecedent, const std::vector<std::string>& consequent);
+    static bool has_left_recursion(const std::string &antecedent,
+                                   const std::vector<std::string> &consequent);
     std::unordered_map<std::string, std::vector<production>> g_;
     std::string AXIOM_;
     const std::string filename_;
