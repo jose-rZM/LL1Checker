@@ -109,11 +109,11 @@ std::vector<std::string> grammar::split(const std::string &s) {
 
 void grammar::add_rule(const std::string &antecedent,
                        const std::string &consequent) {
-    if (g_.find(antecedent) == g_.end()) {
-        g_[antecedent] = {split(consequent)};
-    } else {
-        g_[antecedent].push_back(split(consequent));
+    std::vector<std::string> splitted_consequent { split(consequent) };
+    if (has_left_recursion(antecedent, splitted_consequent)) {
+        throw GrammarError("Grammar has left recursion, it can't be LL1.");
     }
+    g_[antecedent].push_back(splitted_consequent);
 }
 
 void grammar::set_axiom(const std::string &axiom) { AXIOM_ = axiom; }
@@ -126,7 +126,7 @@ bool grammar::has_empty_production(const std::string &antecedent) {
 }
 
 std::vector<std::pair<const std::string, production>>
-grammar::filterRulesByConsequent(const std::string &arg) {
+grammar::filter_rules_by_consequent(const std::string &arg) {
     std::vector<std::pair<const std::string, production>> rules;
     for (const std::pair<const std::string, std::vector<production>> &rule :
          g_) {
@@ -151,4 +151,8 @@ void grammar::debug() {
         }
         std::cout << std::endl;
     }
+}
+bool grammar::has_left_recursion(const std::string &antecedent,
+                                 const std::vector<std::string> &consequent) {
+    return consequent.at(0) == antecedent;
 }
