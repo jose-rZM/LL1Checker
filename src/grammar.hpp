@@ -38,7 +38,7 @@ struct grammar {
      * @return vector of rules with args as part of the consequent
      */
     std::vector<std::pair<const std::string, production>>
-    filterRulesByConsequent(const std::string &arg);
+    filter_rules_by_consequent(const std::string &arg);
     /**
      * Prints the grammar
      */
@@ -54,6 +54,8 @@ struct grammar {
      */
     static std::vector<std::string> split(const std::string &s);
 
+
+    static bool has_left_recursion(const std::string& antecedent, const std::vector<std::string>& consequent);
     std::unordered_map<std::string, std::vector<production>> g_;
     std::string AXIOM_;
     const std::string filename_;

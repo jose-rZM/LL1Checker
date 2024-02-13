@@ -155,7 +155,7 @@ void LL1Parser::next_util(const std::string &arg,
     }
     visited.insert(arg);
     std::vector<std::pair<const std::string, production>> rules{
-        gr_.filterRulesByConsequent(arg)};
+        gr_.filter_rules_by_consequent(arg)};
 
     for (const std::pair<const std::string, production> &rule : rules) {
         // Next must be applied to all Arg symbols, for example
