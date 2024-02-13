@@ -8,14 +8,6 @@
 #include <string>
 #include <utility>
 
-/**
- *
- * @param filename of the input file (where the string to validate is
- * placed).
- * The constructor creates the lexer, compile it and tokenize the input.
- * The program assumes that all the requirements listed in "README.md" are met.
- * If any errors occur the program aborts.
- */
 lexer::lexer(std::string filename)
     : filename_(std::move(filename)), tokens_(), current_() {
     make_lexer();
@@ -23,22 +15,15 @@ lexer::lexer(std::string filename)
     tokenize();
 }
 
-/**
- * Open the dynamically generated library and load: "set_yyin", "yylex" and
- * "yylex_destroy". The program aborts if any of these loads fail.
- * If everything goes well, tokenize the input using yylex. Each token is
- * stored in the "tokens" vector. Once the EOL character is reached (with value
- * 1), all resources are freed. This function is called only once.
- */
 void lexer::tokenize() {
 
-    void *dynlib = nullptr;
-    FILE *file = nullptr;
+    void *dynlib{nullptr};
+    FILE *file{nullptr};
     using set_yyin = int (*)(FILE *);
     using yylex_symbol = int (*)();
     using yylex_destroy = int (*)();
 
-    yylex_destroy destroy = nullptr;
+    yylex_destroy destroy{nullptr};
 
     try {
         dynlib = dlopen("./lib/lex.yy.so", RTLD_LAZY);
@@ -47,10 +32,10 @@ void lexer::tokenize() {
         }
 
         // Load symbol set_yyin, customm function to make yylex read from a file
-        set_yyin set = reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"));
+        set_yyin set{reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"))};
         // Load symbol yylex
-        yylex_symbol yylex =
-            reinterpret_cast<yylex_symbol>((dlsym(dynlib, "yylex")));
+        yylex_symbol yylex{
+            reinterpret_cast<yylex_symbol>((dlsym(dynlib, "yylex")))};
         // Load symbol yylex_destroy. Without this, the program would have
         // memory leaks!
         destroy =
@@ -69,7 +54,7 @@ void lexer::tokenize() {
         }
 
         // Read the file
-        int token = yylex();
+        int token{yylex()};
         while (token != 0) {
             if (token == -1) {
                 throw LexerError("Lexical error");
@@ -98,19 +83,10 @@ void lexer::tokenize() {
     dlclose(dynlib);
 }
 
-/**
- *
- * @return next token of the vector, empty string if end of line is reached.
- */
 std::string lexer::next() {
     return current_ >= tokens_.size() ? "" : tokens_[current_++];
 }
 
-/**
- * Generates a lexer file using the symbol table. The symbols are placed in
- * order. It also generates a custom function "set_yyin" for changing the input
- * of yylex.
- */
 void lexer::make_lexer() {
     std::ofstream lex{SRC_PATH + "/" + LEXER_FILENAME};
     if (!lex.is_open()) {
@@ -145,10 +121,6 @@ void lexer::make_lexer() {
     lex.close();
 }
 
-/**
- * Compile lexer file named "lexer.l" into lex.yy.c. After that, it generates a
- * dynamic library using the compiled lexer "lex.yy.c".
- */
 void lexer::compile() {
     int ret = system("flex -t src/lex.l > src/lex.yy.c");
     if (ret != 0) {

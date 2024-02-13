@@ -12,11 +12,6 @@ grammar::grammar(std::string filename) : filename_(std::move(filename)) {
     read_from_file();
 }
 
-/**
- * @throws GrammarError if something went wrong while reading the symbols,
- * grammar or while splitting the rules Read the grammar from a file. The
- * structure of grammar.txt is explained in README.md
- */
 void grammar::read_from_file() {
     std::ifstream file;
     file.open(filename_, std::ios::in);
@@ -70,28 +65,20 @@ void grammar::read_from_file() {
         if (file) {
             file.close();
         }
-        std::cerr << e.what() << std::endl;
+        throw;
     }
 
     file.close();
 }
 
-/**
- *
- * @param s production to be splitted
- * @return vector of tokens
- * Splits the production into tokens. For example, if symbol table contains:
- * {(A, NON TERMINAL), (B, NON TERMINAL), (PLUS, TERMINAL)} and s = APLUSB, the
- * method would return {A, PLUS, B}.
- */
 std::vector<std::string> grammar::split(const std::string &s) {
     if (s == symbol_table::EPSILON_) {
         return {symbol_table::EPSILON_};
     }
-    std::vector<std::string> splitted;
+    std::vector<std::string> splitted{};
     std::string str;
-    unsigned start = 0;
-    unsigned end = 1;
+    unsigned start{0};
+    unsigned end = {1};
     while (end <= s.size()) {
         str = s.substr(start, end - start);
 
@@ -120,11 +107,6 @@ std::vector<std::string> grammar::split(const std::string &s) {
     return splitted;
 }
 
-/**
- *
- * @param antecedent of the rule
- * @param consequent of the rule
- */
 void grammar::add_rule(const std::string &antecedent,
                        const std::string &consequent) {
     if (g_.find(antecedent) == g_.end()) {
@@ -134,18 +116,8 @@ void grammar::add_rule(const std::string &antecedent,
     }
 }
 
-/**
- *
- * @param axiom of the grammar
- * Sets the axiom (entry point) of the grammar
- */
 void grammar::set_axiom(const std::string &axiom) { AXIOM_ = axiom; }
 
-/**
- *
- * @param antecedent of rule
- * @return true if there exists an empty rule, that is, <antecedent> ->;"
- */
 bool grammar::has_empty_production(const std::string &antecedent) {
     auto rules{g_.at(antecedent)};
     return std::find_if(rules.cbegin(), rules.cend(), [](const auto &rule) {
@@ -153,11 +125,6 @@ bool grammar::has_empty_production(const std::string &antecedent) {
            }) != rules.cend();
 }
 
-/**
- *
- * @param arg token to be searched in grammar rules
- * @return vector of rules with args as part of the consequent
- */
 std::vector<std::pair<const std::string, production>>
 grammar::filterRulesByConsequent(const std::string &arg) {
     std::vector<std::pair<const std::string, production>> rules;
@@ -172,9 +139,6 @@ grammar::filterRulesByConsequent(const std::string &arg) {
     return rules;
 }
 
-/**
- * Prints the grammar
- */
 void grammar::debug() {
     std::cout << "Grammar:\n";
     for (const auto &entry : g_) {

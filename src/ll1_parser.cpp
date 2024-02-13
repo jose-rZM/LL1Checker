@@ -34,10 +34,6 @@ LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
     }
 }
 
-/**
- *
- * @return true if the ll1 table could be created, that is, the grammar is LL1
- */
 bool LL1Parser::create_ll1_table() {
     for (const std::pair<const std::string, std::vector<production>> &rule :
          gr_.g_) {
@@ -56,11 +52,6 @@ bool LL1Parser::create_ll1_table() {
     return true;
 }
 
-/**
- *
- * @return true if the parsing is successfully completed
- * Parses an input file using LL1 algorithm
- */
 bool LL1Parser::parse() {
     lexer lex(text_file_);
 
@@ -99,14 +90,6 @@ bool LL1Parser::parse() {
     return true;
 }
 
-/**
- *
- * @param rule
- * @return set header symbols for the given rule
- * TODO: if grammar consists only in one non terminal (apart the axiom), it
- * could end with an infinite loop. For example: A -> A & A, A -> ( A ). The
- * grammar obviously is not LL1, but this will provoke an infinite loop.
- */
 std::unordered_set<std::string>
 LL1Parser::header(const std::vector<std::string> &rule) {
     std::unordered_set<std::string> current_header;
@@ -141,11 +124,6 @@ LL1Parser::header(const std::vector<std::string> &rule) {
     return current_header;
 }
 
-/**
- *
- * @param arg symbol to calculate next symbols for
- * @return Set of next symbols for the given arg
- */
 std::unordered_set<std::string> LL1Parser::next(const std::string &arg) {
     std::unordered_set<std::string> next_symbols;
     std::unordered_set<std::string> visited;
@@ -156,12 +134,6 @@ std::unordered_set<std::string> LL1Parser::next(const std::string &arg) {
     return next_symbols;
 }
 
-/**
- *
- * @param antecedent of a rule
- * @param consequent of a rule
- * @return set of director symbols for the given rule
- */
 std::unordered_set<std::string>
 LL1Parser::director_symbols(const std::string &antecedent,
                             const std::vector<std::string> &consequent) {
@@ -175,12 +147,6 @@ LL1Parser::director_symbols(const std::string &antecedent,
     }
 }
 
-/**
- *
- * @param arg
- * @param visited symbols (avoid infinite recursion)
- * @param next_symbols next symbols accumulated
- */
 void LL1Parser::next_util(const std::string &arg,
                           std::unordered_set<std::string> &visited,
                           std::unordered_set<std::string> &next_symbols) {
