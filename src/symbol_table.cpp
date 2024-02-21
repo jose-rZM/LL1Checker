@@ -14,7 +14,7 @@ void symbol_table::put_symbol(const std::string &identifier,
 }
 
 void symbol_table::put_symbol(const std::string &identifier) {
-    st_[identifier] = {NO_TERMINAL, ""};
+    st_.insert({identifier, {NO_TERMINAL, ""}});
 }
 
 std::string symbol_table::get_value(const std::string &terminal) {

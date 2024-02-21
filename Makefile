@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -g
+CXXFLAGS = -std=c++20 -O3
 SRC_DIR = src
 OBJ_DIR = out
 

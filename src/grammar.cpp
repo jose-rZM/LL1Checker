@@ -21,8 +21,6 @@ void grammar::read_from_file() {
     }
 
     std::unordered_map<std::string, std::vector<std::string>> p_grammar;
-    std::regex rx_no_terminal{
-        R"(no\s+terminal\s+([a-zA-Z_\'][a-zA-Z_0-9\']*);\s*)"};
     std::regex rx_terminal{
         R"(terminal\s+([a-zA-Z_\'][a-zA-Z_0-9\']*)\s+([^]*);\s*)"};
     std::regex rx_eol{R"(set\s+EOL\s+char\s+([^]*);\s*)"};
@@ -38,9 +36,7 @@ void grammar::read_from_file() {
             std::string id;
             std::string value;
 
-            if (std::regex_match(input, match, rx_no_terminal)) {
-                symbol_table::put_symbol(match[1]);
-            } else if (std::regex_match(input, match, rx_terminal)) {
+            if (std::regex_match(input, match, rx_terminal)) {
                 symbol_table::put_symbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
                 set_axiom(match[1]);
@@ -71,6 +67,11 @@ void grammar::read_from_file() {
     }
     file.close();
 
+    // Add non terminal symbols
+    for (const auto& entry : p_grammar) {
+        symbol_table::put_symbol(entry.first);
+    }
+    
     // Add all rules
     for (const auto& entry : p_grammar) {
         for (const auto& production : entry.second) {
@@ -86,7 +87,7 @@ std::vector<std::string> grammar::split(const std::string &s) {
     std::vector<std::string> splitted{};
     std::string str;
     unsigned start{0};
-    unsigned end = {1};
+    unsigned end {1};
     while (end <= s.size()) {
         str = s.substr(start, end - start);
 
