@@ -1,6 +1,3 @@
-no terminal S;
-no terminal A;
-no terminal B;
 terminal function f;
 terminal ap "(";
 terminal cp ")";
