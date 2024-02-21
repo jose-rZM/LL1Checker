@@ -1,9 +1,3 @@
-no terminal S;
-no terminal E;
-no terminal A;
-no terminal B;
-no terminal C;
-no terminal D;
 terminal ac "[";
 terminal cp "]";
 terminal comma ",";

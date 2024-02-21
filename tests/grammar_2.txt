@@ -1,9 +1,3 @@
-no terminal S;
-no terminal L;
-no terminal A;
-no terminal B;
-no terminal E;
-no terminal F;
 terminal ac "[";
 terminal cc "]";
 terminal elem "a";
