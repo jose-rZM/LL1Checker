@@ -32,16 +32,13 @@ It consists of two sections: symbol definition and grammar; each section is sepa
 At the moment it is necessary to designate a symbol to serve as the axiom.
 ## Symbol definition
 ~~~
-no terminal S;
-no terminal A;
 start with S;
 ~~~
 You should write the last line to designate S as the axiom.
-The terminal symbols follows the following structure: `terminal <IDENTIFIER> <REGEX>;`. The `<IDENTIFIER>` should adhere to the following regex pattern: `[a-zA-Z_\'][a-zA-Z_\'0-9]*`. This rule also applies to no terminal definition.
+The terminal symbols follows the following structure: `terminal <IDENTIFIER> <REGEX>;`. The `<IDENTIFIER>` should adhere to the following regex pattern: `[a-zA-Z_\'][a-zA-Z_\'0-9]*`.
 An example of the first section would be:
 ~~~
 no terminal S;
-no terminal A;
 terminal a a;
 start with S;
 ;
@@ -57,8 +54,6 @@ A ->;
 The line `A->;` represents an empty production.
 So, our **grammar.txt** would be:
 ~~~
-no terminal S;
-no terminal A;
 terminal a a;
 start with S;
 ;
