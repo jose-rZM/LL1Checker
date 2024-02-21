@@ -1,13 +1,3 @@
-no terminal axioma;
-no terminal listaSent;
-no terminal sent;
-no terminal whileSent;
-no terminal doSent;
-no terminal ifSent;
-no terminal asigSent;
-no terminal elseSent;
-no terminal cond;
-no terminal var;
 terminal WHILE while;
 terminal IF "if";
 terminal ELSE "else";

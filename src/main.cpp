@@ -1,5 +1,6 @@
 #include "lexer.hpp"
 #include "ll1_parser.hpp"
+#include "symbol_table.hpp"
 #include <fstream>
 #include <iostream>
 #include <ostream>
