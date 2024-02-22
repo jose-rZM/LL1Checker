@@ -16,13 +16,13 @@ A Makefile is provided.
 
 # Run it
 After running `make` simply execute `./parser`. The program can accept at most two arguments.
-- `./parser <GRAMMAR_FILENAME>`. Checks if the provided grammar is LL1.
+- `./parser <GRAMMAR_FILENAME>`. Check if the provided grammar is LL1.
 - `./parser <GRAMMAR_FILENAME> <INPUT_FILENAME>`. Check if the provided grammar is LL1 and verifies if the input provided conforms to the grammar.
 
 # To consider
 - The default end of line character is **$**, you can change it using the instruction `set EOL char (...)`. 
 - You can omit the EOL character in the grammar (see grammar.txt), but this feature is not fully tested. I recommend augmenting the grammar with a first rule, such as `S -> E EOL`, where S is the axiom.
-- When writing the terminals symbols, it should be noted that they will be evaluated in order_. So, if A and B are two regex with common elements, you should put the more specific one first. Example:
+- When writing the terminals symbols, it should be noted that they will be evaluated in order. So, if A and B are two regex with common elements, you should put the more specific one first. Example:
 ~~~
 terminal WH while;
 terminal WORD [a-zA-Z][a-zA-Z]*;
@@ -38,7 +38,6 @@ You should write the last line to designate S as the axiom.
 The terminal symbols follows the following structure: `terminal <IDENTIFIER> <REGEX>;`. The `<IDENTIFIER>` should adhere to the following regex pattern: `[a-zA-Z_\'][a-zA-Z_\'0-9]*`.
 An example of the first section would be:
 ~~~
-no terminal S;
 terminal a a;
 start with S;
 ;
