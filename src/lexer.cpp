@@ -95,18 +95,15 @@ void lexer::make_lexer() {
     }
     lex << "%{\n\t#include<stdio.h>\n%}\n";
     lex << "%%\n";
-
-    for (int i : symbol_table::order_) {
-        std::string token_type {symbol_table::token_types_r_.at(i)};
-        if (token_type == symbol_table::EPSILON_) {
-            continue;
-        } else if (token_type == symbol_table::EOL_) {
-            lex << "\"" << symbol_table::EOL_ << "\""
+    
+    int i = 1;
+    lex << "\"" << symbol_table::EOL_ << "\""
                 << "\t{ return " << i << "; }\n";
-        } else {
-            std::string regex {symbol_table::st_.at(i).second};
-            lex << regex << "\t{ return " << i << "; }\n";
-        }
+    
+    for (i = 1; i < symbol_table::order_.size(); ++i) {
+        int symbol_id = symbol_table::order_[i];
+            std::string regex {symbol_table::st_.at(symbol_id).second};
+            lex << regex << "\t{ return " << symbol_id << "; }\n";
     }
 
     lex << "[ \\t\\r\\n]+\t{}\n";
