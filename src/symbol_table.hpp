@@ -15,7 +15,7 @@ struct symbol_table {
     inline static std::unordered_map<std::string, int> token_types_{{EOL_, 1}};
     inline static std::unordered_map<int, std::string> token_types_r_{
         {1, EOL_}};
-    inline static std::vector<int> order_{1, 2};
+    inline static std::vector<int> order_{1};
     inline static int i_{3};
 
     /**
