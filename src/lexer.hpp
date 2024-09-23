@@ -1,9 +1,8 @@
-#include <fstream>
 #include <iterator>
 #include <vector>
 class lexer {
     std::string filename_;
-    std::vector<std::string> tokens_;
+    std::vector<int> tokens_;
     unsigned current_;
 
   public:
@@ -20,7 +19,7 @@ class lexer {
      *
      * @return next token of the vector, empty string if end of line is reached.
      */
-    std::string next();
+    int next();
 
   private:
     /**

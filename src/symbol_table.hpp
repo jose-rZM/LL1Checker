@@ -1,6 +1,4 @@
 #pragma once
-#include <map>
-#include <regex>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -11,14 +9,14 @@ enum symbol_type { NO_TERMINAL, TERMINAL };
 struct symbol_table {
     inline static std::string EOL_{"$"};
     inline static std::string EPSILON_{"EPSILON"};
-    inline static std::unordered_map<std::string,
+    inline static std::unordered_map<int,
                                      std::pair<symbol_type, std::string>>
-        st_{{EOL_, {TERMINAL, EOL_}}, {EPSILON_, {TERMINAL, EPSILON_}}};
+        st_{{1, {TERMINAL, EOL_}}, {2, {TERMINAL, EPSILON_}}};
     inline static std::unordered_map<std::string, int> token_types_{{EOL_, 1}};
     inline static std::unordered_map<int, std::string> token_types_r_{
         {1, EOL_}};
-    inline static std::vector<int> order_{1};
-    inline static int i_{2};
+    inline static std::vector<int> order_{1, 2};
+    inline static int i_{3};
 
     /**
      *
@@ -48,13 +46,13 @@ struct symbol_table {
      * @param s identifier
      * @return true if s is terminal symbol
      */
-    static bool is_terminal(const std::string &s);
+    static bool is_terminal(int id);
     /**
      *
      * @param terminal symbol to retrieve the regex from
      * @return regex of the symbol
      */
-    static std::string get_value(const std::string &terminal);
+    static std::string get_value(int id);
 
     /**
      * Print all symbols in symbol table

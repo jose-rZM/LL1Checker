@@ -7,7 +7,7 @@
 
 class LL1Parser {
     using ll1_table = std::unordered_map<
-        std::string, std::unordered_map<std::string, std::vector<std::string>>>;
+        int, std::unordered_map<int, std::vector<int>>>;
 
   public:
     LL1Parser(grammar gr, std::string text_file);
@@ -29,32 +29,32 @@ class LL1Parser {
      * could end with an infinite loop. For example: A -> A & A, A -> ( A ). The
      * grammar obviously is not LL1, but this will provoke an infinite loop.
      */
-    std::unordered_set<std::string>
-    header(const std::vector<std::string> &rule);
+    std::unordered_set<int>
+    header(const std::vector<int> &rule);
     /**
      *
      * @param arg symbol to calculate next symbols for
      * @return Set of next symbols for the given arg
      */
-    std::unordered_set<std::string> next(const std::string &arg);
+    std::unordered_set<int> next(int arg);
     /**
      *
      * @param antecedent of a rule
      * @param consequent of a rule
      * @return set of director symbols for the given rule
      */
-    std::unordered_set<std::string>
-    director_symbols(const std::string &antecedent,
-                     const std::vector<std::string> &consequent);
+    std::unordered_set<int>
+    director_symbols(int antecedent,
+                     const std::vector<int> &consequent);
     /**
      *
      * @param arg
      * @param visited symbols (avoid infinite recursion)
      * @param next_symbols next symbols accumulated
      */
-    void next_util(const std::string &arg,
-                   std::unordered_set<std::string> &visited,
-                   std::unordered_set<std::string> &next_symbols);
+    void next_util(int arg,
+                   std::unordered_set<int> &visited,
+                   std::unordered_set<int> &next_symbols);
     /**
      *
      * @return true if the ll1 table could be created, that is, the grammar is

@@ -3,8 +3,7 @@
 #include "grammar.hpp"
 #include "lexer.hpp"
 #include "symbol_table.hpp"
-#include <iostream>
-#include <ranges>
+#include <algorithm>
 #include <stack>
 #include <string>
 #include <unordered_map>
@@ -13,6 +12,7 @@
 
 LL1Parser::LL1Parser(grammar gr, std::string text_file)
     : gr_(std::move(gr)), text_file_(std::move(text_file)) {
+        gr_.debug();
     if (!create_ll1_table()) {
         gr_.debug();
         throw GrammarError("Grammar provided is not LL1.");
@@ -35,13 +35,12 @@ LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
 }
 
 bool LL1Parser::create_ll1_table() {
-    for (const std::pair<const std::string, std::vector<production>> &rule :
-         gr_.g_) {
-        std::unordered_map<std::string, std::vector<std::string>> column;
+    for (const auto &rule : gr_.g_) {
+        std::unordered_map<int, std::vector<int>> column;
         for (const production &p : rule.second) {
-            std::unordered_set<std::string> ds =
+            std::unordered_set<int> ds =
                 director_symbols(rule.first, p);
-            for (const std::string &symbol : ds) {
+            for (int symbol : ds) {
                 if (!column.insert({symbol, p}).second) {
                     return false;
                 }
@@ -55,16 +54,16 @@ bool LL1Parser::create_ll1_table() {
 bool LL1Parser::parse() {
     lexer lex(text_file_);
 
-    std::stack<std::string> symbol_stack;
-    symbol_stack.push(gr_.AXIOM_);
-    std::string current_symbol = lex.next();
-    while (!current_symbol.empty() && !symbol_stack.empty()) {
-        if (symbol_stack.top() == symbol_table::EPSILON_) {
+    std::stack<int> symbol_stack;
+    symbol_stack.push(symbol_table::token_types_[gr_.AXIOM_]);
+    int current_symbol = lex.next();
+    while (current_symbol != 0 && !symbol_stack.empty()) {
+        if (symbol_stack.top() == 2) {
             symbol_stack.pop();
             continue;
         }
-        std::vector<std::string> d_symbols;
-        std::string top_symbol = symbol_stack.top();
+        std::vector<int> d_symbols;
+        int top_symbol = symbol_stack.top();
         symbol_stack.pop();
         if (!symbol_table::is_terminal(top_symbol)) {
             try {
@@ -76,8 +75,8 @@ bool LL1Parser::parse() {
                 }
                 return false;
             }
-            for (auto &d : std::ranges::reverse_view(d_symbols)) {
-                symbol_stack.push(d);
+            for (auto it = d_symbols.rbegin(); it != d_symbols.rend(); ++it) {
+                symbol_stack.push(*it);
             }
         } else {
             if (top_symbol != current_symbol) {
@@ -90,26 +89,26 @@ bool LL1Parser::parse() {
     return true;
 }
 
-std::unordered_set<std::string>
-LL1Parser::header(const std::vector<std::string> &rule) {
-    std::unordered_set<std::string> current_header;
-    std::stack<std::vector<std::string>> symbol_stack;
+std::unordered_set<int>
+LL1Parser::header(const std::vector<int> &rule) {
+    std::unordered_set<int> current_header;
+    std::stack<std::vector<int>> symbol_stack;
     symbol_stack.push(rule);
 
     while (!symbol_stack.empty()) {
-        std::vector<std::string> current = symbol_stack.top();
+        std::vector<int> current = symbol_stack.top();
         symbol_stack.pop();
-        if (current[0] == symbol_table::EPSILON_) {
+        if (current[0] == 2) {
             current.erase(current.begin());
         }
         if (current.empty()) {
-            current_header.insert(symbol_table::EPSILON_);
+            current_header.insert(2);
         } else if (symbol_table::is_terminal(current[0])) {
             current_header.insert(current[0]);
         } else {
-            for (const std::vector<std::string> &prod : gr_.g_.at(current[0])) {
-                std::vector<std::string> production;
-                for (const std::string &sy : prod) {
+            for (const std::vector<int> &prod : gr_.g_.at(current[0])) {
+                std::vector<int> production;
+                for (int sy : prod) {
                     production.push_back(sy);
                 }
                 // Add remaining symbols
@@ -124,40 +123,40 @@ LL1Parser::header(const std::vector<std::string> &rule) {
     return current_header;
 }
 
-std::unordered_set<std::string> LL1Parser::next(const std::string &arg) {
-    std::unordered_set<std::string> next_symbols;
-    std::unordered_set<std::string> visited;
+std::unordered_set<int> LL1Parser::next(int arg) {
+    std::unordered_set<int> next_symbols;
+    std::unordered_set<int> visited;
     next_util(arg, visited, next_symbols);
-    if (next_symbols.find(symbol_table::EPSILON_) != next_symbols.end()) {
-        next_symbols.erase(symbol_table::EPSILON_);
+    if (next_symbols.find(2) != next_symbols.end()) {
+        next_symbols.erase(2);
     }
     return next_symbols;
 }
 
-std::unordered_set<std::string>
-LL1Parser::director_symbols(const std::string &antecedent,
-                            const std::vector<std::string> &consequent) {
-    std::unordered_set<std::string> hd{header({consequent})};
-    if (hd.find(symbol_table::EPSILON_) == hd.end()) {
+std::unordered_set<int>
+LL1Parser::director_symbols(int antecedent,
+                            const std::vector<int> &consequent) {
+    std::unordered_set<int> hd{header({consequent})};
+    if (hd.find(2) == hd.end()) {
         return hd;
     } else {
-        hd.erase(symbol_table::EPSILON_);
+        hd.erase(2);
         hd.merge(next(antecedent));
         return hd;
     }
 }
 
-void LL1Parser::next_util(const std::string &arg,
-                          std::unordered_set<std::string> &visited,
-                          std::unordered_set<std::string> &next_symbols) {
+void LL1Parser::next_util(int arg,
+                          std::unordered_set<int> &visited,
+                          std::unordered_set<int> &next_symbols) {
     if (visited.find(arg) != visited.cend()) {
         return;
     }
     visited.insert(arg);
-    std::vector<std::pair<const std::string, production>> rules{
+    std::vector<std::pair<int, production>> rules{
         gr_.filter_rules_by_consequent(arg)};
 
-    for (const std::pair<const std::string, production> &rule : rules) {
+    for (const auto &rule : rules) {
         // Next must be applied to all Arg symbols, for example
         // if arg: B; A -> BbBCB, next is applied three times
         auto it = rule.second.cbegin();

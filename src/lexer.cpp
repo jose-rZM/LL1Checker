@@ -4,7 +4,6 @@
 #include <dlfcn.h>
 #include <fstream>
 #include <iostream>
-#include <istream>
 #include <string>
 #include <utility>
 
@@ -59,7 +58,7 @@ void lexer::tokenize() {
             if (token == -1) {
                 throw LexerError("Lexical error");
             }
-            tokens_.push_back(symbol_table::token_types_r_[token]);
+            tokens_.push_back(token);
             token = yylex();
         }
     } catch (const std::exception &e) {
@@ -83,8 +82,8 @@ void lexer::tokenize() {
     dlclose(dynlib);
 }
 
-std::string lexer::next() {
-    return current_ >= tokens_.size() ? "" : tokens_[current_++];
+int lexer::next() {
+    return current_ >= tokens_.size() ? 0 : tokens_[current_++];
 }
 
 void lexer::make_lexer() {
@@ -98,14 +97,14 @@ void lexer::make_lexer() {
     lex << "%%\n";
 
     for (int i : symbol_table::order_) {
-        std::string token_type{symbol_table::token_types_r_.at(i)};
+        std::string token_type {symbol_table::token_types_r_.at(i)};
         if (token_type == symbol_table::EPSILON_) {
             continue;
         } else if (token_type == symbol_table::EOL_) {
             lex << "\"" << symbol_table::EOL_ << "\""
                 << "\t{ return " << i << "; }\n";
         } else {
-            std::string regex{symbol_table::st_.at(token_type).second};
+            std::string regex {symbol_table::st_.at(i).second};
             lex << regex << "\t{ return " << i << "; }\n";
         }
     }

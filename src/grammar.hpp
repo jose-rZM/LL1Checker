@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <vector>
 
-using production = std::vector<std::string>;
+using production = std::vector<int>;
 
 struct grammar {
 
@@ -31,14 +31,14 @@ struct grammar {
      * @param antecedent of rule
      * @return true if there exists an empty rule, that is, <antecedent> ->;"
      */
-    bool has_empty_production(const std::string &antecedent);
+    bool has_empty_production(int antecedent);
     /**
      *
      * @param arg token to be searched in grammar rules
      * @return vector of rules with args as part of the consequent
      */
-    std::vector<std::pair<const std::string, production>>
-    filter_rules_by_consequent(const std::string &arg);
+    std::vector<std::pair<int, production>>
+    filter_rules_by_consequent(int arg);
     /**
      * Prints the grammar
      */
@@ -52,7 +52,7 @@ struct grammar {
      * {(A, NON TERMINAL), (B, NON TERMINAL), (PLUS, TERMINAL)} and s = APLUSB,
      * the method would return {A, PLUS, B}.
      */
-    static std::vector<std::string> split(const std::string &s);
+    static std::vector<int> split(const std::string &s);
 
 
     /**
@@ -61,9 +61,9 @@ struct grammar {
      * @param consequent vector of tokens
      * @return true if grammar has left recursion, for example: A -> A + A
      */
-    static bool has_left_recursion(const std::string &antecedent,
-                                   const std::vector<std::string> &consequent);
-    std::unordered_map<std::string, std::vector<production>> g_;
+    static bool has_left_recursion(int antecedent,
+                                   const std::vector<int> &consequent);
+    std::unordered_map<int, std::vector<production>> g_;
     std::string AXIOM_;
     const std::string filename_;
 };
