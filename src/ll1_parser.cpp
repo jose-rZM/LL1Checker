@@ -4,6 +4,7 @@
 #include "lexer.hpp"
 #include "symbol_table.hpp"
 #include <algorithm>
+#include <iostream>
 #include <stack>
 #include <string>
 #include <unordered_map>
@@ -51,6 +52,21 @@ bool LL1Parser::create_ll1_table() {
     return true;
 }
 
+void LL1Parser::print_stack_trace(std::stack<int>& stack) const{
+    std::cout << "Stack Trace:\n";
+    
+    if (stack.empty()) {
+        std::cout << "Empty Stack" << std::endl;
+        return;
+    }
+
+    while (!stack.empty()) {
+        int symbol = stack.top();
+        stack.pop();
+        std::cout << "Symbol: " << symbol_table::token_types_r_[symbol] << " (ID: " << symbol << ")\n";
+    }
+}
+
 bool LL1Parser::parse() {
     lexer lex(text_file_);
 
@@ -73,6 +89,8 @@ bool LL1Parser::parse() {
                 if (gr_.has_empty_production(top_symbol)) {
                     continue;
                 }
+                symbol_stack.push(top_symbol);
+                print_stack_trace(symbol_stack);
                 return false;
             }
             for (auto it = d_symbols.rbegin(); it != d_symbols.rend(); ++it) {
@@ -80,6 +98,8 @@ bool LL1Parser::parse() {
             }
         } else {
             if (top_symbol != current_symbol) {
+                symbol_stack.push(top_symbol);
+                print_stack_trace(symbol_stack);
                 return false;
             }
             current_symbol = lex.next();

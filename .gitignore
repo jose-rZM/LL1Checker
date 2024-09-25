@@ -38,6 +38,7 @@ parser
 # Lex files
 lex.l
 lex.yy.c
+lex.yy.so
 
 # IDEA
 .idea

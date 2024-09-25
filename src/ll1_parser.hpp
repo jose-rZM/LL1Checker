@@ -1,5 +1,6 @@
 
 #include "grammar.hpp"
+#include <stack>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -61,6 +62,11 @@ class LL1Parser {
      * LL1
      */
     bool create_ll1_table();
+    
+    /**
+     * print the current stack when parsing error
+     */
+    void print_stack_trace(std::stack<int>& stack) const;
 
     ll1_table ll1_t_;
     grammar gr_;
