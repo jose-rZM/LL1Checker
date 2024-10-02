@@ -1,4 +1,5 @@
-#include <iterator>
+#pragma once
+#include <string>
 #include <vector>
 class lexer {
     std::string filename_;
@@ -40,7 +41,7 @@ class lexer {
      * Compile lexer file named "lexer.l" into lex.yy.c. After that, it
      * generates a dynamic library using the compiled lexer "lex.yy.c".
      */
-    static void compile();
+    void compile();
     const std::string LEXER_FILENAME{"lex.l"};
     const std::string SRC_PATH{"./src"};
     const std::string LIB_PATH{"./lib"};

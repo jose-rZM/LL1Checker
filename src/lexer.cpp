@@ -1,7 +1,8 @@
 #include "lexer.hpp"
-#include "errors/lexer_error.hpp"
+#include "lexer_error.hpp"
 #include "symbol_table.hpp"
 #include <dlfcn.h>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -25,7 +26,7 @@ void lexer::tokenize() {
     yylex_destroy destroy{nullptr};
 
     try {
-        dynlib = dlopen("./lib/lex.yy.so", RTLD_LAZY);
+        dynlib = dlopen(std::filesystem::temp_directory_path().string() + "/liblex.yy.so", RTLD_LAZY);
         if (!dynlib) {
             throw LexerError("Error loading dynamic library lex.yy.so");
         }
@@ -87,7 +88,8 @@ int lexer::next() {
 }
 
 void lexer::make_lexer() {
-    std::ofstream lex{SRC_PATH + "/" + LEXER_FILENAME};
+    std::string tempDir = std::filesystem::temp_directory_path().string();
+    std::ofstream lex{tempDir + "/" + LEXER_FILENAME};
     if (!lex.is_open()) {
         std::cerr << "Error opening " << SRC_PATH + "/" + LEXER_FILENAME
                   << std::endl;
@@ -118,19 +120,35 @@ void lexer::make_lexer() {
 }
 
 void lexer::compile() {
-    int ret = system("flex -t src/lex.l > src/lex.yy.c");
+    int ret = system("which flex > /dev/null");
+    if (ret != 0) {
+        throw LexerError("Flex not available.");
+    }
+    ret = system("which gcc > /dev/null");
+    if (ret != 0) {
+        throw LexerError("GCC not available");
+    }
+    std::string tempDir = std::filesystem::temp_directory_path().string();
+    std::string lexFile { tempDir + "/" + LEXER_FILENAME };
+    std::string lexCFile { tempDir + "/lex.yy.c" };
+    std::string lexOFile { tempDir + "/lex.yy.o" };
+    std::string lib { tempDir + "/liblex.yy.so" };
+    std::string compileLex { "flex -t " + lexFile + " > " + lexCFile };
+    std::string compileC { "gcc -c " + lexCFile + " -o " + lexOFile + " -fPIC" };
+    std::string makeSharedLib { "gcc -shared -o " + lib + " " + lexOFile };
+    ret = system(compileLex.c_str());
     if (ret != 0) {
         throw LexerError(
             "Error while compiling lexer. Check if you have flex installed or "
             "if there are errors in the lexer (check the tokens).");
     }
 
-    ret = system("gcc -c src/lex.yy.c -o out/lex.yy.o -fPIC");
+    ret = system(compileC.c_str());
     if (ret != 0) {
         throw LexerError("Error while compiling lex.yy.c.");
     }
 
-    ret = system("gcc -shared -o lib/lex.yy.so out/lex.yy.o");
+    ret = system(makeSharedLib.c_str());
     if (ret != 0) {
         throw LexerError("Error while creating dynamic library.");
     }

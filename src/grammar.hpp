@@ -13,13 +13,13 @@ struct grammar {
      * grammar or while splitting the rules Read the grammar from a file. The
      * structure of grammar.txt is explained in README.md
      */
-    void read_from_file();
+    int read_from_file();
     /**
      *
      * @param antecedent of the rule
      * @param consequent of the rule
      */
-    void add_rule(const std::string &antecedent, const std::string &consequent);
+    int add_rule(const std::string &antecedent, const std::string &consequent);
     /**
      *
      * @param axiom of the grammar
@@ -52,7 +52,7 @@ struct grammar {
      * {(A, NON TERMINAL), (B, NON TERMINAL), (PLUS, TERMINAL)} and s = APLUSB,
      * the method would return {A, PLUS, B}.
      */
-    static std::vector<int> split(const std::string &s);
+    static int split(const std::string &s, std::vector<int> &splitted);
 
 
     /**

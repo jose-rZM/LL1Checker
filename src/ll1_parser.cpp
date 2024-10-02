@@ -1,5 +1,5 @@
 #include "ll1_parser.hpp"
-#include "errors/grammar_error.hpp"
+#include "grammar_error.hpp"
 #include "grammar.hpp"
 #include "lexer.hpp"
 #include "symbol_table.hpp"

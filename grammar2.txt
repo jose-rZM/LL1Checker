@@ -1,0 +1,11 @@
+terminal a "a";
+terminal b "b";
+terminal c "c";
+terminal d "d";
+start with S;
+;
+S -> c A d;
+A -> a B;
+A -> a;
+B -> b;
+;
