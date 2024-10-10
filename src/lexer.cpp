@@ -26,7 +26,7 @@ void lexer::tokenize() {
     yylex_destroy destroy{nullptr};
 
     try {
-        dynlib = dlopen(std::filesystem::temp_directory_path().string() + "/liblex.yy.so", RTLD_LAZY);
+        dynlib = dlopen("./lib/lex.yy.so", RTLD_LAZY);
         if (!dynlib) {
             throw LexerError("Error loading dynamic library lex.yy.so");
         }
@@ -41,23 +41,23 @@ void lexer::tokenize() {
         destroy =
             reinterpret_cast<yylex_destroy>(dlsym(dynlib, "yylex_destroy"));
         if (!set || !yylex || !destroy) {
-            throw LexerError("Error while obtaining one or more symbols");
+            return 1;
         }
 
         file = fopen(filename_.c_str(), "r");
         if (!file) {
-            throw std::runtime_error("Error opening the file " + filename_);
+            return 1;
         }
 
         if (set(file) != 1) {
-            throw LexerError("Error while establishing the input file");
+            return 1;
         }
 
         // Read the file
         int token{yylex()};
         while (token != 0) {
             if (token == -1) {
-                throw LexerError("Lexical error");
+                return 1;
             }
             tokens_.push_back(token);
             token = yylex();

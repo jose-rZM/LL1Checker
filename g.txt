@@ -1,0 +1,14 @@
+terminal k k;
+terminal b b;
+terminal c c;
+terminal e e;
+terminal g g;
+termianl y y;
+terminal w w;
+start with A;
+;
+A -> k b c A;
+A -> G;
+G -> e g G y;
+G -> w;
+;
