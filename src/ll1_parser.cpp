@@ -167,7 +167,7 @@ void LL1Parser::next_util(const std::string &arg,
             if (next_it == rule.second.cend()) {
                 next_util(rule.first, visited, next_symbols);
             } else {
-                next_symbols.merge(header({*next_it}));
+                next_symbols.merge(header(std::vector<std::string>(next_it, rule.second.cend())));
             }
             it = std::next(it);
         }
