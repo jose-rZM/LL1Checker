@@ -23,6 +23,8 @@ $(OBJ_DIR)/lexer.o: $(SRC_DIR)/lexer.cpp $(SRC_DIR)/lexer.hpp
 $(OBJ_DIR)/ll1_parser.o: $(SRC_DIR)/ll1_parser.cpp $(SRC_DIR)/ll1_parser.hpp $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/lexer.o $(OBJ_DIR)/grammar.o
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+format:
+	@find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
 
 clean:
 	rm -f parser $(OBJ_DIR)/*.o

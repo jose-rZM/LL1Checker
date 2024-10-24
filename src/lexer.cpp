@@ -17,10 +17,10 @@ lexer::lexer(std::string filename)
 
 void lexer::tokenize() {
 
-    void *dynlib{nullptr};
-    FILE *file{nullptr};
-    using set_yyin = int (*)(FILE *);
-    using yylex_symbol = int (*)();
+    void* dynlib{nullptr};
+    FILE* file{nullptr};
+    using set_yyin      = int (*)(FILE*);
+    using yylex_symbol  = int (*)();
     using yylex_destroy = int (*)();
 
     yylex_destroy destroy{nullptr};
@@ -62,7 +62,7 @@ void lexer::tokenize() {
             tokens_.push_back(symbol_table::token_types_r_[token]);
             token = yylex();
         }
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         if (file) {
             fclose(file);
         }

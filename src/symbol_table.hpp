@@ -18,7 +18,7 @@ struct symbol_table {
     inline static std::unordered_map<int, std::string> token_types_r_{
         {1, EOL_}};
     inline static std::vector<int> order_{1};
-    inline static int i_{2};
+    inline static int              i_{2};
 
     /**
      *
@@ -28,33 +28,33 @@ struct symbol_table {
      * Also, it updates the token types, it also keeps track of the insertion
      * order.
      */
-    static void put_symbol(const std::string &identifier,
-                           const std::string &regex);
+    static void put_symbol(const std::string& identifier,
+                           const std::string& regex);
     /**
      *
      * @param identifier of the no terminal symbol
      * Stores the no terminal symbol in the symbol table.
      */
-    static void put_symbol(const std::string &identifier);
+    static void put_symbol(const std::string& identifier);
     /**
      *
      * @param s identifier
      * @return true if s is in symbol table
      */
-    static bool in(const std::string &s);
+    static bool in(const std::string& s);
 
     /**
      *
      * @param s identifier
      * @return true if s is terminal symbol
      */
-    static bool is_terminal(const std::string &s);
+    static bool is_terminal(const std::string& s);
     /**
      *
      * @param terminal symbol to retrieve the regex from
      * @return regex of the symbol
      */
-    static std::string get_value(const std::string &terminal);
+    static std::string get_value(const std::string& terminal);
 
     /**
      * Print all symbols in symbol table
@@ -66,5 +66,5 @@ struct symbol_table {
      * @param eol string
      * Set the EOL string.
      */
-    static void set_eol(const std::string &eol);
+    static void set_eol(const std::string& eol);
 };

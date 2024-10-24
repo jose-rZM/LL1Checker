@@ -2,9 +2,9 @@
 #include <iterator>
 #include <vector>
 class lexer {
-    std::string filename_;
+    std::string              filename_;
     std::vector<std::string> tokens_;
-    unsigned current_;
+    unsigned                 current_;
 
   public:
     /**
@@ -41,7 +41,7 @@ class lexer {
      * Compile lexer file named "lexer.l" into lex.yy.c. After that, it
      * generates a dynamic library using the compiled lexer "lex.yy.c".
      */
-    static void compile();
+    static void       compile();
     const std::string LEXER_FILENAME{"lex.l"};
     const std::string SRC_PATH{"./src"};
     const std::string LIB_PATH{"./lib"};

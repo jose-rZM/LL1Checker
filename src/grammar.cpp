@@ -21,7 +21,7 @@ void grammar::read_from_file() {
     }
 
     std::unordered_map<std::string, std::vector<std::string>> p_grammar;
-    std::regex rx_terminal{
+    std::regex                                                rx_terminal{
         R"(terminal\s+([a-zA-Z_\'][a-zA-Z_0-9\']*)\s+([^]*);\s*)"};
     std::regex rx_eol{R"(set\s+EOL\s+char\s+([^]*);\s*)"};
     std::regex rx_axiom{R"(start\s+with\s+([a-zA-Z_\'][a-zA-Z_0-9\']*);\s*)"};
@@ -59,7 +59,7 @@ void grammar::read_from_file() {
                 throw GrammarError("Error while reading grammar " + input);
             }
         }
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         if (file) {
             file.close();
         }
@@ -71,7 +71,7 @@ void grammar::read_from_file() {
     for (const auto& entry : p_grammar) {
         symbol_table::put_symbol(entry.first);
     }
-    
+
     // Add all rules
     for (const auto& entry : p_grammar) {
         for (const auto& production : entry.second) {
@@ -80,14 +80,14 @@ void grammar::read_from_file() {
     }
 }
 
-std::vector<std::string> grammar::split(const std::string &s) {
+std::vector<std::string> grammar::split(const std::string& s) {
     if (s == symbol_table::EPSILON_) {
         return {symbol_table::EPSILON_};
     }
     std::vector<std::string> splitted{};
-    std::string str;
-    unsigned start{0};
-    unsigned end {1};
+    std::string              str;
+    unsigned                 start{0};
+    unsigned                 end{1};
     while (end <= s.size()) {
         str = s.substr(start, end - start);
 
@@ -102,7 +102,7 @@ std::vector<std::string> grammar::split(const std::string &s) {
             }
             splitted.push_back(s.substr(start, end - start));
             start = end;
-            end = start + 1;
+            end   = start + 1;
         } else {
             ++end;
         }
@@ -116,8 +116,8 @@ std::vector<std::string> grammar::split(const std::string &s) {
     return splitted;
 }
 
-void grammar::add_rule(const std::string &antecedent,
-                       const std::string &consequent) {
+void grammar::add_rule(const std::string& antecedent,
+                       const std::string& consequent) {
     std::vector<std::string> splitted_consequent{split(consequent)};
     if (has_left_recursion(antecedent, splitted_consequent)) {
         throw GrammarError("Grammar has left recursion, it can't be LL1.");
@@ -125,21 +125,23 @@ void grammar::add_rule(const std::string &antecedent,
     g_[antecedent].push_back(splitted_consequent);
 }
 
-void grammar::set_axiom(const std::string &axiom) { AXIOM_ = axiom; }
+void grammar::set_axiom(const std::string& axiom) {
+    AXIOM_ = axiom;
+}
 
-bool grammar::has_empty_production(const std::string &antecedent) {
+bool grammar::has_empty_production(const std::string& antecedent) {
     auto rules{g_.at(antecedent)};
-    return std::find_if(rules.cbegin(), rules.cend(), [](const auto &rule) {
+    return std::find_if(rules.cbegin(), rules.cend(), [](const auto& rule) {
                return rule[0] == symbol_table::EPSILON_;
            }) != rules.cend();
 }
 
 std::vector<std::pair<const std::string, production>>
-grammar::filter_rules_by_consequent(const std::string &arg) {
+grammar::filter_rules_by_consequent(const std::string& arg) {
     std::vector<std::pair<const std::string, production>> rules;
-    for (const std::pair<const std::string, std::vector<production>> &rule :
+    for (const std::pair<const std::string, std::vector<production>>& rule :
          g_) {
-        for (const production &prod : rule.second) {
+        for (const production& prod : rule.second) {
             if (std::find(prod.cbegin(), prod.cend(), arg) != prod.cend()) {
                 rules.emplace_back(rule.first, prod);
             }
@@ -150,10 +152,10 @@ grammar::filter_rules_by_consequent(const std::string &arg) {
 
 void grammar::debug() {
     std::cout << "Grammar:\n";
-    for (const auto &entry : g_) {
+    for (const auto& entry : g_) {
         std::cout << entry.first << " -> ";
-        for (const std::vector<std::string> &production : entry.second) {
-            for (const std::string &s : production) {
+        for (const std::vector<std::string>& production : entry.second) {
+            for (const std::string& s : production) {
                 std::cout << s << " ";
             }
             std::cout << "| ";
@@ -161,7 +163,7 @@ void grammar::debug() {
         std::cout << std::endl;
     }
 }
-bool grammar::has_left_recursion(const std::string &antecedent,
-                                 const std::vector<std::string> &consequent) {
+bool grammar::has_left_recursion(const std::string&              antecedent,
+                                 const std::vector<std::string>& consequent) {
     return consequent.at(0) == antecedent;
 }

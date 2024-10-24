@@ -11,8 +11,8 @@ class LL1Parser {
 
   public:
     LL1Parser(grammar gr, std::string text_file);
-    LL1Parser(const std::string &grammar_file, std::string text_file);
-    explicit LL1Parser(const std::string &grammar_file);
+    LL1Parser(const std::string& grammar_file, std::string text_file);
+    explicit LL1Parser(const std::string& grammar_file);
     /**
      *
      * @return true if the parsing is successfully completed
@@ -20,7 +20,12 @@ class LL1Parser {
      */
     bool parse();
 
-  private:
+    /**
+     * Print LL1 table to STDOUT
+     */
+    void print_table();
+
+    //  private:
     /**
      *
      * @param rule
@@ -30,13 +35,13 @@ class LL1Parser {
      * grammar obviously is not LL1, but this will provoke an infinite loop.
      */
     std::unordered_set<std::string>
-    header(const std::vector<std::string> &rule);
+    header(const std::vector<std::string>& rule);
     /**
      *
      * @param arg symbol to calculate next symbols for
      * @return Set of next symbols for the given arg
      */
-    std::unordered_set<std::string> next(const std::string &arg);
+    std::unordered_set<std::string> next(const std::string& arg);
     /**
      *
      * @param antecedent of a rule
@@ -44,17 +49,17 @@ class LL1Parser {
      * @return set of director symbols for the given rule
      */
     std::unordered_set<std::string>
-    director_symbols(const std::string &antecedent,
-                     const std::vector<std::string> &consequent);
+    director_symbols(const std::string&              antecedent,
+                     const std::vector<std::string>& consequent);
     /**
      *
      * @param arg
      * @param visited symbols (avoid infinite recursion)
      * @param next_symbols next symbols accumulated
      */
-    void next_util(const std::string &arg,
-                   std::unordered_set<std::string> &visited,
-                   std::unordered_set<std::string> &next_symbols);
+    void next_util(const std::string&               arg,
+                   std::unordered_set<std::string>& visited,
+                   std::unordered_set<std::string>& next_symbols);
     /**
      *
      * @return true if the ll1 table could be created, that is, the grammar is
@@ -62,8 +67,8 @@ class LL1Parser {
      */
     bool create_ll1_table();
 
-    ll1_table ll1_t_;
-    grammar gr_;
+    ll1_table   ll1_t_;
+    grammar     gr_;
     std::string grammar_file_;
     std::string text_file_;
 };

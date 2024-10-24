@@ -19,7 +19,7 @@ LL1Parser::LL1Parser(grammar gr, std::string text_file)
     }
 }
 
-LL1Parser::LL1Parser(const std::string &grammar_file, std::string text_file)
+LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file)
     : gr_(grammar_file), text_file_(std::move(text_file)) {
     if (!create_ll1_table()) {
         gr_.debug();
@@ -27,7 +27,7 @@ LL1Parser::LL1Parser(const std::string &grammar_file, std::string text_file)
     }
 }
 
-LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
+LL1Parser::LL1Parser(const std::string& grammar_file) : gr_(grammar_file) {
     if (!create_ll1_table()) {
         gr_.debug();
         throw GrammarError("Grammar provided is not LL1.");
@@ -35,13 +35,13 @@ LL1Parser::LL1Parser(const std::string &grammar_file) : gr_(grammar_file) {
 }
 
 bool LL1Parser::create_ll1_table() {
-    for (const std::pair<const std::string, std::vector<production>> &rule :
+    for (const std::pair<const std::string, std::vector<production>>& rule :
          gr_.g_) {
         std::unordered_map<std::string, std::vector<std::string>> column;
-        for (const production &p : rule.second) {
+        for (const production& p : rule.second) {
             std::unordered_set<std::string> ds =
                 director_symbols(rule.first, p);
-            for (const std::string &symbol : ds) {
+            for (const std::string& symbol : ds) {
                 if (!column.insert({symbol, p}).second) {
                     return false;
                 }
@@ -64,19 +64,19 @@ bool LL1Parser::parse() {
             continue;
         }
         std::vector<std::string> d_symbols;
-        std::string top_symbol = symbol_stack.top();
+        std::string              top_symbol = symbol_stack.top();
         symbol_stack.pop();
         if (!symbol_table::is_terminal(top_symbol)) {
             try {
                 d_symbols = ll1_t_.at(top_symbol).at(current_symbol);
-            } catch (const std::out_of_range &exc) {
+            } catch (const std::out_of_range& exc) {
                 // check if this rule has an empty production
                 if (gr_.has_empty_production(top_symbol)) {
                     continue;
                 }
                 return false;
             }
-            for (auto &d : std::ranges::reverse_view(d_symbols)) {
+            for (auto& d : std::ranges::reverse_view(d_symbols)) {
                 symbol_stack.push(d);
             }
         } else {
@@ -91,8 +91,8 @@ bool LL1Parser::parse() {
 }
 
 std::unordered_set<std::string>
-LL1Parser::header(const std::vector<std::string> &rule) {
-    std::unordered_set<std::string> current_header;
+LL1Parser::header(const std::vector<std::string>& rule) {
+    std::unordered_set<std::string>      current_header;
     std::stack<std::vector<std::string>> symbol_stack;
     symbol_stack.push(rule);
 
@@ -107,9 +107,9 @@ LL1Parser::header(const std::vector<std::string> &rule) {
         } else if (symbol_table::is_terminal(current[0])) {
             current_header.insert(current[0]);
         } else {
-            for (const std::vector<std::string> &prod : gr_.g_.at(current[0])) {
+            for (const std::vector<std::string>& prod : gr_.g_.at(current[0])) {
                 std::vector<std::string> production;
-                for (const std::string &sy : prod) {
+                for (const std::string& sy : prod) {
                     production.push_back(sy);
                 }
                 // Add remaining symbols
@@ -124,7 +124,7 @@ LL1Parser::header(const std::vector<std::string> &rule) {
     return current_header;
 }
 
-std::unordered_set<std::string> LL1Parser::next(const std::string &arg) {
+std::unordered_set<std::string> LL1Parser::next(const std::string& arg) {
     std::unordered_set<std::string> next_symbols;
     std::unordered_set<std::string> visited;
     next_util(arg, visited, next_symbols);
@@ -135,8 +135,8 @@ std::unordered_set<std::string> LL1Parser::next(const std::string &arg) {
 }
 
 std::unordered_set<std::string>
-LL1Parser::director_symbols(const std::string &antecedent,
-                            const std::vector<std::string> &consequent) {
+LL1Parser::director_symbols(const std::string&              antecedent,
+                            const std::vector<std::string>& consequent) {
     std::unordered_set<std::string> hd{header({consequent})};
     if (hd.find(symbol_table::EPSILON_) == hd.end()) {
         return hd;
@@ -147,9 +147,26 @@ LL1Parser::director_symbols(const std::string &antecedent,
     }
 }
 
-void LL1Parser::next_util(const std::string &arg,
-                          std::unordered_set<std::string> &visited,
-                          std::unordered_set<std::string> &next_symbols) {
+void LL1Parser::print_table() {
+    for (const auto& outerPair : ll1_t_) {
+        const std::string& nonTerminal = outerPair.first;
+        std::cout << "Non-terminal: " << nonTerminal << "\n";
+        for (const auto& innerPair : outerPair.second) {
+            const std::string& symbol = innerPair.first;
+            const production&  prod   = innerPair.second;
+            std::cout << "\tSymbol: " << symbol << " -> { ";
+            for (const std::string& elem : prod) {
+                std::cout << elem << " ";
+            }
+            std::cout << "}\n";
+        }
+        std::cout << std::endl;
+    }
+}
+
+void LL1Parser::next_util(const std::string&               arg,
+                          std::unordered_set<std::string>& visited,
+                          std::unordered_set<std::string>& next_symbols) {
     if (visited.find(arg) != visited.cend()) {
         return;
     }
@@ -157,7 +174,7 @@ void LL1Parser::next_util(const std::string &arg,
     std::vector<std::pair<const std::string, production>> rules{
         gr_.filter_rules_by_consequent(arg)};
 
-    for (const std::pair<const std::string, production> &rule : rules) {
+    for (const std::pair<const std::string, production>& rule : rules) {
         // Next must be applied to all Arg symbols, for example
         // if arg: B; A -> BbBCB, next is applied three times
         auto it = rule.second.cbegin();
@@ -167,7 +184,13 @@ void LL1Parser::next_util(const std::string &arg,
             if (next_it == rule.second.cend()) {
                 next_util(rule.first, visited, next_symbols);
             } else {
-                next_symbols.merge(header(std::vector<std::string>(next_it, rule.second.cend())));
+                next_symbols.merge(header(
+                    std::vector<std::string>(next_it, rule.second.cend())));
+                if (next_symbols.find(symbol_table::EPSILON_) !=
+                    next_symbols.end()) {
+                    next_symbols.erase(symbol_table::EPSILON_);
+                    next_util(rule.first, visited, next_symbols);
+                }
             }
             it = std::next(it);
         }
