@@ -94,6 +94,7 @@ std::unordered_set<std::string>
 LL1Parser::header(const std::vector<std::string>& rule) {
     std::unordered_set<std::string>      current_header;
     std::stack<std::vector<std::string>> symbol_stack;
+    std::unordered_set<std::string>      visited;
     symbol_stack.push(rule);
 
     while (!symbol_stack.empty()) {
@@ -107,16 +108,21 @@ LL1Parser::header(const std::vector<std::string>& rule) {
         } else if (symbol_table::is_terminal(current[0])) {
             current_header.insert(current[0]);
         } else {
-            for (const std::vector<std::string>& prod : gr_.g_.at(current[0])) {
-                std::vector<std::string> production;
-                for (const std::string& sy : prod) {
-                    production.push_back(sy);
+            if (visited.find(current[0]) == visited.end()) {
+                visited.insert(current[0]);
+
+                for (const std::vector<std::string>& prod :
+                     gr_.g_.at(current[0])) {
+                    std::vector<std::string> production;
+                    for (const std::string& sy : prod) {
+                        production.push_back(sy);
+                    }
+                    // Add remaining symbols
+                    for (unsigned i = 1; i < current.size(); ++i) {
+                        production.push_back(current[i]);
+                    }
+                    symbol_stack.push(production);
                 }
-                // Add remaining symbols
-                for (unsigned i = 1; i < current.size(); ++i) {
-                    production.push_back(current[i]);
-                }
-                symbol_stack.push(production);
             }
         }
     }
