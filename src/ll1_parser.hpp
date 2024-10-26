@@ -25,23 +25,23 @@ class LL1Parser {
      */
     void print_table();
 
-    //  private:
+  private:
     /**
      *
      * @param rule
-     * @return set header symbols for the given rule
-     * TODO: if grammar consists only in one non terminal (apart the axiom), it
-     * could end with an infinite loop. For example: A -> A & A, A -> ( A ). The
-     * grammar obviously is not LL1, but this will provoke an infinite loop.
+     * @return first set symbols for the given rule
      */
-    std::unordered_set<std::string>
-    header(const std::vector<std::string>& rule);
+    std::unordered_set<std::string> first(const std::vector<std::string>& rule);
+    /**
+     * Compute first sets of all non terminal symbols
+     */
+    void compute_first_sets();
     /**
      *
      * @param arg symbol to calculate next symbols for
-     * @return Set of next symbols for the given arg
+     * @return FOLLOW set for the given arg
      */
-    std::unordered_set<std::string> next(const std::string& arg);
+    std::unordered_set<std::string> follow(const std::string& arg);
     /**
      *
      * @param antecedent of a rule
@@ -57,9 +57,9 @@ class LL1Parser {
      * @param visited symbols (avoid infinite recursion)
      * @param next_symbols next symbols accumulated
      */
-    void next_util(const std::string&               arg,
-                   std::unordered_set<std::string>& visited,
-                   std::unordered_set<std::string>& next_symbols);
+    void follow_util(const std::string&               arg,
+                     std::unordered_set<std::string>& visited,
+                     std::unordered_set<std::string>& next_symbols);
     /**
      *
      * @return true if the ll1 table could be created, that is, the grammar is
@@ -67,8 +67,9 @@ class LL1Parser {
      */
     bool create_ll1_table();
 
-    ll1_table   ll1_t_;
-    grammar     gr_;
+    ll1_table                                                        ll1_t_;
+    grammar                                                          gr_;
+    std::unordered_map<std::string, std::unordered_set<std::string>> first_sets;
     std::string grammar_file_;
     std::string text_file_;
 };

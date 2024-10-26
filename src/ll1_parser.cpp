@@ -35,6 +35,7 @@ LL1Parser::LL1Parser(const std::string& grammar_file) : gr_(grammar_file) {
 }
 
 bool LL1Parser::create_ll1_table() {
+    compute_first_sets();
     for (const std::pair<const std::string, std::vector<production>>& rule :
          gr_.g_) {
         std::unordered_map<std::string, std::vector<std::string>> column;
@@ -91,49 +92,68 @@ bool LL1Parser::parse() {
 }
 
 std::unordered_set<std::string>
-LL1Parser::header(const std::vector<std::string>& rule) {
-    std::unordered_set<std::string>      current_header;
-    std::stack<std::vector<std::string>> symbol_stack;
-    std::unordered_set<std::string>      visited;
-    symbol_stack.push(rule);
-
-    while (!symbol_stack.empty()) {
-        std::vector<std::string> current = symbol_stack.top();
-        symbol_stack.pop();
-        if (current[0] == symbol_table::EPSILON_) {
-            current.erase(current.begin());
-        }
-        if (current.empty()) {
-            current_header.insert(symbol_table::EPSILON_);
-        } else if (symbol_table::is_terminal(current[0])) {
-            current_header.insert(current[0]);
+LL1Parser::first(const std::vector<std::string>& rule) {
+    if (rule.size() == 1 && rule[0] == symbol_table::EPSILON_) {
+        return {symbol_table::EPSILON_};
+    }
+    std::unordered_set<std::string> ret;
+    size_t                          i{0};
+    for (const std::string& symbol : rule) {
+        if (symbol_table::is_terminal(symbol)) {
+            ret.insert(symbol);
+            break;
         } else {
-            if (visited.find(current[0]) == visited.end()) {
-                visited.insert(current[0]);
-
-                for (const std::vector<std::string>& prod :
-                     gr_.g_.at(current[0])) {
-                    std::vector<std::string> production;
-                    for (const std::string& sy : prod) {
-                        production.push_back(sy);
-                    }
-                    // Add remaining symbols
-                    for (unsigned i = 1; i < current.size(); ++i) {
-                        production.push_back(current[i]);
-                    }
-                    symbol_stack.push(production);
-                }
+            const std::unordered_set<std::string>& fi = first_sets[symbol];
+            ret.insert(fi.begin(), fi.end());
+            ret.erase(symbol_table::EPSILON_);
+            if (fi.find(symbol_table::EPSILON_) == fi.cend()) {
+                break;
             }
+            ++i;
         }
     }
 
-    return current_header;
+    if (i == rule.size()) {
+        ret.insert(symbol_table::EPSILON_);
+    }
+    return ret;
 }
 
-std::unordered_set<std::string> LL1Parser::next(const std::string& arg) {
+void LL1Parser::compute_first_sets() {
+    for (const auto& rule : gr_.g_) {
+        first_sets[rule.first] = {};
+    }
+    bool changed{true};
+    while (changed) {
+        changed = false;
+        std::unordered_map<std::string, size_t> beforeSizes;
+        for (const auto& entry : first_sets) {
+            beforeSizes[entry.first] = entry.second.size();
+        }
+        for (const auto& rule : gr_.g_) {
+            const std::string& nonTerminal = rule.first;
+            for (const auto& production : rule.second) {
+                std::unordered_set<std::string> fi = first(production);
+                first_sets[nonTerminal].insert(fi.begin(), fi.end());
+            }
+        }
+        for (const auto& entry : first_sets) {
+            if (beforeSizes[entry.first] != entry.second.size()) {
+                changed = true;
+                break;
+            }
+        }
+    }
+    first_sets[gr_.AXIOM_].erase(symbol_table::EOL_);
+}
+
+std::unordered_set<std::string> LL1Parser::follow(const std::string& arg) {
     std::unordered_set<std::string> next_symbols;
     std::unordered_set<std::string> visited;
-    next_util(arg, visited, next_symbols);
+    if (arg == gr_.AXIOM_) {
+        return {symbol_table::EOL_};
+    }
+    follow_util(arg, visited, next_symbols);
     if (next_symbols.find(symbol_table::EPSILON_) != next_symbols.end()) {
         next_symbols.erase(symbol_table::EPSILON_);
     }
@@ -143,12 +163,12 @@ std::unordered_set<std::string> LL1Parser::next(const std::string& arg) {
 std::unordered_set<std::string>
 LL1Parser::director_symbols(const std::string&              antecedent,
                             const std::vector<std::string>& consequent) {
-    std::unordered_set<std::string> hd{header({consequent})};
+    std::unordered_set<std::string> hd{first({consequent})};
     if (hd.find(symbol_table::EPSILON_) == hd.end()) {
         return hd;
     } else {
         hd.erase(symbol_table::EPSILON_);
-        hd.merge(next(antecedent));
+        hd.merge(follow(antecedent));
         return hd;
     }
 }
@@ -170,9 +190,9 @@ void LL1Parser::print_table() {
     }
 }
 
-void LL1Parser::next_util(const std::string&               arg,
-                          std::unordered_set<std::string>& visited,
-                          std::unordered_set<std::string>& next_symbols) {
+void LL1Parser::follow_util(const std::string&               arg,
+                            std::unordered_set<std::string>& visited,
+                            std::unordered_set<std::string>& next_symbols) {
     if (visited.find(arg) != visited.cend()) {
         return;
     }
@@ -188,14 +208,14 @@ void LL1Parser::next_util(const std::string&               arg,
                rule.second.cend()) {
             auto next_it = std::next(it);
             if (next_it == rule.second.cend()) {
-                next_util(rule.first, visited, next_symbols);
+                follow_util(rule.first, visited, next_symbols);
             } else {
-                next_symbols.merge(header(
+                next_symbols.merge(first(
                     std::vector<std::string>(next_it, rule.second.cend())));
                 if (next_symbols.find(symbol_table::EPSILON_) !=
                     next_symbols.end()) {
                     next_symbols.erase(symbol_table::EPSILON_);
-                    next_util(rule.first, visited, next_symbols);
+                    follow_util(rule.first, visited, next_symbols);
                 }
             }
             it = std::next(it);
