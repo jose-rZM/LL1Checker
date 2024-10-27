@@ -16,8 +16,28 @@ A Makefile is provided, so, run `make` to compile the project.
 
 ## ▶️ Run the Program
 Once compiled, you can run the program as follows:
-- `./parser <GRAMMAR_FILENAME>`. Checks if the provided grammar is LL(1).
-- `./parser <GRAMMAR_FILENAME> <INPUT_FILENAME>`. Checks if the provided grammar is LL(1) and validates if the input provided conforms to the grammar.
+~~~
+./parser <GRAMMAR_FILENAME>
+~~~ 
+- Checks if the provided grammar is LL(1). 
+- If the grammar has conflicts, displays the LL(1) table with conflicts for debugging. 
+~~~
+./parser <GRAMMAR_FILENAME> <INPUT_FILENAME>
+~~~
+- Checks if the provided grammar is LL(1) and validates if the input conforms to the grammar.
+- If the grammar is not LL(1), it displays the LL(1) table with conflicts.
+
+### Optional Debug Mode
+To enable additional debug information, including the full LL(1) table and the input content:
+~~~
+./parser <GRAMMAR_FILENAME> <INPUT_FILENAME> --debug
+~~~
+In `--debug` mode, the program will:
+- Display the entire LL(1) table, including any conflicts if the grammar is not LL(1).
+- Print the contents of `<INPUT_FILENAME>` for easy reference before parsing.
+
+**Error Handling**: 
+If `<GRAMMAR_FILENAME>` or `<INPUT_FILENAME>` do not exist or cannot be opened, the program will print an error and exit.
 
 ## 📌 Considerations
 - The default end of line character is `$`. This can be changed using the instruction `set EOL char (...)`. 
