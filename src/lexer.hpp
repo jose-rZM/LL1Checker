@@ -1,6 +1,4 @@
 #include <boost/filesystem.hpp>
-#include <fstream>
-#include <iterator>
 #include <vector>
 class lexer {
     std::string              filename_;

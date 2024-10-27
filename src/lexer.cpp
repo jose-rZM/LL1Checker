@@ -1,7 +1,6 @@
 #include "lexer.hpp"
 #include "errors/lexer_error.hpp"
 #include "symbol_table.hpp"
-#include <algorithm>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -9,7 +8,6 @@
 #include <cstring>
 #include <dlfcn.h>
 #include <iostream>
-#include <istream>
 #include <string>
 #include <unistd.h>
 #include <utility>

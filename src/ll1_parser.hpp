@@ -1,4 +1,4 @@
-
+#pragma once
 #include "grammar.hpp"
 #include <string>
 #include <unordered_map>
