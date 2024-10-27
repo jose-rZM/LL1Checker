@@ -1,0 +1,17 @@
+terminal a a;
+terminal b b;
+terminal d d;
+start with S;
+;
+S -> A$;
+A -> C F;
+B -> D B D;
+B ->;
+C -> d C b;
+C ->;
+D -> E;
+E -> a E;
+E ->;
+F -> A B;
+F -> B;
+;

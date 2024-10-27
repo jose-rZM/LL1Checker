@@ -7,8 +7,7 @@
 #include "ll1_parser.hpp"
 
 int print_file_to_stdout(const std::string& filename) {
-    std::ifstream file;
-    file.open(filename);
+    std::ifstream file(filename);
     if (!file) {
         return 1;
     }
@@ -22,24 +21,51 @@ int print_file_to_stdout(const std::string& filename) {
 
 int main(int argc, char* argv[]) {
     std::string grammar_filename, text_filename;
+    bool        debug_mode = false;
 
     try {
-        if (argc == 2) {
-            grammar_filename = argv[1];
-            LL1Parser ll1_p{grammar_filename};
-            std::cout << "Grammar is LL1.\nLL1 Table:" << std::endl;
-            ll1_p.print_table();
-        } else if (argc == 3) {
-            grammar_filename = argv[1];
-            text_filename    = argv[2];
-            LL1Parser ll1_p{grammar_filename, text_filename};
-            std::cout << "Grammar is LL1.\nLL1 Table:" << std::endl;
-            ll1_p.print_table();
-            std::cout << "Input:" << std::endl;
-            if (print_file_to_stdout(text_filename)) {
-                std::cerr << "Input file does not exists!";
-                return 1;
+        if (argc < 2 || argc > 4) {
+            std::cerr << "Usage: " << argv[0]
+                      << " <grammar_filename> [<text_filename>] [--debug]"
+                      << std::endl;
+            return 1;
+        }
+
+        for (int i = 1; i < argc; ++i) {
+            const std::string& arg = argv[i];
+            if (arg == "--debug") {
+                debug_mode = true;
+            } else if (grammar_filename.empty()) {
+                grammar_filename = arg;
+            } else if (text_filename.empty()) {
+                text_filename = arg;
             }
+        }
+
+        std::ifstream grammar_file_check(grammar_filename);
+        if (!grammar_file_check) {
+            std::cerr << "Error: Grammar file '" << grammar_filename
+                      << "' does not exists or it can not be opened."
+                      << std::endl;
+            return 1;
+        }
+
+        LL1Parser ll1_p{grammar_filename, text_filename};
+        std::cout << "Grammar is LL(1)" << std::endl;
+        if (debug_mode) {
+            std::cout << "LL1 Table (Debug Mode):" << std::endl;
+            ll1_p.print_table();
+
+            if (!text_filename.empty()) {
+                std::cout << "Input (Debug Mode):" << std::endl;
+                if (print_file_to_stdout(text_filename)) {
+                    std::cerr << "Error: File does not exists!" << std::endl;
+                    return 1;
+                }
+            }
+        }
+
+        if (!text_filename.empty()) {
             if (ll1_p.parse()) {
                 std::cout << "Parsing was successful" << std::endl;
             } else {
@@ -47,6 +73,9 @@ int main(int argc, char* argv[]) {
             }
         }
     } catch (const std::exception& e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
     }
+
+    return 0;
 }

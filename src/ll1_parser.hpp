@@ -7,7 +7,7 @@
 
 class LL1Parser {
     using ll1_table = std::unordered_map<
-        std::string, std::unordered_map<std::string, std::vector<std::string>>>;
+        std::string, std::unordered_map<std::string, std::vector<production>>>;
 
   public:
     LL1Parser(grammar gr, std::string text_file);

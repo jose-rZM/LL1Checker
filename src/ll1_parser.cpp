@@ -15,6 +15,7 @@ LL1Parser::LL1Parser(grammar gr, std::string text_file)
     : gr_(std::move(gr)), text_file_(std::move(text_file)) {
     if (!create_ll1_table()) {
         gr_.debug();
+        print_table();
         throw GrammarError("Grammar provided is not LL1.");
     }
 }
@@ -23,6 +24,7 @@ LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file)
     : gr_(grammar_file), text_file_(std::move(text_file)) {
     if (!create_ll1_table()) {
         gr_.debug();
+        print_table();
         throw GrammarError("Grammar provided is not LL1.");
     }
 }
@@ -30,27 +32,31 @@ LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file)
 LL1Parser::LL1Parser(const std::string& grammar_file) : gr_(grammar_file) {
     if (!create_ll1_table()) {
         gr_.debug();
+        print_table();
         throw GrammarError("Grammar provided is not LL1.");
     }
 }
 
 bool LL1Parser::create_ll1_table() {
     compute_first_sets();
+    bool has_conflict{false};
     for (const std::pair<const std::string, std::vector<production>>& rule :
          gr_.g_) {
-        std::unordered_map<std::string, std::vector<std::string>> column;
+        std::unordered_map<std::string, std::vector<production>> column;
         for (const production& p : rule.second) {
             std::unordered_set<std::string> ds =
                 director_symbols(rule.first, p);
             for (const std::string& symbol : ds) {
-                if (!column.insert({symbol, p}).second) {
-                    return false;
+                auto& cell = column[symbol];
+                if (!cell.empty()) {
+                    has_conflict = true;
                 }
+                cell.push_back(p);
             }
         }
         ll1_t_.insert({rule.first, column});
     }
-    return true;
+    return !has_conflict;
 }
 
 bool LL1Parser::parse() {
@@ -69,7 +75,7 @@ bool LL1Parser::parse() {
         symbol_stack.pop();
         if (!symbol_table::is_terminal(top_symbol)) {
             try {
-                d_symbols = ll1_t_.at(top_symbol).at(current_symbol);
+                d_symbols = ll1_t_.at(top_symbol).at(current_symbol)[0];
             } catch (const std::out_of_range& exc) {
                 // check if this rule has an empty production
                 if (gr_.has_empty_production(top_symbol)) {
@@ -177,12 +183,18 @@ void LL1Parser::print_table() {
     for (const auto& outerPair : ll1_t_) {
         const std::string& nonTerminal = outerPair.first;
         std::cout << "Non-terminal: " << nonTerminal << "\n";
+
         for (const auto& innerPair : outerPair.second) {
-            const std::string& symbol = innerPair.first;
-            const production&  prod   = innerPair.second;
+            const std::string& symbol      = innerPair.first;
+            const auto&        productions = innerPair.second;
+
             std::cout << "\tSymbol: " << symbol << " -> { ";
-            for (const std::string& elem : prod) {
-                std::cout << elem << " ";
+            for (const auto& prod : productions) {
+                std::cout << "[ ";
+                for (const std::string& elem : prod) {
+                    std::cout << elem << " ";
+                }
+                std::cout << "] ";
             }
             std::cout << "}\n";
         }
