@@ -1,3 +1,4 @@
+#include <boost/filesystem.hpp>
 #include <fstream>
 #include <iterator>
 #include <vector>
@@ -41,8 +42,15 @@ class lexer {
      * Compile lexer file named "lexer.l" into lex.yy.c. After that, it
      * generates a dynamic library using the compiled lexer "lex.yy.c".
      */
-    static void       compile();
-    const std::string LEXER_FILENAME{"lex.l"};
-    const std::string SRC_PATH{"./src"};
-    const std::string LIB_PATH{"./lib"};
+    void                    compile();
+    void                    create_temp_files();
+    void                    cleanup();
+    boost::filesystem::path temp_dir_;
+    boost::filesystem::path lex_file_path_;
+    boost::filesystem::path c_file_path_;
+    boost::filesystem::path o_file_path_;
+    boost::filesystem::path so_file_path_;
+    const std::string       LEXER_FILENAME{"lex.l"};
+    const std::string       SRC_PATH{"./src"};
+    const std::string       LIB_PATH{"./lib"};
 };

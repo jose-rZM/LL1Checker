@@ -19,6 +19,19 @@ int print_file_to_stdout(const std::string& filename) {
     return 0;
 }
 
+void show_usage(const char* program_name) {
+    std::cout << "Usage: " << program_name
+              << " <grammar_filename> [<text_filename>] [--debug] [-h]"
+              << std::endl;
+    std::cout << "Options:" << std::endl;
+    std::cout << "  -h             Show this help message" << std::endl;
+    std::cout << "  --debug        Enable debug mode" << std::endl;
+    std::cout << "  <grammar_filename>  Path to the grammar file" << std::endl;
+    std::cout
+        << "  <text_filename>     Path to the text file to be parsed (optional)"
+        << std::endl;
+}
+
 int main(int argc, char* argv[]) {
     std::string grammar_filename, text_filename;
     bool        debug_mode = false;
@@ -33,7 +46,10 @@ int main(int argc, char* argv[]) {
 
         for (int i = 1; i < argc; ++i) {
             const std::string& arg = argv[i];
-            if (arg == "--debug") {
+            if (arg == "-h") {
+                show_usage(argv[0]);
+                return 0;
+            } else if (arg == "--debug") {
                 debug_mode = true;
             } else if (grammar_filename.empty()) {
                 grammar_filename = arg;

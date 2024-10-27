@@ -1,12 +1,14 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -O3
+CXXFLAGS = -std=c++20 -O3 
+BOOST_LIB_DIR ?= .
+LIBS = -L$(BOOST_LIB_DIR) -lboost_system -lboost_filesystem
 SRC_DIR = src
 OBJ_DIR = out
 
 all: program
 
 program: $(OBJ_DIR)/main.o $(OBJ_DIR)/ll1_parser.o  $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/lexer.o $(OBJ_DIR)/grammar.o
-	$(CXX) $(CXXFLAGS) -o parser $^
+	$(CXX) $(CXXFLAGS) -o ll1 $^ $(LIBS)
 
 $(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp $(SRC_DIR)/grammar.hpp  $(OBJ_DIR)/ll1_parser.o
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -27,4 +29,4 @@ format:
 	@find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
 
 clean:
-	rm -f parser $(OBJ_DIR)/*.o
+	rm -f ll1 $(OBJ_DIR)/*.o
