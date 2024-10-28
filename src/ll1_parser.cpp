@@ -3,6 +3,7 @@
 #include "../include/grammar_error.hpp"
 #include "../include/lexer.hpp"
 #include "../include/symbol_table.hpp"
+#include <algorithm>
 #include <iostream>
 #include <queue>
 #include <ranges>
