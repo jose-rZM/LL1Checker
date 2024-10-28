@@ -1,0 +1,18 @@
+\doxysection{lexer\+\_\+error.\+hpp}
+\hypertarget{lexer__error_8hpp_source}{}\label{lexer__error_8hpp_source}\index{include/lexer\_error.hpp@{include/lexer\_error.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00003\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLexerError}{LexerError}}\ :\ \textcolor{keyword}{public}\ std::exception\ \{}
+\DoxyCodeLine{00004\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classLexerError}{LexerError}}(std::string\ msg)\ :\ msg\_(std::move(msg))\ \{\}}
+\DoxyCodeLine{00006\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ what()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \textcolor{keyword}{override}\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ msg\_.c\_str();}
+\DoxyCodeLine{00008\ \ \ \ \ \}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00011\ \ \ \ \ std::string\ msg\_;}
+\DoxyCodeLine{00012\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,36 @@
+\doxysection{lexer.\+hpp}
+\hypertarget{lexer_8hpp_source}{}\label{lexer_8hpp_source}\index{include/lexer.hpp@{include/lexer.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <boost/filesystem.hpp>}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00003\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classlexer}{lexer}}\ \{}
+\DoxyCodeLine{00004\ \ \ \ \ std::string\ \ \ \ \ \ \ \ \ \ \ \ \ \ filename\_;}
+\DoxyCodeLine{00005\ \ \ \ \ std::vector<std::string>\ tokens\_;}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_;}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classlexer_ae2720ff7c4dde918a3637b26c4493d56}{lexer}}(std::string\ filename);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00032\ \ \ \ \ std::string\ \mbox{\hyperlink{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2}{next}}();}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ tokenize();}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ make\_lexer();}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ compile();}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ create\_temp\_files();}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ cleanup();}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ boost::filesystem::path\ temp\_dir\_;}
+\DoxyCodeLine{00095\ \ \ \ \ boost::filesystem::path\ lex\_file\_path\_;}
+\DoxyCodeLine{00096\ \ \ \ \ boost::filesystem::path\ c\_file\_path\_;}
+\DoxyCodeLine{00097\ \ \ \ \ boost::filesystem::path\ o\_file\_path\_;}
+\DoxyCodeLine{00098\ \ \ \ \ boost::filesystem::path\ so\_file\_path\_;}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \ \ \ \ \ \ LEXER\_FILENAME\{\textcolor{stringliteral}{"{}lex.l"{}}\};}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \ \ \ \ \ \ SRC\_PATH\{\textcolor{stringliteral}{"{}./src"{}}\};}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \ \ \ \ \ \ LIB\_PATH\{\textcolor{stringliteral}{"{}./lib"{}}\};}
+\DoxyCodeLine{00102\ \};}
+
+\end{DoxyCode}

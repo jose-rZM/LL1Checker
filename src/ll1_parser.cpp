@@ -1,9 +1,10 @@
-#include "ll1_parser.hpp"
-#include "errors/grammar_error.hpp"
-#include "grammar.hpp"
-#include "lexer.hpp"
-#include "symbol_table.hpp"
+#include "../include/ll1_parser.hpp"
+#include "../include/grammar.hpp"
+#include "../include/grammar_error.hpp"
+#include "../include/lexer.hpp"
+#include "../include/symbol_table.hpp"
 #include <iostream>
+#include <queue>
 #include <ranges>
 #include <stack>
 #include <string>
@@ -59,23 +60,43 @@ bool LL1Parser::create_ll1_table() {
     return !has_conflict;
 }
 
+void LL1Parser::print_stack_trace() {
+    std::cout << "Parser stack trace : [ ";
+    while (!symbol_stack_.empty()) {
+        std::cout << symbol_stack_.top() << " ";
+        symbol_stack_.pop();
+    }
+    std::cout << "]\n";
+}
+
+void LL1Parser::print_symbol_hist() {
+    std::cout << "Last 5 processed symbols : [ ";
+    while (!trace_.empty()) {
+        std::cout << trace_.front() << " ";
+        trace_.pop();
+    }
+    std::cout << "]\n";
+}
+
 bool LL1Parser::parse() {
     lexer lex(text_file_);
 
-    std::stack<std::string> symbol_stack;
-    symbol_stack.push(gr_.AXIOM_);
+    symbol_stack_.push(gr_.AXIOM_);
     std::string current_symbol = lex.next();
-    while (!current_symbol.empty() && !symbol_stack.empty()) {
-        if (symbol_stack.top() == symbol_table::EPSILON_) {
-            symbol_stack.pop();
+    while (!current_symbol.empty() && !symbol_stack_.empty()) {
+        if (symbol_stack_.top() == symbol_table::EPSILON_) {
+            symbol_stack_.pop();
             continue;
         }
-        std::vector<std::string> d_symbols;
-        std::string              top_symbol = symbol_stack.top();
-        symbol_stack.pop();
+        std::string top_symbol = symbol_stack_.top();
+        symbol_stack_.pop();
         if (!symbol_table::is_terminal(top_symbol)) {
             try {
-                d_symbols = ll1_t_.at(top_symbol).at(current_symbol)[0];
+                const production& d_symbols =
+                    ll1_t_.at(top_symbol).at(current_symbol)[0];
+                for (auto& d : std::ranges::reverse_view(d_symbols)) {
+                    symbol_stack_.push(d);
+                }
             } catch (const std::out_of_range& exc) {
                 // check if this rule has an empty production
                 if (gr_.has_empty_production(top_symbol)) {
@@ -83,17 +104,17 @@ bool LL1Parser::parse() {
                 }
                 return false;
             }
-            for (auto& d : std::ranges::reverse_view(d_symbols)) {
-                symbol_stack.push(d);
-            }
         } else {
+            if (trace_.size() == TRACE_SIZE) {
+                trace_.pop();
+            }
+            trace_.push(current_symbol);
             if (top_symbol != current_symbol) {
                 return false;
             }
             current_symbol = lex.next();
         }
     }
-
     return true;
 }
 

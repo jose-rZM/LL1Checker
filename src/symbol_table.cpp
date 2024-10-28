@@ -1,7 +1,5 @@
-#include "symbol_table.hpp"
-#include <algorithm>
+#include "../include/symbol_table.hpp"
 #include <cstdio>
-#include <map>
 #include <unordered_map>
 #include <vector>
 

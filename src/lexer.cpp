@@ -1,6 +1,6 @@
-#include "lexer.hpp"
-#include "errors/lexer_error.hpp"
-#include "symbol_table.hpp"
+#include "../include/lexer.hpp"
+#include "../include/lexer_error.hpp"
+#include "../include/symbol_table.hpp"
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -67,20 +67,27 @@ void lexer::tokenize() {
         // memory leaks!
         destroy =
             reinterpret_cast<yylex_destroy>(dlsym(dynlib, "yylex_destroy"));
+
         if (!set || !yylex || !destroy) {
             cleanup();
-            throw LexerError("Error while obtaining one or more symbols");
+            throw LexerError(
+                "Initialization error: failed to retrieve necessary lexer "
+                "symbols (set, yylex, or destroy)");
         }
 
         file = fopen(filename_.c_str(), "r");
         if (!file) {
             cleanup();
-            throw std::runtime_error("Error opening the file " + filename_);
+            throw std::runtime_error(
+                "File error: unable to open the specified file '" + filename_ +
+                "'. Please check the file path and permissions");
         }
 
         if (set(file) != 1) {
             cleanup();
-            throw LexerError("Error while establishing the input file");
+            throw LexerError(
+                "Configuration error: failed to set the input file for lexing. "
+                "Verify that the filename is correct");
         }
 
         // Read the file
@@ -88,7 +95,8 @@ void lexer::tokenize() {
         while (token != 0) {
             if (token == -1) {
                 cleanup();
-                throw LexerError("Lexical error");
+                throw LexerError(
+                    "Lexical error: encountered an invalid token in the input");
             }
             tokens_.push_back(symbol_table::token_types_r_[token]);
             token = yylex();

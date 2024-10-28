@@ -3,8 +3,7 @@
 #include <ostream>
 #include <string>
 
-#include "lexer.hpp"
-#include "ll1_parser.hpp"
+#include "../include/ll1_parser.hpp"
 
 int print_file_to_stdout(const std::string& filename) {
     std::ifstream file(filename);
@@ -25,7 +24,9 @@ void show_usage(const char* program_name) {
               << std::endl;
     std::cout << "Options:" << std::endl;
     std::cout << "  -h             Show this help message" << std::endl;
-    std::cout << "  --debug        Enable debug mode" << std::endl;
+    std::cout << "  --debug        Enable debug mode: print ll1 table, input "
+                 "file and parser stack trace"
+              << std::endl;
     std::cout << "  <grammar_filename>  Path to the grammar file" << std::endl;
     std::cout
         << "  <text_filename>     Path to the text file to be parsed (optional)"
@@ -38,8 +39,8 @@ int main(int argc, char* argv[]) {
 
     try {
         if (argc < 2 || argc > 4) {
-            std::cerr << "Usage: " << argv[0]
-                      << " <grammar_filename> [<text_filename>] [--debug]"
+            std::cerr << "Error: Incorrect number of arguments. Use 'll1 -h' "
+                         "for usage information"
                       << std::endl;
             return 1;
         }
@@ -69,23 +70,31 @@ int main(int argc, char* argv[]) {
         LL1Parser ll1_p{grammar_filename, text_filename};
         std::cout << "Grammar is LL(1)" << std::endl;
         if (debug_mode) {
+            std::cout << "-----------------------------------------------\n";
             std::cout << "LL1 Table (Debug Mode):" << std::endl;
             ll1_p.print_table();
-
+            std::cout << "-----------------------------------------------\n";
             if (!text_filename.empty()) {
                 std::cout << "Input (Debug Mode):" << std::endl;
                 if (print_file_to_stdout(text_filename)) {
                     std::cerr << "Error: File does not exists!" << std::endl;
                     return 1;
                 }
+                std::cout
+                    << "-----------------------------------------------\n";
             }
         }
 
         if (!text_filename.empty()) {
             if (ll1_p.parse()) {
                 std::cout << "Parsing was successful" << std::endl;
+                if (debug_mode) {
+                    ll1_p.print_stack_trace();
+                }
             } else {
                 std::cerr << "Parsing encountered an error." << std::endl;
+                ll1_p.print_stack_trace();
+                ll1_p.print_symbol_hist();
             }
         }
     } catch (const std::exception& e) {

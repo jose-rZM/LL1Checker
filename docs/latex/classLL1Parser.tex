@@ -1,0 +1,123 @@
+\doxysection{LL1\+Parser Class Reference}
+\hypertarget{classLL1Parser}{}\label{classLL1Parser}\index{LL1Parser@{LL1Parser}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLL1Parser_a7b00f3b79a4d01542cf3c58de1df1af5}{LL1\+Parser}} (\mbox{\hyperlink{structgrammar}{grammar}} gr, std\+::string text\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Constructs an \doxylink{classLL1Parser}{LL1\+Parser} with a grammar object and an input file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classLL1Parser_a51dd893a5c09c140328293c2b79b6188}{LL1\+Parser}} (const std\+::string \&grammar\+\_\+file, std\+::string text\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Constructs an \doxylink{classLL1Parser}{LL1\+Parser} with a grammar file and an input file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classLL1Parser_a34a42a2a0002a599d0d3c0d8c26dc8dc}{LL1\+Parser}} (const std\+::string \&grammar\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Constructs an \doxylink{classLL1Parser}{LL1\+Parser} with a grammar file. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classLL1Parser_a5365f6e860eab2916012f972cf24c0e1}{parse}} ()
+\begin{DoxyCompactList}\small\item\em Parses the input file using the LL(1) algorithm. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLL1Parser_a755f54c1ae65db9b7114b15183aa6386}{print\+\_\+table}} ()
+\begin{DoxyCompactList}\small\item\em Prints the LL(1) parsing table to standard output. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLL1Parser_a1e59f1c220e2af957e8165249601e046}{print\+\_\+stack\+\_\+trace}} ()
+\begin{DoxyCompactList}\small\item\em Prints the parsing stack trace to standard output. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLL1Parser_aafe470b4cd909babc2ce4bd264cccd01}{print\+\_\+symbol\+\_\+hist}} ()
+\begin{DoxyCompactList}\small\item\em Prints the last TRACE\+\_\+\+SIZE symbols processed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classLL1Parser_a7b00f3b79a4d01542cf3c58de1df1af5}\label{classLL1Parser_a7b00f3b79a4d01542cf3c58de1df1af5} 
+\index{LL1Parser@{LL1Parser}!LL1Parser@{LL1Parser}}
+\index{LL1Parser@{LL1Parser}!LL1Parser@{LL1Parser}}
+\doxysubsubsection{\texorpdfstring{LL1Parser()}{LL1Parser()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily LL1\+Parser\+::\+LL1\+Parser (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structgrammar}{grammar}}}]{gr,  }\item[{std\+::string}]{text\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Constructs an \doxylink{classLL1Parser}{LL1\+Parser} with a grammar object and an input file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gr} & Grammar object to parse with. \\
+\hline
+{\em text\+\_\+file} & Name of the file containing input to parse. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLL1Parser_a51dd893a5c09c140328293c2b79b6188}\label{classLL1Parser_a51dd893a5c09c140328293c2b79b6188} 
+\index{LL1Parser@{LL1Parser}!LL1Parser@{LL1Parser}}
+\index{LL1Parser@{LL1Parser}!LL1Parser@{LL1Parser}}
+\doxysubsubsection{\texorpdfstring{LL1Parser()}{LL1Parser()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily LL1\+Parser\+::\+LL1\+Parser (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{grammar\+\_\+file,  }\item[{std\+::string}]{text\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Constructs an \doxylink{classLL1Parser}{LL1\+Parser} with a grammar file and an input file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em grammar\+\_\+file} & Path to the grammar file. \\
+\hline
+{\em text\+\_\+file} & Name of the file containing input to parse. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLL1Parser_a34a42a2a0002a599d0d3c0d8c26dc8dc}\label{classLL1Parser_a34a42a2a0002a599d0d3c0d8c26dc8dc} 
+\index{LL1Parser@{LL1Parser}!LL1Parser@{LL1Parser}}
+\index{LL1Parser@{LL1Parser}!LL1Parser@{LL1Parser}}
+\doxysubsubsection{\texorpdfstring{LL1Parser()}{LL1Parser()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily LL1\+Parser\+::\+LL1\+Parser (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{grammar\+\_\+file }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs an \doxylink{classLL1Parser}{LL1\+Parser} with a grammar file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em grammar\+\_\+file} & Path to the grammar file. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classLL1Parser_a5365f6e860eab2916012f972cf24c0e1}\label{classLL1Parser_a5365f6e860eab2916012f972cf24c0e1} 
+\index{LL1Parser@{LL1Parser}!parse@{parse}}
+\index{parse@{parse}!LL1Parser@{LL1Parser}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily bool LL1\+Parser\+::parse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Parses the input file using the LL(1) algorithm. 
+
+\begin{DoxyReturn}{Returns}
+true if parsing completes successfully, otherwise false. 
+\end{DoxyReturn}
+\Hypertarget{classLL1Parser_a1e59f1c220e2af957e8165249601e046}\label{classLL1Parser_a1e59f1c220e2af957e8165249601e046} 
+\index{LL1Parser@{LL1Parser}!print\_stack\_trace@{print\_stack\_trace}}
+\index{print\_stack\_trace@{print\_stack\_trace}!LL1Parser@{LL1Parser}}
+\doxysubsubsection{\texorpdfstring{print\_stack\_trace()}{print\_stack\_trace()}}
+{\footnotesize\ttfamily void LL1\+Parser\+::print\+\_\+stack\+\_\+trace (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Prints the parsing stack trace to standard output. 
+
+Shows the sequence of parsing steps, useful for tracing errors. \Hypertarget{classLL1Parser_aafe470b4cd909babc2ce4bd264cccd01}\label{classLL1Parser_aafe470b4cd909babc2ce4bd264cccd01} 
+\index{LL1Parser@{LL1Parser}!print\_symbol\_hist@{print\_symbol\_hist}}
+\index{print\_symbol\_hist@{print\_symbol\_hist}!LL1Parser@{LL1Parser}}
+\doxysubsubsection{\texorpdfstring{print\_symbol\_hist()}{print\_symbol\_hist()}}
+{\footnotesize\ttfamily void LL1\+Parser\+::print\+\_\+symbol\+\_\+hist (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Prints the last TRACE\+\_\+\+SIZE symbols processed. 
+
+Primarily used to identify the most recent tokens processed in case of parsing errors. \Hypertarget{classLL1Parser_a755f54c1ae65db9b7114b15183aa6386}\label{classLL1Parser_a755f54c1ae65db9b7114b15183aa6386} 
+\index{LL1Parser@{LL1Parser}!print\_table@{print\_table}}
+\index{print\_table@{print\_table}!LL1Parser@{LL1Parser}}
+\doxysubsubsection{\texorpdfstring{print\_table()}{print\_table()}}
+{\footnotesize\ttfamily void LL1\+Parser\+::print\+\_\+table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Prints the LL(1) parsing table to standard output. 
+
+Displays the LL(1) table for debugging and analysis. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/ll1\+\_\+parser.\+hpp\item 
+src/ll1\+\_\+parser.\+cpp\end{DoxyCompactItemize}

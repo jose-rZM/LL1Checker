@@ -1,6 +1,6 @@
-#include "grammar.hpp"
-#include "errors/grammar_error.hpp"
-#include "symbol_table.hpp"
+#include "../include/grammar.hpp"
+#include "../include/grammar_error.hpp"
+#include "../include/symbol_table.hpp"
 #include <fstream>
 #include <iostream>
 #include <regex>

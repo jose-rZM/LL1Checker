@@ -1,0 +1,54 @@
+\doxysection{lexer Class Reference}
+\hypertarget{classlexer}{}\label{classlexer}\index{lexer@{lexer}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlexer_ae2720ff7c4dde918a3637b26c4493d56}{lexer}} (std\+::string filename)
+\begin{DoxyCompactList}\small\item\em Constructs a lexer and tokenizes the specified input file. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2}{next}} ()
+\begin{DoxyCompactList}\small\item\em Retrieves the next token from the token vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classlexer_ae2720ff7c4dde918a3637b26c4493d56}\label{classlexer_ae2720ff7c4dde918a3637b26c4493d56} 
+\index{lexer@{lexer}!lexer@{lexer}}
+\index{lexer@{lexer}!lexer@{lexer}}
+\doxysubsubsection{\texorpdfstring{lexer()}{lexer()}}
+{\footnotesize\ttfamily lexer\+::lexer (\begin{DoxyParamCaption}\item[{std\+::string}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a lexer and tokenizes the specified input file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & Path to the input file containing the string to be validated.\\
+\hline
+\end{DoxyParams}
+The constructor initializes the lexer, compiles it, and tokenizes the input file\textquotesingle{}s contents. Assumes that all requirements outlined in "{}\+README.\+md"{} are met.
+
+\begin{DoxyNote}{Note}
+The program aborts if any errors occur during lexer creation or tokenization. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2}\label{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2} 
+\index{lexer@{lexer}!next@{next}}
+\index{next@{next}!lexer@{lexer}}
+\doxysubsubsection{\texorpdfstring{next()}{next()}}
+{\footnotesize\ttfamily std\+::string lexer\+::next (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Retrieves the next token from the token vector. 
+
+\begin{DoxyReturn}{Returns}
+std\+::string The next token in the sequence; returns an empty string if the end of the line (EOL) is reached.
+\end{DoxyReturn}
+This function allows sequential access to tokens processed by the lexer. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/lexer.\+hpp\item 
+src/lexer.\+cpp\end{DoxyCompactItemize}

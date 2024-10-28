@@ -1,0 +1,47 @@
+\doxysection{symbol\+\_\+table.\+hpp}
+\hypertarget{symbol__table_8hpp_source}{}\label{symbol__table_8hpp_source}\index{include/symbol\_table.hpp@{include/symbol\_table.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{enum}\ symbol\_type\ \{\ NO\_TERMINAL,\ TERMINAL\ \};}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsymbol__table}{symbol\_table}}\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}}\{\textcolor{stringliteral}{"{}\$"{}}\};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\_}}\{\textcolor{stringliteral}{"{}EPSILON"{}}\};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::unordered\_map<std::string,}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<symbol\_type,\ std::string>>}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structsymbol__table_a2addd90b84742fbac617f848bfe6ab8f}{st\_}}\{\{\mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}},\ \{TERMINAL,\ \mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}}\}\},\ \{\mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\_}},\ \{TERMINAL,\ \mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\_}}\}\}\};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::unordered\_map<std::string,\ int>\ \mbox{\hyperlink{structsymbol__table_af9e9310c8c75c97e4e235be03905985c}{token\_types\_}}\{\{\mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}},\ 1\}\};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::unordered\_map<int,\ std::string>\ \mbox{\hyperlink{structsymbol__table_a44b009a5351396c74edd975c5d4417a5}{token\_types\_r\_}}\{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \{1,\ \mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}}\}\};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::vector<int>\ \mbox{\hyperlink{structsymbol__table_a5628d199742eae568a2942607311ccd3}{order\_}}\{1\};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structsymbol__table_abe77cfb88a8a1366ac3d70a5fea1d716}{i\_}}\{2\};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_a19330cf552b27315d936ad006265d7e5}{put\_symbol}}(\textcolor{keyword}{const}\ std::string\&\ identifier,}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ regex);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_a19330cf552b27315d936ad006265d7e5}{put\_symbol}}(\textcolor{keyword}{const}\ std::string\&\ identifier);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structsymbol__table_a1a137c0c91707c52882298ac379c6f75}{in}}(\textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structsymbol__table_a86029966dd3c489f2e7a91a39c229cd8}{is\_terminal}}(\textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{structsymbol__table_ae6660ba44b3a07cc0228e5fd9942a145}{get\_value}}(\textcolor{keyword}{const}\ std::string\&\ terminal);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_aecd6a9dcc4f27c41bbb018097caaf4a9}{debug}}();}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_a48fd201ae09ff3adae763ccd578e7b03}{set\_eol}}(\textcolor{keyword}{const}\ std::string\&\ eol);}
+\DoxyCodeLine{00092\ \};}
+
+\end{DoxyCode}
