@@ -31,6 +31,10 @@ void grammar::read_from_file() {
 
     std::string input;
     std::smatch match;
+
+    if (file.peek() == std::ifstream::traits_type::eof()) {
+        throw std::runtime_error("Empty file");
+    }
     try {
         while (getline(file, input) && input != ";") {
             std::string id;

@@ -34,7 +34,6 @@ void lexer::create_temp_files() {
     so_file_path_ = temp_dir_ / boost::filesystem::unique_path(
                                     "lex.yy_%%%%-%%%%-%%%%-%%%%.so");
 
-    // Abrir los archivos para asegurarse de que se creen
     boost::filesystem::ofstream(lex_file_path_.string());
     boost::filesystem::ofstream(c_file_path_.string());
     boost::filesystem::ofstream(o_file_path_.string());

@@ -1,4 +1,5 @@
 #include <fstream>
+#include <getopt.h>
 #include <iostream>
 #include <ostream>
 #include <string>
@@ -14,17 +15,15 @@ int print_file_to_stdout(const std::string& filename) {
     while (getline(file, line)) {
         std::cout << line << std::endl;
     }
-    file.close();
     return 0;
 }
 
 void show_usage(const char* program_name) {
     std::cout << "Usage: " << program_name
-              << " <grammar_filename> [<text_filename>] [--debug] [-h]"
-              << std::endl;
+              << " <grammar_filename> [<text_filename>] [-v] [-h]" << std::endl;
     std::cout << "Options:" << std::endl;
     std::cout << "  -h             Show this help message" << std::endl;
-    std::cout << "  --debug        Enable debug mode: print ll1 table, input "
+    std::cout << "  -v             Enable verbose mode: print ll1 table, input "
                  "file and parser stack trace"
               << std::endl;
     std::cout << "  <grammar_filename>  Path to the grammar file" << std::endl;
@@ -35,49 +34,57 @@ void show_usage(const char* program_name) {
 
 int main(int argc, char* argv[]) {
     std::string grammar_filename, text_filename;
-    bool        debug_mode = false;
+    bool        verbose_mode = false;
+
+    int opt;
+    while ((opt = getopt(argc, argv, "hv")) != -1) {
+        switch (opt) {
+        case 'h':
+            show_usage(argv[0]);
+            return 0;
+        case 'v':
+            verbose_mode = true;
+            break;
+        default:
+            std::cerr
+                << "ll1: Invalid option. Use 'll1 -h' for usage information."
+                << std::endl;
+            return 1;
+        }
+    }
+
+    if (argc - optind < 1 || argc - optind > 2) {
+        std::cerr << "ll1: Incorrect number of arguments. Use 'll1 -h' for "
+                     "usage information."
+                  << std::endl;
+        return 1;
+    }
+
+    grammar_filename = argv[optind];
+    if (optind + 1 < argc) {
+        text_filename = argv[optind + 1];
+    }
+
+    std::ifstream grammar_file_check(grammar_filename);
+    if (!grammar_file_check) {
+        std::cerr << "ll1: Grammar file '" << grammar_filename
+                  << "' does not exist or cannot be opened." << std::endl;
+        return 1;
+    }
 
     try {
-        if (argc < 2 || argc > 4) {
-            std::cerr << "Error: Incorrect number of arguments. Use 'll1 -h' "
-                         "for usage information"
-                      << std::endl;
-            return 1;
-        }
-
-        for (int i = 1; i < argc; ++i) {
-            const std::string& arg = argv[i];
-            if (arg == "-h") {
-                show_usage(argv[0]);
-                return 0;
-            } else if (arg == "--debug") {
-                debug_mode = true;
-            } else if (grammar_filename.empty()) {
-                grammar_filename = arg;
-            } else if (text_filename.empty()) {
-                text_filename = arg;
-            }
-        }
-
-        std::ifstream grammar_file_check(grammar_filename);
-        if (!grammar_file_check) {
-            std::cerr << "Error: Grammar file '" << grammar_filename
-                      << "' does not exists or it can not be opened."
-                      << std::endl;
-            return 1;
-        }
-
         LL1Parser ll1_p{grammar_filename, text_filename};
         std::cout << "Grammar is LL(1)" << std::endl;
-        if (debug_mode) {
+
+        if (verbose_mode) {
             std::cout << "-----------------------------------------------\n";
-            std::cout << "LL1 Table (Debug Mode):" << std::endl;
+            std::cout << "LL1 Table (Verbose Mode):" << std::endl;
             ll1_p.print_table();
             std::cout << "-----------------------------------------------\n";
             if (!text_filename.empty()) {
-                std::cout << "Input (Debug Mode):" << std::endl;
+                std::cout << "Input (Verbose Mode):" << std::endl;
                 if (print_file_to_stdout(text_filename)) {
-                    std::cerr << "Error: File does not exists!" << std::endl;
+                    std::cerr << "Error: File does not exist." << std::endl;
                     return 1;
                 }
                 std::cout
@@ -86,9 +93,18 @@ int main(int argc, char* argv[]) {
         }
 
         if (!text_filename.empty()) {
+            std::ifstream file(text_filename);
+            if (!file) {
+                std::cerr << "ll1: File does not exist." << std::endl;
+                return 1;
+            }
+            if (file.peek() == std::ifstream::traits_type::eof()) {
+                std::cerr << "ll1: File is empty." << std::endl;
+                return 1;
+            }
             if (ll1_p.parse()) {
-                std::cout << "Parsing was successful" << std::endl;
-                if (debug_mode) {
+                std::cout << "Parsing was successful." << std::endl;
+                if (verbose_mode) {
                     ll1_p.print_stack_trace();
                 }
             } else {
@@ -98,7 +114,7 @@ int main(int argc, char* argv[]) {
             }
         }
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "ll1: " << e.what() << std::endl;
         return 1;
     }
 
