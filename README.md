@@ -27,12 +27,12 @@ If you encounter any issues or unexpected interpretations, please open an issue 
 
 You can run the program as follows:
 ~~~
-./parser <GRAMMAR_FILENAME>
+./ll1 <GRAMMAR_FILENAME>
 ~~~ 
 - Checks if the provided grammar is LL(1). 
 - If the grammar has conflicts, displays the LL(1) table with conflicts for debugging. 
 ~~~
-./parser <GRAMMAR_FILENAME> <INPUT_FILENAME>
+./ll1 <GRAMMAR_FILENAME> <INPUT_FILENAME>
 ~~~
 - Checks if the provided grammar is LL(1) and validates if the input conforms to the grammar.
 - If the grammar is not LL(1), it displays the LL(1) table with conflicts.
@@ -40,7 +40,7 @@ You can run the program as follows:
 ### Optional Verbose Mode
 To enable additional debug information, including the full LL(1) table and the input content:
 ~~~
-./parser <GRAMMAR_FILENAME> <INPUT_FILENAME> -v
+./ll1 <GRAMMAR_FILENAME> <INPUT_FILENAME> -v
 ~~~
 In `verbose` mode, the program will:
 - Display the entire LL(1) table, including any conflicts if the grammar is not LL(1).
