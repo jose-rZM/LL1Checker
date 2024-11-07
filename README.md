@@ -18,10 +18,8 @@ If you encounter any issues or unexpected interpretations, please open an issue 
 
 ## 📋 Requirements
 
-- Linux (currently): The dlfcn.h header is used for dynamic library loading.
-- Flex: Required to generate and compile the lexer file `sudo apt install flex` in Debian based distros.
-- gcc: Used for compilation within the code.
-- g++ (or clangd, although untested): The Makefile is set to use g++, but can be adjusted for other compilers.
+- Flex: Required to generate and compile the lexer file `sudo apt install flex` in Debian based distros. If you use Windows, `winflexbison` is required and in your `PATH`
+- gcc: Used for compiling the generated `lex` file.
 
 ## ▶️ Run
 
