@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['in_0',['in',['../structsymbol__table.html#a1a137c0c91707c52882298ac379c6f75',1,'symbol_table']]],
-  ['is_5fterminal_1',['is_terminal',['../structsymbol__table.html#a86029966dd3c489f2e7a91a39c229cd8',1,'symbol_table']]]
+  ['has_5fempty_5fproduction_0',['has_empty_production',['../structgrammar.html#ab434698850869fb2a75e187de47715da',1,'grammar']]],
+  ['has_5fleft_5frecursion_1',['has_left_recursion',['../structgrammar.html#a007a23b6f3278f7a8da1443f227c2291',1,'grammar']]]
 ];

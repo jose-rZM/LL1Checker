@@ -74,6 +74,9 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-types">Private Types</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classLL1Parser-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">LL1Parser Class Reference</div></div>
 </div><!--header-->
@@ -102,7 +105,93 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aafe470b4cd909babc2ce4bd264cccd01" id="r_aafe470b4cd909babc2ce4bd264cccd01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafe470b4cd909babc2ce4bd264cccd01">print_symbol_hist</a> ()</td></tr>
 <tr class="memdesc:aafe470b4cd909babc2ce4bd264cccd01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the last TRACE_SIZE symbols processed.  <br /></td></tr>
 <tr class="separator:aafe470b4cd909babc2ce4bd264cccd01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private Types</h2></td></tr>
+<tr class="memitem:aa240d93c411bc895acadcfdd7abd0320" id="r_aa240d93c411bc895acadcfdd7abd0320"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa240d93c411bc895acadcfdd7abd0320">ll1_table</a></td></tr>
+<tr class="separator:aa240d93c411bc895acadcfdd7abd0320"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a3701bf0eb0eb1cd3a8dd399f3d8fc57a" id="r_a3701bf0eb0eb1cd3a8dd399f3d8fc57a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3701bf0eb0eb1cd3a8dd399f3d8fc57a">first</a> (std::span&lt; const std::string &gt; rule, std::unordered_set&lt; std::string &gt; &amp;result)</td></tr>
+<tr class="memdesc:a3701bf0eb0eb1cd3a8dd399f3d8fc57a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the FIRST set for a given production rule in a grammar.  <br /></td></tr>
+<tr class="separator:a3701bf0eb0eb1cd3a8dd399f3d8fc57a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af98d55729b5258b5b41f5343ac6404e6" id="r_af98d55729b5258b5b41f5343ac6404e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af98d55729b5258b5b41f5343ac6404e6">compute_first_sets</a> ()</td></tr>
+<tr class="memdesc:af98d55729b5258b5b41f5343ac6404e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the FIRST sets for all non-terminal symbols in the grammar.  <br /></td></tr>
+<tr class="separator:af98d55729b5258b5b41f5343ac6404e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e7d4758de64f00aea8af84b1eff17b4" id="r_a3e7d4758de64f00aea8af84b1eff17b4"><td class="memItemLeft" align="right" valign="top">std::unordered_set&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e7d4758de64f00aea8af84b1eff17b4">follow</a> (const std::string &amp;arg)</td></tr>
+<tr class="memdesc:a3e7d4758de64f00aea8af84b1eff17b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the FOLLOW set for a given non-terminal symbol in the grammar.  <br /></td></tr>
+<tr class="separator:a3e7d4758de64f00aea8af84b1eff17b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebbbd946fbd379b39e80e2beeb92a890" id="r_aebbbd946fbd379b39e80e2beeb92a890"><td class="memItemLeft" align="right" valign="top">std::unordered_set&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebbbd946fbd379b39e80e2beeb92a890">director_symbols</a> (const std::string &amp;antecedent, const std::vector&lt; std::string &gt; &amp;consequent)</td></tr>
+<tr class="memdesc:aebbbd946fbd379b39e80e2beeb92a890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the director symbols (prediction symbols) for a given production rule.  <br /></td></tr>
+<tr class="separator:aebbbd946fbd379b39e80e2beeb92a890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a121ee29300a96645d3952dcaf686206b" id="r_a121ee29300a96645d3952dcaf686206b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a121ee29300a96645d3952dcaf686206b">follow_util</a> (const std::string &amp;arg, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_set&lt; std::string &gt; &amp;next_symbols)</td></tr>
+<tr class="memdesc:a121ee29300a96645d3952dcaf686206b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recursive utility function to compute the FOLLOW set for a non-terminal.  <br /></td></tr>
+<tr class="separator:a121ee29300a96645d3952dcaf686206b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cbb15215801883d417fa2a63f6e9899" id="r_a4cbb15215801883d417fa2a63f6e9899"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4cbb15215801883d417fa2a63f6e9899">create_ll1_table</a> ()</td></tr>
+<tr class="memdesc:a4cbb15215801883d417fa2a63f6e9899"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the LL(1) parsing table for the grammar.  <br /></td></tr>
+<tr class="separator:a4cbb15215801883d417fa2a63f6e9899"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ae0c4838c71b1d54ca7910670cc259def" id="r_ae0c4838c71b1d54ca7910670cc259def"><td class="memItemLeft" align="right" valign="top"><a id="ae0c4838c71b1d54ca7910670cc259def" name="ae0c4838c71b1d54ca7910670cc259def"></a>
+const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>TRACE_SIZE</b> {5}</td></tr>
+<tr class="memdesc:ae0c4838c71b1d54ca7910670cc259def"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size limit for symbol history trace, defaults to 5. <br /></td></tr>
+<tr class="separator:ae0c4838c71b1d54ca7910670cc259def"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29cba4eed3d7b262f17509779934f1fd" id="r_a29cba4eed3d7b262f17509779934f1fd"><td class="memItemLeft" align="right" valign="top"><a id="a29cba4eed3d7b262f17509779934f1fd" name="a29cba4eed3d7b262f17509779934f1fd"></a>
+ll1_table&#160;</td><td class="memItemRight" valign="bottom"><b>ll1_t_</b></td></tr>
+<tr class="memdesc:a29cba4eed3d7b262f17509779934f1fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The LL(1) parsing table, mapping non-terminals and terminals to productions. <br /></td></tr>
+<tr class="separator:a29cba4eed3d7b262f17509779934f1fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9d568cd0d579c35fc4443593326d4f2" id="r_aa9d568cd0d579c35fc4443593326d4f2"><td class="memItemLeft" align="right" valign="top"><a id="aa9d568cd0d579c35fc4443593326d4f2" name="aa9d568cd0d579c35fc4443593326d4f2"></a>
+<a class="el" href="structgrammar.html">grammar</a>&#160;</td><td class="memItemRight" valign="bottom"><b>gr_</b></td></tr>
+<tr class="memdesc:aa9d568cd0d579c35fc4443593326d4f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grammar object associated with this parser. <br /></td></tr>
+<tr class="separator:aa9d568cd0d579c35fc4443593326d4f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa5d8c5d10c436b349a4ddccbe085901" id="r_aaa5d8c5d10c436b349a4ddccbe085901"><td class="memItemLeft" align="right" valign="top"><a id="aaa5d8c5d10c436b349a4ddccbe085901" name="aaa5d8c5d10c436b349a4ddccbe085901"></a>
+std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>first_sets</b></td></tr>
+<tr class="memdesc:aaa5d8c5d10c436b349a4ddccbe085901"><td class="mdescLeft">&#160;</td><td class="mdescRight">FIRST sets for each non-terminal in the grammar. <br /></td></tr>
+<tr class="separator:aaa5d8c5d10c436b349a4ddccbe085901"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc998981a7a6635e498d36954781aea0" id="r_adc998981a7a6635e498d36954781aea0"><td class="memItemLeft" align="right" valign="top"><a id="adc998981a7a6635e498d36954781aea0" name="adc998981a7a6635e498d36954781aea0"></a>
+std::stack&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>symbol_stack_</b></td></tr>
+<tr class="memdesc:adc998981a7a6635e498d36954781aea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stack for managing parsing symbols. <br /></td></tr>
+<tr class="separator:adc998981a7a6635e498d36954781aea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a925dde74d4f9e5a40eeba14d10b08bbb" id="r_a925dde74d4f9e5a40eeba14d10b08bbb"><td class="memItemLeft" align="right" valign="top"><a id="a925dde74d4f9e5a40eeba14d10b08bbb" name="a925dde74d4f9e5a40eeba14d10b08bbb"></a>
+std::deque&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>trace_</b></td></tr>
+<tr class="memdesc:a925dde74d4f9e5a40eeba14d10b08bbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deque for tracking the most recent TRACE_SIZE symbols parsed. <br /></td></tr>
+<tr class="separator:a925dde74d4f9e5a40eeba14d10b08bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69d3b82775755d12b9f2c5a874efa365" id="r_a69d3b82775755d12b9f2c5a874efa365"><td class="memItemLeft" align="right" valign="top"><a id="a69d3b82775755d12b9f2c5a874efa365" name="a69d3b82775755d12b9f2c5a874efa365"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>grammar_file_</b></td></tr>
+<tr class="memdesc:a69d3b82775755d12b9f2c5a874efa365"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the grammar file used in this parser. <br /></td></tr>
+<tr class="separator:a69d3b82775755d12b9f2c5a874efa365"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a608a4c6bd4f7e3408f1e5edcc0faf30a" id="r_a608a4c6bd4f7e3408f1e5edcc0faf30a"><td class="memItemLeft" align="right" valign="top"><a id="a608a4c6bd4f7e3408f1e5edcc0faf30a" name="a608a4c6bd4f7e3408f1e5edcc0faf30a"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>text_file_</b></td></tr>
+<tr class="memdesc:a608a4c6bd4f7e3408f1e5edcc0faf30a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the input text file to be parsed. <br /></td></tr>
+<tr class="separator:a608a4c6bd4f7e3408f1e5edcc0faf30a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="aa240d93c411bc895acadcfdd7abd0320" name="aa240d93c411bc895acadcfdd7abd0320"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa240d93c411bc895acadcfdd7abd0320">&#9670;&#160;</a></span>ll1_table</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">using LL1Parser::ll1_table</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line"> std::unordered_map&lt;</div>
+<div class="line">        std::string, std::unordered_map&lt;std::string, std::vector&lt;production&gt;&gt;&gt;</div>
+</div><!-- fragment -->
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a7b00f3b79a4d01542cf3c58de1df1af5" name="a7b00f3b79a4d01542cf3c58de1df1af5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b00f3b79a4d01542cf3c58de1df1af5">&#9670;&#160;</a></span>LL1Parser() <span class="overload">[1/3]</span></h2>
@@ -198,6 +287,241 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="af98d55729b5258b5b41f5343ac6404e6" name="af98d55729b5258b5b41f5343ac6404e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af98d55729b5258b5b41f5343ac6404e6">&#9670;&#160;</a></span>compute_first_sets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LL1Parser::compute_first_sets </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the FIRST sets for all non-terminal symbols in the grammar. </p>
+<p>This function calculates the FIRST set for each non-terminal symbol in the grammar by iteratively applying a least fixed-point algorithm. This approach ensures that the FIRST sets are fully populated by repeatedly expanding and updating the sets until no further changes occur (i.e., a fixed-point is reached). </p>
+
+</div>
+</div>
+<a id="a4cbb15215801883d417fa2a63f6e9899" name="a4cbb15215801883d417fa2a63f6e9899"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cbb15215801883d417fa2a63f6e9899">&#9670;&#160;</a></span>create_ll1_table()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool LL1Parser::create_ll1_table </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates the LL(1) parsing table for the grammar. </p>
+<p>This function constructs the LL(1) parsing table by iterating over each production in the grammar and determining the appropriate cells for each non-terminal and director symbol (prediction symbol) combination. If the grammar is LL(1) compatible, each cell will contain at most one production, indicating no conflicts. If conflicts are found, the function will return <code>false</code>, signaling that the grammar is not LL(1).</p>
+<ul>
+<li>For each production rule <code>A -&gt; α</code>, the function calculates the director symbols using the <code>director_symbols</code> function.</li>
+<li>It then fills the parsing table at the cell corresponding to the non-terminal <code>A</code> and each director symbol in the set.</li>
+<li>If a cell already contains a production, this indicates a conflict, meaning the grammar is not LL(1).</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the table is created successfully, indicating the grammar is LL(1) compatible; <code>false</code> if any conflicts are detected, showing that the grammar does not meet LL(1) requirements. </dd></dl>
+
+</div>
+</div>
+<a id="aebbbd946fbd379b39e80e2beeb92a890" name="aebbbd946fbd379b39e80e2beeb92a890"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebbbd946fbd379b39e80e2beeb92a890">&#9670;&#160;</a></span>director_symbols()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_set&lt; std::string &gt; LL1Parser::director_symbols </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>antecedent</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>consequent</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the director symbols (prediction symbols) for a given production rule. </p>
+<p>The director symbols for a rule, also called prediction symbols, determine the set of input symbols that can trigger this rule in the parsing table. This function calculates the director symbols based on the FIRST set of the consequent and, if epsilon (the empty symbol) is in the FIRST set, also includes the FOLLOW set of the antecedent.</p>
+<ul>
+<li>If the FIRST set of the consequent does not contain epsilon, the director symbols are simply the FIRST symbols of the consequent.</li>
+<li>If the FIRST set of the consequent contains epsilon, the director symbols are computed as (FIRST(consequent) - {epsilon}) ∪ FOLLOW(antecedent).</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">antecedent</td><td>The left-hand side non-terminal symbol of the rule. </td></tr>
+    <tr><td class="paramname">consequent</td><td>A vector of symbols on the right-hand side of the rule (production body). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An unordered set of strings containing the director symbols for the specified rule. </dd></dl>
+
+</div>
+</div>
+<a id="a3701bf0eb0eb1cd3a8dd399f3d8fc57a" name="a3701bf0eb0eb1cd3a8dd399f3d8fc57a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3701bf0eb0eb1cd3a8dd399f3d8fc57a">&#9670;&#160;</a></span>first()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LL1Parser::first </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; const std::string &gt;</td>          <td class="paramname"><span class="paramname"><em>rule</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_set&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculates the FIRST set for a given production rule in a grammar. </p>
+<p>The FIRST set of a production rule contains all terminal symbols that can appear at the beginning of any string derived from that rule. If the rule can derive the empty string (epsilon), epsilon is included in the FIRST set.</p>
+<p>This function computes the FIRST set by examining each symbol in the production rule:</p><ul>
+<li>If a terminal symbol is encountered, it is added directly to the FIRST set, as it is the starting symbol of some derivation.</li>
+<li>If a non-terminal symbol is encountered, its FIRST set is recursively computed and added to the result, excluding epsilon unless it is followed by another symbol that could also lead to epsilon.</li>
+<li>If the entire rule could derive epsilon (i.e., each symbol in the rule can derive epsilon), then epsilon is added to the FIRST set.</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rule</td><td>A span of strings representing the production rule for which to compute the FIRST set. Each string in the span is a symbol (either terminal or non-terminal). </td></tr>
+    <tr><td class="paramname">result</td><td>A reference to an unordered set of strings where the computed FIRST set will be stored. The set will contain all terminal symbols that can start derivations of the rule, and possibly epsilon if the rule can derive an empty string. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3e7d4758de64f00aea8af84b1eff17b4" name="a3e7d4758de64f00aea8af84b1eff17b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e7d4758de64f00aea8af84b1eff17b4">&#9670;&#160;</a></span>follow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_set&lt; std::string &gt; LL1Parser::follow </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the FOLLOW set for a given non-terminal symbol in the grammar. </p>
+<p>The FOLLOW set for a non-terminal symbol includes all symbols that can appear immediately to the right of that symbol in any derivation, as well as any end-of-input markers if the symbol can appear at the end of derivations. FOLLOW sets are used in LL(1) parsing table construction to determine possible continuations after a non-terminal.</p>
+<p>This function initiates the calculation and uses <code>follow_util</code> as a recursive helper to handle dependencies among non-terminals and avoid redundant computations.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>Non-terminal symbol for which to compute the FOLLOW set. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An unordered set of strings containing symbols that form the FOLLOW set for <code>arg</code>. </dd></dl>
+
+</div>
+</div>
+<a id="a121ee29300a96645d3952dcaf686206b" name="a121ee29300a96645d3952dcaf686206b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a121ee29300a96645d3952dcaf686206b">&#9670;&#160;</a></span>follow_util()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LL1Parser::follow_util </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>arg</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_set&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>visited</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_set&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>next_symbols</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Recursive utility function to compute the FOLLOW set for a non-terminal. </p>
+<p>This function assists in building the FOLLOW set by handling recursive dependencies among non-terminals, ensuring that cycles are properly managed to avoid infinite recursion. The helper function performs depth-first traversal through the production rules to collect symbols that should belong to the FOLLOW set of the target non-terminal.</p>
+<ul>
+<li>If a non-terminal appears in a production, <code>follow_util</code> gathers symbols immediately following it in that production.</li>
+<li>If no symbols follow the target non-terminal or if the remaining symbols can derive epsilon, it incorporates symbols from the FOLLOW set of the non-terminal on the left-hand side of the production rule.</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>The non-terminal symbol whose FOLLOW set is being computed. </td></tr>
+    <tr><td class="paramname">visited</td><td>An unordered set of strings used to track symbols already visited in the current recursion path, preventing infinite loops. </td></tr>
+    <tr><td class="paramname">next_symbols</td><td>An unordered set to accumulate symbols forming the FOLLOW set of the target non-terminal as they are discovered. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a5365f6e860eab2916012f972cf24c0e1" name="a5365f6e860eab2916012f972cf24c0e1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5365f6e860eab2916012f972cf24c0e1">&#9670;&#160;</a></span>parse()</h2>
 

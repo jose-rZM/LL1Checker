@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['filename_5f_0',['filename_',['../structgrammar.html#aeab522c9d3cd83afdb47f8a0b0e88f9d',1,'grammar']]],
-  ['filter_5frules_5fby_5fconsequent_1',['filter_rules_by_consequent',['../structgrammar.html#a8becc7bf825e2db1b84e053b8f84cb93',1,'grammar']]]
+  ['eol_5f_0',['EOL_',['../structsymbol__table.html#accf710aa9a16c51be6b9060505d2d753',1,'symbol_table']]],
+  ['epsilon_5f_1',['EPSILON_',['../structsymbol__table.html#abbd8e15ddf0c452ee640db2af5d868f5',1,'symbol_table']]]
 ];
