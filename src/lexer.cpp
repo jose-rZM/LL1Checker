@@ -52,7 +52,7 @@ void lexer::tokenize() {
             throw LexerError("Error loading dynamic library lex.yy.so");
         }
 
-        // Load symbol set_yyin, customm function to make yylex read from a file
+        // Load symbol set_yyin, custom function to make yylex read from a file
         set_yyin set{reinterpret_cast<set_yyin>(dlsym(dynlib, "set_yyin"))};
         // Load symbol yylex
         yylex_symbol yylex{
@@ -72,9 +72,9 @@ void lexer::tokenize() {
         file = fopen(filename_.c_str(), "r");
         if (!file) {
             cleanup();
-            throw std::runtime_error(
-                "File error: unable to open the specified file '" + filename_ +
-                "'. Please check the file path and permissions");
+            throw LexerError("File error: unable to open the specified file '" +
+                             filename_ +
+                             "'. Please check the file path and permissions");
         }
 
         if (set(file) != 1) {
@@ -121,7 +121,7 @@ std::string lexer::next() {
     return current_ >= tokens_.size() ? "" : tokens_[current_++];
 }
 
-void lexer::make_lexer() {
+void lexer::make_lexer() const {
     boost::filesystem::ofstream lex(lex_file_path_);
     if (!lex.is_open()) {
         cleanup();
@@ -153,7 +153,7 @@ void lexer::make_lexer() {
     lex.close();
 }
 
-void lexer::compile() {
+void lexer::compile() const {
     std::string flex_cmd =
         "flex -t " + lex_file_path_.string() + " > " + c_file_path_.string();
     int ret = system(flex_cmd.c_str());
@@ -180,7 +180,7 @@ void lexer::compile() {
     }
 }
 
-void lexer::cleanup() {
+void lexer::cleanup() const {
     boost::filesystem::remove(lex_file_path_);
     boost::filesystem::remove(c_file_path_);
     boost::filesystem::remove(o_file_path_);

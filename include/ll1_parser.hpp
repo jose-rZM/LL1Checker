@@ -38,23 +38,50 @@ class LL1Parser {
     explicit LL1Parser(const std::string& grammar_file);
 
     /**
-     * @brief Parses the input file using the LL(1) algorithm.
+     * @brief Parses an input string or file using the LL(1) parsing algorithm.
      *
-     * @return true if parsing completes successfully, otherwise false.
+     * This function performs syntactic analysis on the input based on the LL(1)
+     * parsing table, working to validate whether the input string conforms to
+     * the grammar. The parsing process involves a stack-based approach, where:
+     *
+     * - The function initializes a stack with the starting symbol of the
+     * grammar.
+     * - For each symbol in the input, it matches and expands according to the
+     *   entries in the LL(1) parsing table.
+     * - If a match is found for the current input symbol and top of the stack,
+     *   the function advances in the input and continues parsing.
+     * - If a production rule applies, it expands the non-terminal on the stack
+     *   using the rule.
+     * - If an unexpected symbol or parsing conflict arises, the function
+     * returns `false`, indicating that the input does not conform to the
+     * grammar.
+     *
+     * The function returns `true` if parsing completes successfully, reaching
+     * the end of the input and stack without errors. Otherwise, it returns
+     * `false`.
+     *
+     * @return `true` if the input is parsed successfully, meaning it conforms
+     * to the LL(1) grammar; `false` if parsing fails due to a mismatch,
+     * conflict, or unexpected input symbol.
      */
     bool parse();
 
     /**
-     * @brief Prints the LL(1) parsing table to standard output.
+     * @brief Print the LL(1) parsing table to standard output.
      *
      * Displays the LL(1) table for debugging and analysis.
      */
     void print_table();
 
     /**
-     * @brief Prints the parsing stack trace to standard output.
+     * @brief Prints the remaining symbols in the parsing stack after the
+     * parsing process.
      *
-     * Shows the sequence of parsing steps, useful for tracing errors.
+     * This function outputs the contents of the parsing stack to standard
+     * output after the parsing attempt completes, showing any symbols left
+     * unresolved. It is useful for debugging and tracing parsing issues, as it
+     * provides insight into where the parsing process may have diverged from
+     * expected behavior.
      */
     void print_stack_trace();
 
@@ -68,10 +95,30 @@ class LL1Parser {
 
   private:
     /**
-     * @brief Computes the FIRST set for a given production rule.
+     * @brief Calculates the FIRST set for a given production rule in a grammar.
      *
-     * @param rule Vector of strings representing a production rule.
-     * @return A set of symbols that form the FIRST set for the rule.
+     * The FIRST set of a production rule contains all terminal symbols that can
+     * appear at the beginning of any string derived from that rule. If the rule
+     * can derive the empty string (epsilon), epsilon is included in the FIRST
+     * set.
+     *
+     * This function computes the FIRST set by examining each symbol in the
+     * production rule:
+     * - If a terminal symbol is encountered, it is added directly to the FIRST
+     * set, as it is the starting symbol of some derivation.
+     * - If a non-terminal symbol is encountered, its FIRST set is recursively
+     * computed and added to the result, excluding epsilon unless it is followed
+     * by another symbol that could also lead to epsilon.
+     * - If the entire rule could derive epsilon (i.e., each symbol in the rule
+     * can derive epsilon), then epsilon is added to the FIRST set.
+     *
+     * @param rule A span of strings representing the production rule for which
+     * to compute the FIRST set. Each string in the span is a symbol (either
+     * terminal or non-terminal).
+     * @param result A reference to an unordered set of strings where the
+     * computed FIRST set will be stored. The set will contain all terminal
+     * symbols that can start derivations of the rule, and possibly epsilon if
+     * the rule can derive an empty string.
      */
     void first(std::span<const std::string>     rule,
                std::unordered_set<std::string>& result);
@@ -80,46 +127,106 @@ class LL1Parser {
      * @brief Computes the FIRST sets for all non-terminal symbols in the
      * grammar.
      *
-     * Calculates FIRST sets for each non-terminal in the grammar, aiding in
-     * table construction and validation of LL(1) compatibility.
+     * This function calculates the FIRST set for each non-terminal symbol in
+     * the grammar by iteratively applying a least fixed-point algorithm. This
+     * approach ensures that the FIRST sets are fully populated by repeatedly
+     * expanding and updating the sets until no further changes occur (i.e., a
+     * fixed-point is reached).
      */
     void compute_first_sets();
 
     /**
-     * @brief Computes the FOLLOW set for a given non-terminal symbol.
+     * @brief Computes the FOLLOW set for a given non-terminal symbol in the
+     * grammar.
+     *
+     * The FOLLOW set for a non-terminal symbol includes all symbols that can
+     * appear immediately to the right of that symbol in any derivation, as well
+     * as any end-of-input markers if the symbol can appear at the end of
+     * derivations. FOLLOW sets are used in LL(1) parsing table construction to
+     * determine possible continuations after a non-terminal.
+     *
+     * This function initiates the calculation and uses `follow_util` as a
+     * recursive helper to handle dependencies among non-terminals and avoid
+     * redundant computations.
      *
      * @param arg Non-terminal symbol for which to compute the FOLLOW set.
-     * @return A set of symbols forming the FOLLOW set for the symbol.
+     * @return An unordered set of strings containing symbols that form the
+     * FOLLOW set for `arg`.
      */
     std::unordered_set<std::string> follow(const std::string& arg);
 
     /**
-     * @brief Determines the director symbols for a given rule.
+     * @brief Computes the director symbols (prediction symbols) for a given
+     * production rule.
      *
-     * @param antecedent The left-hand side symbol of the rule.
-     * @param consequent The right-hand side symbols of the rule.
-     * @return A set of director symbols for the specified rule.
+     * The director symbols for a rule, also called prediction symbols,
+     * determine the set of input symbols that can trigger this rule in the
+     * parsing table. This function calculates the director symbols based on the
+     * FIRST set of the consequent and, if epsilon (the empty symbol) is in the
+     * FIRST set, also includes the FOLLOW set of the antecedent.
+     *
+     * - If the FIRST set of the consequent does not contain epsilon, the
+     * director symbols are simply the FIRST symbols of the consequent.
+     * - If the FIRST set of the consequent contains epsilon, the director
+     * symbols are computed as (FIRST(consequent) - {epsilon}) ∪
+     * FOLLOW(antecedent).
+     *
+     * @param antecedent The left-hand side non-terminal symbol of the rule.
+     * @param consequent A vector of symbols on the right-hand side of the rule
+     * (production body).
+     * @return An unordered set of strings containing the director symbols for
+     * the specified rule.
      */
     std::unordered_set<std::string>
     director_symbols(const std::string&              antecedent,
                      const std::vector<std::string>& consequent);
 
     /**
-     * @brief Utility function for computing FOLLOW sets.
+     * @brief Recursive utility function to compute the FOLLOW set for a
+     * non-terminal.
      *
-     * @param arg Symbol to compute FOLLOW set for.
-     * @param visited A set to track visited symbols and avoid recursion loops.
-     * @param next_symbols Accumulated symbols forming the FOLLOW set.
+     * This function assists in building the FOLLOW set by handling recursive
+     * dependencies among non-terminals, ensuring that cycles are properly
+     * managed to avoid infinite recursion. The helper function performs
+     * depth-first traversal through the production rules to collect symbols
+     * that should belong to the FOLLOW set of the target non-terminal.
+     *
+     * - If a non-terminal appears in a production, `follow_util` gathers
+     * symbols immediately following it in that production.
+     * - If no symbols follow the target non-terminal or if the remaining
+     * symbols can derive epsilon, it incorporates symbols from the FOLLOW set
+     * of the non-terminal on the left-hand side of the production rule.
+     *
+     * @param arg The non-terminal symbol whose FOLLOW set is being computed.
+     * @param visited An unordered set of strings used to track symbols already
+     * visited in the current recursion path, preventing infinite loops.
+     * @param next_symbols An unordered set to accumulate symbols forming the
+     * FOLLOW set of the target non-terminal as they are discovered.
      */
     void follow_util(const std::string&               arg,
                      std::unordered_set<std::string>& visited,
                      std::unordered_set<std::string>& next_symbols);
 
     /**
-     * @brief Creates the LL(1) parsing table.
+     * @brief Creates the LL(1) parsing table for the grammar.
      *
-     * @return true if the table is created successfully, indicating an LL(1)
-     *         compatible grammar, otherwise false.
+     * This function constructs the LL(1) parsing table by iterating over each
+     * production in the grammar and determining the appropriate cells for each
+     * non-terminal and director symbol (prediction symbol) combination. If the
+     * grammar is LL(1) compatible, each cell will contain at most one
+     * production, indicating no conflicts. If conflicts are found, the function
+     * will return `false`, signaling that the grammar is not LL(1).
+     *
+     * - For each production rule `A -> α`, the function calculates the director
+     * symbols using the `director_symbols` function.
+     * - It then fills the parsing table at the cell corresponding to the
+     * non-terminal `A` and each director symbol in the set.
+     * - If a cell already contains a production, this indicates a conflict,
+     * meaning the grammar is not LL(1).
+     *
+     * @return `true` if the table is created successfully, indicating the
+     * grammar is LL(1) compatible; `false` if any conflicts are detected,
+     * showing that the grammar does not meet LL(1) requirements.
      */
     bool create_ll1_table();
 
@@ -139,7 +246,7 @@ class LL1Parser {
     /// @brief Stack for managing parsing symbols.
     std::stack<std::string> symbol_stack_;
 
-    /// @brief Queue for tracking the most recent TRACE_SIZE symbols parsed.
+    /// @brief Deque for tracking the most recent TRACE_SIZE symbols parsed.
     std::deque<std::string> trace_;
 
     /// @brief Path to the grammar file used in this parser.

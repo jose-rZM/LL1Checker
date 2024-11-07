@@ -55,7 +55,6 @@ void grammar::read_from_file() {
             if (std::regex_match(input, match, rx_production)) {
                 std::string s = match[2];
                 s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
-                p_grammar[match[1]].push_back(s);
             } else if (std::regex_match(input, match, rx_empty_production)) {
                 p_grammar[match[1]].push_back(symbol_table::EPSILON_);
 

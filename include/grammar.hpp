@@ -5,8 +5,6 @@
 
 using production = std::vector<std::string>;
 
-using production = std::vector<std::string>;
-
 struct grammar {
 
     /**

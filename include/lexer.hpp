@@ -52,7 +52,7 @@ class lexer {
      * table, placing them in the appropriate order. Additionally, it creates a
      * custom function "set_yyin" to enable input redirection for `yylex`.
      */
-    void make_lexer();
+    void make_lexer() const;
     /**
      * @brief Compiles the lexer file and creates a dynamic library.
      *
@@ -62,7 +62,7 @@ class lexer {
      *
      * @throws std::runtime_error Throws if compilation fails at any step.
      */
-    void compile();
+    void compile() const;
 
     /**
      * @brief Creates temporary files required for lexer processing.
@@ -89,14 +89,11 @@ class lexer {
      * @note This function is safe to call even if no temporary files were
      * created, as it will silently ignore missing files.
      */
-    void cleanup();
+    void cleanup() const;
 
     boost::filesystem::path temp_dir_;
     boost::filesystem::path lex_file_path_;
     boost::filesystem::path c_file_path_;
     boost::filesystem::path o_file_path_;
     boost::filesystem::path so_file_path_;
-    const std::string       LEXER_FILENAME{"lex.l"};
-    const std::string       SRC_PATH{"./src"};
-    const std::string       LIB_PATH{"./lib"};
 };

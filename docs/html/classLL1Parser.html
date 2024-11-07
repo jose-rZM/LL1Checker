@@ -25,6 +25,7 @@
   <td id="projectalign">
    <div id="projectname">LL1Checker<span id="projectnumber">&#160;2.0</span>
    </div>
+   <div id="projectbrief">“Tool for verifying LL(1) grammars and validating input strings.”</div>
   </td>
  </tr>
  </tbody>
@@ -90,13 +91,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a34a42a2a0002a599d0d3c0d8c26dc8dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classLL1Parser.html">LL1Parser</a> with a grammar file.  <br /></td></tr>
 <tr class="separator:a34a42a2a0002a599d0d3c0d8c26dc8dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5365f6e860eab2916012f972cf24c0e1" id="r_a5365f6e860eab2916012f972cf24c0e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5365f6e860eab2916012f972cf24c0e1">parse</a> ()</td></tr>
-<tr class="memdesc:a5365f6e860eab2916012f972cf24c0e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses the input file using the LL(1) algorithm.  <br /></td></tr>
+<tr class="memdesc:a5365f6e860eab2916012f972cf24c0e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses an input string or file using the LL(1) parsing algorithm.  <br /></td></tr>
 <tr class="separator:a5365f6e860eab2916012f972cf24c0e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a755f54c1ae65db9b7114b15183aa6386" id="r_a755f54c1ae65db9b7114b15183aa6386"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a755f54c1ae65db9b7114b15183aa6386">print_table</a> ()</td></tr>
-<tr class="memdesc:a755f54c1ae65db9b7114b15183aa6386"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the LL(1) parsing table to standard output.  <br /></td></tr>
+<tr class="memdesc:a755f54c1ae65db9b7114b15183aa6386"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the LL(1) parsing table to standard output.  <br /></td></tr>
 <tr class="separator:a755f54c1ae65db9b7114b15183aa6386"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e59f1c220e2af957e8165249601e046" id="r_a1e59f1c220e2af957e8165249601e046"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e59f1c220e2af957e8165249601e046">print_stack_trace</a> ()</td></tr>
-<tr class="memdesc:a1e59f1c220e2af957e8165249601e046"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the parsing stack trace to standard output.  <br /></td></tr>
+<tr class="memdesc:a1e59f1c220e2af957e8165249601e046"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the remaining symbols in the parsing stack after the parsing process.  <br /></td></tr>
 <tr class="separator:a1e59f1c220e2af957e8165249601e046"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafe470b4cd909babc2ce4bd264cccd01" id="r_aafe470b4cd909babc2ce4bd264cccd01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafe470b4cd909babc2ce4bd264cccd01">print_symbol_hist</a> ()</td></tr>
 <tr class="memdesc:aafe470b4cd909babc2ce4bd264cccd01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the last TRACE_SIZE symbols processed.  <br /></td></tr>
@@ -212,8 +213,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Parses the input file using the LL(1) algorithm. </p>
-<dl class="section return"><dt>Returns</dt><dd>true if parsing completes successfully, otherwise false. </dd></dl>
+<p>Parses an input string or file using the LL(1) parsing algorithm. </p>
+<p>This function performs syntactic analysis on the input based on the LL(1) parsing table, working to validate whether the input string conforms to the grammar. The parsing process involves a stack-based approach, where:</p>
+<ul>
+<li>The function initializes a stack with the starting symbol of the grammar.</li>
+<li>For each symbol in the input, it matches and expands according to the entries in the LL(1) parsing table.</li>
+<li>If a match is found for the current input symbol and top of the stack, the function advances in the input and continues parsing.</li>
+<li>If a production rule applies, it expands the non-terminal on the stack using the rule.</li>
+<li>If an unexpected symbol or parsing conflict arises, the function returns <code>false</code>, indicating that the input does not conform to the grammar.</li>
+</ul>
+<p>The function returns <code>true</code> if parsing completes successfully, reaching the end of the input and stack without errors. Otherwise, it returns <code>false</code>.</p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the input is parsed successfully, meaning it conforms to the LL(1) grammar; <code>false</code> if parsing fails due to a mismatch, conflict, or unexpected input symbol. </dd></dl>
 
 </div>
 </div>
@@ -232,8 +242,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Prints the parsing stack trace to standard output. </p>
-<p>Shows the sequence of parsing steps, useful for tracing errors. </p>
+<p>Prints the remaining symbols in the parsing stack after the parsing process. </p>
+<p>This function outputs the contents of the parsing stack to standard output after the parsing attempt completes, showing any symbols left unresolved. It is useful for debugging and tracing parsing issues, as it provides insight into where the parsing process may have diverged from expected behavior. </p>
 
 </div>
 </div>
@@ -272,7 +282,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Prints the LL(1) parsing table to standard output. </p>
+<p>Print the LL(1) parsing table to standard output. </p>
 <p>Displays the LL(1) table for debugging and analysis. </p>
 
 </div>

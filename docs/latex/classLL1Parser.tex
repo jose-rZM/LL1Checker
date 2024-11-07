@@ -10,11 +10,11 @@
 \mbox{\hyperlink{classLL1Parser_a34a42a2a0002a599d0d3c0d8c26dc8dc}{LL1\+Parser}} (const std\+::string \&grammar\+\_\+file)
 \begin{DoxyCompactList}\small\item\em Constructs an \doxylink{classLL1Parser}{LL1\+Parser} with a grammar file. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classLL1Parser_a5365f6e860eab2916012f972cf24c0e1}{parse}} ()
-\begin{DoxyCompactList}\small\item\em Parses the input file using the LL(1) algorithm. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Parses an input string or file using the LL(1) parsing algorithm. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLL1Parser_a755f54c1ae65db9b7114b15183aa6386}{print\+\_\+table}} ()
-\begin{DoxyCompactList}\small\item\em Prints the LL(1) parsing table to standard output. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Print the LL(1) parsing table to standard output. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLL1Parser_a1e59f1c220e2af957e8165249601e046}{print\+\_\+stack\+\_\+trace}} ()
-\begin{DoxyCompactList}\small\item\em Prints the parsing stack trace to standard output. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Prints the remaining symbols in the parsing stack after the parsing process. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLL1Parser_aafe470b4cd909babc2ce4bd264cccd01}{print\+\_\+symbol\+\_\+hist}} ()
 \begin{DoxyCompactList}\small\item\em Prints the last TRACE\+\_\+\+SIZE symbols processed. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -80,10 +80,23 @@ Constructs an \doxylink{classLL1Parser}{LL1\+Parser} with a grammar file.
 
 
 
-Parses the input file using the LL(1) algorithm. 
+Parses an input string or file using the LL(1) parsing algorithm. 
+
+This function performs syntactic analysis on the input based on the LL(1) parsing table, working to validate whether the input string conforms to the grammar. The parsing process involves a stack-\/based approach, where\+:
+
+
+\begin{DoxyItemize}
+\item The function initializes a stack with the starting symbol of the grammar.
+\item For each symbol in the input, it matches and expands according to the entries in the LL(1) parsing table.
+\item If a match is found for the current input symbol and top of the stack, the function advances in the input and continues parsing.
+\item If a production rule applies, it expands the non-\/terminal on the stack using the rule.
+\item If an unexpected symbol or parsing conflict arises, the function returns {\ttfamily false}, indicating that the input does not conform to the grammar.
+\end{DoxyItemize}
+
+The function returns {\ttfamily true} if parsing completes successfully, reaching the end of the input and stack without errors. Otherwise, it returns {\ttfamily false}.
 
 \begin{DoxyReturn}{Returns}
-true if parsing completes successfully, otherwise false. 
+{\ttfamily true} if the input is parsed successfully, meaning it conforms to the LL(1) grammar; {\ttfamily false} if parsing fails due to a mismatch, conflict, or unexpected input symbol. 
 \end{DoxyReturn}
 \Hypertarget{classLL1Parser_a1e59f1c220e2af957e8165249601e046}\label{classLL1Parser_a1e59f1c220e2af957e8165249601e046} 
 \index{LL1Parser@{LL1Parser}!print\_stack\_trace@{print\_stack\_trace}}
@@ -93,9 +106,9 @@ true if parsing completes successfully, otherwise false.
 
 
 
-Prints the parsing stack trace to standard output. 
+Prints the remaining symbols in the parsing stack after the parsing process. 
 
-Shows the sequence of parsing steps, useful for tracing errors. \Hypertarget{classLL1Parser_aafe470b4cd909babc2ce4bd264cccd01}\label{classLL1Parser_aafe470b4cd909babc2ce4bd264cccd01} 
+This function outputs the contents of the parsing stack to standard output after the parsing attempt completes, showing any symbols left unresolved. It is useful for debugging and tracing parsing issues, as it provides insight into where the parsing process may have diverged from expected behavior. \Hypertarget{classLL1Parser_aafe470b4cd909babc2ce4bd264cccd01}\label{classLL1Parser_aafe470b4cd909babc2ce4bd264cccd01} 
 \index{LL1Parser@{LL1Parser}!print\_symbol\_hist@{print\_symbol\_hist}}
 \index{print\_symbol\_hist@{print\_symbol\_hist}!LL1Parser@{LL1Parser}}
 \doxysubsubsection{\texorpdfstring{print\_symbol\_hist()}{print\_symbol\_hist()}}
@@ -113,7 +126,7 @@ Primarily used to identify the most recent tokens processed in case of parsing e
 
 
 
-Prints the LL(1) parsing table to standard output. 
+Print the LL(1) parsing table to standard output. 
 
 Displays the LL(1) table for debugging and analysis. 
 

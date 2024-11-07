@@ -25,6 +25,7 @@
   <td id="projectalign">
    <div id="projectname">LL1Checker<span id="projectnumber">&#160;2.0</span>
    </div>
+   <div id="projectbrief">“Tool for verifying LL(1) grammars and validating input strings.”</div>
   </td>
  </tr>
  </tbody>
@@ -98,25 +99,22 @@ $(function() { codefold.init(0); });
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">void</span> tokenize();</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">void</span> make_lexer();</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">void</span> compile();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">void</span> make_lexer() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">void</span> compile() <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordtype">void</span> create_temp_files();</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordtype">void</span> cleanup();</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordtype">void</span> cleanup() <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    boost::filesystem::path temp_dir_;</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    boost::filesystem::path lex_file_path_;</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    boost::filesystem::path c_file_path_;</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    boost::filesystem::path o_file_path_;</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    boost::filesystem::path so_file_path_;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keyword">const</span> std::string       LEXER_FILENAME{<span class="stringliteral">&quot;lex.l&quot;</span>};</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keyword">const</span> std::string       SRC_PATH{<span class="stringliteral">&quot;./src&quot;</span>};</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keyword">const</span> std::string       LIB_PATH{<span class="stringliteral">&quot;./lib&quot;</span>};</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>};</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>};</div>
 </div>
 <div class="ttc" id="aclasslexer_html"><div class="ttname"><a href="classlexer.html">lexer</a></div><div class="ttdef"><b>Definition</b> lexer.hpp:3</div></div>
-<div class="ttc" id="aclasslexer_html_a8d5f23f1f5ff3ebdf46d1909f8c42be2"><div class="ttname"><a href="classlexer.html#a8d5f23f1f5ff3ebdf46d1909f8c42be2">lexer::next</a></div><div class="ttdeci">std::string next()</div><div class="ttdoc">Retrieves the next token from the token vector.</div><div class="ttdef"><b>Definition</b> lexer.cpp:126</div></div>
+<div class="ttc" id="aclasslexer_html_a8d5f23f1f5ff3ebdf46d1909f8c42be2"><div class="ttname"><a href="classlexer.html#a8d5f23f1f5ff3ebdf46d1909f8c42be2">lexer::next</a></div><div class="ttdeci">std::string next()</div><div class="ttdoc">Retrieves the next token from the token vector.</div><div class="ttdef"><b>Definition</b> lexer.cpp:120</div></div>
 <div class="ttc" id="aclasslexer_html_ae2720ff7c4dde918a3637b26c4493d56"><div class="ttname"><a href="classlexer.html#ae2720ff7c4dde918a3637b26c4493d56">lexer::lexer</a></div><div class="ttdeci">lexer(std::string filename)</div><div class="ttdoc">Constructs a lexer and tokenizes the specified input file.</div><div class="ttdef"><b>Definition</b> lexer.cpp:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
