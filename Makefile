@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -O3 
+CXXFLAGS = -std=c++20 -O3
 BOOST_LIB_DIR ?= .
 LIBS = -L$(BOOST_LIB_DIR) -lboost_system -lboost_filesystem
 SRC_DIR = src

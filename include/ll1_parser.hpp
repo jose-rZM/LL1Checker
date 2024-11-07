@@ -1,6 +1,8 @@
 #pragma once
 #include "grammar.hpp"
+#include <deque>
 #include <queue>
+#include <span>
 #include <stack>
 #include <string>
 #include <unordered_map>
@@ -71,7 +73,8 @@ class LL1Parser {
      * @param rule Vector of strings representing a production rule.
      * @return A set of symbols that form the FIRST set for the rule.
      */
-    std::unordered_set<std::string> first(const std::vector<std::string>& rule);
+    void first(std::span<const std::string>     rule,
+               std::unordered_set<std::string>& result);
 
     /**
      * @brief Computes the FIRST sets for all non-terminal symbols in the
@@ -137,7 +140,7 @@ class LL1Parser {
     std::stack<std::string> symbol_stack_;
 
     /// @brief Queue for tracking the most recent TRACE_SIZE symbols parsed.
-    std::queue<std::string> trace_;
+    std::deque<std::string> trace_;
 
     /// @brief Path to the grammar file used in this parser.
     std::string grammar_file_;

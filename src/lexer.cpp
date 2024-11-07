@@ -33,11 +33,6 @@ void lexer::create_temp_files() {
                                    "lexer_%%%%-%%%%-%%%%-%%%%.o");
     so_file_path_ = temp_dir_ / boost::filesystem::unique_path(
                                     "lex.yy_%%%%-%%%%-%%%%-%%%%.so");
-
-    boost::filesystem::ofstream(lex_file_path_.string());
-    boost::filesystem::ofstream(c_file_path_.string());
-    boost::filesystem::ofstream(o_file_path_.string());
-    boost::filesystem::ofstream(so_file_path_.string());
 }
 
 void lexer::tokenize() {
@@ -135,17 +130,16 @@ void lexer::make_lexer() {
     lex << "%{\n\t#include<stdio.h>\n%}\n";
     lex << "%%\n";
 
-    for (int i : symbol_table::order_) {
-        std::string token_type{symbol_table::token_types_r_.at(i)};
-        if (token_type == symbol_table::EPSILON_) {
-            continue;
-        } else if (token_type == symbol_table::EOL_) {
-            lex << "\"" << symbol_table::EOL_ << "\""
-                << "\t{ return " << i << "; }\n";
-        } else {
-            std::string regex{symbol_table::st_.at(token_type).second};
-            lex << regex << "\t{ return " << i << "; }\n";
-        }
+    int         i{1};
+    std::string token_type{symbol_table::token_types_r_.at(i)};
+    lex << "\"" << symbol_table::EOL_ << "\""
+        << "\t{ return " << i << "; }\n";
+    ++i;
+    for (size_t j = 1; j < symbol_table::order_.size(); ++j) {
+        token_type = symbol_table::token_types_r_.at(i);
+        std::string regex{symbol_table::st_.at(token_type).second};
+        lex << regex << "\t{ return " << i << "; }\n";
+        ++i;
     }
 
     lex << "[ \\t\\r\\n]+\t{}\n";
