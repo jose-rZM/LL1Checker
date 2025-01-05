@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -O3
 BOOST_LIB_DIR ?= .
-LIBS = -L$(BOOST_LIB_DIR) -lboost_system -lboost_filesystem
+LIBS = -L$(BOOST_LIB_DIR)
 SRC_DIR = src
 HPP_DIR = include
 OBJ_DIR = out

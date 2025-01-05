@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['make_5flexer_0',['make_lexer',['../classlexer.html#a226db4396e781e3c078641aeca67900d',1,'lexer']]]
+  ['next_0',['next',['../classlexer.html#a8d5f23f1f5ff3ebdf46d1909f8c42be2',1,'lexer']]]
 ];

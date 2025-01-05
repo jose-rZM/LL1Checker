@@ -1,5 +1,12 @@
 \doxysection{lexer Class Reference}
 \hypertarget{classlexer}{}\label{classlexer}\index{lexer@{lexer}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structlexer_1_1add}{add}}
+\begin{DoxyCompactList}\small\item\em Functor for adding tokens to the token list during tokenization. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structlexer_1_1parse__input}{parse\+\_\+input}}
+\begin{DoxyCompactList}\small\item\em Lexer functor for defining tokenization rules using Boost Spirit Lex. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -11,15 +18,7 @@ std\+::string \mbox{\hyperlink{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2}{nex
 \begin{DoxyCompactItemize}
 \item 
 void \mbox{\hyperlink{classlexer_a6f83d4c72f91f5ca96f24d24e2c82f11}{tokenize}} ()
-\begin{DoxyCompactList}\small\item\em Loads and initializes necessary lexer symbols, then tokenizes input. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classlexer_a226db4396e781e3c078641aeca67900d}{make\+\_\+lexer}} () const
-\begin{DoxyCompactList}\small\item\em Generates the lexer file based on the symbol table. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classlexer_a5b3e68f82c3b249115d5ac4c4307e669}{compile}} () const
-\begin{DoxyCompactList}\small\item\em Compiles the lexer file and creates a dynamic library. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classlexer_ad66d20383f014d678314335bcf04dedc}{create\+\_\+temp\+\_\+files}} ()
-\begin{DoxyCompactList}\small\item\em Creates temporary files required for lexer processing. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classlexer_a402a51fab7d9e42f4eac91830ca033de}{cleanup}} () const
-\begin{DoxyCompactList}\small\item\em Cleans up resources and removes temporary files. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Tokenizes the input file using Boost Spirit Lex. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -31,21 +30,6 @@ std\+::vector$<$ std\+::string $>$ {\bfseries tokens\+\_\+}
 \item 
 \Hypertarget{classlexer_a38257f3c4525fa5c9676c7fd3b3f38d8}\label{classlexer_a38257f3c4525fa5c9676c7fd3b3f38d8} 
 unsigned {\bfseries current\+\_\+}
-\item 
-\Hypertarget{classlexer_a6346a7cd07ef8314985db251c969bd4d}\label{classlexer_a6346a7cd07ef8314985db251c969bd4d} 
-boost\+::filesystem\+::path {\bfseries temp\+\_\+dir\+\_\+}
-\item 
-\Hypertarget{classlexer_a635e2310354833cd1cc083e6b73a5ab5}\label{classlexer_a635e2310354833cd1cc083e6b73a5ab5} 
-boost\+::filesystem\+::path {\bfseries lex\+\_\+file\+\_\+path\+\_\+}
-\item 
-\Hypertarget{classlexer_a5e7c2bd618a806ee255bc5de41a6ce20}\label{classlexer_a5e7c2bd618a806ee255bc5de41a6ce20} 
-boost\+::filesystem\+::path {\bfseries c\+\_\+file\+\_\+path\+\_\+}
-\item 
-\Hypertarget{classlexer_ae83d15adba3688b3f60e3ddf936c4721}\label{classlexer_ae83d15adba3688b3f60e3ddf936c4721} 
-boost\+::filesystem\+::path {\bfseries o\+\_\+file\+\_\+path\+\_\+}
-\item 
-\Hypertarget{classlexer_a82470a98cffb8f1ef48be629d5d93c8b}\label{classlexer_a82470a98cffb8f1ef48be629d5d93c8b} 
-boost\+::filesystem\+::path {\bfseries so\+\_\+file\+\_\+path\+\_\+}
 \end{DoxyCompactItemize}
 
 
@@ -65,77 +49,13 @@ Constructs a lexer and tokenizes the specified input file.
 {\em filename} & Path to the input file containing the string to be validated.\\
 \hline
 \end{DoxyParams}
-The constructor initializes the lexer, compiles it, and tokenizes the input file\textquotesingle{}s contents. Assumes that all requirements outlined in "{}\+README.\+md"{} are met.
-
 \begin{DoxyNote}{Note}
 The program aborts if any errors occur during lexer creation or tokenization. 
 \end{DoxyNote}
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{classlexer_a402a51fab7d9e42f4eac91830ca033de}\label{classlexer_a402a51fab7d9e42f4eac91830ca033de} 
-\index{lexer@{lexer}!cleanup@{cleanup}}
-\index{cleanup@{cleanup}!lexer@{lexer}}
-\doxysubsubsection{\texorpdfstring{cleanup()}{cleanup()}}
-{\footnotesize\ttfamily void lexer\+::cleanup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Cleans up resources and removes temporary files. 
-
-This function deletes all temporary files created by \doxylink{classlexer_ad66d20383f014d678314335bcf04dedc}{create\+\_\+temp\+\_\+files()} to free up resources and prevent file clutter. It should be called at the end of the lexing process or in case of errors to ensure proper cleanup.
-
-\begin{DoxyNote}{Note}
-This function is safe to call even if no temporary files were created, as it will silently ignore missing files. 
-\end{DoxyNote}
-\Hypertarget{classlexer_a5b3e68f82c3b249115d5ac4c4307e669}\label{classlexer_a5b3e68f82c3b249115d5ac4c4307e669} 
-\index{lexer@{lexer}!compile@{compile}}
-\index{compile@{compile}!lexer@{lexer}}
-\doxysubsubsection{\texorpdfstring{compile()}{compile()}}
-{\footnotesize\ttfamily void lexer\+::compile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Compiles the lexer file and creates a dynamic library. 
-
-Compiles the lexer source file "{}lexer.\+l"{} into an intermediate file "{}lex.\+yy.\+c"{}, and then generates a dynamic library from "{}lex.\+yy.\+c"{} for runtime lexing.
-
-
-\begin{DoxyExceptions}{Exceptions}
-{\em std\+::runtime\+\_\+error} & Throws if compilation fails at any step. \\
-\hline
-\end{DoxyExceptions}
-\Hypertarget{classlexer_ad66d20383f014d678314335bcf04dedc}\label{classlexer_ad66d20383f014d678314335bcf04dedc} 
-\index{lexer@{lexer}!create\_temp\_files@{create\_temp\_files}}
-\index{create\_temp\_files@{create\_temp\_files}!lexer@{lexer}}
-\doxysubsubsection{\texorpdfstring{create\_temp\_files()}{create\_temp\_files()}}
-{\footnotesize\ttfamily void lexer\+::create\+\_\+temp\+\_\+files (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Creates temporary files required for lexer processing. 
-
-This function sets up temporary files that are used during the lexing process. It ensures that all necessary files are created before any tokens are processed.
-
-\begin{DoxyNote}{Note}
-Temporary files created by this function should be removed after processing by calling the \doxylink{classlexer_a402a51fab7d9e42f4eac91830ca033de}{cleanup()} function.
-\end{DoxyNote}
-
-\begin{DoxyExceptions}{Exceptions}
-{\em std\+::runtime\+\_\+error} & Throws if a temporary file cannot be created. \\
-\hline
-\end{DoxyExceptions}
-\Hypertarget{classlexer_a226db4396e781e3c078641aeca67900d}\label{classlexer_a226db4396e781e3c078641aeca67900d} 
-\index{lexer@{lexer}!make\_lexer@{make\_lexer}}
-\index{make\_lexer@{make\_lexer}!lexer@{lexer}}
-\doxysubsubsection{\texorpdfstring{make\_lexer()}{make\_lexer()}}
-{\footnotesize\ttfamily void lexer\+::make\+\_\+lexer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Generates the lexer file based on the symbol table. 
-
-This function generates a lexer file with tokens defined in the symbol table, placing them in the appropriate order. Additionally, it creates a custom function "{}set\+\_\+yyin"{} to enable input redirection for {\ttfamily yylex}. \Hypertarget{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2}\label{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2} 
+\Hypertarget{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2}\label{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2} 
 \index{lexer@{lexer}!next@{next}}
 \index{next@{next}!lexer@{lexer}}
 \doxysubsubsection{\texorpdfstring{next()}{next()}}
@@ -156,13 +76,34 @@ This function allows sequential access to tokens processed by the lexer. \Hypert
 
 
 
-Loads and initializes necessary lexer symbols, then tokenizes input. 
+Tokenizes the input file using Boost Spirit Lex. 
 
-This function dynamically loads the symbols "{}set\+\_\+yyin"{}, "{}yylex"{}, and "{}yylex\+\_\+destroy"{}. If any loading operation fails, the program aborts. Once symbols are loaded successfully, it tokenizes the input file using {\ttfamily yylex}. All tokens are stored in the {\ttfamily tokens\+\_\+} vector.
+This function reads the content of the file specified by {\ttfamily filename\+\_\+}, tokenizes it using Boost Spirit Lex, and stores the resulting tokens in the {\ttfamily tokens\+\_\+} member variable. If the tokenization process encounters an invalid token, a {\ttfamily \doxylink{classLexerError}{Lexer\+Error}} is thrown with an error message indicating the invalid token.
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \doxylink{classLexerError}{Lexer\+Error}} & If an invalid token is encountered during tokenization.\\
+\hline
+\end{DoxyExceptions}
+The function performs the following steps\+:
+\begin{DoxyEnumerate}
+\item Opens the file specified by {\ttfamily filename\+\_\+} and reads its content into a string.
+\item Converts the string into a C-\/style string (char array) for processing.
+\item Uses Boost Spirit Lex to tokenize the input string.
+\item If tokenization is successful, the tokens are stored in the {\ttfamily tokens\+\_\+} member variable.
+\item If tokenization fails (e.\+g., due to an invalid token), a {\ttfamily \doxylink{classLexerError}{Lexer\+Error}} is thrown.
+\end{DoxyEnumerate}
 
 \begin{DoxyNote}{Note}
-The function frees resources upon reaching the EOL (character value 1). This function is called only once for initial setup and tokenization. 
+The function relies on the {\ttfamily \doxylink{structlexer_1_1parse__input}{parse\+\_\+input}} functor and the {\ttfamily add} function to handle the tokenization and token storage, respectively.
 \end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxylink{classLexerError}{Lexer\+Error} 
+
+tokens\+\_\+ 
+
+filename\+\_\+ 
+\end{DoxySeeAlso}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

@@ -1,0 +1,49 @@
+\doxysection{lexer\+::parse\+\_\+input\texorpdfstring{$<$}{<} Lexer \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structlexer_1_1parse__input}{}\label{structlexer_1_1parse__input}\index{lexer::parse\_input$<$ Lexer $>$@{lexer::parse\_input$<$ Lexer $>$}}
+
+
+Lexer functor for defining tokenization rules using Boost Spirit Lex.  
+
+
+
+
+{\ttfamily \#include $<$lexer.\+hpp$>$}
+
+Inheritance diagram for lexer\+::parse\+\_\+input\texorpdfstring{$<$}{<} Lexer \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{structlexer_1_1parse__input}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Lexer$>$\newline
+struct lexer\+::parse\+\_\+input$<$ Lexer $>$}
+Lexer functor for defining tokenization rules using Boost Spirit Lex. 
+
+This struct is a functor that defines the tokenization rules for the lexer. It inherits from {\ttfamily boost\+::spirit\+::lex\+::lexer\texorpdfstring{$<$}{<}Lexer\texorpdfstring{$>$}{>}} and is used to configure the lexer with regular expressions and corresponding token IDs. The rules are added to the lexer during construction.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Lexer} & The type of lexer to be used (e.\+g., {\ttfamily boost\+::spirit\+::lex\+::lexertl\+::lexer\texorpdfstring{$<$}{<}\texorpdfstring{$>$}{>}}).\\
+\hline
+\end{DoxyTemplParams}
+The constructor performs the following steps\+:
+\begin{DoxyEnumerate}
+\item Iterates over the token types defined in {\ttfamily \doxylink{structsymbol__table_a44b009a5351396c74edd975c5d4417a5}{symbol\+\_\+table\+::token\+\_\+types\+\_\+r\+\_\+}}.
+\item Adds regular expressions and their corresponding token IDs to the lexer.
+\item Skips whitespace characters (spaces, tabs, and newlines) by assigning them a specific token ID.
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{structsymbol__table_a44b009a5351396c74edd975c5d4417a5}{symbol\+\_\+table\+::token\+\_\+types\+\_\+r\+\_\+} 
+
+\doxylink{structsymbol__table_a2addd90b84742fbac617f848bfe6ab8f}{symbol\+\_\+table\+::st\+\_\+} 
+\end{DoxySeeAlso}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/lexer.\+hpp\item 
+src/lexer.\+cpp\end{DoxyCompactItemize}

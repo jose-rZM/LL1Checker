@@ -2,7 +2,7 @@
 \hypertarget{lexer_8hpp_source}{}\label{lexer_8hpp_source}\index{include/lexer.hpp@{include/lexer.hpp}}
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <boost/filesystem.hpp>}}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <boost/spirit/include/lex\_lexertl.hpp>}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <vector>}}
 \DoxyCodeLine{00003\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classlexer}{lexer}}\ \{}
 \DoxyCodeLine{00004\ \ \ \ \ std::string\ \ \ \ \ \ \ \ \ \ \ \ \ \ filename\_;}
@@ -10,24 +10,22 @@
 \DoxyCodeLine{00006\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_;}
 \DoxyCodeLine{00007\ }
 \DoxyCodeLine{00008\ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classlexer_ae2720ff7c4dde918a3637b26c4493d56}{lexer}}(std::string\ filename);}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00032\ \ \ \ \ std::string\ \mbox{\hyperlink{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2}{next}}();}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classlexer_a6f83d4c72f91f5ca96f24d24e2c82f11}{tokenize}}();}
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classlexer_a226db4396e781e3c078641aeca67900d}{make\_lexer}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classlexer_a5b3e68f82c3b249115d5ac4c4307e669}{compile}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00066\ }
-\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classlexer_ad66d20383f014d678314335bcf04dedc}{create\_temp\_files}}();}
-\DoxyCodeLine{00081\ }
-\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classlexer_a402a51fab7d9e42f4eac91830ca033de}{cleanup}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00093\ }
-\DoxyCodeLine{00094\ \ \ \ \ boost::filesystem::path\ temp\_dir\_;}
-\DoxyCodeLine{00095\ \ \ \ \ boost::filesystem::path\ lex\_file\_path\_;}
-\DoxyCodeLine{00096\ \ \ \ \ boost::filesystem::path\ c\_file\_path\_;}
-\DoxyCodeLine{00097\ \ \ \ \ boost::filesystem::path\ o\_file\_path\_;}
-\DoxyCodeLine{00098\ \ \ \ \ boost::filesystem::path\ so\_file\_path\_;}
-\DoxyCodeLine{00099\ \};}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Lexer>}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structlexer_1_1parse__input}{parse\_input}}\ :\ boost::spirit::lex::lexer<Lexer>\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structlexer_1_1parse__input}{parse\_input}}();}
+\DoxyCodeLine{00035\ \ \ \ \ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structlexer_1_1add}{add}}\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{bool}\ result\_type;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Token>}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator()(Token\ \textcolor{keyword}{const}\&\ t,\ std::vector<std::string>\&\ tks)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00056\ \ \ \ \ \};}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classlexer_ae2720ff7c4dde918a3637b26c4493d56}{lexer}}(std::string\ filename);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00076\ \ \ \ \ std::string\ \mbox{\hyperlink{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2}{next}}();}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classlexer_a6f83d4c72f91f5ca96f24d24e2c82f11}{tokenize}}();}
+\DoxyCodeLine{00109\ \};}
 
 \end{DoxyCode}

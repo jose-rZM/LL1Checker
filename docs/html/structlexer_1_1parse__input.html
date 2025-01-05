@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LL1Checker: Member List</title>
+<title>LL1Checker: lexer::parse_input&lt; Lexer &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,21 +70,51 @@ $(function() {
 </div>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="classlexer.html">lexer</a></li><li class="navelem"><a class="el" href="structlexer_1_1parse__input.html">parse_input</a></li>  </ul>
+</div>
 </div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">lexer Member List</div></div>
+  <div class="summary">
+<a href="structlexer_1_1parse__input-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">lexer::parse_input&lt; Lexer &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="classlexer.html">lexer</a>, including all inherited members.</p>
-<table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>current_</b> (defined in <a class="el" href="classlexer.html">lexer</a>)</td><td class="entry"><a class="el" href="classlexer.html">lexer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>filename_</b> (defined in <a class="el" href="classlexer.html">lexer</a>)</td><td class="entry"><a class="el" href="classlexer.html">lexer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlexer.html#ae2720ff7c4dde918a3637b26c4493d56">lexer</a>(std::string filename)</td><td class="entry"><a class="el" href="classlexer.html">lexer</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="classlexer.html#a8d5f23f1f5ff3ebdf46d1909f8c42be2">next</a>()</td><td class="entry"><a class="el" href="classlexer.html">lexer</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlexer.html#a6f83d4c72f91f5ca96f24d24e2c82f11">tokenize</a>()</td><td class="entry"><a class="el" href="classlexer.html">lexer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>tokens_</b> (defined in <a class="el" href="classlexer.html">lexer</a>)</td><td class="entry"><a class="el" href="classlexer.html">lexer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-</table></div><!-- contents -->
+<p>Lexer functor for defining tokenization rules using Boost Spirit Lex.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="lexer_8hpp_source.html">lexer.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for lexer::parse_input&lt; Lexer &gt;:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="structlexer_1_1parse__input.png" alt=""/>
+ </div></div>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Lexer&gt;<br />
+struct lexer::parse_input&lt; Lexer &gt;</div><p>Lexer functor for defining tokenization rules using Boost Spirit Lex. </p>
+<p>This struct is a functor that defines the tokenization rules for the lexer. It inherits from <code>boost::spirit::lex::lexer&lt;Lexer&gt;</code> and is used to configure the lexer with regular expressions and corresponding token IDs. The rules are added to the lexer during construction.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Lexer</td><td>The type of lexer to be used (e.g., <code>boost::spirit::lex::lexertl::lexer&lt;&gt;</code>).</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The constructor performs the following steps:</p><ol type="1">
+<li>Iterates over the token types defined in <code><a class="el" href="structsymbol__table.html#a44b009a5351396c74edd975c5d4417a5" title="Reverse mapping from integer token IDs back to symbols.">symbol_table::token_types_r_</a></code>.</li>
+<li>Adds regular expressions and their corresponding token IDs to the lexer.</li>
+<li>Skips whitespace characters (spaces, tabs, and newlines) by assigning them a specific token ID.</li>
+</ol>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structsymbol__table.html#a44b009a5351396c74edd975c5d4417a5" title="Reverse mapping from integer token IDs back to symbols.">symbol_table::token_types_r_</a> </dd>
+<dd>
+<a class="el" href="structsymbol__table.html#a2addd90b84742fbac617f848bfe6ab8f" title="Main symbol table, mapping identifiers to a pair of symbol type and its regex.">symbol_table::st_</a> </dd></dl>
+</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/<a class="el" href="lexer_8hpp_source.html">lexer.hpp</a></li>
+<li>src/<b>lexer.cpp</b></li>
+</ul>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
