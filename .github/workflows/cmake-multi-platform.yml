@@ -87,4 +87,4 @@ jobs:
       uses: actions/upload-artifact@v4.6.0
       with:
         name: build-${{ matrix.os }}-${{ matrix.cpp_compiler }}
-        path: ${{ steps.strings.output.build-output-dir }}
+        path: $GITHUB_OUTPUT
