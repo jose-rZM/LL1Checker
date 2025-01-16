@@ -12,6 +12,8 @@ set(SRC_DIR src)
 set(HPP_DIR include)
 set(OBJ_DIR out)
 
+set(Boost_USE_STATIC_LIBS ON)
+
 find_package(Boost REQUIRED COMPONENTS regex)
 if(Boost_FOUND)
     message(STATUS "Boost found: ${Boost_INCLUDE_DIRS}")
@@ -37,7 +39,7 @@ set(HEADERS
 
 add_executable(ll1 ${SOURCES} ${HEADERS})
 
-set(Boost_USE_STATIC_LIBS ON)
+
 target_link_libraries(ll1 PRIVATE Boost::regex)
 
 set_target_properties(ll1 PROPERTIES
