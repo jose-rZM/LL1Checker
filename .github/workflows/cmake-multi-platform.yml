@@ -10,7 +10,8 @@ on:
       - 'include/**'
   pull_request:
     branches: [ "main" ]
-
+  workflow_dispatch:
+  
 jobs:
   build:
     runs-on: ${{ matrix.os }}
