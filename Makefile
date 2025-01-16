@@ -1,7 +1,5 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -O3
-BOOST_LIB_DIR ?= .
-LIBS = -L$(BOOST_LIB_DIR)
 SRC_DIR = src
 HPP_DIR = include
 OBJ_DIR = out
@@ -9,7 +7,7 @@ OBJ_DIR = out
 all: program
 
 program: $(OBJ_DIR)/main.o $(OBJ_DIR)/ll1_parser.o  $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/lexer.o $(OBJ_DIR)/grammar.o
-	$(CXX) $(CXXFLAGS) -o ll1 $^ $(LIBS)
+	$(CXX) $(CXXFLAGS) -o ll1 $^
 
 $(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp $(HPP_DIR)/grammar.hpp  $(OBJ_DIR)/ll1_parser.o
 	$(CXX) $(CXXFLAGS) -c $< -o $@

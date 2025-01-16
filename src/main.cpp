@@ -1,5 +1,7 @@
-#include <fstream>
+#ifndef _WIN32
 #include <getopt.h>
+#endif
+#include <fstream>
 #include <iostream>
 #include <ostream>
 #include <string>
@@ -36,6 +38,7 @@ int main(int argc, char* argv[]) {
     std::string grammar_filename, text_filename;
     bool        verbose_mode = false;
 
+#ifndef _WIN32
     int opt;
     while ((opt = getopt(argc, argv, "hv")) != -1) {
         switch (opt) {
@@ -64,7 +67,26 @@ int main(int argc, char* argv[]) {
     if (optind + 1 < argc) {
         text_filename = argv[optind + 1];
     }
+#else
+    if (argc < 2) {
+        show_usage(argv[0]);
+        return 1;
+    }
 
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "-h") {
+            show_usage(argv[0]);
+            return 0;
+        } else if (arg == "-v") {
+            verbose_mode = true;
+        } else if (grammar_filename.empty()) {
+            grammar_filename = arg;
+        } else {
+            text_filename = arg;
+        }
+    }
+#endif
     std::ifstream grammar_file_check(grammar_filename);
     if (!grammar_file_check) {
         std::cerr << "ll1: Grammar file '" << grammar_filename
