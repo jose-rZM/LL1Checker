@@ -37,9 +37,6 @@ jobs:
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
         exclude:
           - os: windows-latest
             c_compiler: gcc
@@ -61,7 +58,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-        choco install -y boost-msvc
+        choco install -y boost-msvc-12
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
       id: strings
@@ -82,3 +79,9 @@ jobs:
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-${{ matrix.os }}-${{ matrix.cpp_compiler }}
+        path: ${{ steps.strings.output.build-output-dir }}
