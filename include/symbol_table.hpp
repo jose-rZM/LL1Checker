@@ -21,17 +21,17 @@ struct symbol_table {
         st_{{EOL_, {TERMINAL, EOL_}}, {EPSILON_, {TERMINAL, EPSILON_}}};
 
     /// @brief Token types, mapping each symbol to a unique integer ID.
-    inline static std::unordered_map<std::string, int> token_types_{{EOL_, 1}};
+    inline static std::unordered_map<std::string, unsigned long> token_types_{{EOL_, 1}};
 
     /// @brief Reverse mapping from integer token IDs back to symbols.
-    inline static std::unordered_map<int, std::string> token_types_r_{
+    inline static std::unordered_map<unsigned long, std::string> token_types_r_{
         {1, EOL_}};
 
     /// @brief Tracks insertion order of token types.
-    inline static std::vector<int> order_{1};
+    inline static std::vector<unsigned long> order_{1};
 
     /// @brief Current index for assigning new token IDs, starting from 2.
-    inline static int i_{2};
+    inline static unsigned long i_{2};
 
     /**
      * @brief Adds a terminal symbol with its associated regex to the symbol

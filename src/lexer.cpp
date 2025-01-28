@@ -16,7 +16,7 @@ lexer::lexer(std::string filename)
 }
 
 template <typename Lexer> lexer::parse_input<Lexer>::parse_input() {
-    int         i{1};
+    unsigned long         i{1};
     std::string token_type{symbol_table::token_types_r_.at(i)};
     this->self.add("\\" + symbol_table::EOL_, i);
     ++i;
