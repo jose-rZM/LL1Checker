@@ -1,0 +1,3 @@
+Checks: '-*,modernize-*,readability-*,clang-analyzer-*,performance-*'
+WarningsAsErrors: ''
+HeaderFilterRegex: '.*'

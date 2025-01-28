@@ -15,23 +15,21 @@ int print_file_to_stdout(const std::string& filename) {
     }
     std::string line;
     while (getline(file, line)) {
-        std::cout << line << std::endl;
+        std::cout << line << "\n";
     }
     return 0;
 }
 
 void show_usage(const char* program_name) {
     std::cout << "Usage: " << program_name
-              << " <grammar_filename> [<text_filename>] [-v] [-h]" << std::endl;
-    std::cout << "Options:" << std::endl;
-    std::cout << "  -h             Show this help message" << std::endl;
+              << " <grammar_filename> [<text_filename>] [-v] [-h]\n";
+    std::cout << "Options:\n";
+    std::cout << "  -h             Show this help message\n";
     std::cout << "  -v             Enable verbose mode: print ll1 table, input "
-                 "file and parser stack trace"
-              << std::endl;
-    std::cout << "  <grammar_filename>  Path to the grammar file" << std::endl;
-    std::cout
-        << "  <text_filename>     Path to the text file to be parsed (optional)"
-        << std::endl;
+                 "file and parser stack trace\n";
+    std::cout << "  <grammar_filename>  Path to the grammar file\n";
+    std::cout << "  <text_filename>     Path to the text file to be parsed "
+                 "(optional)\n";
 }
 
 int main(int argc, char* argv[]) {
@@ -50,16 +48,14 @@ int main(int argc, char* argv[]) {
             break;
         default:
             std::cerr
-                << "ll1: Invalid option. Use 'll1 -h' for usage information."
-                << std::endl;
+                << "ll1: Invalid option. Use 'll1 -h' for usage information.\n";
             return 1;
         }
     }
 
     if (argc - optind < 1 || argc - optind > 2) {
         std::cerr << "ll1: Incorrect number of arguments. Use 'll1 -h' for "
-                     "usage information."
-                  << std::endl;
+                     "usage information.\n";
         return 1;
     }
 
@@ -90,23 +86,23 @@ int main(int argc, char* argv[]) {
     std::ifstream grammar_file_check(grammar_filename);
     if (!grammar_file_check) {
         std::cerr << "ll1: Grammar file '" << grammar_filename
-                  << "' does not exist or cannot be opened." << std::endl;
+                  << "' does not exist or cannot be opened.\n";
         return 1;
     }
 
     try {
         LL1Parser ll1_p{grammar_filename, text_filename};
-        std::cout << "Grammar is LL(1)" << std::endl;
+        std::cout << "Grammar is LL(1)\n";
 
         if (verbose_mode) {
             std::cout << "-----------------------------------------------\n";
-            std::cout << "LL1 Table (Verbose Mode):" << std::endl;
+            std::cout << "LL1 Table (Verbose Mode):\n";
             ll1_p.print_table();
             std::cout << "-----------------------------------------------\n";
             if (!text_filename.empty()) {
-                std::cout << "Input (Verbose Mode):" << std::endl;
+                std::cout << "Input (Verbose Mode):\n";
                 if (print_file_to_stdout(text_filename)) {
-                    std::cerr << "Error: File does not exist." << std::endl;
+                    std::cerr << "Error: File does not exist.\n";
                     return 1;
                 }
                 std::cout
@@ -117,26 +113,26 @@ int main(int argc, char* argv[]) {
         if (!text_filename.empty()) {
             std::ifstream file(text_filename);
             if (!file) {
-                std::cerr << "ll1: File does not exist." << std::endl;
+                std::cerr << "ll1: File does not exist.\n";
                 return 1;
             }
             if (file.peek() == std::ifstream::traits_type::eof()) {
-                std::cerr << "ll1: File is empty." << std::endl;
+                std::cerr << "ll1: File is empty.\n";
                 return 1;
             }
             if (ll1_p.parse()) {
-                std::cout << "Parsing was successful." << std::endl;
+                std::cout << "Parsing was successful.\n";
                 if (verbose_mode) {
                     ll1_p.print_stack_trace();
                 }
             } else {
-                std::cerr << "Parsing encountered an error." << std::endl;
+                std::cerr << "Parsing encountered an error.\n";
                 ll1_p.print_stack_trace();
                 ll1_p.print_symbol_hist();
             }
         }
     } catch (const std::exception& e) {
-        std::cerr << "ll1: " << e.what() << std::endl;
+        std::cerr << "ll1: " << e.what() << "\n";
         return 1;
     }
 

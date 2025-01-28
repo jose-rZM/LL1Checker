@@ -21,7 +21,8 @@ struct symbol_table {
         st_{{EOL_, {TERMINAL, EOL_}}, {EPSILON_, {TERMINAL, EPSILON_}}};
 
     /// @brief Token types, mapping each symbol to a unique integer ID.
-    inline static std::unordered_map<std::string, unsigned long> token_types_{{EOL_, 1}};
+    inline static std::unordered_map<std::string, unsigned long> token_types_{
+        {EOL_, 1}};
 
     /// @brief Reverse mapping from integer token IDs back to symbols.
     inline static std::unordered_map<unsigned long, std::string> token_types_r_{

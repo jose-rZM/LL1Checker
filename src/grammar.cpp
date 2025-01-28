@@ -159,12 +159,12 @@ void grammar::debug() {
     for (const auto& entry : g_) {
         std::cout << entry.first << " -> ";
         for (const std::vector<std::string>& production : entry.second) {
-            for (const std::string& s : production) {
-                std::cout << s << " ";
+            for (const std::string& symbol : production) {
+                std::cout << symbol << " ";
             }
             std::cout << "| ";
         }
-        std::cout << std::endl;
+        std::cout << "\n";
     }
 }
 bool grammar::has_left_recursion(const std::string&              antecedent,

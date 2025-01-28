@@ -191,11 +191,10 @@ LL1Parser::director_symbols(const std::string&              antecedent,
     first({consequent}, hd);
     if (hd.find(symbol_table::EPSILON_) == hd.end()) {
         return hd;
-    } else {
-        hd.erase(symbol_table::EPSILON_);
-        hd.merge(follow(antecedent));
-        return hd;
     }
+    hd.erase(symbol_table::EPSILON_);
+    hd.merge(follow(antecedent));
+    return hd;
 }
 
 void LL1Parser::print_table() {
@@ -217,7 +216,7 @@ void LL1Parser::print_table() {
             }
             std::cout << "}\n";
         }
-        std::cout << std::endl;
+        std::cout << "\n";
     }
 }
 
