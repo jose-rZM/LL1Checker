@@ -1,5 +1,5 @@
-CXX = g++
-CXXFLAGS = -std=c++20 -O3
+CXX = clang++
+CXXFLAGS = -std=c++20 -O -Wall -Wextra -Wpedantic -Wshadow -Wold-style-cast -Wunused -Wcast-align -Wnull-dereference -Wconversion -fstrict-aliasing -fsanitize=address -fsanitize=undefined -fsanitize=leak
 SRC_DIR = src
 HPP_DIR = include
 OBJ_DIR = out

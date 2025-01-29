@@ -8,7 +8,7 @@
 
 #include "../include/ll1_parser.hpp"
 
-int print_file_to_stdout(const std::string& filename) {
+int PrintFileToStdout(const std::string& filename) {
     std::ifstream file(filename);
     if (!file) {
         return 1;
@@ -20,7 +20,7 @@ int print_file_to_stdout(const std::string& filename) {
     return 0;
 }
 
-void show_usage(const char* program_name) {
+void ShowUsage(const char* program_name) {
     std::cout << "Usage: " << program_name
               << " <grammar_filename> [<text_filename>] [-v] [-h]\n";
     std::cout << "Options:\n";
@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
     while ((opt = getopt(argc, argv, "hv")) != -1) {
         switch (opt) {
         case 'h':
-            show_usage(argv[0]);
+            ShowUsage(argv[0]);
             return 0;
         case 'v':
             verbose_mode = true;
@@ -97,11 +97,11 @@ int main(int argc, char* argv[]) {
         if (verbose_mode) {
             std::cout << "-----------------------------------------------\n";
             std::cout << "LL1 Table (Verbose Mode):\n";
-            ll1_p.print_table();
+            ll1_p.PrintTable();
             std::cout << "-----------------------------------------------\n";
             if (!text_filename.empty()) {
                 std::cout << "Input (Verbose Mode):\n";
-                if (print_file_to_stdout(text_filename)) {
+                if (PrintFileToStdout(text_filename)) {
                     std::cerr << "Error: File does not exist.\n";
                     return 1;
                 }
@@ -120,15 +120,15 @@ int main(int argc, char* argv[]) {
                 std::cerr << "ll1: File is empty.\n";
                 return 1;
             }
-            if (ll1_p.parse()) {
+            if (ll1_p.Parse()) {
                 std::cout << "Parsing was successful.\n";
                 if (verbose_mode) {
-                    ll1_p.print_stack_trace();
+                    ll1_p.PrintStackTrace();
                 }
             } else {
                 std::cerr << "Parsing encountered an error.\n";
-                ll1_p.print_stack_trace();
-                ll1_p.print_symbol_hist();
+                ll1_p.PrintStackTrace();
+                ll1_p.PrintSymbolHist();
             }
         }
     } catch (const std::exception& e) {

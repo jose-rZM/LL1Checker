@@ -10,12 +10,11 @@
 #include <iostream>
 #include <string>
 
-lexer::lexer(std::string filename)
-    : filename_(std::move(filename)), current_() {
-    tokenize();
+Lex::Lex(std::string filename) : filename_(std::move(filename)), current_() {
+    Tokenize();
 }
 
-template <typename Lexer> lexer::parse_input<Lexer>::parse_input() {
+template <typename Lexer> Lex::ParseInput<Lexer>::ParseInput() {
     unsigned long i{1};
     std::string   token_type{symbol_table::token_types_r_.at(i)};
     this->self.add("\\" + symbol_table::EOL_, i);
@@ -30,8 +29,7 @@ template <typename Lexer> lexer::parse_input<Lexer>::parse_input() {
 }
 
 template <typename Token>
-bool lexer::add::operator()(Token const&              t,
-                            std::vector<std::string>& tks) const {
+bool Lex::Add::operator()(Token const& t, std::vector<std::string>& tks) const {
     if (t.id() == symbol_table::i_) {
         return true;
     }
@@ -39,8 +37,8 @@ bool lexer::add::operator()(Token const&              t,
     return true;
 }
 
-void lexer::tokenize() {
-    parse_input<boost::spirit::lex::lexertl::lexer<>> functor;
+void Lex::Tokenize() {
+    ParseInput<boost::spirit::lex::lexertl::lexer<>> functor;
     using boost::placeholders::_1;
     std::ifstream      file(filename_);
     std::ostringstream buffer;
@@ -49,7 +47,7 @@ void lexer::tokenize() {
     char const* first     = input.c_str();
     char const* end       = &first[input.size()];
     bool        completed = boost::spirit::lex::tokenize(
-        first, end, functor, boost::bind(add(), _1, boost::ref(tokens_)));
+        first, end, functor, boost::bind(Add(), _1, boost::ref(tokens_)));
     if (!completed) {
         std::string rest(first, end);
         throw LexerError("Lexical error: encountered an invalid token: " +
@@ -57,6 +55,6 @@ void lexer::tokenize() {
     }
 }
 
-std::string lexer::next() {
+std::string Lex::Next() {
     return current_ >= tokens_.size() ? "" : tokens_[current_++];
 }

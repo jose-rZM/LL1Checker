@@ -20,7 +20,7 @@ class LL1Parser {
      * @param gr Grammar object to parse with.
      * @param text_file Name of the file containing input to parse.
      */
-    LL1Parser(grammar gr, std::string text_file);
+    LL1Parser(Grammar gr, std::string text_file);
 
     /**
      * @brief Constructs an LL1Parser with a grammar file and an input file.
@@ -64,14 +64,14 @@ class LL1Parser {
      * to the LL(1) grammar; `false` if parsing fails due to a mismatch,
      * conflict, or unexpected input symbol.
      */
-    bool parse();
+    bool Parse();
 
     /**
      * @brief Print the LL(1) parsing table to standard output.
      *
      * Displays the LL(1) table for debugging and analysis.
      */
-    void print_table();
+    void PrintTable();
 
     /**
      * @brief Prints the remaining symbols in the parsing stack after the
@@ -83,15 +83,15 @@ class LL1Parser {
      * provides insight into where the parsing process may have diverged from
      * expected behavior.
      */
-    void print_stack_trace();
+    void PrintStackTrace();
 
     /**
-     * @brief Prints the last TRACE_SIZE symbols processed.
+     * @brief Prints the last kTraceSize symbols processed.
      *
      * Primarily used to identify the most recent tokens processed in case
      * of parsing errors.
      */
-    void print_symbol_hist();
+    void PrintSymbolHist();
 
   private:
     /**
@@ -120,7 +120,7 @@ class LL1Parser {
      * symbols that can start derivations of the rule, and possibly epsilon if
      * the rule can derive an empty string.
      */
-    void first(std::span<const std::string>     rule,
+    void First(std::span<const std::string>     rule,
                std::unordered_set<std::string>& result);
 
     /**
@@ -133,7 +133,7 @@ class LL1Parser {
      * expanding and updating the sets until no further changes occur (i.e., a
      * fixed-point is reached).
      */
-    void compute_first_sets();
+    void ComputFirstSets();
 
     /**
      * @brief Computes the FOLLOW set for a given non-terminal symbol in the
@@ -153,33 +153,33 @@ class LL1Parser {
      * @return An unordered set of strings containing symbols that form the
      * FOLLOW set for `arg`.
      */
-    std::unordered_set<std::string> follow(const std::string& arg);
+    std::unordered_set<std::string> Follow(const std::string& arg);
 
     /**
-     * @brief Computes the director symbols (prediction symbols) for a given
+     * @brief Computes the prediction symbols for a given
      * production rule.
      *
-     * The director symbols for a rule, also called prediction symbols,
+     * The prediction symbols for a rule,
      * determine the set of input symbols that can trigger this rule in the
-     * parsing table. This function calculates the director symbols based on the
-     * FIRST set of the consequent and, if epsilon (the empty symbol) is in the
-     * FIRST set, also includes the FOLLOW set of the antecedent.
+     * parsing table. This function calculates the prediction symbols based on
+     * the FIRST set of the consequent and, if epsilon (the empty symbol) is in
+     * the FIRST set, also includes the FOLLOW set of the antecedent.
      *
      * - If the FIRST set of the consequent does not contain epsilon, the
-     * director symbols are simply the FIRST symbols of the consequent.
-     * - If the FIRST set of the consequent contains epsilon, the director
+     * prediction symbols are simply the FIRST symbols of the consequent.
+     * - If the FIRST set of the consequent contains epsilon, the prediction
      * symbols are computed as (FIRST(consequent) - {epsilon}) ∪
      * FOLLOW(antecedent).
      *
      * @param antecedent The left-hand side non-terminal symbol of the rule.
      * @param consequent A vector of symbols on the right-hand side of the rule
      * (production body).
-     * @return An unordered set of strings containing the director symbols for
+     * @return An unordered set of strings containing the prediction symbols for
      * the specified rule.
      */
     std::unordered_set<std::string>
-    director_symbols(const std::string&              antecedent,
-                     const std::vector<std::string>& consequent);
+    PredictionSymbols(const std::string&              antecedent,
+                      const std::vector<std::string>& consequent);
 
     /**
      * @brief Recursive utility function to compute the FOLLOW set for a
@@ -203,9 +203,9 @@ class LL1Parser {
      * @param next_symbols An unordered set to accumulate symbols forming the
      * FOLLOW set of the target non-terminal as they are discovered.
      */
-    void follow_util(const std::string&               arg,
-                     std::unordered_set<std::string>& visited,
-                     std::unordered_set<std::string>& next_symbols);
+    void FollowUtil(const std::string&               arg,
+                    std::unordered_set<std::string>& visited,
+                    std::unordered_set<std::string>& next_symbols);
 
     /**
      * @brief Creates the LL(1) parsing table for the grammar.
@@ -228,17 +228,17 @@ class LL1Parser {
      * grammar is LL(1) compatible; `false` if any conflicts are detected,
      * showing that the grammar does not meet LL(1) requirements.
      */
-    bool create_ll1_table();
+    bool CreateLL1Table();
 
     /// @brief Size limit for symbol history trace, defaults to 5.
-    const size_t TRACE_SIZE{5};
+    const size_t kTraceSize{5};
 
     /// @brief The LL(1) parsing table, mapping non-terminals and terminals to
     /// productions.
     ll1_table ll1_t_;
 
     /// @brief Grammar object associated with this parser.
-    grammar gr_;
+    Grammar gr_;
 
     /// @brief FIRST sets for each non-terminal in the grammar.
     std::unordered_map<std::string, std::unordered_set<std::string>> first_sets;
@@ -246,7 +246,7 @@ class LL1Parser {
     /// @brief Stack for managing parsing symbols.
     std::stack<std::string> symbol_stack_;
 
-    /// @brief Deque for tracking the most recent TRACE_SIZE symbols parsed.
+    /// @brief Deque for tracking the most recent kTraceSize symbols parsed.
     std::deque<std::string> trace_;
 
     /// @brief Path to the grammar file used in this parser.

@@ -5,7 +5,7 @@
 
 using production = std::vector<std::string>;
 
-struct grammar {
+struct Grammar {
 
     /**
      * @brief Constructs a grammar by reading from the specified file.
@@ -15,7 +15,7 @@ struct grammar {
      * Initializes the grammar by setting the filename for input. The actual
      * grammar data is read and processed through the `read_from_file` function.
      */
-    explicit grammar(std::string filename);
+    explicit Grammar(std::string filename);
 
     /**
      * @brief Reads and loads the grammar from a file.
@@ -27,7 +27,7 @@ struct grammar {
      * @throws GrammarError if there are errors reading symbols, parsing the
      * grammar, or splitting the rules as specified in the input file.
      */
-    void read_from_file();
+    void ReadFromFile();
 
     /**
      * @brief Adds a rule to the grammar.
@@ -39,7 +39,7 @@ struct grammar {
      * consequent production. This function processes and adds each rule for
      * parsing.
      */
-    void add_rule(const std::string& antecedent, const std::string& consequent);
+    void AddRule(const std::string& antecedent, const std::string& consequent);
 
     /**
      * @brief Sets the axiom (entry point) of the grammar.
@@ -49,7 +49,7 @@ struct grammar {
      * Defines the starting point for the grammar, which is used in parsing
      * algorithms and must be a non-terminal symbol present in the grammar.
      */
-    void set_axiom(const std::string& axiom);
+    void SetAxiom(const std::string& axiom);
 
     /**
      * @brief Checks if a given antecedent has an empty production.
@@ -61,7 +61,7 @@ struct grammar {
      * An empty production is represented as `<antecedent> -> ;`, indicating
      * that the antecedent can produce an empty string.
      */
-    bool has_empty_production(const std::string& antecedent);
+    bool HasEmptyProduction(const std::string& antecedent);
 
     /**
      * @brief Filters grammar rules that contain a specific token in their
@@ -75,7 +75,7 @@ struct grammar {
      * and returns those rules.
      */
     std::vector<std::pair<const std::string, production>>
-    filter_rules_by_consequent(const std::string& arg);
+    FilterRulesByConsequent(const std::string& arg);
 
     /**
      * @brief Prints the current grammar structure to standard output.
@@ -83,7 +83,7 @@ struct grammar {
      * This function provides a debug view of the grammar by printing out all
      * rules, the axiom, and other relevant details.
      */
-    void debug();
+    void Debug();
 
     /**
      * @brief Splits a production string into individual tokens.
@@ -96,7 +96,7 @@ struct grammar {
      * on the symbol table, allowing terminals and non-terminals to be
      * identified.
      */
-    static std::vector<std::string> split(const std::string& s);
+    static std::vector<std::string> Split(const std::string& s);
 
     /**
      * @brief Checks if a rule exhibits left recursion.
@@ -110,8 +110,8 @@ struct grammar {
      * first symbol in its consequent, which may cause issues in top-down
      * parsing algorithms.
      */
-    static bool has_left_recursion(const std::string&              antecedent,
-                                   const std::vector<std::string>& consequent);
+    static bool HasLeftRecursion(const std::string&              antecedent,
+                                 const std::vector<std::string>& consequent);
 
     /**
      * @brief Stores the grammar rules with each antecedent mapped to a list of
@@ -122,10 +122,10 @@ struct grammar {
     /**
      * @brief The axiom or entry point of the grammar.
      */
-    std::string AXIOM_;
+    std::string axiom_;
 
     /**
      * @brief The filename from which the grammar is read.
      */
-    const std::string filename_;
+    const std::string kFilename;
 };

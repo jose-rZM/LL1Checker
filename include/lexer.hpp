@@ -1,6 +1,6 @@
 #include <boost/spirit/include/lex_lexertl.hpp>
 #include <vector>
-class lexer {
+class Lex {
     std::string              filename_;
     std::vector<std::string> tokens_;
     unsigned                 current_;
@@ -30,8 +30,8 @@ class lexer {
      * @see symbol_table::st_
      */
     template <typename Lexer>
-    struct parse_input : boost::spirit::lex::lexer<Lexer> {
-        parse_input();
+    struct ParseInput : boost::spirit::lex::lexer<Lexer> {
+        ParseInput();
     };
 
     /**
@@ -49,7 +49,7 @@ class lexer {
      *
      * @see symbol_table::token_types_r_
      */
-    struct add {
+    struct Add {
         typedef bool result_type;
         template <typename Token>
         bool operator()(Token const& t, std::vector<std::string>& tks) const;
@@ -63,7 +63,7 @@ class lexer {
      * @note The program aborts if any errors occur during lexer creation or
      * tokenization.
      */
-    explicit lexer(std::string filename);
+    explicit Lex(std::string filename);
 
     /**
      * @brief Retrieves the next token from the token vector.
@@ -73,7 +73,7 @@ class lexer {
      *
      * This function allows sequential access to tokens processed by the lexer.
      */
-    std::string next();
+    std::string Next();
 
   private:
     /**
@@ -105,5 +105,5 @@ class lexer {
      * @see tokens_
      * @see filename_
      */
-    void tokenize();
+    void Tokenize();
 };

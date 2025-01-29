@@ -8,16 +8,16 @@
 #include <utility>
 #include <vector>
 
-grammar::grammar(std::string filename) : filename_(std::move(filename)) {
-    read_from_file();
+Grammar::Grammar(std::string filename) : kFilename(std::move(filename)) {
+    ReadFromFile();
 }
 
-void grammar::read_from_file() {
+void Grammar::ReadFromFile() {
     std::ifstream file;
-    file.open(filename_, std::ios::in);
+    file.open(kFilename, std::ios::in);
 
     if (!file.is_open()) {
-        throw std::runtime_error("Error opening " + filename_);
+        throw std::runtime_error("Error opening " + kFilename);
     }
 
     std::unordered_map<std::string, std::vector<std::string>> p_grammar;
@@ -41,11 +41,11 @@ void grammar::read_from_file() {
             std::string value;
 
             if (std::regex_match(input, match, rx_terminal)) {
-                symbol_table::put_symbol(match[1], match[2]);
+                symbol_table::PutSymbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
-                set_axiom(match[1]);
+                SetAxiom(match[1]);
             } else if (std::regex_match(input, match, rx_eol)) {
-                symbol_table::set_eol(match[1]);
+                symbol_table::SetEol(match[1]);
             } else {
                 throw GrammarError("Error while reading tokens " + input);
             }
@@ -73,18 +73,18 @@ void grammar::read_from_file() {
 
     // Add non terminal symbols
     for (const auto& entry : p_grammar) {
-        symbol_table::put_symbol(entry.first);
+        symbol_table::PutSymbol(entry.first);
     }
 
     // Add all rules
     for (const auto& entry : p_grammar) {
-        for (const auto& production : entry.second) {
-            add_rule(entry.first, production);
+        for (const auto& prod : entry.second) {
+            AddRule(entry.first, prod);
         }
     }
 }
 
-std::vector<std::string> grammar::split(const std::string& s) {
+std::vector<std::string> Grammar::Split(const std::string& s) {
     if (s == symbol_table::EPSILON_) {
         return {symbol_table::EPSILON_};
     }
@@ -95,11 +95,11 @@ std::vector<std::string> grammar::split(const std::string& s) {
     while (end <= s.size()) {
         str = s.substr(start, end - start);
 
-        if (symbol_table::in(str)) {
+        if (symbol_table::In(str)) {
             unsigned lookahead = end + 1;
             while (lookahead <= s.size()) {
                 std::string extended = s.substr(start, lookahead - start);
-                if (symbol_table::in(extended)) {
+                if (symbol_table::In(extended)) {
                     end = lookahead;
                 }
                 ++lookahead;
@@ -120,20 +120,20 @@ std::vector<std::string> grammar::split(const std::string& s) {
     return splitted;
 }
 
-void grammar::add_rule(const std::string& antecedent,
-                       const std::string& consequent) {
-    std::vector<std::string> splitted_consequent{split(consequent)};
-    if (has_left_recursion(antecedent, splitted_consequent)) {
+void Grammar::AddRule(const std::string& antecedent,
+                      const std::string& consequent) {
+    std::vector<std::string> splitted_consequent{Split(consequent)};
+    if (HasLeftRecursion(antecedent, splitted_consequent)) {
         throw GrammarError("Grammar has left recursion, it can't be LL1.");
     }
     g_[antecedent].push_back(splitted_consequent);
 }
 
-void grammar::set_axiom(const std::string& axiom) {
-    AXIOM_ = axiom;
+void Grammar::SetAxiom(const std::string& axiom) {
+    axiom_ = axiom;
 }
 
-bool grammar::has_empty_production(const std::string& antecedent) {
+bool Grammar::HasEmptyProduction(const std::string& antecedent) {
     auto rules{g_.at(antecedent)};
     return std::find_if(rules.cbegin(), rules.cend(), [](const auto& rule) {
                return rule[0] == symbol_table::EPSILON_;
@@ -141,7 +141,7 @@ bool grammar::has_empty_production(const std::string& antecedent) {
 }
 
 std::vector<std::pair<const std::string, production>>
-grammar::filter_rules_by_consequent(const std::string& arg) {
+Grammar::FilterRulesByConsequent(const std::string& arg) {
     std::vector<std::pair<const std::string, production>> rules;
     for (const std::pair<const std::string, std::vector<production>>& rule :
          g_) {
@@ -154,12 +154,12 @@ grammar::filter_rules_by_consequent(const std::string& arg) {
     return rules;
 }
 
-void grammar::debug() {
+void Grammar::Debug() {
     std::cout << "Grammar:\n";
     for (const auto& entry : g_) {
         std::cout << entry.first << " -> ";
-        for (const std::vector<std::string>& production : entry.second) {
-            for (const std::string& symbol : production) {
+        for (const std::vector<std::string>& prod : entry.second) {
+            for (const std::string& symbol : prod) {
                 std::cout << symbol << " ";
             }
             std::cout << "| ";
@@ -167,7 +167,7 @@ void grammar::debug() {
         std::cout << "\n";
     }
 }
-bool grammar::has_left_recursion(const std::string&              antecedent,
-                                 const std::vector<std::string>& consequent) {
+bool Grammar::HasLeftRecursion(const std::string&              antecedent,
+                               const std::vector<std::string>& consequent) {
     return consequent.at(0) == antecedent;
 }

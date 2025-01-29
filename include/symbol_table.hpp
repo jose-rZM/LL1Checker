@@ -43,15 +43,15 @@ struct symbol_table {
      * @param identifier Name of the terminal symbol.
      * @param regex Regular expression representing the terminal symbol.
      */
-    static void put_symbol(const std::string& identifier,
-                           const std::string& regex);
+    static void PutSymbol(const std::string& identifier,
+                          const std::string& regex);
 
     /**
      * @brief Adds a non-terminal symbol to the symbol table.
      *
      * @param identifier Name of the non-terminal symbol.
      */
-    static void put_symbol(const std::string& identifier);
+    static void PutSymbol(const std::string& identifier);
 
     /**
      * @brief Checks if a symbol exists in the symbol table.
@@ -59,7 +59,7 @@ struct symbol_table {
      * @param s Symbol identifier to search.
      * @return true if the symbol is present, otherwise false.
      */
-    static bool in(const std::string& s);
+    static bool In(const std::string& s);
 
     /**
      * @brief Checks if a symbol is a terminal.
@@ -67,7 +67,7 @@ struct symbol_table {
      * @param s Symbol identifier to check.
      * @return true if the symbol is terminal, otherwise false.
      */
-    static bool is_terminal(const std::string& s);
+    static bool IsTerminal(const std::string& s);
 
     /**
      * @brief Retrieves the regex pattern for a terminal symbol.
@@ -75,19 +75,19 @@ struct symbol_table {
      * @param terminal Terminal symbol identifier.
      * @return Regex pattern associated with the terminal symbol.
      */
-    static std::string get_value(const std::string& terminal);
+    static std::string GetValue(const std::string& terminal);
 
     /**
      * @brief Prints all symbols and their properties in the symbol table.
      *
      * Outputs the symbol table for debugging purposes.
      */
-    static void debug();
+    static void Debug();
 
     /**
      * @brief Sets the end-of-line symbol.
      *
      * @param eol String to use as the new end-of-line symbol.
      */
-    static void set_eol(const std::string& eol);
+    static void SetEol(const std::string& eol);
 };
