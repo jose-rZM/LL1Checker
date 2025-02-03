@@ -3,23 +3,16 @@
 
 ## 📖 Table of Contents
 1. [Project Status](#-project-status)
-2. [Requirements](#-requirements)
-3. [Run the Program](#%EF%B8%8F-run)
-4. [Considerations](#-considerations)
-5. [Structure of grammar.txt](#-structure-of-grammartxt)
-6. [Want to Contribute?](#-want-to-contribute)
-7. [Compilation](#%EF%B8%8F-compilation)
+2. [Run the Program](#%EF%B8%8F-run)
+3. [Considerations](#-considerations)
+4. [Structure of grammar.txt](#-structure-of-grammartxt)
+5. [Want to Contribute?](#-want-to-contribute)
+6. [Compilation](#%EF%B8%8F-compilation)
 
 ## 🚀 Project Status
 
 This project is complete, with all essential functionalities implemented and tested with various grammars. It is now in maintenance mode for potential enhancements or bug fixes. 
 If you encounter any issues or unexpected interpretations, please open an issue and include relevant details. Contributions for further improvement are welcome!
-
-
-## 📋 Requirements
-
-- Flex: Required to generate and compile the lexer file `sudo apt install flex` in Debian based distros. If you use Windows, `winflexbison` is required and in your `PATH`
-- gcc: Used for compiling the generated `lex` file.
 
 ## ▶️ Run
 
@@ -99,8 +92,7 @@ And in **input.txt** file, you place the line you want to check.
 
 To get started, you'll need the following:
 - Boost Libraries: Make sure you have the following installed:
-  - boost_filesystem 📁
-  - boost_system ⚙️
+  - boost_regex
 
 Feel free to reach out if you have any questions or suggestions! 😊
 
