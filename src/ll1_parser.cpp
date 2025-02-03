@@ -14,12 +14,13 @@
 #include "../include/lexer.hpp"
 #include "../include/ll1_parser.hpp"
 #include "../include/symbol_table.hpp"
+#include "../include/tabulate.hpp"
 
 LL1Parser::LL1Parser(Grammar gr, std::string text_file)
     : gr_(std::move(gr)), text_file_(std::move(text_file)) {
     if (!CreateLL1Table()) {
         gr_.Debug();
-        PrintTable();
+        PrintTable(true);
         throw GrammarError("Grammar provided is not LL1.");
     }
 }
@@ -28,7 +29,7 @@ LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file)
     : gr_(grammar_file), text_file_(std::move(text_file)) {
     if (!CreateLL1Table()) {
         gr_.Debug();
-        PrintTable();
+        PrintTable(true);
         throw GrammarError("Grammar provided is not LL1.");
     }
 }
@@ -36,7 +37,7 @@ LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file)
 LL1Parser::LL1Parser(const std::string& grammar_file) : gr_(grammar_file) {
     if (!CreateLL1Table()) {
         gr_.Debug();
-        PrintTable();
+        PrintTable(true);
         throw GrammarError("Grammar provided is not LL1.");
     }
 }
@@ -197,7 +198,11 @@ LL1Parser::PredictionSymbols(const std::string&              antecedent,
     return hd;
 }
 
-void LL1Parser::PrintTable() {
+void LL1Parser::PrintTable(bool old = false) {
+    if (old) {
+        PrintTableUsingTabulate();
+        return;
+    }
     for (const auto& outerPair : ll1_t_) {
         const std::string& nonTerminal = outerPair.first;
         std::cout << "Non-terminal: " << nonTerminal << "\n";
@@ -218,6 +223,64 @@ void LL1Parser::PrintTable() {
         }
         std::cout << "\n";
     }
+}
+
+void LL1Parser::PrintTableUsingTabulate() {
+    using namespace tabulate;
+    Table table;
+
+    Table::Row_t                          headers = {"Non-terminal"};
+    std::unordered_map<std::string, bool> columns;
+
+    for (const auto& outerPair : ll1_t_) {
+        for (const auto& innerPair : outerPair.second) {
+            columns[innerPair.first] = true;
+        }
+    }
+
+    for (const auto& col : columns) {
+        headers.push_back(col.first);
+    }
+
+    auto& header_row = table.add_row(headers);
+    header_row.format().font_align(FontAlign::center).font_color(Color::yellow).font_style({FontStyle::bold});
+
+    for (const auto& outerPair : ll1_t_) {
+        const std::string& nonTerminal = outerPair.first;
+        Table::Row_t       row_data    = {nonTerminal};
+
+        for (const auto& col : columns) {
+            auto innerIt = outerPair.second.find(col.first);
+            if (innerIt != outerPair.second.end()) {
+                std::string cell_content;
+                for (const auto& prod : innerIt->second) {
+                    cell_content += "[ ";
+                    for (const std::string& elem : prod) {
+                        cell_content += elem + " ";
+                    }
+                    cell_content += "] ";
+                }
+                row_data.push_back(cell_content);
+            } else {
+                row_data.push_back("-");
+            }
+        }
+        auto& tb = table.add_row(row_data);
+    }
+
+    table[0].format().font_color(Color::cyan).font_style({FontStyle::bold});
+    for (size_t i = 1; i < table.size(); ++i) {
+        for (size_t j = 1; j < table[i].size(); ++j) {
+            if (table[i][j].get_text().find("] [") != std::string::npos) {
+                table[i][j].format().font_color(Color::red);
+            }
+        }
+    }
+    table.format()
+        .font_align({FontAlign::center})
+        ;
+    table.column(0).format().font_color(Color::cyan);
+    std::cout << table << std::endl;
 }
 
 void LL1Parser::FollowUtil(const std::string&               arg,

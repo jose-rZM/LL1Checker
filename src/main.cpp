@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
         if (verbose_mode) {
             std::cout << "-----------------------------------------------\n";
             std::cout << "LL1 Table (Verbose Mode):\n";
-            ll1_p.PrintTable();
+            ll1_p.PrintTable(true);
             std::cout << "-----------------------------------------------\n";
             if (!text_filename.empty()) {
                 std::cout << "Input (Verbose Mode):\n";

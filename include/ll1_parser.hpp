@@ -70,8 +70,11 @@ class LL1Parser {
      * @brief Print the LL(1) parsing table to standard output.
      *
      * Displays the LL(1) table for debugging and analysis.
+     * @param old Set to true to use the old format when printing the table.
+     * The old format is ideal when the grammar is large and does not fit well into
+     * the table generated.
      */
-    void PrintTable();
+    void PrintTable(bool old);
 
     /**
      * @brief Prints the remaining symbols in the parsing stack after the
@@ -229,6 +232,8 @@ class LL1Parser {
      * showing that the grammar does not meet LL(1) requirements.
      */
     bool CreateLL1Table();
+
+    void PrintTableUsingTabulate();
 
     /// @brief Size limit for symbol history trace, defaults to 5.
     const size_t kTraceSize{5};
