@@ -1,6 +1,3 @@
-#ifndef _WIN32
-#include <getopt.h>
-#endif
 #include <boost/program_options.hpp>
 #include <fstream>
 #include <iostream>
