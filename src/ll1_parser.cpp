@@ -16,28 +16,32 @@
 #include "../include/symbol_table.hpp"
 #include "../include/tabulate.hpp"
 
-LL1Parser::LL1Parser(Grammar gr, std::string text_file)
-    : gr_(std::move(gr)), text_file_(std::move(text_file)) {
+LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format)
+    : gr_(std::move(gr)), text_file_(std::move(text_file)),
+      print_table_format_(table_format) {
     if (!CreateLL1Table()) {
         gr_.Debug();
-        PrintTable(true);
+        PrintTable();
         throw GrammarError("Grammar provided is not LL1.");
     }
 }
 
-LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file)
-    : gr_(grammar_file), text_file_(std::move(text_file)) {
+LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file,
+                     bool table_format)
+    : gr_(grammar_file), text_file_(std::move(text_file)),
+      print_table_format_(table_format) {
     if (!CreateLL1Table()) {
         gr_.Debug();
-        PrintTable(true);
+        PrintTable();
         throw GrammarError("Grammar provided is not LL1.");
     }
 }
 
-LL1Parser::LL1Parser(const std::string& grammar_file) : gr_(grammar_file) {
+LL1Parser::LL1Parser(const std::string& grammar_file, bool table_format)
+    : gr_(grammar_file), print_table_format_(table_format) {
     if (!CreateLL1Table()) {
         gr_.Debug();
-        PrintTable(true);
+        PrintTable();
         throw GrammarError("Grammar provided is not LL1.");
     }
 }
@@ -198,8 +202,8 @@ LL1Parser::PredictionSymbols(const std::string&              antecedent,
     return hd;
 }
 
-void LL1Parser::PrintTable(bool old = false) {
-    if (old) {
+void LL1Parser::PrintTable() {
+    if (print_table_format_) {
         PrintTableUsingTabulate();
         return;
     }
@@ -243,7 +247,10 @@ void LL1Parser::PrintTableUsingTabulate() {
     }
 
     auto& header_row = table.add_row(headers);
-    header_row.format().font_align(FontAlign::center).font_color(Color::yellow).font_style({FontStyle::bold});
+    header_row.format()
+        .font_align(FontAlign::center)
+        .font_color(Color::yellow)
+        .font_style({FontStyle::bold});
 
     for (const auto& outerPair : ll1_t_) {
         const std::string& nonTerminal = outerPair.first;
@@ -276,9 +283,7 @@ void LL1Parser::PrintTableUsingTabulate() {
             }
         }
     }
-    table.format()
-        .font_align({FontAlign::center})
-        ;
+    table.format().font_align({FontAlign::center});
     table.column(0).format().font_color(Color::cyan);
     std::cout << table << std::endl;
 }

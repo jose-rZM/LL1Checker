@@ -1,12 +1,14 @@
 #ifndef _WIN32
 #include <getopt.h>
 #endif
+#include <boost/program_options.hpp>
 #include <fstream>
 #include <iostream>
 #include <ostream>
 #include <string>
 
 #include "../include/ll1_parser.hpp"
+namespace po = boost::program_options;
 
 int PrintFileToStdout(const std::string& filename) {
     std::ifstream file(filename);
@@ -20,119 +22,109 @@ int PrintFileToStdout(const std::string& filename) {
     return 0;
 }
 
-void ShowUsage(const char* program_name) {
+void ShowUsage(const char* program_name, const po::options_description& desc) {
     std::cout << "Usage: " << program_name
-              << " <grammar_filename> [<text_filename>] [-v] [-h]\n";
-    std::cout << "Options:\n";
-    std::cout << "  -h             Show this help message\n";
-    std::cout << "  -v             Enable verbose mode: print ll1 table, input "
-                 "file and parser stack trace\n";
-    std::cout << "  <grammar_filename>  Path to the grammar file\n";
-    std::cout << "  <text_filename>     Path to the text file to be parsed "
-                 "(optional)\n";
+              << " <grammar_filename> [<text_filename>] [options]\n"
+              << desc;
 }
 
 int main(int argc, char* argv[]) {
     std::string grammar_filename, text_filename;
     bool        verbose_mode = false;
+    std::string table_format = "new";
 
-#ifndef _WIN32
-    int opt;
-    while ((opt = getopt(argc, argv, "hv")) != -1) {
-        switch (opt) {
-        case 'h':
-            ShowUsage(argv[0]);
+    // Configure command line options
+    po::options_description desc("Options");
+    desc.add_options()("help,h", "Show help message")(
+        "verbose,v", po::bool_switch(&verbose_mode),
+        "Enable verbose mode with new table format")(
+        "format", po::value<std::string>(),
+        "Set table format (old/new), implies verbose mode")(
+        "grammar", po::value<std::string>(&grammar_filename)->required(),
+        "Grammar file")("text", po::value<std::string>(&text_filename),
+                        "Text file to parse");
+
+    po::positional_options_description pos;
+    pos.add("grammar", 1);
+    pos.add("text", 1);
+
+    try {
+        po::variables_map vm;
+        po::store(po::command_line_parser(argc, argv)
+                      .options(desc)
+                      .positional(pos)
+                      .run(),
+                  vm);
+
+        if (vm.count("help")) {
+            ShowUsage(argv[0], desc);
             return 0;
-        case 'v':
-            verbose_mode = true;
-            break;
-        default:
-            std::cerr
-                << "ll1: Invalid option. Use 'll1 -h' for usage information.\n";
-            return 1;
         }
-    }
 
-    if (argc - optind < 1 || argc - optind > 2) {
-        std::cerr << "ll1: Incorrect number of arguments. Use 'll1 -h' for "
-                     "usage information.\n";
+        po::notify(vm);
+        if (vm.count("format")) {
+            verbose_mode = true;
+            table_format = vm["format"].as<std::string>();
+            if (table_format != "old" && table_format != "new") {
+                throw std::runtime_error(
+                    "Invalid format - must be 'old' or 'new'");
+            }
+        } else if (vm.count("verbose")) {
+            if (table_format.empty())
+                table_format = "new";
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << "\n\n";
+        ShowUsage(argv[0], desc);
         return 1;
     }
-
-    grammar_filename = argv[optind];
-    if (optind + 1 < argc) {
-        text_filename = argv[optind + 1];
-    }
-#else
-    if (argc < 2) {
-        show_usage(argv[0]);
-        return 1;
-    }
-
-    for (int i = 1; i < argc; ++i) {
-        std::string arg = argv[i];
-        if (arg == "-h") {
-            show_usage(argv[0]);
-            return 0;
-        } else if (arg == "-v") {
-            verbose_mode = true;
-        } else if (grammar_filename.empty()) {
-            grammar_filename = arg;
-        } else {
-            text_filename = arg;
-        }
-    }
-#endif
-    std::ifstream grammar_file_check(grammar_filename);
-    if (!grammar_file_check) {
-        std::cerr << "ll1: Grammar file '" << grammar_filename
-                  << "' does not exist or cannot be opened.\n";
+    if (!std::ifstream(grammar_filename)) {
+        std::cerr << "Error: Grammar file '" << grammar_filename
+                  << "' not found\n";
         return 1;
     }
 
     try {
-        LL1Parser ll1_p{grammar_filename, text_filename};
+        LL1Parser parser{grammar_filename, text_filename,
+                         table_format == "new"};
         std::cout << "Grammar is LL(1)\n";
 
         if (verbose_mode) {
-            std::cout << "-----------------------------------------------\n";
-            std::cout << "LL1 Table (Verbose Mode):\n";
-            ll1_p.PrintTable(true);
-            std::cout << "-----------------------------------------------\n";
+            std::cout << "\n--------------------------------\n"
+                      << "LL1 Table (" << table_format << " format):\n";
+            parser.PrintTable();
+
             if (!text_filename.empty()) {
-                std::cout << "Input (Verbose Mode):\n";
+                std::cout << "\n--------------------------------\n"
+                          << "Input content:\n";
                 if (PrintFileToStdout(text_filename)) {
-                    std::cerr << "Error: File does not exist.\n";
-                    return 1;
+                    throw std::runtime_error("Text file not found");
                 }
-                std::cout
-                    << "-----------------------------------------------\n";
             }
+            std::cout << "--------------------------------\n\n";
         }
 
         if (!text_filename.empty()) {
             std::ifstream file(text_filename);
-            if (!file) {
-                std::cerr << "ll1: File does not exist.\n";
-                return 1;
-            }
-            if (file.peek() == std::ifstream::traits_type::eof()) {
-                std::cerr << "ll1: File is empty.\n";
-                return 1;
-            }
-            if (ll1_p.Parse()) {
-                std::cout << "Parsing was successful.\n";
-                if (verbose_mode) {
-                    ll1_p.PrintStackTrace();
-                }
+            if (!file)
+                throw std::runtime_error("Text file not found");
+            if (file.peek() == EOF)
+                throw std::runtime_error("Text file is empty");
+
+            if (parser.Parse()) {
+                std::cout << "Parsing successful\n";
+                if (verbose_mode)
+                    parser.PrintStackTrace();
             } else {
-                std::cerr << "Parsing encountered an error.\n";
-                ll1_p.PrintStackTrace();
-                ll1_p.PrintSymbolHist();
+                std::cerr << "Parsing failed\n";
+                parser.PrintStackTrace();
+                parser.PrintSymbolHist();
+                return 1;
             }
         }
     } catch (const std::exception& e) {
-        std::cerr << "ll1: " << e.what() << "\n";
+        std::cerr << "Error: " << e.what() << "\n";
         return 1;
     }
 

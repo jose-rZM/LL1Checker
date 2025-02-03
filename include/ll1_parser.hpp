@@ -20,7 +20,7 @@ class LL1Parser {
      * @param gr Grammar object to parse with.
      * @param text_file Name of the file containing input to parse.
      */
-    LL1Parser(Grammar gr, std::string text_file);
+    LL1Parser(Grammar gr, std::string text_file, bool table_format = true);
 
     /**
      * @brief Constructs an LL1Parser with a grammar file and an input file.
@@ -28,14 +28,16 @@ class LL1Parser {
      * @param grammar_file Path to the grammar file.
      * @param text_file Name of the file containing input to parse.
      */
-    LL1Parser(const std::string& grammar_file, std::string text_file);
+    LL1Parser(const std::string& grammar_file, std::string text_file,
+              bool table_format = true);
 
     /**
      * @brief Constructs an LL1Parser with a grammar file.
      *
      * @param grammar_file Path to the grammar file.
      */
-    explicit LL1Parser(const std::string& grammar_file);
+    explicit LL1Parser(const std::string& grammar_file,
+                       bool               table_format = true);
 
     /**
      * @brief Parses an input string or file using the LL(1) parsing algorithm.
@@ -70,11 +72,8 @@ class LL1Parser {
      * @brief Print the LL(1) parsing table to standard output.
      *
      * Displays the LL(1) table for debugging and analysis.
-     * @param old Set to true to use the old format when printing the table.
-     * The old format is ideal when the grammar is large and does not fit well into
-     * the table generated.
      */
-    void PrintTable(bool old);
+    void PrintTable();
 
     /**
      * @brief Prints the remaining symbols in the parsing stack after the
@@ -259,4 +258,7 @@ class LL1Parser {
 
     /// @brief Path to the input text file to be parsed.
     std::string text_file_;
+
+    /// @brief True if new format is used when printing the table
+    bool print_table_format_{true};
 };

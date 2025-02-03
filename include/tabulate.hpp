@@ -892,8 +892,8 @@ union max_align_t {
     struct Unknown;
 
     Unknown (*variant_UNIQUE(_))(Unknown);
-    Unknown* Unknown::*variant_UNIQUE(_);
-    Unknown (Unknown::*variant_UNIQUE(_))(Unknown);
+    Unknown* Unknown::* variant_UNIQUE(_);
+    Unknown (Unknown::* variant_UNIQUE(_))(Unknown);
 
     struct_t<Unknown (*)(Unknown)>          variant_UNIQUE(_);
     struct_t<Unknown * Unknown::*>          variant_UNIQUE(_);
@@ -3164,7 +3164,8 @@ using std::swap;
 #define optional_is_default = default;
 #else
 #define optional_is_default                                                    \
-    {}
+    {                                                                          \
+    }
 #endif
 
 #if optional_HAVE(CONSTEXPR_14)
@@ -3316,8 +3317,8 @@ struct is_nothrow_swappable {
     }
 
     template <typename T>
-    static auto
-    test(int /*unused*/) -> std::integral_constant<bool, satisfies<T>()> {}
+    static auto test(int /*unused*/)
+        -> std::integral_constant<bool, satisfies<T>()> {}
 
     template <typename> static auto test(...) -> std::false_type;
 };
@@ -3406,8 +3407,8 @@ union max_align_t {
     struct Unknown;
 
     Unknown (*optional_UNIQUE(_))(Unknown);
-    Unknown* Unknown::*optional_UNIQUE(_);
-    Unknown (Unknown::*optional_UNIQUE(_))(Unknown);
+    Unknown* Unknown::* optional_UNIQUE(_);
+    Unknown (Unknown::* optional_UNIQUE(_))(Unknown);
 
     struct_t<Unknown (*)(Unknown)>          optional_UNIQUE(_);
     struct_t<Unknown * Unknown::*>          optional_UNIQUE(_);
