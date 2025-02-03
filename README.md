@@ -122,7 +122,7 @@ Feel free to reach out if you have any questions or suggestions! 😊
 ### 🛠️ Compilation
 A Makefile is provided, so, run `make` to compile the project.
 
-## 📖 Documentation
+## 📚 Documentation
 
 The complete API documentation is available here:  
 [**LL1Checker Documentation**](https://jose-rzm.github.io/LL1Checker/)
