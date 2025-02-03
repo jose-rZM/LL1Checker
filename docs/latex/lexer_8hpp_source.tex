@@ -4,28 +4,28 @@
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <boost/spirit/include/lex\_lexertl.hpp>}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00003\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classlexer}{lexer}}\ \{}
+\DoxyCodeLine{00003\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLex_a613c8aca4a26fcb26ec5d255e0b39ab4}{Lex}}\ \{}
 \DoxyCodeLine{00004\ \ \ \ \ std::string\ \ \ \ \ \ \ \ \ \ \ \ \ \ filename\_;}
 \DoxyCodeLine{00005\ \ \ \ \ std::vector<std::string>\ tokens\_;}
 \DoxyCodeLine{00006\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_;}
 \DoxyCodeLine{00007\ }
 \DoxyCodeLine{00008\ \ \ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Lexer>}
-\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structlexer_1_1parse__input}{parse\_input}}\ :\ boost::spirit::lex::lexer<Lexer>\ \{}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structlexer_1_1parse__input}{parse\_input}}();}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{struct\ }ParseInput\ :\ boost::spirit::lex::lexer<Lexer>\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ ParseInput();}
 \DoxyCodeLine{00035\ \ \ \ \ \};}
 \DoxyCodeLine{00036\ }
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structlexer_1_1add}{add}}\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structLex_1_1Add}{Add}}\ \{}
 \DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{bool}\ result\_type;}
 \DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Token>}
 \DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator()(Token\ \textcolor{keyword}{const}\&\ t,\ std::vector<std::string>\&\ tks)\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00056\ \ \ \ \ \};}
-\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classlexer_ae2720ff7c4dde918a3637b26c4493d56}{lexer}}(std::string\ filename);}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classLex_a613c8aca4a26fcb26ec5d255e0b39ab4}{Lex}}(std::string\ filename);}
 \DoxyCodeLine{00067\ }
-\DoxyCodeLine{00076\ \ \ \ \ std::string\ \mbox{\hyperlink{classlexer_a8d5f23f1f5ff3ebdf46d1909f8c42be2}{next}}();}
+\DoxyCodeLine{00076\ \ \ \ \ std::string\ \mbox{\hyperlink{classLex_a44ef6eb4c72d627dda4e7c921847152c}{Next}}();}
 \DoxyCodeLine{00077\ }
 \DoxyCodeLine{00078\ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classlexer_a6f83d4c72f91f5ca96f24d24e2c82f11}{tokenize}}();}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLex_accee7b6aa528e7fdf3891870ec35fef8}{Tokenize}}();}
 \DoxyCodeLine{00109\ \};}
 
 \end{DoxyCode}

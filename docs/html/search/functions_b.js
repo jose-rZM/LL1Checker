@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['set_5faxiom_0',['set_axiom',['../structgrammar.html#a0d48a1e6e884f9ad2e184bff2bb3d0a2',1,'grammar']]],
-  ['set_5feol_1',['set_eol',['../structsymbol__table.html#a48fd201ae09ff3adae763ccd578e7b03',1,'symbol_table']]],
-  ['split_2',['split',['../structgrammar.html#a2c2dff2bc437b746b2cce71839a57c19',1,'grammar']]]
+  ['setaxiom_0',['SetAxiom',['../structGrammar.html#a27ecdbca735ffb275a2bad9d1ea539c3',1,'Grammar']]],
+  ['seteol_1',['SetEol',['../structsymbol__table.html#aee2384e91cb6defc5685b057c64fb4ea',1,'symbol_table']]],
+  ['split_2',['Split',['../structGrammar.html#add2f414fe2ddf7e578a70c255daa1996',1,'Grammar']]]
 ];

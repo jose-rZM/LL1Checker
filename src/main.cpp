@@ -33,7 +33,6 @@ int main(int argc, char* argv[]) {
     bool        verbose_mode = false;
     std::string table_format = "new";
 
-    // Configure command line options
     po::options_description desc("Options");
     desc.add_options()("help,h", "Show help message")(
         "verbose,v", po::bool_switch(&verbose_mode),

@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['lexer_0',['lexer',['../classlexer.html',1,'lexer'],['../classlexer.html#ae2720ff7c4dde918a3637b26c4493d56',1,'lexer::lexer()']]],
-  ['lexererror_1',['LexerError',['../classLexerError.html',1,'']]],
-  ['ll1_5ft_5f_2',['ll1_t_',['../classLL1Parser.html#a29cba4eed3d7b262f17509779934f1fd',1,'LL1Parser']]],
-  ['ll1parser_3',['LL1Parser',['../classLL1Parser.html',1,'LL1Parser'],['../classLL1Parser.html#a7b00f3b79a4d01542cf3c58de1df1af5',1,'LL1Parser::LL1Parser(grammar gr, std::string text_file)'],['../classLL1Parser.html#a51dd893a5c09c140328293c2b79b6188',1,'LL1Parser::LL1Parser(const std::string &amp;grammar_file, std::string text_file)'],['../classLL1Parser.html#a34a42a2a0002a599d0d3c0d8c26dc8dc',1,'LL1Parser::LL1Parser(const std::string &amp;grammar_file)']]]
+  ['kfilename_0',['kFilename',['../structGrammar.html#aad7a482e4c371a110ef69a6558900c7a',1,'Grammar']]],
+  ['ktracesize_1',['kTraceSize',['../classLL1Parser.html#a4952d42125fbfc00daf0ce45a3532b0c',1,'LL1Parser']]]
 ];

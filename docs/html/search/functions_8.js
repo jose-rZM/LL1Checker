@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['next_0',['next',['../classlexer.html#a8d5f23f1f5ff3ebdf46d1909f8c42be2',1,'lexer']]]
+  ['next_0',['Next',['../classLex.html#a44ef6eb4c72d627dda4e7c921847152c',1,'Lex']]]
 ];

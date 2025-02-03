@@ -71,7 +71,12 @@ class LL1Parser {
     /**
      * @brief Print the LL(1) parsing table to standard output.
      *
-     * Displays the LL(1) table for debugging and analysis.
+     * Displays the LL(1) table for debugging and analysis. The output format
+     * depends on the value of `print_table_format_`:
+     * - If `print_table_format_` is `true`, the table is printed using the
+     *   `tabulate` library for a structured and visually enhanced output.
+     * - If `print_table_format_` is `false`, the table is printed in a simpler
+     *   text format.
      */
     void PrintTable();
 
@@ -232,6 +237,18 @@ class LL1Parser {
      */
     bool CreateLL1Table();
 
+    /**
+     * @brief Print the LL(1) parsing table using the tabulate library.
+     *
+     * This function generates a structured LL(1) table using the `tabulate`
+     * library, displaying non-terminals as row headers and terminal symbols as
+     * columns. Productions are formatted within the table cells. The table
+     * uses:
+     * - Bold, centered headers with yellow font color.
+     * - Cyan font color for the first column (non-terminals).
+     * - Red font color for cells containing multiple productions (conflicts).
+     * - A visually structured alignment for improved readability.
+     */
     void PrintTableUsingTabulate();
 
     /// @brief Size limit for symbol history trace, defaults to 5.

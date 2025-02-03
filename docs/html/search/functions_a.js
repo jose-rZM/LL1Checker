@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['read_5ffrom_5ffile_0',['read_from_file',['../structgrammar.html#a1a05c16bcf16ab74794aea7782e634d7',1,'grammar']]]
+  ['readfromfile_0',['ReadFromFile',['../structGrammar.html#ac2ef7218be4c6d7a778035b89f5a20a5',1,'Grammar']]]
 ];

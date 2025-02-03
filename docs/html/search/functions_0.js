@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['add_5frule_0',['add_rule',['../structgrammar.html#ac16e94c50165e453b758ac8c705cfc8a',1,'grammar']]]
+  ['addrule_0',['AddRule',['../structGrammar.html#a539261e8ebcc688020f43d98510a79a0',1,'Grammar']]]
 ];

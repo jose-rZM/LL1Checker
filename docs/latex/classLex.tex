@@ -1,0 +1,112 @@
+\doxysection{Lex Class Reference}
+\hypertarget{classLex}{}\label{classLex}\index{Lex@{Lex}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structLex_1_1Add}{Add}}
+\begin{DoxyCompactList}\small\item\em Functor for adding tokens to the token list during tokenization. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structLex_1_1ParseInput}{Parse\+Input}}
+\begin{DoxyCompactList}\small\item\em Lexer functor for defining tokenization rules using Boost Spirit \doxylink{classLex}{Lex}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLex_a613c8aca4a26fcb26ec5d255e0b39ab4}{Lex}} (std\+::string filename)
+\begin{DoxyCompactList}\small\item\em Constructs a lexer and tokenizes the specified input file. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classLex_a44ef6eb4c72d627dda4e7c921847152c}{Next}} ()
+\begin{DoxyCompactList}\small\item\em Retrieves the next token from the token vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLex_accee7b6aa528e7fdf3891870ec35fef8}{Tokenize}} ()
+\begin{DoxyCompactList}\small\item\em Tokenizes the input file using Boost Spirit \doxylink{classLex}{Lex}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classLex_a2edfb30a2ba422c2f521eaa0211a1491}\label{classLex_a2edfb30a2ba422c2f521eaa0211a1491} 
+std\+::string {\bfseries filename\+\_\+}
+\item 
+\Hypertarget{classLex_a487a95f06f309a3c8d3b832a2be69c99}\label{classLex_a487a95f06f309a3c8d3b832a2be69c99} 
+std\+::vector$<$ std\+::string $>$ {\bfseries tokens\+\_\+}
+\item 
+\Hypertarget{classLex_ae60a3c542a5cbdac5bf5ccf9eb2f02a6}\label{classLex_ae60a3c542a5cbdac5bf5ccf9eb2f02a6} 
+unsigned {\bfseries current\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classLex_a613c8aca4a26fcb26ec5d255e0b39ab4}\index{Lex@{Lex}!Lex@{Lex}}
+\index{Lex@{Lex}!Lex@{Lex}}
+\doxysubsubsection{\texorpdfstring{Lex()}{Lex()}}
+{\footnotesize\ttfamily \label{classLex_a613c8aca4a26fcb26ec5d255e0b39ab4} 
+Lex\+::\+Lex (\begin{DoxyParamCaption}\item[{std\+::string}]{filename}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a lexer and tokenizes the specified input file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & Path to the input file containing the string to be validated.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The program aborts if any errors occur during lexer creation or tokenization. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classLex_a44ef6eb4c72d627dda4e7c921847152c}\index{Lex@{Lex}!Next@{Next}}
+\index{Next@{Next}!Lex@{Lex}}
+\doxysubsubsection{\texorpdfstring{Next()}{Next()}}
+{\footnotesize\ttfamily \label{classLex_a44ef6eb4c72d627dda4e7c921847152c} 
+std\+::string Lex\+::\+Next (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Retrieves the next token from the token vector. 
+
+\begin{DoxyReturn}{Returns}
+std\+::string The next token in the sequence; returns an empty string if the end of the line (EOL) is reached.
+\end{DoxyReturn}
+This function allows sequential access to tokens processed by the lexer. \Hypertarget{classLex_accee7b6aa528e7fdf3891870ec35fef8}\index{Lex@{Lex}!Tokenize@{Tokenize}}
+\index{Tokenize@{Tokenize}!Lex@{Lex}}
+\doxysubsubsection{\texorpdfstring{Tokenize()}{Tokenize()}}
+{\footnotesize\ttfamily \label{classLex_accee7b6aa528e7fdf3891870ec35fef8} 
+void Lex\+::\+Tokenize (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Tokenizes the input file using Boost Spirit \doxylink{classLex}{Lex}. 
+
+This function reads the content of the file specified by {\ttfamily filename\+\_\+}, tokenizes it using Boost Spirit \doxylink{classLex}{Lex}, and stores the resulting tokens in the {\ttfamily tokens\+\_\+} member variable. If the tokenization process encounters an invalid token, a {\ttfamily \doxylink{classLexerError}{Lexer\+Error}} is thrown with an error message indicating the invalid token.
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \doxylink{classLexerError}{Lexer\+Error}} & If an invalid token is encountered during tokenization.\\
+\hline
+\end{DoxyExceptions}
+The function performs the following steps\+:
+\begin{DoxyEnumerate}
+\item Opens the file specified by {\ttfamily filename\+\_\+} and reads its content into a string.
+\item Converts the string into a C-\/style string (char array) for processing.
+\item Uses Boost Spirit \doxylink{classLex}{Lex} to tokenize the input string.
+\item If tokenization is successful, the tokens are stored in the {\ttfamily tokens\+\_\+} member variable.
+\item If tokenization fails (e.\+g., due to an invalid token), a {\ttfamily \doxylink{classLexerError}{Lexer\+Error}} is thrown.
+\end{DoxyEnumerate}
+
+\begin{DoxyNote}{Note}
+The function relies on the {\ttfamily parse\+\_\+input} functor and the {\ttfamily add} function to handle the tokenization and token storage, respectively.
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxylink{classLexerError}{Lexer\+Error} 
+
+tokens\+\_\+ 
+
+filename\+\_\+ 
+\end{DoxySeeAlso}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/lexer.\+hpp\item 
+src/lexer.\+cpp\end{DoxyCompactItemize}
