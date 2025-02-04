@@ -50,7 +50,7 @@ void Lex::Tokenize() {
         first, end, functor, boost::bind(Add(), _1, boost::ref(tokens_)));
     if (!completed) {
         std::string rest(first, end);
-        throw LexerError("Lexical error: encountered an invalid token: " +
+        throw LexerError("Lexical error: encountered an invalid token:\n" +
                          rest);
     }
 }
