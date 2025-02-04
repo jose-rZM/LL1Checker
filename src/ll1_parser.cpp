@@ -283,7 +283,7 @@ void LL1Parser::PrintTableUsingTabulate() {
             }
         }
     }
-    table.format().font_align({FontAlign::center});
+    table.format().font_align(FontAlign::center);
     table.column(0).format().font_color(Color::cyan);
     std::cout << table << std::endl;
 }
