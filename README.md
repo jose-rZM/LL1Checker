@@ -39,7 +39,10 @@ You can run the program as follows:
 ./ll1 grammar.txt
 ~~~
 - Verifies if the provided grammar is LL(1).  
-- If conflicts exist, it displays the LL(1) table for debugging.
+
+### No LL1 grammars
+If the grammar provided is not LL1, an error will be displayed alongside its table:
+![No LL1](.github/screenshots/noll1.png)
 
 #### Checking if an input string belongs to the grammar
 ~~~
@@ -52,14 +55,17 @@ You can run the program as follows:
 ~~~
 ./ll1 grammar.txt input.txt -v
 ~~~
+![Verbose](.github/screenshots/parseinputverbose.png)
 - Displays the entire LL(1) table.  
 - Prints the contents of `input.txt` before parsing.
 
 #### Specifying the table format
 ~~~
-./ll1 grammar.txt input.txt --format old
+./ll1 grammar.txt -v --format old
 ~~~
-- Uses the old table format for debugging.
+![Old Verbose](.github/screenshots/ll1old.png)
+
+- Use the old table format when the new format cannot be displayed correctly due to screen size
 
 **Error Handling**:  
 If `<GRAMMAR_FILENAME>` or `<TEXT_FILENAME>` do not exist or cannot be opened, the program will print an error and exit.
