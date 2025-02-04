@@ -40,7 +40,7 @@ You can run the program as follows:
 ~~~
 - Verifies if the provided grammar is LL(1).  
 
-### No LL1 grammars
+#### No LL1 grammars
 If the grammar provided is not LL1, an error will be displayed alongside its table:
 ![No LL1](.github/screenshots/noll1.png)
 
