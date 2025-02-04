@@ -1,4 +1,4 @@
-CXX = clang++
+CXX = g++
 CXXFLAGS = -std=c++20 -O3
 SRC_DIR = src
 HPP_DIR = include
