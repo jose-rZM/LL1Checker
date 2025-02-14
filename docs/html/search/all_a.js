@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['monostate_0',['monostate',['../classnonstd_1_1variants_1_1monostate.html',1,'nonstd::variants']]]
+  ['next_0',['Next',['../classLex.html#a44ef6eb4c72d627dda4e7c921847152c',1,'Lex']]]
 ];
