@@ -48,18 +48,11 @@ LL1Parser::LL1Parser(const std::string& grammar_file, bool table_format)
 
 bool LL1Parser::CreateLL1Table() {
     ComputeFirstSets();
+    ComputeFollowSets();
+
     std::unordered_set<std::string> result;
     std::vector<std::string> vec;
-    vec.push_back("S");
-    //First(vec, result);
-    for (auto [nt, res] : first_sets_) {
-        std::cout << nt << ": ";
-        for (auto x : res) {
-            std::cout << x << ", ";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
+
     size_t nrows{gr_.g_.size()};
     ll1_t_.reserve(nrows);
     bool has_conflict{false};
