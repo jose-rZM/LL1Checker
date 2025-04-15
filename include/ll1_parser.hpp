@@ -69,6 +69,38 @@ class LL1Parser {
     bool Parse();
 
     /**
+ * @brief Matches a terminal symbol from the stack with the current input symbol.
+ *
+ * This function compares the terminal symbol at the top of the stack with the current input symbol.
+ * If they match, it updates the parsing trace (`trace_`), consumes the current input symbol,
+ * and retrieves the next input symbol using the lexical analyzer (`lex`).
+ *
+ * @param top_symbol The terminal symbol popped from the top of the stack.
+ * @param current_symbol The current input symbol to be matched.
+ * @return true if the terminal symbol matches the current input symbol, false otherwise.
+ */
+      bool MatchTerminal(const std::string& top_symbol, const std::string& current_symbol);
+
+ /**
+ * @brief Processes a non-terminal symbol by expanding it according to the LL(1) parsing table.
+ *
+ * This function looks up the production rule in the LL(1) parsing table (`ll1_t_`) for the given
+ * non-terminal symbol and current input symbol. If a matching production is found, the production's
+ * symbols are pushed onto the stack in reverse order. 
+ * 
+ * If no matching production is found, it checks whether the grammar allows an empty production
+ * for the non-terminal. 
+ *
+ * @param top_symbol The non-terminal symbol popped from the top of the stack.
+ * @param current_symbol The current input symbol used to select a production.
+ * 
+ * @return true if a production was successfully applied or an empty production exists,
+ *         false if no valid production exists for the current input.
+ */
+bool ProcessNonTerminal(const std::string& top_symbol, const std::string& current_symbol);
+
+
+    /**
      * @brief Print the LL(1) parsing table to standard output.
      *
      * Displays the LL(1) table for debugging and analysis. The output format
@@ -140,7 +172,36 @@ class LL1Parser {
      * expanding and updating the sets until no further changes occur (i.e., a
      * fixed-point is reached).
      */
-    void ComputFirstSets();
+    void ComputeFirstSets();
+
+    /**
+     * @brief Computes the FOLLOW sets for all non-terminal symbols in the
+     * grammar.
+     *
+     * The FOLLOW set of a non-terminal symbol A contains all terminal symbols
+     * that can appear immediately after A in any sentential form derived from
+     * the grammar's start symbol. Additionally, if A can be the last symbol in
+     * a derivation, the end-of-input marker (`$`) is included in its FOLLOW
+     * set.
+     *
+     * This function computes the FOLLOW sets using the following rules:
+     * 1. Initialize FOLLOW(S) = { $ }, where S is the start symbol.
+     * 2. For each production rule of the form A → αBβ:
+     *    - Add FIRST(β) (excluding ε) to FOLLOW(B).
+     *    - If ε ∈ FIRST(β), add FOLLOW(A) to FOLLOW(B).
+     * 3. Repeat step 2 until no changes occur in any FOLLOW set.
+     *
+     * The computed FOLLOW sets are cached in the `follow_sets_` member variable
+     * for later use by the parser.
+     *
+     * @note This function assumes that the FIRST sets for all symbols have
+     * already been computed and are available in the `first_sets_` member
+     * variable.
+     *
+     * @see First
+     * @see follow_sets_
+     */
+    void ComputeFollowSets();
 
     /**
      * @brief Computes the FOLLOW set for a given non-terminal symbol in the
@@ -151,10 +212,9 @@ class LL1Parser {
      * as any end-of-input markers if the symbol can appear at the end of
      * derivations. FOLLOW sets are used in LL(1) parsing table construction to
      * determine possible continuations after a non-terminal.
-     *
-     * This function initiates the calculation and uses `follow_util` as a
-     * recursive helper to handle dependencies among non-terminals and avoid
-     * redundant computations.
+     * 
+     * @note This function assumes that the follow sets for all symbols have already been
+     * computed by using ComputeFollowSets function.
      *
      * @param arg Non-terminal symbol for which to compute the FOLLOW set.
      * @return An unordered set of strings containing symbols that form the
@@ -188,32 +248,7 @@ class LL1Parser {
     PredictionSymbols(const std::string&              antecedent,
                       const std::vector<std::string>& consequent);
 
-    /**
-     * @brief Recursive utility function to compute the FOLLOW set for a
-     * non-terminal.
-     *
-     * This function assists in building the FOLLOW set by handling recursive
-     * dependencies among non-terminals, ensuring that cycles are properly
-     * managed to avoid infinite recursion. The helper function performs
-     * depth-first traversal through the production rules to collect symbols
-     * that should belong to the FOLLOW set of the target non-terminal.
-     *
-     * - If a non-terminal appears in a production, `follow_util` gathers
-     * symbols immediately following it in that production.
-     * - If no symbols follow the target non-terminal or if the remaining
-     * symbols can derive epsilon, it incorporates symbols from the FOLLOW set
-     * of the non-terminal on the left-hand side of the production rule.
-     *
-     * @param arg The non-terminal symbol whose FOLLOW set is being computed.
-     * @param visited An unordered set of strings used to track symbols already
-     * visited in the current recursion path, preventing infinite loops.
-     * @param next_symbols An unordered set to accumulate symbols forming the
-     * FOLLOW set of the target non-terminal as they are discovered.
-     */
-    void FollowUtil(const std::string&               arg,
-                    std::unordered_set<std::string>& visited,
-                    std::unordered_set<std::string>& next_symbols);
-
+    
     /**
      * @brief Creates the LL(1) parsing table for the grammar.
      *
@@ -262,7 +297,11 @@ class LL1Parser {
     Grammar gr_;
 
     /// @brief FIRST sets for each non-terminal in the grammar.
-    std::unordered_map<std::string, std::unordered_set<std::string>> first_sets;
+    std::unordered_map<std::string, std::unordered_set<std::string>> first_sets_;
+
+    /// @brief FOLLOW sets for each non-terminal in the grammar.
+    std::unordered_map<std::string, std::unordered_set<std::string>>
+    follow_sets_;
 
     /// @brief Stack for managing parsing symbols.
     std::stack<std::string> symbol_stack_;
