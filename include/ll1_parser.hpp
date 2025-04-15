@@ -69,36 +69,45 @@ class LL1Parser {
     bool Parse();
 
     /**
- * @brief Matches a terminal symbol from the stack with the current input symbol.
- *
- * This function compares the terminal symbol at the top of the stack with the current input symbol.
- * If they match, it updates the parsing trace (`trace_`), consumes the current input symbol,
- * and retrieves the next input symbol using the lexical analyzer (`lex`).
- *
- * @param top_symbol The terminal symbol popped from the top of the stack.
- * @param current_symbol The current input symbol to be matched.
- * @return true if the terminal symbol matches the current input symbol, false otherwise.
- */
-      bool MatchTerminal(const std::string& top_symbol, const std::string& current_symbol);
+     * @brief Matches a terminal symbol from the stack with the current input
+     * symbol.
+     *
+     * This function compares the terminal symbol at the top of the stack with
+     * the current input symbol. If they match, it updates the parsing trace
+     * (`trace_`), consumes the current input symbol, and retrieves the next
+     * input symbol using the lexical analyzer (`lex`).
+     *
+     * @param top_symbol The terminal symbol popped from the top of the stack.
+     * @param current_symbol The current input symbol to be matched.
+     * @return true if the terminal symbol matches the current input symbol,
+     * false otherwise.
+     */
+    bool MatchTerminal(const std::string& top_symbol,
+                       const std::string& current_symbol);
 
- /**
- * @brief Processes a non-terminal symbol by expanding it according to the LL(1) parsing table.
- *
- * This function looks up the production rule in the LL(1) parsing table (`ll1_t_`) for the given
- * non-terminal symbol and current input symbol. If a matching production is found, the production's
- * symbols are pushed onto the stack in reverse order. 
- * 
- * If no matching production is found, it checks whether the grammar allows an empty production
- * for the non-terminal. 
- *
- * @param top_symbol The non-terminal symbol popped from the top of the stack.
- * @param current_symbol The current input symbol used to select a production.
- * 
- * @return true if a production was successfully applied or an empty production exists,
- *         false if no valid production exists for the current input.
- */
-bool ProcessNonTerminal(const std::string& top_symbol, const std::string& current_symbol);
-
+    /**
+     * @brief Processes a non-terminal symbol by expanding it according to the
+     * LL(1) parsing table.
+     *
+     * This function looks up the production rule in the LL(1) parsing table
+     * (`ll1_t_`) for the given non-terminal symbol and current input symbol. If
+     * a matching production is found, the production's symbols are pushed onto
+     * the stack in reverse order.
+     *
+     * If no matching production is found, it checks whether the grammar allows
+     * an empty production for the non-terminal.
+     *
+     * @param top_symbol The non-terminal symbol popped from the top of the
+     * stack.
+     * @param current_symbol The current input symbol used to select a
+     * production.
+     *
+     * @return true if a production was successfully applied or an empty
+     * production exists, false if no valid production exists for the current
+     * input.
+     */
+    bool ProcessNonTerminal(const std::string& top_symbol,
+                            const std::string& current_symbol);
 
     /**
      * @brief Print the LL(1) parsing table to standard output.
@@ -204,6 +213,26 @@ bool ProcessNonTerminal(const std::string& top_symbol, const std::string& curren
     void ComputeFollowSets();
 
     /**
+     * @brief Updates the FOLLOW set for a non-terminal based on a production.
+     *
+     * This method updates the FOLLOW set of a given non-terminal symbol based
+     * on its position within a production. It considers:
+     * - The FIRST set of the remaining symbols after the current non-terminal.
+     * - The FOLLOW set of the left-hand side non-terminal, if the remaining
+     * symbols can derive ε.
+     *
+     * @param symbol The non-terminal symbol whose FOLLOW set is being updated.
+     * @param lhs The left-hand side non-terminal of the current production.
+     * @param rhs The production (right-hand side) containing the symbol.
+     * @param i The position of the symbol within the production.
+     *
+     * @return true if the FOLLOW set was modified (new elements were added),
+     * false otherwise.
+     */
+    bool UpdateFollow(const std::string& symbol, const std::string& lhs,
+                      const production& rhs, size_t i);
+
+    /**
      * @brief Computes the FOLLOW set for a given non-terminal symbol in the
      * grammar.
      *
@@ -212,9 +241,9 @@ bool ProcessNonTerminal(const std::string& top_symbol, const std::string& curren
      * as any end-of-input markers if the symbol can appear at the end of
      * derivations. FOLLOW sets are used in LL(1) parsing table construction to
      * determine possible continuations after a non-terminal.
-     * 
-     * @note This function assumes that the follow sets for all symbols have already been
-     * computed by using ComputeFollowSets function.
+     *
+     * @note This function assumes that the follow sets for all symbols have
+     * already been computed by using ComputeFollowSets function.
      *
      * @param arg Non-terminal symbol for which to compute the FOLLOW set.
      * @return An unordered set of strings containing symbols that form the
@@ -248,7 +277,6 @@ bool ProcessNonTerminal(const std::string& top_symbol, const std::string& curren
     PredictionSymbols(const std::string&              antecedent,
                       const std::vector<std::string>& consequent);
 
-    
     /**
      * @brief Creates the LL(1) parsing table for the grammar.
      *
@@ -297,11 +325,12 @@ bool ProcessNonTerminal(const std::string& top_symbol, const std::string& curren
     Grammar gr_;
 
     /// @brief FIRST sets for each non-terminal in the grammar.
-    std::unordered_map<std::string, std::unordered_set<std::string>> first_sets_;
+    std::unordered_map<std::string, std::unordered_set<std::string>>
+        first_sets_;
 
     /// @brief FOLLOW sets for each non-terminal in the grammar.
     std::unordered_map<std::string, std::unordered_set<std::string>>
-    follow_sets_;
+        follow_sets_;
 
     /// @brief Stack for managing parsing symbols.
     std::stack<std::string> symbol_stack_;

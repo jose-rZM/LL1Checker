@@ -51,7 +51,7 @@ bool LL1Parser::CreateLL1Table() {
     ComputeFollowSets();
 
     std::unordered_set<std::string> result;
-    std::vector<std::string> vec;
+    std::vector<std::string>        vec;
 
     size_t nrows{gr_.g_.size()};
     ll1_t_.reserve(nrows);
@@ -93,16 +93,18 @@ void LL1Parser::PrintSymbolHist() {
     std::cout << "]\n";
 }
 
-bool LL1Parser::MatchTerminal(const std::string& top_symbol, const std::string& current_symbol) {
+bool LL1Parser::MatchTerminal(const std::string& top_symbol,
+                              const std::string& current_symbol) {
     trace_.push_back(current_symbol);
     if (trace_.size() > kTraceSize) {
         trace_.pop_front();
     }
-   
+
     return top_symbol == current_symbol;
 }
 
-bool LL1Parser::ProcessNonTerminal(const std::string& top_symbol, const std::string& current_symbol) {
+bool LL1Parser::ProcessNonTerminal(const std::string& top_symbol,
+                                   const std::string& current_symbol) {
     auto it = ll1_t_.find(top_symbol);
     if (it != ll1_t_.end()) {
         auto prod_it = it->second.find(current_symbol);
@@ -132,7 +134,7 @@ bool LL1Parser::Parse() {
             if (!MatchTerminal(top_symbol, current_symbol))
                 return false;
             current_symbol = lex.Next();
-            
+
         } else {
             if (!ProcessNonTerminal(top_symbol, current_symbol))
                 return false;
@@ -141,9 +143,10 @@ bool LL1Parser::Parse() {
     return true;
 }
 
-void LL1Parser::First(std::span<const std::string> rule,
-                      std::unordered_set<std::string> &result) {
-    if (rule.empty() || (rule.size() == 1 && rule[0] == symbol_table::EPSILON_)) {
+void LL1Parser::First(std::span<const std::string>     rule,
+                      std::unordered_set<std::string>& result) {
+    if (rule.empty() ||
+        (rule.size() == 1 && rule[0] == symbol_table::EPSILON_)) {
         result.insert(symbol_table::EPSILON_);
         return;
     }
@@ -155,8 +158,8 @@ void LL1Parser::First(std::span<const std::string> rule,
         return;
     }
 
-    const std::unordered_set<std::string> &fii = first_sets_[rule[0]];
-    for (const auto &s : fii) {
+    const std::unordered_set<std::string>& fii = first_sets_[rule[0]];
+    for (const auto& s : fii) {
         if (s != symbol_table::EPSILON_) {
             result.insert(s);
         }
@@ -169,7 +172,7 @@ void LL1Parser::First(std::span<const std::string> rule,
 
 void LL1Parser::ComputeFirstSets() {
     // Initialize FIRST sets for each non-terminal
-    for (const auto &[nonTerminal, _] : gr_.g_) {
+    for (const auto& [nonTerminal, _] : gr_.g_) {
         first_sets_[nonTerminal] = {};
     }
 
@@ -177,8 +180,8 @@ void LL1Parser::ComputeFirstSets() {
     do {
         auto old_first_sets = first_sets_; // Copy current state
 
-        for (const auto &[nonTerminal, productions] : gr_.g_) {
-            for (const auto &prod : productions) {
+        for (const auto& [nonTerminal, productions] : gr_.g_) {
+            for (const auto& prod : productions) {
                 std::unordered_set<std::string> tempFirst;
                 First(prod, tempFirst);
 
@@ -187,7 +190,7 @@ void LL1Parser::ComputeFirstSets() {
                     tempFirst.insert(symbol_table::EPSILON_);
                 }
                 // Insert the computed FIRST into the non-terminal's set
-                auto &current_set = first_sets_[nonTerminal];
+                auto& current_set = first_sets_[nonTerminal];
                 current_set.insert(tempFirst.begin(), tempFirst.end());
             }
         }
@@ -213,42 +216,41 @@ void LL1Parser::ComputeFollowSets() {
                 for (size_t i = 0; i < rhs.size(); ++i) {
                     const std::string& symbol = rhs[i];
                     if (!symbol_table::IsTerminal(symbol)) {
-                        std::unordered_set<std::string> first_remaining;
-
-                        if (i + 1 < rhs.size()) {
-                            First(std::span<const std::string>(
-                                      rhs.begin() + i + 1, rhs.end()),
-                                  first_remaining);
-                        } else {
-                            first_remaining.insert(symbol_table::EPSILON_);
-                        }
-
-                        for (const std::string& terminal : first_remaining) {
-                            if (terminal != symbol_table::EPSILON_) {
-                                if (follow_sets_[symbol]
-                                        .insert(terminal)
-                                        .second) {
-                                    changed = true;
-                                }
-                            }
-                        }
-
-                        if (first_remaining.find(symbol_table::EPSILON_) !=
-                            first_remaining.end()) {
-                            for (const std::string& terminal :
-                                 follow_sets_[lhs]) {
-                                if (follow_sets_[symbol]
-                                        .insert(terminal)
-                                        .second) {
-                                    changed = true;
-                                }
-                            }
-                        }
+                        changed |= UpdateFollow(symbol, lhs, rhs, i);
                     }
                 }
             }
         }
     } while (changed);
+}
+
+bool LL1Parser::UpdateFollow(const std::string& symbol, const std::string& lhs,
+                             const production& rhs, size_t i) {
+    bool changed = false;
+
+    std::unordered_set<std::string> first_remaining;
+    if (i + 1 < rhs.size()) {
+        First(std::span<const std::string>(rhs.begin() + i + 1, rhs.end()),
+              first_remaining);
+    } else {
+        first_remaining.insert(symbol_table::EPSILON_);
+    }
+
+    // Add FIRST(β) \ {ε}
+    for (const auto& terminal : first_remaining) {
+        if (terminal != symbol_table::EPSILON_) {
+            changed |= follow_sets_[symbol].insert(terminal).second;
+        }
+    }
+
+    // If FIRST(β) contains ε, add FOLLOW(lhs)
+    if (first_remaining.contains(symbol_table::EPSILON_)) {
+        for (const auto& terminal : follow_sets_[lhs]) {
+            changed |= follow_sets_[symbol].insert(terminal).second;
+        }
+    }
+
+    return changed;
 }
 
 std::unordered_set<std::string> LL1Parser::Follow(const std::string& arg) {
