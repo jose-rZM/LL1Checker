@@ -153,13 +153,38 @@ Grammar::FilterRulesByConsequent(const std::string& arg) {
 
 void Grammar::Debug() {
     std::cout << "Grammar:\n";
+
+    std::cout << axiom_ << " -> ";
+    const auto& axiom_productions = g_.at(axiom_);
+    for (size_t i = 0; i < axiom_productions.size(); ++i) {
+        for (const std::string& symbol : axiom_productions[i]) {
+            std::cout << symbol << " ";
+        }
+        if (i < axiom_productions.size() - 1) {
+            std::cout << "| ";
+        }
+    }
+    std::cout << "\n";
+
+    std::vector<std::string> non_terminals;
     for (const auto& entry : g_) {
-        std::cout << entry.first << " -> ";
-        for (const std::vector<std::string>& prod : entry.second) {
-            for (const std::string& symbol : prod) {
+        if (entry.first != axiom_) {
+            non_terminals.push_back(entry.first);
+        }
+    }
+
+    std::sort(non_terminals.begin(), non_terminals.end());
+
+    for (const std::string& nt : non_terminals) {
+        std::cout << nt << " -> ";
+        const auto& productions = g_.at(nt);
+        for (size_t i = 0; i < productions.size(); ++i) {
+            for (const std::string& symbol : productions[i]) {
                 std::cout << symbol << " ";
             }
-            std::cout << "| ";
+            if (i < productions.size() - 1) {
+                std::cout << "| ";
+            }
         }
         std::cout << "\n";
     }
