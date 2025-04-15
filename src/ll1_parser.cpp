@@ -182,7 +182,7 @@ void LL1Parser::ComputeFirstSets() {
                 std::unordered_set<std::string> tempFirst;
                 First(prod, tempFirst);
 
-                if (tempFirst.find(symbol_table::EOL_) != tempFirst.end()) {
+                if (tempFirst.contains(symbol_table::EOL_)) {
                     tempFirst.erase(symbol_table::EOL_);
                     tempFirst.insert(symbol_table::EPSILON_);
                 }
@@ -263,7 +263,7 @@ LL1Parser::PredictionSymbols(const std::string&              antecedent,
                              const std::vector<std::string>& consequent) {
     std::unordered_set<std::string> hd{};
     First({consequent}, hd);
-    if (hd.find(symbol_table::EPSILON_) == hd.end()) {
+    if (hd.contains(symbol_table::EPSILON_)) {
         return hd;
     }
     hd.erase(symbol_table::EPSILON_);
