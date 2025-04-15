@@ -367,5 +367,5 @@ void LL1Parser::PrintTableUsingTabulate() {
     table.column(0).format().font_color(Color::cyan);
 
     // Print the table
-    std::cout << table << std::endl;
+    std::cout << table << "\n";
 }
