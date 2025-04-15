@@ -33,7 +33,8 @@ bool Lex::Add::operator()(Token const& t, std::vector<std::string>& tks) const {
     if (static_cast<unsigned long>(t.id()) == symbol_table::i_) {
         return true;
     }
-    tks.push_back(symbol_table::token_types_r_.at(static_cast<unsigned long>(t.id())));
+    tks.push_back(
+        symbol_table::token_types_r_.at(static_cast<unsigned long>(t.id())));
     return true;
 }
 
