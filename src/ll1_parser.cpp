@@ -263,7 +263,7 @@ LL1Parser::PredictionSymbols(const std::string&              antecedent,
                              const std::vector<std::string>& consequent) {
     std::unordered_set<std::string> hd{};
     First({consequent}, hd);
-    if (hd.contains(symbol_table::EPSILON_)) {
+    if (!hd.contains(symbol_table::EPSILON_)) {
         return hd;
     }
     hd.erase(symbol_table::EPSILON_);
