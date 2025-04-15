@@ -53,11 +53,11 @@ bool LL1Parser::CreateLL1Table() {
     size_t nrows{gr_.g_.size()};
     ll1_t_.reserve(nrows);
     bool has_conflict{false};
-    for (const auto& rule : gr_.g_) {
+    for (const auto& [lhs, productions] : gr_.g_) {
         std::unordered_map<std::string, std::vector<production>> column;
-        for (const production& p : rule.second) {
+        for (const production& p : productions) {
             std::unordered_set<std::string> ds =
-                PredictionSymbols(rule.first, p);
+                PredictionSymbols(lhs, p);
             column.reserve(ds.size());
             for (const std::string& symbol : ds) {
                 auto& cell = column[symbol];
@@ -67,7 +67,7 @@ bool LL1Parser::CreateLL1Table() {
                 cell.push_back(p);
             }
         }
-        ll1_t_.insert({rule.first, column});
+        ll1_t_.emplace(lhs, std::move(column));
     }
     return !has_conflict;
 }
