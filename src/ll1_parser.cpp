@@ -50,9 +50,6 @@ bool LL1Parser::CreateLL1Table() {
     ComputeFirstSets();
     ComputeFollowSets();
 
-    std::unordered_set<std::string> result;
-    std::vector<std::string>        vec;
-
     size_t nrows{gr_.g_.size()};
     ll1_t_.reserve(nrows);
     bool has_conflict{false};
