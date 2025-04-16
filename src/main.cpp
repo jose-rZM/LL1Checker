@@ -52,20 +52,20 @@ int main(int argc, char* argv[]) {
                       .run(),
                   vm);
 
-        if (vm.count("help")) {
+        if (vm.contains("help")) {
             ShowUsage(argv[0], desc);
             return 0;
         }
 
         po::notify(vm);
-        if (vm.count("format")) {
+        if (vm.contains("format")) {
             verbose_mode = true;
             table_format = vm["format"].as<std::string>();
             if (table_format != "old" && table_format != "new") {
                 throw std::runtime_error(
                     "Invalid format - must be 'old' or 'new'");
             }
-        } else if (vm.count("verbose")) {
+        } else if (vm.contains("verbose")) {
             if (table_format.empty())
                 table_format = "new";
         }
