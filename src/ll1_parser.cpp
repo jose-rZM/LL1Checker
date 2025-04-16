@@ -151,6 +151,10 @@ void LL1Parser::First(std::span<const std::string>     rule,
     bool allEpsilon = true;
 
     if (symbol_table::IsTerminal(rule[0])) {
+        if (rule[0] == symbol_table::EOL_) {
+            result.insert(symbol_table::EPSILON_);
+            return;
+        }
         result.insert(rule[0]);
         return;
     }
