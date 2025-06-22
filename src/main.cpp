@@ -31,20 +31,17 @@ int main(int argc, char* argv[]) {
     try {
         cxxopts::Options options(argv[0], "LL1Checker");
 
-        options
-            .positional_help("grammar text")
-            .show_positional_help();
-        
-            options.add_options()
-                ("h,help", "Show help message")
-                ("v,verbose", "Enable verbose mode with new table format",
-                    cxxopts::value<bool>(verbose_mode)->default_value("false"))
-                ("format", "Set table format (old/new), implies verbose mode",
-                    cxxopts::value<std::string>())
-                ("grammar", "Grammar file",
-                    cxxopts::value<std::string>(grammar_filename))
-                ("text", "Text file to parse",
-                    cxxopts::value<std::string>(text_filename)->default_value(""));
+        options.positional_help("grammar text").show_positional_help();
+
+        options.add_options()("h,help", "Show help message")(
+            "v,verbose", "Enable verbose mode with new table format",
+            cxxopts::value<bool>(verbose_mode)->default_value("false"))(
+            "format", "Set table format (old/new), implies verbose mode",
+            cxxopts::value<std::string>())(
+            "grammar", "Grammar file",
+            cxxopts::value<std::string>(grammar_filename))(
+            "text", "Text file to parse",
+            cxxopts::value<std::string>(text_filename)->default_value(""));
 
         options.parse_positional({"grammar", "text"});
         auto result = options.parse(argc, argv);
@@ -62,7 +59,8 @@ int main(int argc, char* argv[]) {
             verbose_mode = true;
             table_format = result["format"].as<std::string>();
             if (table_format != "old" && table_format != "new") {
-                throw std::runtime_error("Invalid format - must be 'old' or 'new'");
+                throw std::runtime_error(
+                    "Invalid format - must be 'old' or 'new'");
             }
 
         } else if (result.contains("verbose")) {
@@ -78,17 +76,19 @@ int main(int argc, char* argv[]) {
     }
 
     if (!std::ifstream(grammar_filename)) {
-        std::cerr << "Error: Grammar file '" << grammar_filename << "' not found\n";
+        std::cerr << "Error: Grammar file '" << grammar_filename
+                  << "' not found\n";
         return 1;
     }
 
     try {
-        LL1Parser parser{grammar_filename, text_filename, table_format == "new"};
+        LL1Parser parser{grammar_filename, text_filename,
+                         table_format == "new"};
 
         std::cout << "Grammar is LL(1)\n";
 
         if (verbose_mode) {
-                      std::cout << "\n--------------------------------\n"
+            std::cout << "\n--------------------------------\n"
                       << "LL1 Table (" << table_format << " format):\n";
             parser.PrintTable();
 
@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
             std::cout << "--------------------------------\n\n";
         }
 
-         if (!text_filename.empty()) {
+        if (!text_filename.empty()) {
             std::ifstream file(text_filename);
             if (!file)
                 throw std::runtime_error("Text file not found");

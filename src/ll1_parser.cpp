@@ -330,11 +330,10 @@ void LL1Parser::PrintTableUsingTabulate() {
         non_terminals.push_back(outerPair.first);
     }
 
-    std::ranges::sort(non_terminals, [this](const std::string& a, const std::string& b) {
-        return (a == gr_.axiom_) ? true 
-            : (b == gr_.axiom_) ? false
-            : a < b;
-    });
+    std::ranges::sort(
+        non_terminals, [this](const std::string& a, const std::string& b) {
+            return (a == gr_.axiom_) ? true : (b == gr_.axiom_) ? false : a < b;
+        });
 
     for (const std::string& nonTerminal : non_terminals) {
         Table::Row_t row_data = {nonTerminal};
