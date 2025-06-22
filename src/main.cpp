@@ -18,10 +18,8 @@ int PrintFileToStdout(const std::string& filename) {
     return 0;
 }
 
-void ShowUsage(const char* program_name, const po::options_description& desc) {
-    std::cout << "Usage: " << program_name
-              << " <grammar_filename> [<text_filename>] [options]\n"
-              << desc;
+void ShowUsage(const char* program_name, const cxxopts::Options& options) {
+    std::cout << options.help({""}) << std::endl;
 }
 
 int main(int argc, char* argv[]) {
