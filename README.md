@@ -119,14 +119,17 @@ And in **input.txt** file, you place the line you want to check.
 ## 🤝 Want to Contribute?
 
 To get started, you'll need the following:
-- Boost Libraries: Make sure you have the following installed:
-  - `boost_regex`
-  - `boost_program_options`
+- `Cxxopts`: This header-only library is used to parse command line options.
 
 Feel free to reach out if you have any questions or suggestions! 😊
 
 ### 🛠️ Compilation
-A Makefile is provided, so, run `make` to compile the project.
+Use CMake to build the project:
+```
+cmake -S . -B build
+cmake --build build
+```
+The `ll1` executable will be located in the `build` directory.
 
 ## 📚 Documentation
 
