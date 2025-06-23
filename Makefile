@@ -7,7 +7,7 @@ OBJ_DIR = out
 all: program
 
 program: $(OBJ_DIR)/main.o $(OBJ_DIR)/ll1_parser.o  $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/lexer.o $(OBJ_DIR)/grammar.o
-	$(CXX) $(CXXFLAGS) -o ll1 $^ /usr/lib/libboost_regex.a /usr/lib/libboost_program_options.a
+	$(CXX) $(CXXFLAGS) -o ll1 $^ 
 
 $(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp $(HPP_DIR)/grammar.hpp  $(OBJ_DIR)/ll1_parser.o
 	$(CXX) $(CXXFLAGS) -c $< -o $@

@@ -1,8 +1,8 @@
-terminal ac "[";
-terminal cp "]";
-terminal comma ",";
-terminal pyc ";";
-terminal elem "a";
+terminal ac \[;
+terminal cp \];
+terminal comma ,;
+terminal pyc ;;
+terminal elem a;
 start with S;
 ;
 S -> E$;
