@@ -56,8 +56,8 @@ void Lex::Tokenize() {
             pos += m.length();
             continue;
         }
-        size_t      best_len = 0;
-        std::string best_tok;
+        std::ptrdiff_t best_len = 0;
+        std::string    best_tok;
         for (const auto& p : patterns) {
             if (std::regex_search(remaining.begin(), remaining.end(), m,
                                   p.regex,
