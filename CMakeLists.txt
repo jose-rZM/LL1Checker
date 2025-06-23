@@ -6,23 +6,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(SOURCES
-    src/main.cpp 
-    src/ll1_parser.cpp 
-    src/symbol_table.cpp 
-    src/lexer.cpp 
-    src/grammar.cpp)
-
-add_executable(ll1 ${SOURCES})
-
-target_include_directories(ll1 PRIVATE include)
+set(LIB_NAME ll1_core)
+set(EXECUTABLE ll1)
 
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
 
-if (MSVC)
-    target_compile_options(ll1 PRIVATE /W4)
-else()
-    target_compile_options(ll1 PRIVATE -Wall -Wextra -pedantic -O3)
-endif()
+add_subdirectory(src)
+add_subdirectory(app)
