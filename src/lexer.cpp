@@ -1,6 +1,6 @@
-#include "../include/lexer.hpp"
-#include "../include/lexer_error.hpp"
-#include "../include/symbol_table.hpp"
+#include "lexer.hpp"
+#include "lexer_error.hpp"
+#include "symbol_table.hpp"
 #include <cstdlib>
 #include <cstring>
 #include <fstream>

@@ -1,4 +1,4 @@
-#include "../include/symbol_table.hpp"
+#include "symbol_table.hpp"
 #include <cstdio>
 #include <unordered_map>
 #include <vector>

@@ -4,7 +4,7 @@
 #include <ostream>
 #include <string>
 
-#include "../include/ll1_parser.hpp"
+#include "ll1_parser.hpp"
 
 int PrintFileToStdout(const std::string& filename) {
     std::ifstream file(filename);

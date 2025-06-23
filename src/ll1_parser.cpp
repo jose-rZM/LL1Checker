@@ -9,12 +9,12 @@
 #include <unordered_set>
 #include <utility>
 
-#include "../include/grammar.hpp"
-#include "../include/grammar_error.hpp"
-#include "../include/lexer.hpp"
-#include "../include/ll1_parser.hpp"
-#include "../include/symbol_table.hpp"
-#include "../include/tabulate.hpp"
+#include "grammar.hpp"
+#include "grammar_error.hpp"
+#include "lexer.hpp"
+#include "ll1_parser.hpp"
+#include "symbol_table.hpp"
+#include "tabulate.hpp"
 
 LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format)
     : gr_(std::move(gr)), text_file_(std::move(text_file)),

@@ -116,17 +116,41 @@ A ->;
 This grammar generates the following language: `L(G) = {aa, aaaa, aaaaaa, ...}`, that is, a language with an even number of 'a'.
 And in **input.txt** file, you place the line you want to check.
 
+## 🗂️ Project Structure
+The repository follows a simple layout keeping sources and headers separated:
+```
+LL1Checker/
+├── CMakeLists.txt
+├── Makefile         # Helper Makefile to speed up compilation or formatting
+├── src/             # Source files and CMake logic
+├── include/         # Header files
+├── app/             # Main file
+├── examples/        # Example grammars and inputs
+└── docs/            # Generated documentation
+```
+
 ## 🤝 Want to Contribute?
 
 To get started, you'll need the following:
-- Boost Libraries: Make sure you have the following installed:
-  - `boost_regex`
-  - `boost_program_options`
+- `Cxxopts`: This header-only library is used to parse command line options.
 
 Feel free to reach out if you have any questions or suggestions! 😊
 
 ### 🛠️ Compilation
-A Makefile is provided, so, run `make` to compile the project.
+To build the project using CMake:
+```bash
+cmake -S . -B build
+cmake --build build
+```
+Alternatively, you can simply run:
+```bash
+make
+```
+This will configure and compile the project using the default `Debug` build type. To compile in Release mode:
+```bash
+make BUILD_TYPE=Release
+```
+The `ll1` executable will be located at `build/app/ll1`.
 
 ## 📚 Documentation
 

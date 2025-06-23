@@ -1,31 +1,43 @@
-CXX = g++
-CXXFLAGS = -std=c++20 -O3
-SRC_DIR = src
-HPP_DIR = include
-OBJ_DIR = out
+# Configuration
+BUILD_DIR := build
+EXECUTABLE := $(BUILD_DIR)/app/ll1
+CMAKE_FLAGS := -DCMAKE_BUILD_TYPE=$(BUILD_TYPE)
+BUILD_TYPE ?= Debug
+CMAKE := cmake
 
-all: program
+# Targets
+.PHONY: all build clean rebuild format run help
 
-program: $(OBJ_DIR)/main.o $(OBJ_DIR)/ll1_parser.o  $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/lexer.o $(OBJ_DIR)/grammar.o
-	$(CXX) $(CXXFLAGS) -o ll1 $^ 
+all: build
 
-$(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp $(HPP_DIR)/grammar.hpp  $(OBJ_DIR)/ll1_parser.o
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/grammar.o: $(SRC_DIR)/grammar.cpp $(HPP_DIR)/grammar.hpp $(OBJ_DIR)/symbol_table.o
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/symbol_table.o: $(SRC_DIR)/symbol_table.cpp $(HPP_DIR)/symbol_table.hpp
-	 $(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/lexer.o: $(SRC_DIR)/lexer.cpp $(HPP_DIR)/lexer.hpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/ll1_parser.o: $(SRC_DIR)/ll1_parser.cpp $(HPP_DIR)/ll1_parser.hpp $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/lexer.o $(OBJ_DIR)/grammar.o
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-format:
-	@find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
+build:
+	@echo ">> Configuring build ($(BUILD_TYPE))..."
+	@$(CMAKE) -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=$(BUILD_TYPE)
+	@echo ">> Building..."
+	@$(CMAKE) --build $(BUILD_DIR) -- -j$(shell nproc)
 
 clean:
-	rm -f ll1 $(OBJ_DIR)/*.o
+	@echo ">> Removing build directory..."
+	@rm -rf $(BUILD_DIR)
+
+rebuild: clean build
+
+format:
+	@echo ">> Formatting .cpp and .hpp files with clang-format..."
+	@find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
+
+run: build
+	@echo ">> Running $(EXECUTABLE)..."
+	@$(EXECUTABLE)
+
+help:
+	@echo "Available commands:"
+	@echo "  make build         - Configure and compile the project (Debug by default)"
+	@echo "  make clean         - Remove the build/ directory"
+	@echo "  make rebuild       - Clean and compile again"
+	@echo "  make format        - Run clang-format on all .cpp/.hpp files"
+	@echo "  make run           - Build (if needed) and run the executable"
+	@echo "  make               - Alias for build"
+	@echo
+	@echo "To change build type:"
+	@echo "  make BUILD_TYPE=Release build"
