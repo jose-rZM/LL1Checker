@@ -1,7 +1,7 @@
-terminal ac "[";
-terminal cc "]";
-terminal elem "a";
-terminal comma ",";
+terminal ac \[;
+terminal cc \];
+terminal elem a;
+terminal comma ,;
 start with S;
 ;
 S-> L $;
