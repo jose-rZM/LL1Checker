@@ -12,13 +12,13 @@ struct symbol_table {
 
     /// @brief Epsilon symbol, representing empty transitions, initialized as
     /// "EPSILON".
-    inline static std::string EPSILON_{"EPSILON"};
+    inline static std::string EPSILON_{"<<EPSILON>>"};
 
     /// @brief Main symbol table, mapping identifiers to a pair of symbol type
     /// and its regex.
     inline static std::unordered_map<std::string,
                                      std::pair<symbol_type, std::string>>
-        st_{{EOF_, {TERMINAL, "<<EOF>>"}}, {EPSILON_, {TERMINAL, EPSILON_}}};
+        st_{{EOF_, {TERMINAL, ""}}, {EPSILON_, {TERMINAL, ""}}};
 
     /// @brief Token types, mapping each symbol to a unique integer ID.
     inline static std::unordered_map<std::string, unsigned long> token_types_;
