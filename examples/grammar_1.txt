@@ -3,7 +3,6 @@ terminal cp \];
 terminal comma ,;
 terminal pyc ;;
 terminal elem [a-zA-Z$]*;
-terminal dollar \$;
 start with S;
 ;
 S -> E;
