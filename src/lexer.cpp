@@ -9,11 +9,6 @@
 #include <string_view>
 
 namespace {
-std::string EscapeRegex(const std::string& str) {
-    static const std::regex special{R"([.^$|()\[\]{}*+?\\])"};
-    return std::regex_replace(str, special, R"(\$&)");
-}
-
 struct Pattern {
     std::string type;
     std::regex  regex;
