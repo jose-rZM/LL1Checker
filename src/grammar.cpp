@@ -40,14 +40,17 @@ void Grammar::ReadFromFile() {
             std::string value;
 
             if (std::regex_match(input, match, rx_terminal)) {
-                if (match[1] == symbol_table::EOF_ || match[1] == symbol_table::EPSILON_) {
-                    throw GrammarError("Reserved token name: " + match[1].str());
+                if (match[1] == symbol_table::EOF_ ||
+                    match[1] == symbol_table::EPSILON_) {
+                    throw GrammarError("Reserved token name: " +
+                                       match[1].str());
                 }
                 symbol_table::PutSymbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
                 SetAxiom(match[1]);
             } else {
-                throw GrammarError("Error while reading token definitions: " + input);
+                throw GrammarError("Error while reading token definitions: " +
+                                   input);
             }
         }
 
@@ -59,7 +62,8 @@ void Grammar::ReadFromFile() {
             } else if (std::regex_match(input, match, rx_empty_production)) {
                 p_grammar[match[1]].push_back(symbol_table::EPSILON_);
             } else {
-                throw GrammarError("Error while reading grammar rule: " + input);
+                throw GrammarError("Error while reading grammar rule: " +
+                                   input);
             }
         }
     } catch (const std::exception& e) {
@@ -85,7 +89,7 @@ void Grammar::ReadFromFile() {
     if (symbol_table::IsTerminal(axiom_)) {
         throw GrammarError("Axiom cannot be a terminal symbol");
     }
-    
+
     const std::string aug = GenerateNewNonTerminal(axiom_);
     symbol_table::PutSymbol(aug);
     AddRule(aug, axiom_ + symbol_table::EOF_);
