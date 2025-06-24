@@ -23,7 +23,6 @@ void Grammar::ReadFromFile() {
     std::unordered_map<std::string, std::vector<std::string>> p_grammar;
     std::regex                                                rx_terminal{
         R"(terminal\s+([a-zA-Z_\'][a-zA-Z_0-9\']*)\s+([^]*);\s*)"};
-    std::regex rx_eol{R"(set\s+EOL\s+char\s+([^]*);\s*)"};
     std::regex rx_axiom{R"(start\s+with\s+([a-zA-Z_\'][a-zA-Z_0-9\']*);\s*)"};
     std::regex rx_empty_production{R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->;\s*)"};
     std::regex rx_production{"([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s*->\\s*([a-zA-"
@@ -44,8 +43,6 @@ void Grammar::ReadFromFile() {
                 symbol_table::PutSymbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
                 SetAxiom(match[1]);
-            } else if (std::regex_match(input, match, rx_eol)) {
-                symbol_table::SetEol(match[1]);
             } else {
                 throw GrammarError("Error while reading tokens " + input);
             }
