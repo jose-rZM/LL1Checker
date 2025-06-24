@@ -37,9 +37,6 @@ void Lex::Tokenize() {
     std::vector<Pattern> patterns;
     patterns.reserve(symbol_table::order_.size());
 
-    patterns.push_back({symbol_table::token_types_r_.at(1),
-                        std::regex(EscapeRegex(symbol_table::EOL_))});
-
     for (size_t j = 1; j < symbol_table::order_.size(); ++j) {
         unsigned long id         = symbol_table::order_[j];
         std::string   token_type = symbol_table::token_types_r_.at(id);
@@ -79,5 +76,5 @@ void Lex::Tokenize() {
 }
 
 std::string Lex::Next() {
-    return current_ >= tokens_.size() ? std::string() : tokens_[current_++];
+    return current_ >= tokens_.size() ? symbol_table::EOL_ : tokens_[current_++];
 }
