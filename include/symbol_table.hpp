@@ -8,7 +8,7 @@ enum symbol_type { NO_TERMINAL, TERMINAL };
 
 struct symbol_table {
     /// @brief End-of-line symbol used in parsing, initialized as "EOF".
-    inline static std::string EOL_{"EOF"};
+    inline static std::string EOF_{"<<EOF>>"};
 
     /// @brief Epsilon symbol, representing empty transitions, initialized as
     /// "EPSILON".
@@ -18,7 +18,7 @@ struct symbol_table {
     /// and its regex.
     inline static std::unordered_map<std::string,
                                      std::pair<symbol_type, std::string>>
-        st_{{EOL_, {TERMINAL, "<<EOF>>"}}, {EPSILON_, {TERMINAL, EPSILON_}}};
+        st_{{EOF_, {TERMINAL, "<<EOF>>"}}, {EPSILON_, {TERMINAL, EPSILON_}}};
 
     /// @brief Token types, mapping each symbol to a unique integer ID.
     inline static std::unordered_map<std::string, unsigned long> token_types_;
