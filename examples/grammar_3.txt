@@ -5,7 +5,7 @@ terminal num n;
 terminal plus \+;
 start with S;
 ;
-S -> A$;
+S -> A;
 A -> num B;
 A -> function ap A cp B;
 B -> plus A;
