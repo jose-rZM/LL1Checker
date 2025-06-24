@@ -82,6 +82,10 @@ void Grammar::ReadFromFile() {
         }
     }
 
+    if (symbol_table::IsTerminal(axiom_)) {
+        throw GrammarError("Axiom cannot be a terminal symbol");
+    }
+    
     const std::string aug = GenerateNewNonTerminal(axiom_);
     symbol_table::PutSymbol(aug);
     AddRule(aug, axiom_ + symbol_table::EOF_);
