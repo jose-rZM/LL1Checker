@@ -148,6 +148,11 @@ void LL1Parser::First(std::span<const std::string>     rule,
         return;
     }
 
+    if (symbol_table::IsTerminal(rule[0])) {
+        result.insert(rule[0]);
+        return;
+    }
+
     const std::unordered_set<std::string>& fii = first_sets_[rule[0]];
     for (const auto& s : fii) {
         if (s != symbol_table::EPSILON_) {
