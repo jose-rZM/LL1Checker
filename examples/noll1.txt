@@ -3,7 +3,7 @@ terminal b b;
 terminal d d;
 start with S;
 ;
-S -> A$;
+S -> A;
 A -> C F;
 B -> D B D;
 B ->;
