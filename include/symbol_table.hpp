@@ -7,7 +7,7 @@
 enum symbol_type { NO_TERMINAL, TERMINAL };
 
 struct symbol_table {
-    /// @brief End-of-line symbol used in parsing, initialized as "$".
+    /// @brief End-of-line symbol used in parsing, initialized as "EOF".
     inline static std::string EOL_{"EOF"};
 
     /// @brief Epsilon symbol, representing empty transitions, initialized as
@@ -18,15 +18,13 @@ struct symbol_table {
     /// and its regex.
     inline static std::unordered_map<std::string,
                                      std::pair<symbol_type, std::string>>
-        st_{{EOL_, {TERMINAL, ""}}, {EPSILON_, {TERMINAL, EPSILON_}}};
+        st_{{EOL_, {TERMINAL, "<<EOF>>"}}, {EPSILON_, {TERMINAL, EPSILON_}}};
 
     /// @brief Token types, mapping each symbol to a unique integer ID.
-    inline static std::unordered_map<std::string, unsigned long> token_types_{
-        {EOL_, 1}};
+    inline static std::unordered_map<std::string, unsigned long> token_types_;
 
     /// @brief Reverse mapping from integer token IDs back to symbols.
-    inline static std::unordered_map<unsigned long, std::string> token_types_r_{
-        {1, EOL_}};
+    inline static std::unordered_map<unsigned long, std::string> token_types_r_;
 
     /// @brief Tracks insertion order of token types.
     inline static std::vector<unsigned long> order_{1};
