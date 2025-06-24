@@ -148,15 +148,6 @@ void LL1Parser::First(std::span<const std::string>     rule,
         return;
     }
 
-    if (symbol_table::IsTerminal(rule[0])) {
-        if (rule[0] == symbol_table::EOL_) {
-            result.insert(symbol_table::EPSILON_);
-            return;
-        }
-        result.insert(rule[0]);
-        return;
-    }
-
     const std::unordered_set<std::string>& fii = first_sets_[rule[0]];
     for (const auto& s : fii) {
         if (s != symbol_table::EPSILON_) {
@@ -184,10 +175,6 @@ void LL1Parser::ComputeFirstSets() {
                 std::unordered_set<std::string> tempFirst;
                 First(prod, tempFirst);
 
-                if (tempFirst.contains(symbol_table::EOL_)) {
-                    tempFirst.erase(symbol_table::EOL_);
-                    tempFirst.insert(symbol_table::EPSILON_);
-                }
                 // Insert the computed FIRST into the non-terminal's set
                 auto& current_set = first_sets_[nonTerminal];
                 current_set.insert(tempFirst.begin(), tempFirst.end());
