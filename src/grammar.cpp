@@ -40,7 +40,7 @@ void Grammar::ReadFromFile() {
             std::string value;
 
             if (std::regex_match(input, match, rx_terminal)) {
-                if (match[1] == symbol_table::EOF_) {
+                if (match[1] == symbol_table::EOF_ || match[1] == symbol_table::EPSILON_) {
                     throw GrammarError("Reserved token name: " + match[1].str());
                 }
                 symbol_table::PutSymbol(match[1], match[2]);
@@ -58,7 +58,6 @@ void Grammar::ReadFromFile() {
                 p_grammar[match[1]].push_back(s);
             } else if (std::regex_match(input, match, rx_empty_production)) {
                 p_grammar[match[1]].push_back(symbol_table::EPSILON_);
-
             } else {
                 throw GrammarError("Error while reading grammar rule: " + input);
             }
