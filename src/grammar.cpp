@@ -20,13 +20,16 @@ void Grammar::ReadFromFile() {
         throw std::runtime_error("Error opening " + kFilename);
     }
 
+    symbol_table::SetEol("$");
+    symbol_table::PutSymbol("$", "$");
+
     std::unordered_map<std::string, std::vector<std::string>> p_grammar;
     std::regex                                                rx_terminal{
         R"(terminal\s+([a-zA-Z_\'][a-zA-Z_0-9\']*)\s+([^]*);\s*)"};
     std::regex rx_axiom{R"(start\s+with\s+([a-zA-Z_\'][a-zA-Z_0-9\']*);\s*)"};
     std::regex rx_empty_production{R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->;\s*)"};
-    std::regex rx_production{"([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s*->\\s*([a-zA-"
-                             "Z_\\'][a-zA-Z_0-9\\s$\\']*);"};
+    std::regex rx_production{
+    R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->\s*([a-zA-Z_\'][a-zA-Z_0-9\s\']*);)"};                         
 
     std::string input;
     std::smatch match;
@@ -44,6 +47,9 @@ void Grammar::ReadFromFile() {
             } else if (std::regex_match(input, match, rx_axiom)) {
                 SetAxiom(match[1]);
             } else {
+                if (input.find('$') != std::string::npos) {
+                    throw GrammarError("Error while reading tokens. $ is a reserved symbol used to indicate end of line.");
+                }
                 throw GrammarError("Error while reading tokens " + input);
             }
         }
@@ -57,6 +63,9 @@ void Grammar::ReadFromFile() {
                 p_grammar[match[1]].push_back(symbol_table::EPSILON_);
 
             } else {
+                if (input.find('$') != std::string::npos) {
+                    throw GrammarError("Error while reading productions. $ is a reserved symbol used to indicate end of line.");
+                }
                 throw GrammarError("Error while reading grammar " + input);
             }
         }
@@ -79,6 +88,11 @@ void Grammar::ReadFromFile() {
             AddRule(entry.first, prod);
         }
     }
+
+    const std::string aug = GenerateNewNonTerminal(axiom_);
+    symbol_table::PutSymbol(aug);
+    AddRule(aug, axiom_ + symbol_table::EOL_);
+    axiom_ = aug;
 }
 
 std::vector<std::string> Grammar::Split(const std::string& s) {
@@ -115,6 +129,14 @@ std::vector<std::string> Grammar::Split(const std::string& s) {
     }
 
     return splitted;
+}
+
+std::string Grammar::GenerateNewNonTerminal(const std::string& base) {
+    std::string newNt = base;
+    do {
+        newNt.append("'");
+    } while(symbol_table::In(newNt));
+    return newNt;
 }
 
 void Grammar::AddRule(const std::string& antecedent,
