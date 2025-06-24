@@ -27,7 +27,7 @@ Lex::Lex(std::string filename) : filename_(std::move(filename)), current_() {
 void Lex::Tokenize() {
     std::ifstream file(filename_);
     if (!file) {
-        throw LexerError("Cannot open " + filename_);
+        throw LexerError("Cannot open file: " + filename_);
     }
     std::ostringstream buffer;
     buffer << file.rdbuf();
@@ -67,7 +67,7 @@ void Lex::Tokenize() {
         }
         if (best_len == 0) {
             std::string rest(remaining.begin(), remaining.end());
-            throw LexerError("Lexical error: encountered an invalid token:\n" +
+            throw LexerError("Lexical error: invalid token encountered:\n" +
                              rest);
         }
         tokens_.push_back(best_tok);

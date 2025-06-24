@@ -22,7 +22,7 @@ LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format)
     if (!CreateLL1Table()) {
         gr_.Debug();
         PrintTable();
-        throw GrammarError("Grammar provided is not LL1.");
+        throw GrammarError("Provided grammar is not LL(1).");
     }
 }
 
@@ -33,7 +33,7 @@ LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file,
     if (!CreateLL1Table()) {
         gr_.Debug();
         PrintTable();
-        throw GrammarError("Grammar provided is not LL1.");
+        throw GrammarError("Provided grammar is not LL(1).");
     }
 }
 
@@ -42,7 +42,7 @@ LL1Parser::LL1Parser(const std::string& grammar_file, bool table_format)
     if (!CreateLL1Table()) {
         gr_.Debug();
         PrintTable();
-        throw GrammarError("Grammar provided is not LL1.");
+        throw GrammarError("Provided grammar is not LL(1).");
     }
 }
 

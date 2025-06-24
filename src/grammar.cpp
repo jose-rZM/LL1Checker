@@ -17,7 +17,7 @@ void Grammar::ReadFromFile() {
     file.open(kFilename, std::ios::in);
 
     if (!file.is_open()) {
-        throw std::runtime_error("Error opening " + kFilename);
+        throw std::runtime_error("Error opening file: " + kFilename);
     }
 
     std::unordered_map<std::string, std::vector<std::string>> p_grammar;
@@ -32,7 +32,7 @@ void Grammar::ReadFromFile() {
     std::smatch match;
 
     if (file.peek() == std::ifstream::traits_type::eof()) {
-        throw std::runtime_error("Empty file");
+        throw std::runtime_error("File is empty");
     }
     try {
         while (getline(file, input) && input != ";") {
@@ -40,14 +40,14 @@ void Grammar::ReadFromFile() {
             std::string value;
 
             if (std::regex_match(input, match, rx_terminal)) {
-                if (match[2] == symbol_table::EOF_) {
-                    throw GrammarError("Error while reading tokens " + input + ". <<EOF>> is a reserved keyword.");
+                if (match[1] == symbol_table::EOF_) {
+                    throw GrammarError("Reserved token name: " + match[1].str());
                 }
                 symbol_table::PutSymbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
                 SetAxiom(match[1]);
             } else {
-                throw GrammarError("Error while reading tokens " + input);
+                throw GrammarError("Error while reading token definitions: " + input);
             }
         }
 
@@ -60,7 +60,7 @@ void Grammar::ReadFromFile() {
                 p_grammar[match[1]].push_back(symbol_table::EPSILON_);
 
             } else {
-                throw GrammarError("Error while reading grammar " + input);
+                throw GrammarError("Error while reading grammar rule: " + input);
             }
         }
     } catch (const std::exception& e) {
@@ -119,7 +119,7 @@ std::vector<std::string> Grammar::Split(const std::string& s) {
 
     // If start < end - 1 there is at least one symbol not recognized
     if (start < end - 1) {
-        throw GrammarError("Error processing the line " + s.substr(start, end));
+        throw GrammarError("Error processing line: " + s.substr(start, end));
     }
 
     return splitted;
