@@ -40,6 +40,9 @@ void Grammar::ReadFromFile() {
             std::string value;
 
             if (std::regex_match(input, match, rx_terminal)) {
+                if (match[2] == symbol_table::EOF_) {
+                    throw GrammarError("Error while reading tokens " + input + ". <<EOF>> is a reserved keyword.");
+                }
                 symbol_table::PutSymbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
                 SetAxiom(match[1]);
