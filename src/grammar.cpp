@@ -26,7 +26,7 @@ void Grammar::ReadFromFile() {
     std::regex rx_axiom{R"(start\s+with\s+([a-zA-Z_\'][a-zA-Z_0-9\']*);\s*)"};
     std::regex rx_empty_production{R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->;\s*)"};
     std::regex rx_production{
-    R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->\s*([a-zA-Z_\'][a-zA-Z_0-9\s\']*);)"};                         
+        R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->\s*([a-zA-Z_\'][a-zA-Z_0-9\s\']*);)"};
 
     std::string input;
     std::smatch match;
@@ -82,7 +82,7 @@ void Grammar::ReadFromFile() {
 
     const std::string aug = GenerateNewNonTerminal(axiom_);
     symbol_table::PutSymbol(aug);
-    AddRule(aug, axiom_ + symbol_table::EOL_);
+    AddRule(aug, axiom_ + symbol_table::EOF_);
     axiom_ = aug;
 }
 
@@ -126,7 +126,7 @@ std::string Grammar::GenerateNewNonTerminal(const std::string& base) {
     std::string newNt = base;
     do {
         newNt.append("'");
-    } while(symbol_table::In(newNt));
+    } while (symbol_table::In(newNt));
     return newNt;
 }
 

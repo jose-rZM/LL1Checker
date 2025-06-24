@@ -196,7 +196,7 @@ void LL1Parser::ComputeFollowSets() {
     for (const auto& [nt, _] : gr_.g_) {
         follow_sets_[nt] = {};
     }
-    follow_sets_[gr_.axiom_].insert(symbol_table::EOL_);
+    follow_sets_[gr_.axiom_].insert(symbol_table::EOF_);
 
     bool changed;
     do {

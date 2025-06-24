@@ -76,5 +76,5 @@ void Lex::Tokenize() {
 }
 
 std::string Lex::Next() {
-    return current_ >= tokens_.size() ? symbol_table::EOL_ : tokens_[current_++];
+    return current_ >= tokens_.size() ? symbol_table::EOF_ : tokens_[current_++];
 }
