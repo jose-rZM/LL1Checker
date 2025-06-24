@@ -10,5 +10,8 @@ target_include_directories(${LIB_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 if(MSVC)
     target_compile_options(${LIB_NAME} PRIVATE /W4)
 else()
-    target_compile_options(${LIB_NAME} PRIVATE -Wall -Wextra -pedantic -O3)
+    target_compile_options(${LIB_NAME} PRIVATE
+        $<$<CONFIG:Debug>:-Wall -Wextra -pedantic -g>
+        $<$<CONFIG:Release>:-Wall -Wextra -pedantic -O3>
+    )
 endif()

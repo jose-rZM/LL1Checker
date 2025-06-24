@@ -98,6 +98,8 @@ struct Grammar {
      */
     static std::vector<std::string> Split(const std::string& s);
 
+    std::string GenerateNewNonTerminal(const std::string& base);
+
     /**
      * @brief Checks if a rule exhibits left recursion.
      *

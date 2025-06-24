@@ -22,7 +22,7 @@ LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format)
     if (!CreateLL1Table()) {
         gr_.Debug();
         PrintTable();
-        throw GrammarError("Grammar provided is not LL1.");
+        throw GrammarError("Provided grammar is not LL(1).");
     }
 }
 
@@ -33,7 +33,7 @@ LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file,
     if (!CreateLL1Table()) {
         gr_.Debug();
         PrintTable();
-        throw GrammarError("Grammar provided is not LL1.");
+        throw GrammarError("Provided grammar is not LL(1).");
     }
 }
 
@@ -42,7 +42,7 @@ LL1Parser::LL1Parser(const std::string& grammar_file, bool table_format)
     if (!CreateLL1Table()) {
         gr_.Debug();
         PrintTable();
-        throw GrammarError("Grammar provided is not LL1.");
+        throw GrammarError("Provided grammar is not LL(1).");
     }
 }
 
@@ -149,10 +149,6 @@ void LL1Parser::First(std::span<const std::string>     rule,
     }
 
     if (symbol_table::IsTerminal(rule[0])) {
-        if (rule[0] == symbol_table::EOL_) {
-            result.insert(symbol_table::EPSILON_);
-            return;
-        }
         result.insert(rule[0]);
         return;
     }
@@ -184,10 +180,6 @@ void LL1Parser::ComputeFirstSets() {
                 std::unordered_set<std::string> tempFirst;
                 First(prod, tempFirst);
 
-                if (tempFirst.contains(symbol_table::EOL_)) {
-                    tempFirst.erase(symbol_table::EOL_);
-                    tempFirst.insert(symbol_table::EPSILON_);
-                }
                 // Insert the computed FIRST into the non-terminal's set
                 auto& current_set = first_sets_[nonTerminal];
                 current_set.insert(tempFirst.begin(), tempFirst.end());
@@ -204,7 +196,7 @@ void LL1Parser::ComputeFollowSets() {
     for (const auto& [nt, _] : gr_.g_) {
         follow_sets_[nt] = {};
     }
-    follow_sets_[gr_.axiom_].insert(symbol_table::EOL_);
+    follow_sets_[gr_.axiom_].insert(symbol_table::EOF_);
 
     bool changed;
     do {

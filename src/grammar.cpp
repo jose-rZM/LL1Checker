@@ -17,23 +17,22 @@ void Grammar::ReadFromFile() {
     file.open(kFilename, std::ios::in);
 
     if (!file.is_open()) {
-        throw std::runtime_error("Error opening " + kFilename);
+        throw std::runtime_error("Error opening file: " + kFilename);
     }
 
     std::unordered_map<std::string, std::vector<std::string>> p_grammar;
     std::regex                                                rx_terminal{
         R"(terminal\s+([a-zA-Z_\'][a-zA-Z_0-9\']*)\s+([^]*);\s*)"};
-    std::regex rx_eol{R"(set\s+EOL\s+char\s+([^]*);\s*)"};
     std::regex rx_axiom{R"(start\s+with\s+([a-zA-Z_\'][a-zA-Z_0-9\']*);\s*)"};
     std::regex rx_empty_production{R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->;\s*)"};
-    std::regex rx_production{"([a-zA-Z_\\'][a-zA-Z_0-9\\']*)\\s*->\\s*([a-zA-"
-                             "Z_\\'][a-zA-Z_0-9\\s$\\']*);"};
+    std::regex rx_production{
+        R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->\s*([a-zA-Z_\'][a-zA-Z_0-9\s\']*);)"};
 
     std::string input;
     std::smatch match;
 
     if (file.peek() == std::ifstream::traits_type::eof()) {
-        throw std::runtime_error("Empty file");
+        throw std::runtime_error("File is empty");
     }
     try {
         while (getline(file, input) && input != ";") {
@@ -41,13 +40,17 @@ void Grammar::ReadFromFile() {
             std::string value;
 
             if (std::regex_match(input, match, rx_terminal)) {
+                if (match[1] == symbol_table::EOF_ ||
+                    match[1] == symbol_table::EPSILON_) {
+                    throw GrammarError("Reserved token name: " +
+                                       match[1].str());
+                }
                 symbol_table::PutSymbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
                 SetAxiom(match[1]);
-            } else if (std::regex_match(input, match, rx_eol)) {
-                symbol_table::SetEol(match[1]);
             } else {
-                throw GrammarError("Error while reading tokens " + input);
+                throw GrammarError("Error while reading token definitions: " +
+                                   input);
             }
         }
 
@@ -58,9 +61,9 @@ void Grammar::ReadFromFile() {
                 p_grammar[match[1]].push_back(s);
             } else if (std::regex_match(input, match, rx_empty_production)) {
                 p_grammar[match[1]].push_back(symbol_table::EPSILON_);
-
             } else {
-                throw GrammarError("Error while reading grammar " + input);
+                throw GrammarError("Error while reading grammar rule: " +
+                                   input);
             }
         }
     } catch (const std::exception& e) {
@@ -82,6 +85,15 @@ void Grammar::ReadFromFile() {
             AddRule(entry.first, prod);
         }
     }
+
+    if (symbol_table::IsTerminal(axiom_)) {
+        throw GrammarError("Axiom cannot be a terminal symbol");
+    }
+
+    const std::string aug = GenerateNewNonTerminal(axiom_);
+    symbol_table::PutSymbol(aug);
+    AddRule(aug, axiom_ + symbol_table::EOF_);
+    axiom_ = aug;
 }
 
 std::vector<std::string> Grammar::Split(const std::string& s) {
@@ -114,10 +126,18 @@ std::vector<std::string> Grammar::Split(const std::string& s) {
 
     // If start < end - 1 there is at least one symbol not recognized
     if (start < end - 1) {
-        throw GrammarError("Error processing the line " + s.substr(start, end));
+        throw GrammarError("Error processing line: " + s.substr(start, end));
     }
 
     return splitted;
+}
+
+std::string Grammar::GenerateNewNonTerminal(const std::string& base) {
+    std::string newNt = base;
+    do {
+        newNt.append("'");
+    } while (symbol_table::In(newNt));
+    return newNt;
 }
 
 void Grammar::AddRule(const std::string& antecedent,

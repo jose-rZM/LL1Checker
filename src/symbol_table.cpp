@@ -36,8 +36,8 @@ bool symbol_table::IsTerminal(const std::string& s) {
 }
 
 void symbol_table::SetEol(const std::string& eol) {
-    EOL_               = eol;
-    st_[EOL_]          = {TERMINAL, EOL_};
-    token_types_[EOL_] = 1;
-    token_types_r_[1]  = EOL_;
+    EOF_               = eol;
+    st_[EOF_]          = {TERMINAL, EOF_};
+    token_types_[EOF_] = 1;
+    token_types_r_[1]  = EOF_;
 }
