@@ -26,7 +26,7 @@ void Grammar::ReadFromFile() {
     std::regex rx_axiom{R"(start\s+with\s+([a-zA-Z_\'][a-zA-Z_0-9\']*);\s*)"};
     std::regex rx_empty_production{R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->;\s*)"};
     std::regex rx_production{
-        R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->\s*([a-zA-Z_\'][a-zA-Z_0-9\s\']*);)"};
+        R"(([a-zA-Z_\'][a-zA-Z_0-9\']*)\s*->\s*([a-zA-Z_\'][a-zA-Z_0-9\s\']*);\s*)"};
 
     std::string input;
     std::smatch match;
