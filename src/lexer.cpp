@@ -116,13 +116,11 @@ std::string& Lex::input() {
 }
 
 Lex::Token Lex::Next() {
-    // 1) saltar espacios
     skip_ws();
 
     if (pos_ >= input_.size())
         return {symbol_table::EOF_, pos_};
 
-    // 2) buscar el token más largo que encaje
     std::string_view rem{input_.data() + pos_, input_.size() - pos_};
     std::ptrdiff_t   best_len = 0;
     std::string      best_tok;
@@ -139,7 +137,6 @@ Lex::Token Lex::Next() {
         }
     }
 
-    // 3) si no hay match: error con ventana
     if (best_len == 0) {
         size_t err_line, err_col;
         auto   snippet = format_error_window(input_, pos_, err_line, err_col);
@@ -148,7 +145,6 @@ Lex::Token Lex::Next() {
                          std::to_string(err_col + 1) + ":\n\n" + snippet);
     }
 
-    // 4) avanzamos y devolvemos
     pos_ += best_len;
     return {best_tok, start};
 }
