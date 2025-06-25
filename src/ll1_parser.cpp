@@ -164,7 +164,7 @@ void LL1Parser::First(std::span<const std::string>     rule,
     if (fii.find(symbol_table::EPSILON_) == fii.cend()) {
         return;
     }
-    First(std::span<const std::string>(rule.begin() + 1, rule.end()), result);
+    First(rule.subspan(1), result);
 }
 
 void LL1Parser::ComputeFirstSets() {
