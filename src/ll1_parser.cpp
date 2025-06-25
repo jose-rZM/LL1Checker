@@ -72,24 +72,6 @@ bool LL1Parser::CreateLL1Table() {
     return !has_conflict;
 }
 
-void LL1Parser::PrintStackTrace() {
-    std::cout << "Parser stack trace : [ ";
-    while (!symbol_stack_.empty()) {
-        std::cout << symbol_stack_.top() << " ";
-        symbol_stack_.pop();
-    }
-    std::cout << "]\n";
-}
-
-void LL1Parser::PrintSymbolHist() {
-    std::cout << "Last 5 processed symbols : [ ";
-    while (!trace_.empty()) {
-        std::cout << trace_.front() << " ";
-        trace_.pop_front();
-    }
-    std::cout << "]\n";
-}
-
 bool LL1Parser::MatchTerminal(const std::string& top_symbol,
                               const std::string& current_symbol) {
     trace_.push_back(current_symbol);

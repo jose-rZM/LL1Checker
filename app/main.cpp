@@ -111,12 +111,7 @@ int main(int argc, char* argv[]) {
 
             if (parser.Parse()) {
                 std::cout << "Parsing successful\n";
-                if (verbose_mode)
-                    parser.PrintStackTrace();
             } else {
-                std::cerr << "Parsing failed\n";
-                parser.PrintStackTrace();
-                parser.PrintSymbolHist();
                 return 1;
             }
         }

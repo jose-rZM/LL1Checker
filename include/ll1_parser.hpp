@@ -122,26 +122,6 @@ class LL1Parser {
      */
     void PrintTable();
 
-    /**
-     * @brief Prints the remaining symbols in the parsing stack after the
-     * parsing process.
-     *
-     * This function outputs the contents of the parsing stack to standard
-     * output after the parsing attempt completes, showing any symbols left
-     * unresolved. It is useful for debugging and tracing parsing issues, as it
-     * provides insight into where the parsing process may have diverged from
-     * expected behavior.
-     */
-    void PrintStackTrace();
-
-    /**
-     * @brief Prints the last kTraceSize symbols processed.
-     *
-     * Primarily used to identify the most recent tokens processed in case
-     * of parsing errors.
-     */
-    void PrintSymbolHist();
-
   private:
     void ReportParseError(const std::string& input, size_t err_pos,
                           const std::string& expected,
