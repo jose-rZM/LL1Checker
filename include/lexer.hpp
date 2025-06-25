@@ -1,12 +1,19 @@
+#pragma once
+#include <regex>
 #include <string>
 #include <vector>
 
 class Lex {
-    std::string              filename_;
-    std::vector<std::string> tokens_;
-    unsigned                 current_{};
+    std::string filename_;
+    std::string input_;
+    size_t      pos_{0};
 
   public:
+    struct Token {
+        std::string type;
+        size_t      pos;
+    };
+
     /**
      * @brief Constructs a lexer and tokenizes the specified input file.
      *
@@ -26,33 +33,24 @@ class Lex {
      *
      * This function allows sequential access to tokens processed by the lexer.
      */
-    std::string Next();
+    Token Next();
+
+    std::string& input();
+
+    static std::string format_error_window(const std::string& input, size_t pos,
+                                           size_t& out_err_line,
+                                           size_t& out_err_col,
+                                           size_t  context_lines  = 2,
+                                           size_t  max_line_width = 40,
+                                           size_t  window_width   = 20);
 
   private:
-    /**
-     * @brief Tokenizes the input file using Boost Spirit Lex.
-     *
-     * This function reads the content of the file specified by `filename_`,
-     * tokenizes it using Boost Spirit Lex, and stores the resulting tokens in
-     * the `tokens_` member variable. If the tokenization process encounters an
-     * invalid token, a `LexerError` is thrown with an error message indicating
-     * the invalid token.
-     *
-     * @throws LexerError If an invalid token is encountered during
-     * tokenization.
-     *
-     * @details The function performs the following steps:
-     * 1. Opens the file specified by `filename_` and reads its content into a
-     * string.
-     * 2. Converts the string into a C-style string (char array) for processing.
-     * 3. If tokenization is successful, the tokens are stored in the `tokens_`
-     * member variable.
-     * 4. If tokenization fails (e.g., due to an invalid token), a `LexerError`
-     * is thrown.
-     *
-     * @see LexerError
-     * @see tokens_
-     * @see filename_
-     */
-    void Tokenize();
+    void skip_ws();
+
+    struct Pattern {
+        std::string type;
+        std::regex  regex;
+    };
+
+    std::vector<Pattern> patterns_;
 };
