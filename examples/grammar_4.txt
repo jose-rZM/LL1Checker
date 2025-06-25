@@ -1,0 +1,11 @@
+terminal ap \(;
+terminal cp \);
+terminal IDENT [a-zA-Z0-9$]+;
+terminal plus \+;
+start with S;
+;
+S -> A;
+A -> F;
+A -> ap A plus F cp;
+F -> IDENT;
+;
