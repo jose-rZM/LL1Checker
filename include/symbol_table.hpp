@@ -4,7 +4,7 @@
 #include <utility>
 #include <vector>
 
-enum symbol_type { NO_TERMINAL, TERMINAL };
+enum symbol_type { NO_TERMINAL, TERMINAL, META };
 
 struct symbol_table {
     /// @brief End-of-line symbol used in parsing, initialized as "EOF".
@@ -18,7 +18,7 @@ struct symbol_table {
     /// and its regex.
     inline static std::unordered_map<std::string,
                                      std::pair<symbol_type, std::string>>
-        st_{{EOF_, {TERMINAL, ""}}, {EPSILON_, {TERMINAL, ""}}};
+        st_{{EOF_, {TERMINAL, ""}}, {EPSILON_, {META, ""}}};
 
     /// @brief Token types, mapping each symbol to a unique integer ID.
     inline static std::unordered_map<std::string, unsigned long> token_types_;
