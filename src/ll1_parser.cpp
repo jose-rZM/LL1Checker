@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cstddef>
+#include <iomanip>
 #include <iostream>
 #include <ranges>
 #include <span>
@@ -7,7 +8,6 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <iomanip>
 #include <utility>
 
 #include "grammar.hpp"
@@ -274,7 +274,8 @@ void LL1Parser::PrintTable() {
     }
     for (const auto& nonTerminal : gr_.nt_order_) {
         auto it = ll1_t_.find(nonTerminal);
-        if (it == ll1_t_.end()) continue;
+        if (it == ll1_t_.end())
+            continue;
 
         const auto& row = it->second;
         std::cout << "Non-terminal: " << nonTerminal << "\n";
@@ -288,10 +289,8 @@ void LL1Parser::PrintTable() {
             const std::string& symbol      = innerPair.first;
             const auto&        productions = innerPair.second;
 
-            std::cout << "\tSymbol: "
-                      << std::setw(static_cast<int>(maxSymLen))
-                      << std::left << symbol
-                      << " -> { ";
+            std::cout << "\tSymbol: " << std::setw(static_cast<int>(maxSymLen))
+                      << std::left << symbol << " -> { ";
 
             for (const auto& prod : productions) {
                 std::cout << "[ ";

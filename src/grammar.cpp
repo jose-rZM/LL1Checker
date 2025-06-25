@@ -57,7 +57,7 @@ void Grammar::ReadFromFile() {
         while (getline(file, input) && input != ";") {
             if (std::regex_match(input, match, rx_production)) {
                 std::string nt = match[1];
-                std::string s = match[2];
+                std::string s  = match[2];
                 s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
                 if (!p_grammar.contains(nt)) {
                     nt_order_.push_back(nt);
