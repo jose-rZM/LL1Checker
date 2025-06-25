@@ -129,6 +129,11 @@ struct Grammar {
     std::unordered_map<std::string, std::vector<production>> g_;
 
     /**
+     * @brief Keeps the insertion order of non-terminal symbols.
+     */
+    std::vector<std::string> nt_order_{};
+
+    /**
      * @brief The axiom or entry point of the grammar.
      */
     std::string axiom_;

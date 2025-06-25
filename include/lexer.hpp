@@ -31,7 +31,8 @@ public:
     /**
      * @brief Retrieves the next token from input string in a lazy way.
      *
-     * @return Token The next token in the sequence; EOF if there is no more symbols.
+     * @return Token The next token in the sequence; EOF if there is no more
+     * symbols.
      *
      */
     Token Next();

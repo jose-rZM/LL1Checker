@@ -56,11 +56,19 @@ void Grammar::ReadFromFile() {
 
         while (getline(file, input) && input != ";") {
             if (std::regex_match(input, match, rx_production)) {
-                std::string s = match[2];
+                std::string nt = match[1];
+                std::string s  = match[2];
                 s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
-                p_grammar[match[1]].push_back(s);
+                if (!p_grammar.contains(nt)) {
+                    nt_order_.push_back(nt);
+                }
+                p_grammar[nt].push_back(s);
             } else if (std::regex_match(input, match, rx_empty_production)) {
-                p_grammar[match[1]].push_back(symbol_table::EPSILON_);
+                std::string nt = match[1];
+                if (!p_grammar.contains(nt)) {
+                    nt_order_.push_back(nt);
+                }
+                p_grammar[nt].push_back(symbol_table::EPSILON_);
             } else {
                 throw GrammarError("Error while reading grammar rule: " +
                                    input);
@@ -94,6 +102,7 @@ void Grammar::ReadFromFile() {
     symbol_table::PutSymbol(aug);
     AddRule(aug, axiom_ + symbol_table::EOF_);
     axiom_ = aug;
+    nt_order_.insert(nt_order_.begin(), aug);
 }
 
 std::vector<std::string> Grammar::Split(const std::string& s) {

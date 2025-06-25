@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cstddef>
+#include <iomanip>
 #include <iostream>
 #include <ranges>
 #include <span>
@@ -271,22 +272,34 @@ void LL1Parser::PrintTable() {
         PrintTableUsingTabulate();
         return;
     }
-    for (const auto& outerPair : ll1_t_) {
-        const std::string& nonTerminal = outerPair.first;
+    for (const auto& nonTerminal : gr_.nt_order_) {
+        auto it = ll1_t_.find(nonTerminal);
+        if (it == ll1_t_.end())
+            continue;
+
+        const auto& row = it->second;
         std::cout << "Non-terminal: " << nonTerminal << "\n";
 
-        for (const auto& innerPair : outerPair.second) {
+        size_t maxSymLen = 0;
+        for (const auto& innerPair : row) {
+            maxSymLen = std::max(maxSymLen, innerPair.first.size());
+        }
+
+        for (const auto& innerPair : row) {
             const std::string& symbol      = innerPair.first;
             const auto&        productions = innerPair.second;
 
-            std::cout << "\tSymbol: " << symbol << " -> { ";
+            std::cout << "\tSymbol: " << std::setw(static_cast<int>(maxSymLen))
+                      << std::left << symbol << " -> { ";
+
             for (const auto& prod : productions) {
                 std::cout << "[ ";
-                for (const std::string& elem : prod) {
+                for (const auto& elem : prod) {
                     std::cout << elem << " ";
                 }
                 std::cout << "] ";
             }
+
             std::cout << "}\n";
         }
         std::cout << "\n";
@@ -317,14 +330,9 @@ void LL1Parser::PrintTableUsingTabulate() {
         .font_style({FontStyle::bold});
 
     std::vector<std::string> non_terminals;
-    for (const auto& outerPair : ll1_t_) {
-        non_terminals.push_back(outerPair.first);
+    for (const auto& nt : gr_.nt_order_) {
+        non_terminals.push_back(nt);
     }
-
-    std::ranges::sort(
-        non_terminals, [this](const std::string& a, const std::string& b) {
-            return (a == gr_.axiom_) ? true : (b == gr_.axiom_) ? false : a < b;
-        });
 
     for (const std::string& nonTerminal : non_terminals) {
         Table::Row_t row_data = {nonTerminal};
