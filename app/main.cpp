@@ -42,8 +42,9 @@ int main(int argc, char* argv[]) {
             "grammar", "Grammar file",
             cxxopts::value<std::string>(grammar_filename))(
             "text", "Text file to parse",
-            cxxopts::value<std::string>(text_filename)->default_value(""));
-        cxxopts::value<std::string>(export_tree_file);
+            cxxopts::value<std::string>(text_filename)->default_value(""))(
+            "export-tree", "Export parse tree to file",
+            cxxopts::value<std::string>(export_tree_file));
 
         options.parse_positional({"grammar", "text"});
         auto result = options.parse(argc, argv);
