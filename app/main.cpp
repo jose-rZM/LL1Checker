@@ -27,6 +27,7 @@ int main(int argc, char* argv[]) {
     std::string text_filename;
     bool        verbose_mode = false;
     std::string table_format = "new";
+    std::string export_tree_file;
 
     try {
         cxxopts::Options options(argv[0], "LL1Checker");
@@ -42,6 +43,7 @@ int main(int argc, char* argv[]) {
             cxxopts::value<std::string>(grammar_filename))(
             "text", "Text file to parse",
             cxxopts::value<std::string>(text_filename)->default_value(""));
+            cxxopts::value<std::string>(export_tree_file);
 
         options.parse_positional({"grammar", "text"});
         auto result = options.parse(argc, argv);
@@ -109,10 +111,18 @@ int main(int argc, char* argv[]) {
             if (file.peek() == EOF)
                 throw std::runtime_error("Text file is empty");
 
-            if (parser.Parse()) {
-                std::cout << "Parsing successful\n";
+            if (!export_tree_file.empty()) {
+                LL1Parser::ParseTree tree = parser.ParseWithTree(text_filename);
+                if (!tree) {
+                    return 1;
+                }
+                std::cout << "Parsing successful. Parse tree exported! Run 'dot' to generate an image\n";
+                parser.ExportTreeAsDot(tree, export_tree_file);
             } else {
-                return 1;
+                if (!parser.Parse()) {
+                    return 1;
+                }
+                std::cout << "Parsing successful\n";
             }
         }
     } catch (const std::exception& e) {
