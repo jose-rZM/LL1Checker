@@ -451,7 +451,7 @@ void LL1Parser::ExportTreeAsDot(const ParseTree&   tree,
     std::function<size_t(const ParseNode*)> dump = [&](const ParseNode* node) {
         size_t current = id++;
         out << "  node" << current << " [label=\"" << node->symbol << "\"";
-        bool is_leaf = node->children.empty();
+        bool is_leaf     = node->children.empty();
         bool is_terminal = symbol_table::In(node->symbol) &&
                            symbol_table::IsTerminal(node->symbol);
         if (is_leaf && is_terminal && node->symbol != symbol_table::EPSILON_ &&
