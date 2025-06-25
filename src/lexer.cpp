@@ -6,24 +6,40 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <regex>
 #include <string_view>
 
-namespace {
-struct Pattern {
-    std::string type;
-    std::regex  regex;
-};
-} // namespace
+Lex::Lex(std::string filename) : filename_(std::move(filename)) {
+    std::ifstream file(filename_);
+    if (!file)
+        throw LexerError("Cannot open file: " + filename_);
 
-Lex::Lex(std::string filename) : filename_(std::move(filename)), current_() {
-    Tokenize();
+    std::ostringstream buf;
+    buf << file.rdbuf();
+    input_ = buf.str();
+    patterns_.reserve(symbol_table::order_.size());
+    for (size_t j = 1; j < symbol_table::order_.size(); ++j) {
+        auto id        = symbol_table::order_[j];
+        auto tok_type  = symbol_table::token_types_r_.at(id);
+        auto regex_str = symbol_table::st_.at(tok_type).second;
+        patterns_.push_back({tok_type, std::regex(regex_str)});
+    }
 }
 
-static std::string
-format_error_window(const std::string& input, size_t pos, size_t& out_err_line,
-                    size_t& out_err_col, size_t context_lines = 2,
-                    size_t max_line_width = 40, size_t window_width = 20) {
+void Lex::skip_ws() {
+    static const std::regex ws{R"([ \t\n]+)"};
+    std::cmatch             m;
+    while (pos_ < input_.size() &&
+           std::regex_search(input_.data() + pos_, m, ws,
+                             std::regex_constants::match_continuous)) {
+        pos_ += m.length();
+    }
+}
+
+std::string Lex::format_error_window(const std::string& input, size_t pos,
+                                     size_t& out_err_line, size_t& out_err_col,
+                                     size_t context_lines,
+                                     size_t max_line_width,
+                                     size_t window_width) {
     // 1. Split in lines
     std::vector<std::string> lines;
     {
@@ -95,61 +111,40 @@ format_error_window(const std::string& input, size_t pos, size_t& out_err_line,
     return out.str();
 }
 
-void Lex::Tokenize() {
-    std::ifstream file(filename_);
-    if (!file) {
-        throw LexerError("Cannot open file: " + filename_);
-    }
-    std::ostringstream buffer;
-    buffer << file.rdbuf();
-    std::string input = buffer.str();
-    size_t      pos   = 0;
-
-    std::vector<Pattern> patterns;
-    patterns.reserve(symbol_table::order_.size());
-
-    for (size_t j = 1; j < symbol_table::order_.size(); ++j) {
-        unsigned long id         = symbol_table::order_[j];
-        std::string   token_type = symbol_table::token_types_r_.at(id);
-        std::string   regex_str  = symbol_table::st_.at(token_type).second;
-        patterns.emplace_back(token_type, std::regex(regex_str));
-    }
-
-    std::regex ws{R"([ \t\n]+)"};
-    while (pos < input.size()) {
-        std::string_view remaining{input.data() + pos, input.size() - pos};
-        std::cmatch      m;
-        if (std::regex_search(remaining.begin(), remaining.end(), m, ws,
-                              std::regex_constants::match_continuous)) {
-            pos += m.length();
-            continue;
-        }
-        std::ptrdiff_t best_len = 0;
-        std::string    best_tok;
-        for (const auto& p : patterns) {
-            if (std::regex_search(remaining.begin(), remaining.end(), m,
-                                  p.regex,
-                                  std::regex_constants::match_continuous)) {
-                if (m.length() > best_len) {
-                    best_len = m.length();
-                    best_tok = p.type;
-                }
-            }
-        }
-        if (best_len == 0) {
-            size_t      err_line, err_col;
-            std::string snippet =
-                format_error_window(input, pos, err_line, err_col);
-            throw LexerError("Lexical error at line " +
-                             std::to_string(err_line + 1) + ", column " +
-                             std::to_string(err_col + 1) + ":\n\n" + snippet);
-        }
-        tokens_.push_back(best_tok);
-        pos += best_len;
-    }
+std::string& Lex::input() {
+    return input_;
 }
 
-std::string Lex::Next() {
-    return current_ >= tokens_.size() ? symbol_table::EOF_
-                                      : tokens_[current_++];
+Lex::Token Lex::Next() {
+    skip_ws();
+
+    if (pos_ >= input_.size())
+        return {symbol_table::EOF_, pos_};
+
+    std::string_view rem{input_.data() + pos_, input_.size() - pos_};
+    std::ptrdiff_t   best_len = 0;
+    std::string      best_tok;
+    std::cmatch      m;
+
+    size_t start = pos_;
+
+    for (auto& p : patterns_) {
+        if (std::regex_search(rem.begin(), rem.end(), m, p.regex,
+                              std::regex_constants::match_continuous) &&
+            m.length() > best_len) {
+            best_len = m.length();
+            best_tok = p.type;
+        }
+    }
+
+    if (best_len == 0) {
+        size_t err_line, err_col;
+        auto   snippet = format_error_window(input_, pos_, err_line, err_col);
+        throw LexerError("Lexical error at line " +
+                         std::to_string(err_line + 1) + ", column " +
+                         std::to_string(err_col + 1) + ":\n\n" + snippet);
+    }
+
+    pos_ += best_len;
+    return {best_tok, start};
 }

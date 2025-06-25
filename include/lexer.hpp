@@ -1,58 +1,92 @@
+#pragma once
+#include <regex>
 #include <string>
 #include <vector>
 
+/// @brief A simple lexer for tokenizing an input string and reporting errors.
 class Lex {
-    std::string              filename_;
-    std::vector<std::string> tokens_;
-    unsigned                 current_{};
+    std::string filename_; ///< Path of the file being lexed.
+    std::string input_;    ///< Complete contents of the input file.
+    size_t      pos_{0};   ///< Current byte-offset in @c input_.
 
-  public:
+public:
+    /// @brief Represents a single token produced by the lexer.
+    struct Token {
+        std::string
+               type; ///< The token’s type or category (e.g. "NUMBER", "IDENT").
+        size_t pos;  ///< Byte-offset in the input where this token starts.
+    };
+
     /**
-     * @brief Constructs a lexer and tokenizes the specified input file.
+     * @brief Constructs a lexer.
      *
-     * @param filename Path to the input file containing the string to be
-     * validated.
+     * Opens the file at @p filename, reads its entire contents into memory,
+     * then configures the patterns filling the vector of patterns..
+     * Aborts the program on I/O or regex errors.
      *
-     * @note The program aborts if any errors occur during lexer creation or
-     * tokenization.
+     * @param filename Path to the input file containing the text to lex.
      */
     explicit Lex(std::string filename);
 
     /**
-     * @brief Retrieves the next token from the token vector.
+     * @brief Retrieves the next token from input string in a lazy way.
      *
-     * @return std::string The next token in the sequence; returns an empty
-     * string if the end of the line (EOL) is reached.
+     * @return Token The next token in the sequence; EOF if there is no more symbols.
      *
-     * This function allows sequential access to tokens processed by the lexer.
      */
-    std::string Next();
+    Token Next();
 
-  private:
     /**
-     * @brief Tokenizes the input file using Boost Spirit Lex.
+     * @brief Access the raw input buffer.
      *
-     * This function reads the content of the file specified by `filename_`,
-     * tokenizes it using Boost Spirit Lex, and stores the resulting tokens in
-     * the `tokens_` member variable. If the tokenization process encounters an
-     * invalid token, a `LexerError` is thrown with an error message indicating
-     * the invalid token.
-     *
-     * @throws LexerError If an invalid token is encountered during
-     * tokenization.
-     *
-     * @details The function performs the following steps:
-     * 1. Opens the file specified by `filename_` and reads its content into a
-     * string.
-     * 2. Converts the string into a C-style string (char array) for processing.
-     * 3. If tokenization is successful, the tokens are stored in the `tokens_`
-     * member variable.
-     * 4. If tokenization fails (e.g., due to an invalid token), a `LexerError`
-     * is thrown.
-     *
-     * @see LexerError
-     * @see tokens_
-     * @see filename_
+     * @return std::string& A mutable reference to the entire input string.
      */
-    void Tokenize();
+    std::string& input();
+
+    /**
+     * @brief Generate a formatted snippet around an error location.
+     *
+     * Given an @p input string and a byte-offset @p pos, extracts a few lines
+     * of context and places a caret (^) under the error column. Also computes
+     * the zero-based line (@p out_err_line) and column (@p out_err_col).
+     *
+     * @param input             The full text being lexed.
+     * @param pos               Byte-offset in @p input where the error
+     * occurred.
+     * @param[out] out_err_line Zero-based index of the line containing the
+     * error.
+     * @param[out] out_err_col  Zero-based index of the column within that line.
+     * @param context_lines     Number of lines of context before/after (default
+     * 2).
+     * @param max_line_width    Maximum characters to show per non-error line
+     * (40).
+     * @param window_width      Characters shown on either side of the error
+     * (20).
+     * @return std::string      A multi-line string highlighting the error
+     * window.
+     */
+    static std::string format_error_window(const std::string& input, size_t pos,
+                                           size_t& out_err_line,
+                                           size_t& out_err_col,
+                                           size_t  context_lines  = 2,
+                                           size_t  max_line_width = 40,
+                                           size_t  window_width   = 20);
+
+private:
+    /**
+     * @brief Skip over whitespace in the input buffer.
+     *
+     * Advances @c pos_ past any spaces, tabs, newlines, etc., until the next
+     * non-whitespace character or end-of-input is reached.
+     */
+    void skip_ws();
+
+    /// @brief Internal helper: a regex pattern and its associated token type.
+    struct Pattern {
+        std::string type;  ///< The token type name for this pattern.
+        std::regex  regex; ///< The regex used to match and extract the token.
+    };
+
+    std::vector<Pattern>
+        patterns_; ///< All regex patterns used for tokenization.
 };

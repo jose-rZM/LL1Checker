@@ -9,3 +9,5 @@ SpacesInParentheses: false
 SpaceAfterCStyleCast: true
 AlignConsecutiveDeclarations: true
 AlignConsecutiveAssignments: true
+AccessModifierOffset: -4
+IndentAccessModifiers: false

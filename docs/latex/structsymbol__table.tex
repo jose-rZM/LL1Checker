@@ -20,18 +20,20 @@ static void \mbox{\hyperlink{structsymbol__table_aee2384e91cb6defc5685b057c64fb4
 \doxysubsubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}\label{structsymbol__table_accf710aa9a16c51be6b9060505d2d753} 
-static std\+::string {\bfseries EOL\+\_\+} \{"{}\$"{}\}
-\begin{DoxyCompactList}\small\item\em End-\/of-\/line symbol used in parsing, initialized as "{}\$"{}. \end{DoxyCompactList}\item 
+\Hypertarget{structsymbol__table_a6f09c254cb78237b2ccafaf01683508f}\label{structsymbol__table_a6f09c254cb78237b2ccafaf01683508f} 
+static std\+::string {\bfseries EOF\+\_\+} \{"{}$<$$<$EOF$>$$>$"{}\}
+\begin{DoxyCompactList}\small\item\em End-\/of-\/line symbol used in parsing, initialized as "{}\+EOF"{}. \end{DoxyCompactList}\item 
 \Hypertarget{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}\label{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5} 
-static std\+::string {\bfseries EPSILON\+\_\+} \{"{}EPSILON"{}\}
+static std\+::string {\bfseries EPSILON\+\_\+} \{"{}$<$$<$EPSILON$>$$>$"{}\}
 \begin{DoxyCompactList}\small\item\em Epsilon symbol, representing empty transitions, initialized as "{}\+EPSILON"{}. \end{DoxyCompactList}\item 
 \Hypertarget{structsymbol__table_a2addd90b84742fbac617f848bfe6ab8f}\label{structsymbol__table_a2addd90b84742fbac617f848bfe6ab8f} 
-static std\+::unordered\+\_\+map$<$ std\+::string, std\+::pair$<$ symbol\+\_\+type, std\+::string $>$ $>$ {\bfseries st\+\_\+} \{\{\mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\+\_\+}}, \{TERMINAL, \mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\+\_\+}}\}\}, \{\mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\+\_\+}}, \{TERMINAL, \mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\+\_\+}}\}\}\}
+static std\+::unordered\+\_\+map$<$ std\+::string, std\+::pair$<$ symbol\+\_\+type, std\+::string $>$ $>$ {\bfseries st\+\_\+} \{\{\mbox{\hyperlink{structsymbol__table_a6f09c254cb78237b2ccafaf01683508f}{EOF\+\_\+}}, \{TERMINAL, "{}"{}\}\}, \{\mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\+\_\+}}, \{TERMINAL, "{}"{}\}\}\}
 \begin{DoxyCompactList}\small\item\em Main symbol table, mapping identifiers to a pair of symbol type and its regex. \end{DoxyCompactList}\item 
-static std\+::unordered\+\_\+map$<$ std\+::string, unsigned long $>$ \mbox{\hyperlink{structsymbol__table_ab73b498bc62bc4d89ad01f4543c980be}{token\+\_\+types\+\_\+}}
+\Hypertarget{structsymbol__table_ab73b498bc62bc4d89ad01f4543c980be}\label{structsymbol__table_ab73b498bc62bc4d89ad01f4543c980be} 
+static std\+::unordered\+\_\+map$<$ std\+::string, unsigned long $>$ {\bfseries token\+\_\+types\+\_\+}
 \begin{DoxyCompactList}\small\item\em Token types, mapping each symbol to a unique integer ID. \end{DoxyCompactList}\item 
-static std\+::unordered\+\_\+map$<$ unsigned long, std\+::string $>$ \mbox{\hyperlink{structsymbol__table_a27ce7afac1b94faae6511d224e1b3852}{token\+\_\+types\+\_\+r\+\_\+}}
+\Hypertarget{structsymbol__table_a27ce7afac1b94faae6511d224e1b3852}\label{structsymbol__table_a27ce7afac1b94faae6511d224e1b3852} 
+static std\+::unordered\+\_\+map$<$ unsigned long, std\+::string $>$ {\bfseries token\+\_\+types\+\_\+r\+\_\+}
 \begin{DoxyCompactList}\small\item\em Reverse mapping from integer token IDs back to symbols. \end{DoxyCompactList}\item 
 \Hypertarget{structsymbol__table_aa604c995cf5367aa42128d0ec5878ec5}\label{structsymbol__table_aa604c995cf5367aa42128d0ec5878ec5} 
 static std\+::vector$<$ unsigned long $>$ {\bfseries order\+\_\+} \{1\}
@@ -41,6 +43,8 @@ static unsigned long {\bfseries i\+\_\+} \{2\}
 \begin{DoxyCompactList}\small\item\em Current index for assigning new token IDs, starting from 2. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
+\label{doc-func-members}
+\Hypertarget{structsymbol__table_doc-func-members}
 \doxysubsection{Member Function Documentation}
 \Hypertarget{structsymbol__table_ada236891259105c47129cbc6ec33ed7e}\index{symbol\_table@{symbol\_table}!Debug@{Debug}}
 \index{Debug@{Debug}!symbol\_table@{symbol\_table}}
@@ -155,41 +159,6 @@ Sets the end-\/of-\/line symbol.
 {\em eol} & String to use as the new end-\/of-\/line symbol. \\
 \hline
 \end{DoxyParams}
-
-
-\doxysubsection{Member Data Documentation}
-\Hypertarget{structsymbol__table_ab73b498bc62bc4d89ad01f4543c980be}\index{symbol\_table@{symbol\_table}!token\_types\_@{token\_types\_}}
-\index{token\_types\_@{token\_types\_}!symbol\_table@{symbol\_table}}
-\doxysubsubsection{\texorpdfstring{token\_types\_}{token\_types\_}}
-{\footnotesize\ttfamily \label{structsymbol__table_ab73b498bc62bc4d89ad01f4543c980be} 
-std\+::unordered\+\_\+map$<$std\+::string, unsigned long$>$ symbol\+\_\+table\+::token\+\_\+types\+\_\+\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
-
-{\bfseries Initial value\+:}
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}},\ 1\}\}}
-
-\end{DoxyCode}
-
-
-Token types, mapping each symbol to a unique integer ID. 
-
-\Hypertarget{structsymbol__table_a27ce7afac1b94faae6511d224e1b3852}\index{symbol\_table@{symbol\_table}!token\_types\_r\_@{token\_types\_r\_}}
-\index{token\_types\_r\_@{token\_types\_r\_}!symbol\_table@{symbol\_table}}
-\doxysubsubsection{\texorpdfstring{token\_types\_r\_}{token\_types\_r\_}}
-{\footnotesize\ttfamily \label{structsymbol__table_a27ce7afac1b94faae6511d224e1b3852} 
-std\+::unordered\+\_\+map$<$unsigned long, std\+::string$>$ symbol\+\_\+table\+::token\+\_\+types\+\_\+r\+\_\+\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
-
-{\bfseries Initial value\+:}
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \{1,\ \mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}}\}\}}
-
-\end{DoxyCode}
-
-
-Reverse mapping from integer token IDs back to symbols. 
-
 
 
 The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}

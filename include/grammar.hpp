@@ -98,6 +98,13 @@ struct Grammar {
      */
     static std::vector<std::string> Split(const std::string& s);
 
+    /**
+     * @brief Generate a new non terminal symbol by appending ' to base until it
+     * is not in symbol table.
+     *
+     * @param base Base non terminal used to generate the new one
+     * @return New non terminal
+     */
     std::string GenerateNewNonTerminal(const std::string& base);
 
     /**
