@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <cstddef>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <ranges>
 #include <span>
-#include <fstream>
 #include <stack>
 #include <string>
 #include <unordered_map>

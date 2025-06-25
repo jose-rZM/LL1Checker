@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
             cxxopts::value<std::string>(grammar_filename))(
             "text", "Text file to parse",
             cxxopts::value<std::string>(text_filename)->default_value(""));
-            cxxopts::value<std::string>(export_tree_file);
+        cxxopts::value<std::string>(export_tree_file);
 
         options.parse_positional({"grammar", "text"});
         auto result = options.parse(argc, argv);
@@ -116,7 +116,8 @@ int main(int argc, char* argv[]) {
                 if (!tree) {
                     return 1;
                 }
-                std::cout << "Parsing successful. Parse tree exported! Run 'dot' to generate an image\n";
+                std::cout << "Parsing successful. Parse tree exported! Run "
+                             "'dot' to generate an image\n";
                 parser.ExportTreeAsDot(tree, export_tree_file);
             } else {
                 if (!parser.Parse()) {
