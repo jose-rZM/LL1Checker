@@ -14,7 +14,7 @@ class LL1Parser {
     using ll1_table = std::unordered_map<
         std::string, std::unordered_map<std::string, std::vector<production>>>;
 
-  public:
+public:
     /**
      * @brief Constructs an LL1Parser with a grammar object and an input file.
      *
@@ -122,10 +122,21 @@ class LL1Parser {
      */
     void PrintTable();
 
-  private:
+private:
+    /**
+     * @brief Reports a parsing error printing the problematic line and a
+     * context window of 2 lines.
+     *
+     * @param input File content reference loaded in Lexer.
+     * @param err_pos Problematic token position in input.
+     * @param expected Expected token in the parser stack (terminal or grammar
+     * symbol).
+     * @param found Token found instead of the expected one
+     */
     void ReportParseError(const std::string& input, size_t err_pos,
                           const std::string& expected,
                           const std::string& found);
+
     /**
      * @brief Calculates the FIRST set for a given production rule in a grammar.
      *
