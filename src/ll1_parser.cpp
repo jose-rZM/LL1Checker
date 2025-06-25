@@ -317,14 +317,9 @@ void LL1Parser::PrintTableUsingTabulate() {
         .font_style({FontStyle::bold});
 
     std::vector<std::string> non_terminals;
-    for (const auto& outerPair : ll1_t_) {
-        non_terminals.push_back(outerPair.first);
+    for (const auto& nt : gr_.nt_order_) {
+        non_terminals.push_back(nt);
     }
-
-    std::ranges::sort(
-        non_terminals, [this](const std::string& a, const std::string& b) {
-            return (a == gr_.axiom_) ? true : (b == gr_.axiom_) ? false : a < b;
-        });
 
     for (const std::string& nonTerminal : non_terminals) {
         Table::Row_t row_data = {nonTerminal};
