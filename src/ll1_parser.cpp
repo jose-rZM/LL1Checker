@@ -4,6 +4,7 @@
 #include <iostream>
 #include <ranges>
 #include <span>
+#include <fstream>
 #include <stack>
 #include <string>
 #include <unordered_map>
@@ -140,6 +141,72 @@ bool LL1Parser::Parse() {
         }
     }
     return true;
+}
+
+LL1Parser::ParseTree LL1Parser::ParseWithTree(const std::string& file) {
+    Lex                                            lex(file);
+    std::stack<std::pair<std::string, ParseNode*>> stack;
+
+    ParseTree tree = std::make_unique<ParseNode>();
+    tree->symbol   = gr_.axiom_;
+    stack.push({gr_.axiom_, tree.get()});
+
+    Lex::Token current = lex.Next();
+    while (!current.type.empty() && !stack.empty()) {
+        auto [top_symbol, node] = stack.top();
+        stack.pop();
+
+        if (top_symbol == symbol_table::EPSILON_) {
+            continue;
+        }
+
+        if (symbol_table::IsTerminal(top_symbol)) {
+            if (!MatchTerminal(top_symbol, current.type)) {
+                ReportParseError(lex.input(), current.pos, top_symbol,
+                                 current.type);
+                return nullptr;
+            }
+            current = lex.Next();
+        } else {
+            auto it = ll1_t_.find(top_symbol);
+            if (it == ll1_t_.end()) {
+                ReportParseError(lex.input(), current.pos, top_symbol,
+                                 current.type);
+                return nullptr;
+            }
+
+            auto prod_it = it->second.find(current.type);
+            if (prod_it == it->second.end()) {
+                if (gr_.HasEmptyProduction(top_symbol)) {
+                    auto child    = std::make_unique<ParseNode>();
+                    child->symbol = symbol_table::EPSILON_;
+                    node->children.push_back(std::move(child));
+                    continue;
+                }
+                ReportParseError(lex.input(), current.pos, top_symbol,
+                                 current.type);
+                return nullptr;
+            }
+
+            const production& prod = prod_it->second[0];
+            std::vector<std::pair<std::string, ParseNode*>> pushes;
+            pushes.reserve(prod.size());
+
+            for (const std::string& sym : prod) {
+                auto child           = std::make_unique<ParseNode>();
+                child->symbol        = sym;
+                ParseNode* child_ptr = child.get();
+                node->children.push_back(std::move(child));
+                pushes.push_back({sym, child_ptr});
+            }
+
+            for (auto itp = pushes.rbegin(); itp != pushes.rend(); ++itp) {
+                stack.push(*itp);
+            }
+        }
+    }
+
+    return tree;
 }
 
 void LL1Parser::First(std::span<const std::string>     rule,
@@ -370,4 +437,27 @@ void LL1Parser::PrintTableUsingTabulate() {
 
     // Print the table
     std::cout << table << "\n";
+}
+
+void LL1Parser::ExportTreeAsDot(const ParseTree&   tree,
+                                const std::string& filename) {
+    if (!tree)
+        return;
+
+    std::ofstream out(filename);
+    out << "digraph ParseTree {\n";
+    size_t id = 0;
+
+    std::function<size_t(const ParseNode*)> dump = [&](const ParseNode* node) {
+        size_t current = id++;
+        out << "  node" << current << " [label=\"" << node->symbol << "\"]\n";
+        for (const auto& child : node->children) {
+            size_t child_id = dump(child.get());
+            out << "  node" << current << " -> node" << child_id << "\n";
+        }
+        return current;
+    };
+
+    dump(tree.get());
+    out << "}\n";
 }
