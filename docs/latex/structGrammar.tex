@@ -16,7 +16,9 @@ bool \mbox{\hyperlink{structGrammar_a67c3e8fa5bb1bc874c66a85d42222e92}{Has\+Empt
 std\+::vector$<$ std\+::pair$<$ const std\+::string, production $>$ $>$ \mbox{\hyperlink{structGrammar_a9666d9181ec616ffdb8f090b60a3aba1}{Filter\+Rules\+By\+Consequent}} (const std\+::string \&arg)
 \begin{DoxyCompactList}\small\item\em Filters grammar rules that contain a specific token in their consequent. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{structGrammar_aefb03447a650b7601edc6b10e790bc50}{Debug}} ()
-\begin{DoxyCompactList}\small\item\em Prints the current grammar structure to standard output. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Prints the current grammar structure to standard output. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{structGrammar_a1292224f6afedaa080aeab04af081a37}{Generate\+New\+Non\+Terminal}} (const std\+::string \&base)
+\begin{DoxyCompactList}\small\item\em Generate a new non terminal symbol by appending \textquotesingle{} to base until it is not in symbol table. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -38,6 +40,8 @@ const std\+::string {\bfseries k\+Filename}
 \begin{DoxyCompactList}\small\item\em The filename from which the grammar is read. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
+\label{doc-constructors}
+\Hypertarget{structGrammar_doc-constructors}
 \doxysubsection{Constructor \& Destructor Documentation}
 \Hypertarget{structGrammar_a3700f92e52d3df01fe1d814126e08a79}\index{Grammar@{Grammar}!Grammar@{Grammar}}
 \index{Grammar@{Grammar}!Grammar@{Grammar}}
@@ -56,6 +60,8 @@ Constructs a grammar by reading from the specified file.
 \end{DoxyParams}
 Initializes the grammar by setting the filename for input. The actual grammar data is read and processed through the {\ttfamily read\+\_\+from\+\_\+file} function. 
 
+\label{doc-func-members}
+\Hypertarget{structGrammar_doc-func-members}
 \doxysubsection{Member Function Documentation}
 \Hypertarget{structGrammar_a539261e8ebcc688020f43d98510a79a0}\index{Grammar@{Grammar}!AddRule@{AddRule}}
 \index{AddRule@{AddRule}!Grammar@{Grammar}}
@@ -102,7 +108,25 @@ Filters grammar rules that contain a specific token in their consequent.
 \begin{DoxyReturn}{Returns}
 std\+::vector of pairs where each pair contains an antecedent and its respective production that includes the specified token.
 \end{DoxyReturn}
-Searches for rules in which the specified token is part of the consequent and returns those rules. \Hypertarget{structGrammar_a67c3e8fa5bb1bc874c66a85d42222e92}\index{Grammar@{Grammar}!HasEmptyProduction@{HasEmptyProduction}}
+Searches for rules in which the specified token is part of the consequent and returns those rules. \Hypertarget{structGrammar_a1292224f6afedaa080aeab04af081a37}\index{Grammar@{Grammar}!GenerateNewNonTerminal@{GenerateNewNonTerminal}}
+\index{GenerateNewNonTerminal@{GenerateNewNonTerminal}!Grammar@{Grammar}}
+\doxysubsubsection{\texorpdfstring{GenerateNewNonTerminal()}{GenerateNewNonTerminal()}}
+{\footnotesize\ttfamily \label{structGrammar_a1292224f6afedaa080aeab04af081a37} 
+std\+::string Grammar\+::\+Generate\+New\+Non\+Terminal (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{base}{}\end{DoxyParamCaption})}
+
+
+
+Generate a new non terminal symbol by appending \textquotesingle{} to base until it is not in symbol table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em base} & Base non terminal used to generate the new one \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+New non terminal 
+\end{DoxyReturn}
+\Hypertarget{structGrammar_a67c3e8fa5bb1bc874c66a85d42222e92}\index{Grammar@{Grammar}!HasEmptyProduction@{HasEmptyProduction}}
 \index{HasEmptyProduction@{HasEmptyProduction}!Grammar@{Grammar}}
 \doxysubsubsection{\texorpdfstring{HasEmptyProduction()}{HasEmptyProduction()}}
 {\footnotesize\ttfamily \label{structGrammar_a67c3e8fa5bb1bc874c66a85d42222e92} 

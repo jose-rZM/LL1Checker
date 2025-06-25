@@ -16,11 +16,7 @@ bool \mbox{\hyperlink{classLL1Parser_a235e19d551647775130eddfd0661311b}{Match\+T
 bool \mbox{\hyperlink{classLL1Parser_aed1fa3255a089e2fa52a11b015490975}{Process\+Non\+Terminal}} (const std\+::string \&top\+\_\+symbol, const std\+::string \&current\+\_\+symbol)
 \begin{DoxyCompactList}\small\item\em Processes a non-\/terminal symbol by expanding it according to the LL(1) parsing table. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLL1Parser_a964e6f48a2941f4925dd65f63f5123ca}{Print\+Table}} ()
-\begin{DoxyCompactList}\small\item\em Print the LL(1) parsing table to standard output. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classLL1Parser_aa1b0f4b5c16280855395a00acab8489c}{Print\+Stack\+Trace}} ()
-\begin{DoxyCompactList}\small\item\em Prints the remaining symbols in the parsing stack after the parsing process. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classLL1Parser_a5975f1abae5c7a04e01d239bef27a0eb}{Print\+Symbol\+Hist}} ()
-\begin{DoxyCompactList}\small\item\em Prints the last k\+Trace\+Size symbols processed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Print the LL(1) parsing table to standard output. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -29,6 +25,8 @@ using \mbox{\hyperlink{classLL1Parser_aa240d93c411bc895acadcfdd7abd0320}{ll1\+\_
 \doxysubsubsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+void \mbox{\hyperlink{classLL1Parser_a8ba808383f0980a851834cdf48907447}{Report\+Parse\+Error}} (const std\+::string \&input, size\+\_\+t err\+\_\+pos, const std\+::string \&expected, const std\+::string \&found)
+\begin{DoxyCompactList}\small\item\em Reports a parsing error printing the problematic line and a context window of 2 lines. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLL1Parser_af556dd5a7357b97ec5d078983db62553}{First}} (std\+::span$<$ const std\+::string $>$ rule, std\+::unordered\+\_\+set$<$ std\+::string $>$ \&result)
 \begin{DoxyCompactList}\small\item\em Calculates the FIRST set for a given production rule in a grammar. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLL1Parser_a2f702d940802a8b02538cb173a6c7e5e}{Compute\+First\+Sets}} ()
@@ -80,6 +78,8 @@ bool {\bfseries print\+\_\+table\+\_\+format\+\_\+} \{true\}
 \begin{DoxyCompactList}\small\item\em True if new format is used when printing the table. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
+\label{doc-typedef-members}
+\Hypertarget{classLL1Parser_doc-typedef-members}
 \doxysubsection{Member Typedef Documentation}
 \Hypertarget{classLL1Parser_aa240d93c411bc895acadcfdd7abd0320}\index{LL1Parser@{LL1Parser}!ll1\_table@{ll1\_table}}
 \index{ll1\_table@{ll1\_table}!LL1Parser@{LL1Parser}}
@@ -95,6 +95,8 @@ using LL1\+Parser\+::ll1\+\_\+table\hspace{0.3cm}{\ttfamily [private]}}
 \end{DoxyCode}
 
 
+\label{doc-constructors}
+\Hypertarget{classLL1Parser_doc-constructors}
 \doxysubsection{Constructor \& Destructor Documentation}
 \Hypertarget{classLL1Parser_a419899deba2324f6018dff5aa8f1c933}\index{LL1Parser@{LL1Parser}!LL1Parser@{LL1Parser}}
 \index{LL1Parser@{LL1Parser}!LL1Parser@{LL1Parser}}
@@ -147,6 +149,8 @@ Constructs an \doxylink{classLL1Parser}{LL1\+Parser} with a grammar file.
 \end{DoxyParams}
 
 
+\label{doc-func-members}
+\Hypertarget{classLL1Parser_doc-func-members}
 \doxysubsection{Member Function Documentation}
 \Hypertarget{classLL1Parser_a2f702d940802a8b02538cb173a6c7e5e}\index{LL1Parser@{LL1Parser}!ComputeFirstSets@{ComputeFirstSets}}
 \index{ComputeFirstSets@{ComputeFirstSets}!LL1Parser@{LL1Parser}}
@@ -338,27 +342,7 @@ The prediction symbols for a rule, determine the set of input symbols that can t
 \begin{DoxyReturn}{Returns}
 An unordered set of strings containing the prediction symbols for the specified rule. 
 \end{DoxyReturn}
-\Hypertarget{classLL1Parser_aa1b0f4b5c16280855395a00acab8489c}\index{LL1Parser@{LL1Parser}!PrintStackTrace@{PrintStackTrace}}
-\index{PrintStackTrace@{PrintStackTrace}!LL1Parser@{LL1Parser}}
-\doxysubsubsection{\texorpdfstring{PrintStackTrace()}{PrintStackTrace()}}
-{\footnotesize\ttfamily \label{classLL1Parser_aa1b0f4b5c16280855395a00acab8489c} 
-void LL1\+Parser\+::\+Print\+Stack\+Trace (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
-
-
-
-Prints the remaining symbols in the parsing stack after the parsing process. 
-
-This function outputs the contents of the parsing stack to standard output after the parsing attempt completes, showing any symbols left unresolved. It is useful for debugging and tracing parsing issues, as it provides insight into where the parsing process may have diverged from expected behavior. \Hypertarget{classLL1Parser_a5975f1abae5c7a04e01d239bef27a0eb}\index{LL1Parser@{LL1Parser}!PrintSymbolHist@{PrintSymbolHist}}
-\index{PrintSymbolHist@{PrintSymbolHist}!LL1Parser@{LL1Parser}}
-\doxysubsubsection{\texorpdfstring{PrintSymbolHist()}{PrintSymbolHist()}}
-{\footnotesize\ttfamily \label{classLL1Parser_a5975f1abae5c7a04e01d239bef27a0eb} 
-void LL1\+Parser\+::\+Print\+Symbol\+Hist (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
-
-
-
-Prints the last k\+Trace\+Size symbols processed. 
-
-Primarily used to identify the most recent tokens processed in case of parsing errors. \Hypertarget{classLL1Parser_a964e6f48a2941f4925dd65f63f5123ca}\index{LL1Parser@{LL1Parser}!PrintTable@{PrintTable}}
+\Hypertarget{classLL1Parser_a964e6f48a2941f4925dd65f63f5123ca}\index{LL1Parser@{LL1Parser}!PrintTable@{PrintTable}}
 \index{PrintTable@{PrintTable}!LL1Parser@{LL1Parser}}
 \doxysubsubsection{\texorpdfstring{PrintTable()}{PrintTable()}}
 {\footnotesize\ttfamily \label{classLL1Parser_a964e6f48a2941f4925dd65f63f5123ca} 
@@ -412,6 +396,27 @@ If no matching production is found, it checks whether the grammar allows an empt
 \begin{DoxyReturn}{Returns}
 true if a production was successfully applied or an empty production exists, false if no valid production exists for the current input. 
 \end{DoxyReturn}
+\Hypertarget{classLL1Parser_a8ba808383f0980a851834cdf48907447}\index{LL1Parser@{LL1Parser}!ReportParseError@{ReportParseError}}
+\index{ReportParseError@{ReportParseError}!LL1Parser@{LL1Parser}}
+\doxysubsubsection{\texorpdfstring{ReportParseError()}{ReportParseError()}}
+{\footnotesize\ttfamily \label{classLL1Parser_a8ba808383f0980a851834cdf48907447} 
+void LL1\+Parser\+::\+Report\+Parse\+Error (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{input}{, }\item[{size\+\_\+t}]{err\+\_\+pos}{, }\item[{const std\+::string \&}]{expected}{, }\item[{const std\+::string \&}]{found}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Reports a parsing error printing the problematic line and a context window of 2 lines. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & File content reference loaded in Lexer. \\
+\hline
+{\em err\+\_\+pos} & Problematic token position in input. \\
+\hline
+{\em expected} & Expected token in the parser stack (terminal or grammar symbol). \\
+\hline
+{\em found} & Token found instead of the expected one \\
+\hline
+\end{DoxyParams}
 \Hypertarget{classLL1Parser_a44706610e5fad3f4d2fd437f64c8884b}\index{LL1Parser@{LL1Parser}!UpdateFollow@{UpdateFollow}}
 \index{UpdateFollow@{UpdateFollow}!LL1Parser@{LL1Parser}}
 \doxysubsubsection{\texorpdfstring{UpdateFollow()}{UpdateFollow()}}

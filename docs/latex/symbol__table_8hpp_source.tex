@@ -11,38 +11,36 @@
 \DoxyCodeLine{00007\ \textcolor{keyword}{enum}\ symbol\_type\ \{\ NO\_TERMINAL,\ TERMINAL\ \};}
 \DoxyCodeLine{00008\ }
 \DoxyCodeLine{00009\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsymbol__table}{symbol\_table}}\ \{}
-\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}}\{\textcolor{stringliteral}{"{}\$"{}}\};}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{structsymbol__table_a6f09c254cb78237b2ccafaf01683508f}{EOF\_}}\{\textcolor{stringliteral}{"{}<<EOF>>"{}}\};}
 \DoxyCodeLine{00012\ }
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\_}}\{\textcolor{stringliteral}{"{}EPSILON"{}}\};}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\_}}\{\textcolor{stringliteral}{"{}<<EPSILON>>"{}}\};}
 \DoxyCodeLine{00016\ }
 \DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::unordered\_map<std::string,}
 \DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::pair<symbol\_type,\ std::string>>}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structsymbol__table_a2addd90b84742fbac617f848bfe6ab8f}{st\_}}\{\{\mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}},\ \{TERMINAL,\ \mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}}\}\},\ \{\mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\_}},\ \{TERMINAL,\ \mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\_}}\}\}\};}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structsymbol__table_a2addd90b84742fbac617f848bfe6ab8f}{st\_}}\{\{\mbox{\hyperlink{structsymbol__table_a6f09c254cb78237b2ccafaf01683508f}{EOF\_}},\ \{TERMINAL,\ \textcolor{stringliteral}{"{}"{}}\}\},\ \{\mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\_}},\ \{TERMINAL,\ \textcolor{stringliteral}{"{}"{}}\}\}\};}
 \DoxyCodeLine{00022\ }
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::unordered\_map<std::string,\ unsigned\ long>\ \mbox{\hyperlink{structsymbol__table_ab73b498bc62bc4d89ad01f4543c980be}{token\_types\_}}\{}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}},\ 1\}\};}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::unordered\_map<unsigned\ long,\ std::string>\ \mbox{\hyperlink{structsymbol__table_a27ce7afac1b94faae6511d224e1b3852}{token\_types\_r\_}}\{}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \{1,\ \mbox{\hyperlink{structsymbol__table_accf710aa9a16c51be6b9060505d2d753}{EOL\_}}\}\};}
-\DoxyCodeLine{00030\ }
-\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::vector<unsigned\ long>\ \mbox{\hyperlink{structsymbol__table_aa604c995cf5367aa42128d0ec5878ec5}{order\_}}\{1\};}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{structsymbol__table_a6e88c2b638d70fd91842775187803c0d}{i\_}}\{2\};}
-\DoxyCodeLine{00036\ }
-\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_a22e98263e8882139ae3966ec0faf71c2}{PutSymbol}}(\textcolor{keyword}{const}\ std::string\&\ identifier,}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ regex);}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_a22e98263e8882139ae3966ec0faf71c2}{PutSymbol}}(\textcolor{keyword}{const}\ std::string\&\ identifier);}
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structsymbol__table_a9d5bf79abc5552a3bdb77fb56faa9bac}{In}}(\textcolor{keyword}{const}\ std::string\&\ s);}
-\DoxyCodeLine{00063\ }
-\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structsymbol__table_a9036c8eb037cd42a3ebe0cb7ccf29b1d}{IsTerminal}}(\textcolor{keyword}{const}\ std::string\&\ s);}
-\DoxyCodeLine{00071\ }
-\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{structsymbol__table_a1c7d6c6b17d53abe11343d8a86cd84d6}{GetValue}}(\textcolor{keyword}{const}\ std::string\&\ terminal);}
-\DoxyCodeLine{00079\ }
-\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_ada236891259105c47129cbc6ec33ed7e}{Debug}}();}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_aee2384e91cb6defc5685b057c64fb4ea}{SetEol}}(\textcolor{keyword}{const}\ std::string\&\ eol);}
-\DoxyCodeLine{00093\ \};}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::unordered\_map<std::string,\ unsigned\ long>\ \mbox{\hyperlink{structsymbol__table_ab73b498bc62bc4d89ad01f4543c980be}{token\_types\_}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::unordered\_map<unsigned\ long,\ std::string>\ \mbox{\hyperlink{structsymbol__table_a27ce7afac1b94faae6511d224e1b3852}{token\_types\_r\_}};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ std::vector<unsigned\ long>\ \mbox{\hyperlink{structsymbol__table_aa604c995cf5367aa42128d0ec5878ec5}{order\_}}\{1\};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{structsymbol__table_a6e88c2b638d70fd91842775187803c0d}{i\_}}\{2\};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_a22e98263e8882139ae3966ec0faf71c2}{PutSymbol}}(\textcolor{keyword}{const}\ std::string\&\ identifier,}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ regex);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_a22e98263e8882139ae3966ec0faf71c2}{PutSymbol}}(\textcolor{keyword}{const}\ std::string\&\ identifier);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structsymbol__table_a9d5bf79abc5552a3bdb77fb56faa9bac}{In}}(\textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structsymbol__table_a9036c8eb037cd42a3ebe0cb7ccf29b1d}{IsTerminal}}(\textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{structsymbol__table_a1c7d6c6b17d53abe11343d8a86cd84d6}{GetValue}}(\textcolor{keyword}{const}\ std::string\&\ terminal);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_ada236891259105c47129cbc6ec33ed7e}{Debug}}();}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structsymbol__table_aee2384e91cb6defc5685b057c64fb4ea}{SetEol}}(\textcolor{keyword}{const}\ std::string\&\ eol);}
+\DoxyCodeLine{00091\ \};}
 
 \end{DoxyCode}
