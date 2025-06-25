@@ -1,5 +1,6 @@
 #pragma once
 #include "grammar.hpp"
+#include "lexer.hpp"
 #include <deque>
 #include <queue>
 #include <span>
@@ -142,6 +143,9 @@ class LL1Parser {
     void PrintSymbolHist();
 
   private:
+    void ReportParseError(const std::string& input, size_t err_pos,
+                          const std::string& expected,
+                          const std::string& found);
     /**
      * @brief Calculates the FIRST set for a given production rule in a grammar.
      *
