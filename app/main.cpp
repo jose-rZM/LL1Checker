@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
                 std::cout <<
                     "Parsing successful.\nParse tree exported! Run "
                     "'dot -Tpng " + export_tree_file +
-                    " <output.png>' to generate an image\n";
+                    " -o output.png' to generate an image\n";
                 parser.ExportTreeAsDot(tree, export_tree_file);
             } else {
                 if (!parser.Parse()) {
