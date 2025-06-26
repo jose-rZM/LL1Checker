@@ -50,6 +50,11 @@ void Grammar::ReadFromFile() {
                 if (symbol_table::In(match[1])) {
                     throw GrammarError("Duplicate symbol: " + match[1].str() + " at line " + std::to_string(line));
                 }
+                try {
+                    std::regex tmp(match[2].str());
+                } catch (const std::regex_error&) {
+                    throw GrammarError("Regex not valid: " + match[2].str());
+                }
                 symbol_table::PutSymbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
                 if (!axiom_.empty()) {
