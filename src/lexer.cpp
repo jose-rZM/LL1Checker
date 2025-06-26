@@ -8,25 +8,18 @@
 #include <iostream>
 #include <string_view>
 
-Lex::Lex(std::string filename) : filename_(std::move(filename)) {
-    std::ifstream file(filename_);
-    if (!file)
-        throw LexerError("Cannot open file: " + filename_);
 
-    std::ostringstream buf;
-    buf << file.rdbuf();
-    input_ = buf.str();
-    patterns_.reserve(symbol_table::order_.size());
-    for (size_t j = 1; j < symbol_table::order_.size(); ++j) {
-        auto id        = symbol_table::order_[j];
-        auto tok_type  = symbol_table::token_types_r_.at(id);
-        auto regex_str = symbol_table::st_.at(tok_type).second;
-        patterns_.push_back({tok_type, std::regex(regex_str)});
+Lex::Lex(std::string input, bool from_string)
+    : filename_(input), input_(std::move(input)) {
+    if (!from_string) {
+        std::ifstream file(filename_);
+        if (!file)
+            throw LexerError("Cannot open file: " + filename_);
+        std::ostringstream buf;
+        buf << file.rdbuf();
+        input_ = buf.str();
     }
-}
 
-Lex::Lex(std::string input, bool /*from_string*/)
-    : filename_("<string>"), input_(std::move(input)) {
     patterns_.reserve(symbol_table::order_.size());
     for (size_t j = 1; j < symbol_table::order_.size(); ++j) {
         auto id        = symbol_table::order_[j];

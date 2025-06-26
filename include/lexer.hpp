@@ -18,19 +18,11 @@ public:
     };
 
     /**
-     * @brief Constructs a lexer.
-     *
-     * Opens the file at @p filename, reads its entire contents into memory,
-     * then configures the patterns filling the vector of patterns..
-     * Aborts the program on I/O or regex errors.
-     *
-     * @param filename Path to the input file containing the text to lex.
-     */
-    explicit Lex(std::string filename);
-
-    /// Construct a lexer from a raw string instead of a file.
-    /// The boolean argument is only used to differentiate the constructor
-    /// signature.
+     * @brief Construct a lexer from a raw string or a file. 
+     * 
+     * @param input Raw input or filename
+     * @param from_string True if input is from CLI instead of from a file
+    */
     Lex(std::string input, bool from_string);
 
     /**
