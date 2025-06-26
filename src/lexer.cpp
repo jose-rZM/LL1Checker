@@ -37,12 +37,8 @@ Lex::Lex(std::string input, bool /*from_string*/)
 }
 
 void Lex::skip_ws() {
-    static const std::regex ws{R"([ \t\n]+)"};
-    std::cmatch             m;
-    while (pos_ < input_.size() &&
-           std::regex_search(input_.data() + pos_, m, ws,
-                             std::regex_constants::match_continuous)) {
-        pos_ += m.length();
+    while (pos_ < input_.size() && std::isspace(static_cast<unsigned char>(input_[pos_]))) {
+        ++pos_;
     }
 }
 
