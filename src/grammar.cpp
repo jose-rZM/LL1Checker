@@ -30,12 +30,14 @@ void Grammar::ReadFromFile() {
 
     std::string input;
     std::smatch match;
+    unsigned line{0};
 
     if (file.peek() == std::ifstream::traits_type::eof()) {
         throw std::runtime_error("File is empty");
     }
     try {
         while (getline(file, input) && input != ";") {
+            ++line;
             std::string id;
             std::string value;
 
@@ -44,6 +46,9 @@ void Grammar::ReadFromFile() {
                     match[1] == symbol_table::EPSILON_) {
                     throw GrammarError("Reserved token name: " +
                                        match[1].str());
+                }
+                if (symbol_table::In(match[1])) {
+                    throw GrammarError("Duplicate symbol: " + match[1].str() + " at line " + std::to_string(line));
                 }
                 symbol_table::PutSymbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
@@ -55,6 +60,7 @@ void Grammar::ReadFromFile() {
         }
 
         while (getline(file, input) && input != ";") {
+            ++line;
             if (std::regex_match(input, match, rx_production)) {
                 std::string nt = match[1];
                 std::string s  = match[2];
