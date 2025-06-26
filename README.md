@@ -28,9 +28,10 @@ You can run the program as follows:
 ### Options:
 - `-h, --help`: Show help message.
 - `-v, --verbose`: Enable verbose mode, displaying the LL(1) table and input content.
-- `--format <FORMAT>`: Specify the table format (`old` or `new`).  
-  - If set, `verbose` mode is enabled automatically.  
+- `--format <FORMAT>`: Specify the table format (`old` or `new`).
+  - If set, `verbose` mode is enabled automatically.
   - The default format is `"new"`.
+- `--text <STRING>`: Directly parse the provided text instead of reading a file.
 
 ### Examples:
 
@@ -48,8 +49,14 @@ If the grammar provided is not LL1, an error will be displayed alongside its tab
 ~~~
 ./ll1 grammar.txt input.txt
 ~~~
-- Verifies if the grammar is LL(1).  
+- Verifies if the grammar is LL(1).
 - Parses the `input.txt` file according to the grammar.
+
+#### Parsing text from the command line
+~~~
+./ll1 grammar.txt --text "aa"
+~~~
+- Parses `"aa"` according to the grammar without creating a file.
 
 #### Enabling verbose mode
 ~~~
