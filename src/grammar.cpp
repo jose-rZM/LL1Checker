@@ -62,6 +62,10 @@ void Grammar::ReadFromFile() {
             }
         }
 
+        if (axiom_.empty()) {
+            throw GrammarError("Missing set axiom ('start with') directive");
+        }
+
         while (getline(file, input) && input != ";") {
             ++line;
             if (std::regex_match(input, match, rx_production)) {
