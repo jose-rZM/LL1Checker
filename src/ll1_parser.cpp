@@ -431,6 +431,9 @@ void LL1Parser::ExportTreeAsDot(const ParseTree&   tree,
         return;
 
     std::ofstream out(filename);
+    if (!out.is_open()) {
+        throw std::runtime_error("Cannot create file: " + filename);
+    }
     out << "digraph ParseTree {\n";
     size_t id = 0;
 
