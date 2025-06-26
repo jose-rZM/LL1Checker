@@ -52,6 +52,9 @@ void Grammar::ReadFromFile() {
                 }
                 symbol_table::PutSymbol(match[1], match[2]);
             } else if (std::regex_match(input, match, rx_axiom)) {
+                if (!axiom_.empty()) {
+                    throw GrammarError("Axiom already defined: " + input);
+                }
                 SetAxiom(match[1]);
             } else {
                 throw GrammarError("Error while reading token definitions: " +
