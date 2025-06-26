@@ -96,7 +96,7 @@ bool LL1Parser::ProcessNonTerminal(const std::string& top_symbol,
             return true;
         }
     }
-    return gr_.HasEmptyProduction(top_symbol);
+    return false;
 }
 
 void LL1Parser::ReportParseError(const std::string& input, size_t err_pos,
