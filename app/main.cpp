@@ -9,6 +9,7 @@
 int PrintFileToStdout(const std::string& filename) {
     std::ifstream file(filename);
     if (!file) {
+        std::cerr << "Error: cannot open file '" << filename << '\n';
         return 1;
     }
     std::string line;
