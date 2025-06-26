@@ -24,7 +24,7 @@ rebuild: clean build
 
 format:
 	@echo ">> Formatting .cpp and .hpp files with clang-format..."
-	@find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
+	@find src include \( -name "*.cpp" -o -name "*.hpp" \) | grep -v "include/tabulate.hpp" | xargs clang-format -i
 
 run: build
 	@echo ">> Running $(EXECUTABLE)..."
