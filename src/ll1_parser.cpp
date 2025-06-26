@@ -168,12 +168,6 @@ LL1Parser::ParseTree LL1Parser::ParseWithTree(const std::string& file) {
 
             auto prod_it = it->second.find(current.type);
             if (prod_it == it->second.end()) {
-                if (gr_.HasEmptyProduction(top_symbol)) {
-                    auto child    = std::make_unique<ParseNode>();
-                    child->symbol = symbol_table::EPSILON_;
-                    node->children.push_back(std::move(child));
-                    continue;
-                }
                 ReportParseError(lex.input(), current.pos, top_symbol,
                                  current.type);
                 return nullptr;
