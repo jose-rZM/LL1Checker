@@ -39,15 +39,6 @@ LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file,
     }
 }
 
-LL1Parser::LL1Parser(const std::string& grammar_file, bool table_format)
-    : gr_(grammar_file), print_table_format_(table_format) {
-    if (!CreateLL1Table()) {
-        gr_.Debug();
-        PrintTable();
-        throw GrammarError("Provided grammar is not LL(1).");
-    }
-}
-
 bool LL1Parser::CreateLL1Table() {
     ComputeFirstSets();
     ComputeFollowSets();
@@ -97,7 +88,7 @@ bool LL1Parser::ProcessNonTerminal(const std::string& top_symbol,
             return true;
         }
     }
-    return gr_.HasEmptyProduction(top_symbol);
+    return false;
 }
 
 void LL1Parser::ReportParseError(const std::string& input, size_t err_pos,

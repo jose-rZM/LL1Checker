@@ -52,22 +52,10 @@ struct Grammar {
     void SetAxiom(const std::string& axiom);
 
     /**
-     * @brief Checks if a given antecedent has an empty production.
-     *
-     * @param antecedent The left-hand side (LHS) symbol to check.
-     * @return true if there exists an empty production for the antecedent,
-     *         otherwise false.
-     *
-     * An empty production is represented as `<antecedent> -> ;`, indicating
-     * that the antecedent can produce an empty string.
-     */
-    bool HasEmptyProduction(const std::string& antecedent);
-
-    /**
      * @brief Filters grammar rules that contain a specific token in their
      * consequent.
      *
-     * @param arg The token to search for within the consequents of the rules.
+     * @param arg The token to search for within the consequent of the rules.
      * @return std::vector of pairs where each pair contains an antecedent and
      * its respective production that includes the specified token.
      *
@@ -106,21 +94,6 @@ struct Grammar {
      * @return New non terminal
      */
     std::string GenerateNewNonTerminal(const std::string& base);
-
-    /**
-     * @brief Checks if a rule exhibits left recursion.
-     *
-     * @param antecedent The left-hand side (LHS) symbol of the rule.
-     * @param consequent The right-hand side (RHS) vector of tokens of the rule.
-     * @return true if the rule has left recursion (e.g., A -> A + A), otherwise
-     * false.
-     *
-     * Left recursion is identified when the antecedent of a rule appears as the
-     * first symbol in its consequent, which may cause issues in top-down
-     * parsing algorithms.
-     */
-    static bool HasLeftRecursion(const std::string&              antecedent,
-                                 const std::vector<std::string>& consequent);
 
     /**
      * @brief Stores the grammar rules with each antecedent mapped to a list of
