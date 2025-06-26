@@ -18,9 +18,10 @@
 #include "symbol_table.hpp"
 #include "tabulate.hpp"
 
-LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format)
+LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format,
+                     bool text_is_raw)
     : gr_(std::move(gr)), text_file_(std::move(text_file)),
-      print_table_format_(table_format) {
+      text_is_raw_(text_is_raw), print_table_format_(table_format) {
     if (!CreateLL1Table()) {
         gr_.Debug();
         PrintTable();
@@ -29,9 +30,9 @@ LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format)
 }
 
 LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file,
-                     bool table_format)
+                     bool table_format, bool text_is_raw)
     : gr_(grammar_file), text_file_(std::move(text_file)),
-      print_table_format_(table_format) {
+      text_is_raw_(text_is_raw), print_table_format_(table_format) {
     if (!CreateLL1Table()) {
         gr_.Debug();
         PrintTable();
@@ -105,7 +106,7 @@ void LL1Parser::ReportParseError(const std::string& input, size_t err_pos,
 }
 
 bool LL1Parser::Parse() {
-    Lex lex(text_file_);
+    Lex lex(text_file_, text_is_raw_);
     symbol_stack_.push(gr_.axiom_);
     Lex::Token current_symbol = lex.Next();
     while (!current_symbol.type.empty() && !symbol_stack_.empty()) {
@@ -135,7 +136,7 @@ bool LL1Parser::Parse() {
 }
 
 LL1Parser::ParseTree LL1Parser::ParseWithTree(const std::string& file) {
-    Lex                                            lex(file);
+    Lex                                            lex(file, text_is_raw_);
     std::stack<std::pair<std::string, ParseNode*>> stack;
 
     ParseTree tree = std::make_unique<ParseNode>();

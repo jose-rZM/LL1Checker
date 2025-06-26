@@ -28,7 +28,8 @@ public:
      * @param gr Grammar object to parse with.
      * @param text_file Name of the file containing input to parse.
      */
-    LL1Parser(Grammar gr, std::string text_file, bool table_format = true);
+    LL1Parser(Grammar gr, std::string text_file, bool table_format = true,
+              bool text_is_raw = false);
 
     /**
      * @brief Constructs an LL1Parser with a grammar file and an input file.
@@ -37,7 +38,7 @@ public:
      * @param text_file Name of the file containing input to parse.
      */
     LL1Parser(const std::string& grammar_file, std::string text_file,
-              bool table_format = true);
+              bool table_format = true, bool text_is_raw = false);
 
     /**
      * @brief Parses an input string or file using the LL(1) parsing algorithm.
@@ -345,6 +346,9 @@ private:
 
     /// @brief Path to the input text file to be parsed.
     std::string text_file_;
+
+    /// @brief If true, treat text_file_ as raw input rather than a filename.
+    bool text_is_raw_{false};
 
     /// @brief True if new format is used when printing the table
     bool print_table_format_{true};

@@ -28,6 +28,11 @@ public:
      */
     explicit Lex(std::string filename);
 
+    /// Construct a lexer from a raw string instead of a file.
+    /// The boolean argument is only used to differentiate the constructor
+    /// signature.
+    Lex(std::string input, bool from_string);
+
     /**
      * @brief Retrieves the next token from input string in a lazy way.
      *

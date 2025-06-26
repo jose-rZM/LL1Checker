@@ -25,6 +25,8 @@ void ShowUsage(const char* program_name, const cxxopts::Options& options) {
 int main(int argc, char* argv[]) {
     std::string grammar_filename;
     std::string text_filename;
+    std::string text_input;
+    bool        text_is_raw = false;
     bool        verbose_mode = false;
     std::string table_format = "new";
     std::string export_tree_file;
@@ -32,7 +34,7 @@ int main(int argc, char* argv[]) {
     try {
         cxxopts::Options options(argv[0], "LL1Checker");
 
-        options.positional_help("grammar text").show_positional_help();
+        options.positional_help("grammar [input-file]").show_positional_help();
 
         options.add_options()("h,help", "Show help message")(
             "v,verbose", "Enable verbose mode with new table format",
@@ -41,13 +43,15 @@ int main(int argc, char* argv[]) {
             cxxopts::value<std::string>())(
             "grammar", "Grammar file",
             cxxopts::value<std::string>(grammar_filename))(
-            "text", "Text file to parse",
+            "input-file", "Text file to parse",
             cxxopts::value<std::string>(text_filename)->default_value(""))(
+            "text", "Text to parse directly",
+            cxxopts::value<std::string>(text_input))(
             "export-tree",
             "Export parse tree to dot file. Filename is mandatory",
             cxxopts::value<std::string>(export_tree_file));
 
-        options.parse_positional({"grammar", "text"});
+        options.parse_positional({"grammar", "input-file"});
         auto result = options.parse(argc, argv);
 
         if (result.contains("help")) {
@@ -57,6 +61,11 @@ int main(int argc, char* argv[]) {
 
         if (!result.contains("grammar")) {
             throw std::runtime_error("Required option: grammar");
+        }
+
+        if (result.contains("text")) {
+            text_input   = result["text"].as<std::string>();
+            text_is_raw  = true;
         }
 
         if (result.contains("format")) {
@@ -86,8 +95,9 @@ int main(int argc, char* argv[]) {
     }
 
     try {
-        LL1Parser parser{grammar_filename, text_filename,
-                         table_format == "new"};
+        LL1Parser parser{grammar_filename,
+                         text_is_raw ? text_input : text_filename,
+                         table_format == "new", text_is_raw};
 
         std::cout << "Grammar is LL(1)\n";
 
@@ -96,7 +106,11 @@ int main(int argc, char* argv[]) {
                       << "LL1 Table (" << table_format << " format):\n";
             parser.PrintTable();
 
-            if (!text_filename.empty()) {
+            if (text_is_raw) {
+                std::cout << "\n--------------------------------\n"
+                          << "Input content:\n"
+                          << text_input << "\n";
+            } else if (!text_filename.empty()) {
                 std::cout << "\n--------------------------------\n"
                           << "Input content:\n";
                 if (PrintFileToStdout(text_filename)) {
@@ -106,22 +120,25 @@ int main(int argc, char* argv[]) {
             std::cout << "--------------------------------\n\n";
         }
 
-        if (!text_filename.empty()) {
-            std::ifstream file(text_filename);
-            if (!file)
-                throw std::runtime_error("Text file not found");
-            if (file.peek() == EOF)
-                throw std::runtime_error("Text file is empty");
+        if (text_is_raw || !text_filename.empty()) {
+            if (!text_is_raw) {
+                std::ifstream file(text_filename);
+                if (!file)
+                    throw std::runtime_error("Text file not found");
+                if (file.peek() == EOF)
+                    throw std::runtime_error("Text file is empty");
+            }
 
             if (!export_tree_file.empty()) {
-                LL1Parser::ParseTree tree = parser.ParseWithTree(text_filename);
+                LL1Parser::ParseTree tree =
+                    parser.ParseWithTree(text_is_raw ? text_input : text_filename);
                 if (!tree) {
                     return 1;
                 }
-                std::cout << "Parsing successful.\nParse tree exported! Run "
-                             "'dot -Tpng " +
-                                 export_tree_file +
-                                 " <output.png>' to generate an image\n";
+                std::cout <<
+                    "Parsing successful.\nParse tree exported! Run "
+                    "'dot -Tpng " + export_tree_file +
+                    " -o output.png' to generate an image\n";
                 parser.ExportTreeAsDot(tree, export_tree_file);
             } else {
                 if (!parser.Parse()) {
