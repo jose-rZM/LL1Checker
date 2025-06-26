@@ -15,6 +15,13 @@ class LL1Parser {
         std::string, std::unordered_map<std::string, std::vector<production>>>;
 
 public:
+    /// @brief Node used to build a parse tree.
+    struct ParseNode {
+        std::string                             symbol;   ///< Grammar symbol.
+        std::vector<std::unique_ptr<ParseNode>> children; ///< Child nodes.
+    };
+
+    using ParseTree = std::unique_ptr<ParseNode>;
     /**
      * @brief Constructs an LL1Parser with a grammar object and an input file.
      *
@@ -69,6 +76,11 @@ public:
      */
     bool Parse();
 
+    /// @brief Parse a file and return the parse tree.
+    /// @param file Path to the input text file.
+    /// @return Root of the parse tree on success, nullptr on failure.
+    ParseTree ParseWithTree(const std::string& file);
+
     /**
      * @brief Matches a terminal symbol from the stack with the current input
      * symbol.
@@ -121,6 +133,9 @@ public:
      *   text format.
      */
     void PrintTable();
+
+    /// @brief Export the parse tree in GraphViz dot format.
+    void ExportTreeAsDot(const ParseTree& tree, const std::string& filename);
 
 private:
     /**
