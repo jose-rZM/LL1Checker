@@ -159,13 +159,6 @@ void Grammar::SetAxiom(const std::string& axiom) {
     axiom_ = axiom;
 }
 
-bool Grammar::HasEmptyProduction(const std::string& antecedent) {
-    auto rules{g_.at(antecedent)};
-    return std::find_if(rules.cbegin(), rules.cend(), [](const auto& rule) {
-               return rule[0] == symbol_table::EPSILON_;
-           }) != rules.cend();
-}
-
 std::vector<std::pair<const std::string, production>>
 Grammar::FilterRulesByConsequent(const std::string& arg) {
     std::vector<std::pair<const std::string, production>> rules;
@@ -217,8 +210,4 @@ void Grammar::Debug() {
         }
         std::cout << "\n";
     }
-}
-bool Grammar::HasLeftRecursion(const std::string&              antecedent,
-                               const std::vector<std::string>& consequent) {
-    return consequent.at(0) == antecedent;
 }

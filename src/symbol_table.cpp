@@ -34,10 +34,3 @@ bool symbol_table::In(const std::string& s) {
 bool symbol_table::IsTerminal(const std::string& s) {
     return st_.at(s).first == TERMINAL;
 }
-
-void symbol_table::SetEol(const std::string& eol) {
-    EOF_               = eol;
-    st_[EOF_]          = {TERMINAL, EOF_};
-    token_types_[EOF_] = 1;
-    token_types_r_[1]  = EOF_;
-}

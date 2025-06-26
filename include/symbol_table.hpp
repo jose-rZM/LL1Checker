@@ -81,11 +81,4 @@ struct symbol_table {
      * Outputs the symbol table for debugging purposes.
      */
     static void Debug();
-
-    /**
-     * @brief Sets the end-of-line symbol.
-     *
-     * @param eol String to use as the new end-of-line symbol.
-     */
-    static void SetEol(const std::string& eol);
 };

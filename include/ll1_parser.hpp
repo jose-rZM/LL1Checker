@@ -33,14 +33,6 @@ public:
               bool table_format = true);
 
     /**
-     * @brief Constructs an LL1Parser with a grammar file.
-     *
-     * @param grammar_file Path to the grammar file.
-     */
-    explicit LL1Parser(const std::string& grammar_file,
-                       bool               table_format = true);
-
-    /**
      * @brief Parses an input string or file using the LL(1) parsing algorithm.
      *
      * This function performs syntactic analysis on the input based on the LL(1)
