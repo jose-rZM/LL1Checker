@@ -5,32 +5,38 @@
 
 void symbol_table::PutSymbol(const std::string& identifier,
                              const std::string& regex) {
-    st_[identifier]          = {TERMINAL, regex};
-    token_types_[identifier] = i_;
-    order_.push_back(i_);
-    token_types_r_[i_++] = identifier;
+    auto it = lookup_.find(identifier);
+    if (it != lookup_.end()) return;
+    TokenID id = next_id_++;
+    lookup_[identifier] = id;
+    st_.emplace_back(TERMINAL, regex);
 }
 
 void symbol_table::PutSymbol(const std::string& identifier) {
-    st_.insert({identifier, {NO_TERMINAL, ""}});
+    auto it = lookup_.find(identifier);
+    if (it != lookup_.end()) return;
+    TokenID id = next_id_++;
+    lookup_[identifier] = id;
+    st_.emplace_back(NO_TERMINAL, "");
 }
 
-std::string symbol_table::GetValue(const std::string& terminal) {
-    return st_.at(terminal).second;
+std::string symbol_table::GetValue(TokenID id) {
+    return st_.at(id).second;
 }
 
 void symbol_table::Debug() {
-    printf(" %-15s %-15s %-15s\n", "Identifier", "Type", "Regex");
-    for (const auto& entry : st_) {
-        printf(" %-15s %-15u %-15s\n", entry.first.c_str(), entry.second.first,
-               entry.second.second.c_str());
-    }
+    ;
 }
 
-bool symbol_table::In(const std::string& s) {
-    return st_.find(s) != st_.cend();
+bool symbol_table::In(TokenID id) {
+    return false;
 }
 
-bool symbol_table::IsTerminal(const std::string& s) {
-    return st_.at(s).first == TERMINAL;
+bool symbol_table::In(const std::string &identifier) {
+    return lookup_.contains(identifier);
+}
+
+
+bool symbol_table::IsTerminal(TokenID id) {
+    return In(id) && st_[id].first == TERMINAL;
 }
