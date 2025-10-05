@@ -15,7 +15,6 @@ Lex::Lex(std::string input, bool from_string) {
         std::ostringstream buf;
         buf << file.rdbuf();
         input_ = buf.str();
-        std::cout << "STRING SIZE: " << input_.size() << "\n";
     } else
         input_ = std::move(input);
     Tokenize();
@@ -51,12 +50,13 @@ void Lex::Tokenize() {
         return true;
     });
     if (!completed) {
-        size_t error_pos = first - input_.c_str();
-        std::cerr << "Lexing error at position " << error_pos << std::endl;
-        size_t out_err_line, out_err_col;
-        std::cout << format_error_window(input_, error_pos, out_err_line,
-                                         out_err_col);
-        throw LexerError("Lexing error");
+        size_t      error_pos = first - input_.c_str();
+        size_t      out_err_line, out_err_col;
+        std::string window =
+            format_error_window(input_, error_pos, out_err_line, out_err_col);
+        throw LexerError("Lexing error at position Ln " +
+                         std::to_string(out_err_line + 1) + ", Col " +
+                         std::to_string(out_err_col + 1) + "\n" + window);
     }
 }
 
