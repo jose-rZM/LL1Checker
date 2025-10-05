@@ -1,37 +1,35 @@
 #pragma once
+#include "symbol_table.hpp"
 #include <regex>
 #include <string>
+#include <boost/spirit/include/lex_lexertl.hpp>
+#include <boost/bind.hpp>
+#include <boost/ref.hpp>
 #include <vector>
+
+using BaseLexer = boost::spirit::lex::lexertl::lexer<>;
+using Iterator = typename BaseLexer::iterator_type;
 
 /// @brief A simple lexer for tokenizing an input string and reporting errors.
 class Lex {
     std::string filename_; ///< Path of the file being lexed.
     std::string input_;    ///< Complete contents of the input file.
-    size_t      pos_{0};   ///< Current byte-offset in @c input_.
-
+    Iterator iter_, end_;
+    size_t current_{0};
 public:
     /// @brief Represents a single token produced by the lexer.
     struct Token {
-        std::string
-               type; ///< The token’s type or category (e.g. "NUMBER", "IDENT").
-        size_t pos;  ///< Byte-offset in the input where this token starts.
+        symbol_table::TokenID type; ///< Token ID
+        size_t pos; ///< Byte-offset in the input where this token starts.
     };
 
-    /**
-     * @brief Constructs a lexer.
-     *
-     * Opens the file at @p filename, reads its entire contents into memory,
-     * then configures the patterns filling the vector of patterns..
-     * Aborts the program on I/O or regex errors.
-     *
-     * @param filename Path to the input file containing the text to lex.
-     */
-    explicit Lex(std::string filename);
 
     /// Construct a lexer from a raw string instead of a file.
     /// The boolean argument is only used to differentiate the constructor
     /// signature.
     Lex(std::string input, bool from_string);
+
+    void Tokenize();
 
     /**
      * @brief Retrieves the next token from input string in a lazy way.
@@ -79,20 +77,13 @@ public:
                                            size_t  window_width   = 20);
 
 private:
-    /**
-     * @brief Skip over whitespace in the input buffer.
-     *
-     * Advances @c pos_ past any spaces, tabs, newlines, etc., until the next
-     * non-whitespace character or end-of-input is reached.
-     */
-    void skip_ws();
 
     /// @brief Internal helper: a regex pattern and its associated token type.
     struct Pattern {
-        std::string type;  ///< The token type name for this pattern.
-        std::regex  regex; ///< The regex used to match and extract the token.
+        symbol_table::TokenID type; ///< Token ID for this pattern.
+        std::string regex; ///< The regex used to match and extract the token.
+ 
     };
 
-    std::vector<Pattern>
-        patterns_; ///< All regex patterns used for tokenization.
+    std::vector<Token> tokens_;
 };

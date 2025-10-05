@@ -1,48 +1,62 @@
 #include "lexer.hpp"
 #include "lexer_error.hpp"
 #include "symbol_table.hpp"
-#include <cstdlib>
-#include <cstring>
+#include <boost/spirit/include/lex_lexertl.hpp>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <string_view>
 
-Lex::Lex(std::string filename) : filename_(std::move(filename)) {
-    std::ifstream file(filename_);
-    if (!file)
-        throw LexerError("Cannot open file: " + filename_);
-
-    std::ostringstream buf;
-    buf << file.rdbuf();
-    input_ = buf.str();
-    patterns_.reserve(symbol_table::order_.size());
-    for (size_t j = 1; j < symbol_table::order_.size(); ++j) {
-        auto id        = symbol_table::order_[j];
-        auto tok_type  = symbol_table::token_types_r_.at(id);
-        auto regex_str = symbol_table::st_.at(tok_type).second;
-        patterns_.push_back({tok_type, std::regex(regex_str)});
-    }
+Lex::Lex(std::string input, bool from_string) {
+    if (!from_string) {
+        std::ifstream file(input);
+        if (!file)
+            throw LexerError("Cannot open file: " + input);
+        std::ostringstream buf;
+        buf << file.rdbuf();
+        input_ = buf.str();
+        std::cout << "STRING SIZE: " << input_.size() << "\n";
+    } else
+        input_ = std::move(input);
+    Tokenize();
 }
 
-Lex::Lex(std::string input, bool /*from_string*/)
-    : filename_("<string>"), input_(std::move(input)) {
-    patterns_.reserve(symbol_table::order_.size());
-    for (size_t j = 1; j < symbol_table::order_.size(); ++j) {
-        auto id        = symbol_table::order_[j];
-        auto tok_type  = symbol_table::token_types_r_.at(id);
-        auto regex_str = symbol_table::st_.at(tok_type).second;
-        patterns_.push_back({tok_type, std::regex(regex_str)});
+namespace {
+struct DynamicLexer
+    : boost::spirit::lex::lexer<boost::spirit::lex::lexertl::lexer<>> {
+    DynamicLexer() {
+        for (size_t j = 1; j < symbol_table::order_.size(); ++j) {
+            auto id        = symbol_table::order_[j];
+            auto regex_str = symbol_table::GetValue(id);
+            this->self.add(regex_str, j);
+        }
+        this->self.add("[ \t\n]+", symbol_table::order_.size());
     }
-}
+};
+}  // namespace
 
-void Lex::skip_ws() {
-    static const std::regex ws{R"([ \t\n]+)"};
-    std::cmatch             m;
-    while (pos_ < input_.size() &&
-           std::regex_search(input_.data() + pos_, m, ws,
-                             std::regex_constants::match_continuous)) {
-        pos_ += m.length();
+void Lex::Tokenize() {
+    using namespace boost::spirit::lex;
+    using iterator_type = const char*;
+    DynamicLexer  lexer;
+    iterator_type first     = input_.c_str();
+    iterator_type end       = first + input_.size();
+    bool          completed = tokenize(first, end, lexer, [&](auto const& t) {
+        if (static_cast<unsigned long>(t.id()) == symbol_table::order_.size()) {
+            // Whitespace, skip
+            return true;
+        }
+        size_t pos = t.value().begin() - input_.c_str();
+        tokens_.emplace_back(symbol_table::order_.at(t.id()), pos);
+        return true;
+    });
+    if (!completed) {
+        size_t error_pos = first - input_.c_str();
+        std::cerr << "Lexing error at position " << error_pos << std::endl;
+        size_t out_err_line, out_err_col;
+        std::cout << format_error_window(input_, error_pos, out_err_line,
+                                         out_err_col);
+        throw LexerError("Lexing error");
     }
 }
 
@@ -127,35 +141,9 @@ std::string& Lex::input() {
 }
 
 Lex::Token Lex::Next() {
-    skip_ws();
-
-    if (pos_ >= input_.size())
-        return {symbol_table::EOF_, pos_};
-
-    std::string_view rem{input_.data() + pos_, input_.size() - pos_};
-    std::ptrdiff_t   best_len = 0;
-    std::string      best_tok;
-    std::cmatch      m;
-
-    size_t start = pos_;
-
-    for (auto& p : patterns_) {
-        if (std::regex_search(rem.begin(), rem.end(), m, p.regex,
-                              std::regex_constants::match_continuous) &&
-            m.length() > best_len) {
-            best_len = m.length();
-            best_tok = p.type;
-        }
+    if (current_ >= tokens_.size()) {
+        return {symbol_table::EOF_ID, input_.size()};
+    } else {
+        return tokens_.at(current_++);
     }
-
-    if (best_len == 0) {
-        size_t err_line, err_col;
-        auto   snippet = format_error_window(input_, pos_, err_line, err_col);
-        throw LexerError("Lexical error at line " +
-                         std::to_string(err_line + 1) + ", column " +
-                         std::to_string(err_col + 1) + ":\n\n" + snippet);
-    }
-
-    pos_ += best_len;
-    return {best_tok, start};
 }
