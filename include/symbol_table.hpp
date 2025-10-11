@@ -7,6 +7,14 @@
 enum symbol_type { NO_TERMINAL, TERMINAL, META };
 
 struct symbol_table {
+    using TokenID = unsigned long;
+
+    inline static TokenID INVALID_TOKEN{0};
+    inline static TokenID EOF_ID{1};
+    inline static TokenID EPSILON_ID{2};
+
+    inline static TokenID next_id_{3};
+
     /// @brief End-of-line symbol used in parsing, initialized as "EOF".
     inline static std::string EOF_{"<<EOF>>"};
 
@@ -14,23 +22,22 @@ struct symbol_table {
     /// "EPSILON".
     inline static std::string EPSILON_{"<<EPSILON>>"};
 
-    /// @brief Main symbol table, mapping identifiers to a pair of symbol type
-    /// and its regex.
-    inline static std::unordered_map<std::string,
-                                     std::pair<symbol_type, std::string>>
-        st_{{EOF_, {TERMINAL, ""}}, {EPSILON_, {META, ""}}};
+    /// @brief Symbol table indexed by token ID storing type and regex
+    inline static std::vector<std::pair<symbol_type, std::string>> st_{
+        {META, ""},     // 0 - INVALID
+        {TERMINAL, ""}, // 1 - <<EOF>>
+        {META, ""},     // 2 - <<EPSILON>>
+    };
 
-    /// @brief Token types, mapping each symbol to a unique integer ID.
-    inline static std::unordered_map<std::string, unsigned long> token_types_;
+    /// @brief Mapping from identifier to token ID
+    inline static std::unordered_map<std::string, TokenID> lookup_{
+        {EOF_, EOF_ID}, {EPSILON_, EPSILON_ID}};
 
-    /// @brief Reverse mapping from integer token IDs back to symbols.
-    inline static std::unordered_map<unsigned long, std::string> token_types_r_;
+    /// @brief Reverse mapping from token ID to identifier
+    inline static std::vector<std::string> names_{"", EOF_, EPSILON_};
 
-    /// @brief Tracks insertion order of token types.
-    inline static std::vector<unsigned long> order_{1};
-
-    /// @brief Current index for assigning new token IDs, starting from 2.
-    inline static unsigned long i_{2};
+    /// @brief Tracks insertion order of terminal token types
+    inline static std::vector<TokenID> order_{EOF_ID};
 
     /**
      * @brief Adds a terminal symbol with its associated regex to the symbol
@@ -57,7 +64,9 @@ struct symbol_table {
      * @param s Symbol identifier to search.
      * @return true if the symbol is present, otherwise false.
      */
-    static bool In(const std::string& s);
+    static bool In(TokenID id);
+
+    static bool In(const std::string& identifier);
 
     /**
      * @brief Checks if a symbol is a terminal.
@@ -65,7 +74,7 @@ struct symbol_table {
      * @param s Symbol identifier to check.
      * @return true if the symbol is terminal, otherwise false.
      */
-    static bool IsTerminal(const std::string& s);
+    static bool IsTerminal(TokenID id);
 
     /**
      * @brief Retrieves the regex pattern for a terminal symbol.
@@ -73,7 +82,13 @@ struct symbol_table {
      * @param terminal Terminal symbol identifier.
      * @return Regex pattern associated with the terminal symbol.
      */
-    static std::string GetValue(const std::string& terminal);
+    static std::string GetValue(TokenID id);
+
+    /// @brief Convert a token ID to its identifier string
+    static const std::string& ToString(TokenID id);
+
+    /// @brief Retrieve the token ID for a given identifier string
+    static TokenID ToID(const std::string& identifier);
 
     /**
      * @brief Prints all symbols and their properties in the symbol table.

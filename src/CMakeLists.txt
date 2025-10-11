@@ -6,6 +6,7 @@ add_library(${LIB_NAME}
 )
 
 target_include_directories(${LIB_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(${LIB_NAME} PUBLIC Boost::headers)
 
 if(MSVC)
     target_compile_options(${LIB_NAME} PRIVATE /W4)

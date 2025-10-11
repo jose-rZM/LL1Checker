@@ -2,7 +2,7 @@ terminal ac \[;
 terminal cp \];
 terminal comma ,;
 terminal pyc ;;
-terminal elem [a-zA-Z$]*;
+terminal elem [a-zA-Z$]+;
 start with S;
 ;
 S -> E;

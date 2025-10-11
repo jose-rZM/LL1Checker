@@ -11,3 +11,6 @@ AlignConsecutiveDeclarations: true
 AlignConsecutiveAssignments: true
 AccessModifierOffset: -4
 IndentAccessModifiers: false
+SpacesBeforeTrailingComments: 2
+AlignTrailingComments: true
+AllowShortIfStatementsOnASingleLine: false

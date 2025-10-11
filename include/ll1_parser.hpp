@@ -1,6 +1,7 @@
 #pragma once
 #include "grammar.hpp"
 #include "lexer.hpp"
+#include "symbol_table.hpp"
 #include <deque>
 #include <queue>
 #include <span>
@@ -12,13 +13,14 @@
 
 class LL1Parser {
     using ll1_table = std::unordered_map<
-        std::string, std::unordered_map<std::string, std::vector<production>>>;
+        symbol_table::TokenID,
+        std::unordered_map<symbol_table::TokenID, std::vector<production>>>;
 
 public:
     /// @brief Node used to build a parse tree.
     struct ParseNode {
-        std::string                             symbol;   ///< Grammar symbol.
-        std::vector<std::unique_ptr<ParseNode>> children; ///< Child nodes.
+        std::string                             symbol;    ///< Grammar symbol.
+        std::vector<std::unique_ptr<ParseNode>> children;  ///< Child nodes.
     };
 
     using ParseTree = std::unique_ptr<ParseNode>;
@@ -88,8 +90,8 @@ public:
      * @return true if the terminal symbol matches the current input symbol,
      * false otherwise.
      */
-    bool MatchTerminal(const std::string& top_symbol,
-                       const std::string& current_symbol);
+    bool MatchTerminal(symbol_table::TokenID top_symbol,
+                       symbol_table::TokenID current_symbol);
 
     /**
      * @brief Processes a non-terminal symbol by expanding it according to the
@@ -107,13 +109,15 @@ public:
      * stack.
      * @param current_symbol The current input symbol used to select a
      * production.
+     * @param symbol_stack Parser symbol stack
      *
      * @return true if a production was successfully applied or an empty
      * production exists, false if no valid production exists for the current
      * input.
      */
-    bool ProcessNonTerminal(const std::string& top_symbol,
-                            const std::string& current_symbol);
+    bool ProcessNonTerminal(symbol_table::TokenID              top_symbol,
+                            symbol_table::TokenID              current_symbol,
+                            std::stack<symbol_table::TokenID>& symbol_stack);
 
     /**
      * @brief Print the LL(1) parsing table to standard output.
@@ -142,8 +146,8 @@ private:
      * @param found Token found instead of the expected one
      */
     void ReportParseError(const std::string& input, size_t err_pos,
-                          const std::string& expected,
-                          const std::string& found);
+                          symbol_table::TokenID expected,
+                          symbol_table::TokenID found);
 
     /**
      * @brief Calculates the FIRST set for a given production rule in a grammar.
@@ -171,8 +175,8 @@ private:
      * symbols that can start derivations of the rule, and possibly epsilon if
      * the rule can derive an empty string.
      */
-    void First(std::span<const std::string>     rule,
-               std::unordered_set<std::string>& result);
+    void First(std::span<const symbol_table::TokenID>     rule,
+               std::unordered_set<symbol_table::TokenID>& result);
 
     /**
      * @brief Computes the FIRST sets for all non-terminal symbols in the
@@ -232,7 +236,7 @@ private:
      * @return true if the FOLLOW set was modified (new elements were added),
      * false otherwise.
      */
-    bool UpdateFollow(const std::string& symbol, const std::string& lhs,
+    bool UpdateFollow(symbol_table::TokenID symbol, symbol_table::TokenID lhs,
                       const production& rhs, size_t i);
 
     /**
@@ -252,7 +256,7 @@ private:
      * @return An unordered set of strings containing symbols that form the
      * FOLLOW set for `arg`.
      */
-    std::unordered_set<std::string> Follow(const std::string& arg);
+    std::unordered_set<symbol_table::TokenID> Follow(symbol_table::TokenID arg);
 
     /**
      * @brief Computes the prediction symbols for a given
@@ -276,9 +280,9 @@ private:
      * @return An unordered set of strings containing the prediction symbols for
      * the specified rule.
      */
-    std::unordered_set<std::string>
-    PredictionSymbols(const std::string&              antecedent,
-                      const std::vector<std::string>& consequent);
+    std::unordered_set<symbol_table::TokenID>
+    PredictionSymbols(symbol_table::TokenID antecedent,
+                      const production&     consequent);
 
     /**
      * @brief Creates the LL(1) parsing table for the grammar.
@@ -317,9 +321,6 @@ private:
      */
     void PrintTableUsingTabulate();
 
-    /// @brief Size limit for symbol history trace, defaults to 5.
-    const size_t kTraceSize{5};
-
     /// @brief The LL(1) parsing table, mapping non-terminals and terminals to
     /// productions.
     ll1_table ll1_t_;
@@ -328,18 +329,14 @@ private:
     Grammar gr_;
 
     /// @brief FIRST sets for each non-terminal in the grammar.
-    std::unordered_map<std::string, std::unordered_set<std::string>>
+    std::unordered_map<symbol_table::TokenID,
+                       std::unordered_set<symbol_table::TokenID>>
         first_sets_;
 
     /// @brief FOLLOW sets for each non-terminal in the grammar.
-    std::unordered_map<std::string, std::unordered_set<std::string>>
+    std::unordered_map<symbol_table::TokenID,
+                       std::unordered_set<symbol_table::TokenID>>
         follow_sets_;
-
-    /// @brief Stack for managing parsing symbols.
-    std::stack<std::string> symbol_stack_;
-
-    /// @brief Deque for tracking the most recent kTraceSize symbols parsed.
-    std::deque<std::string> trace_;
 
     /// @brief Path to the grammar file used in this parser.
     std::string grammar_file_;

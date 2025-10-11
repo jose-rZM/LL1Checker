@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     std::string grammar_filename;
     std::string text_filename;
     std::string text_input;
-    bool        text_is_raw = false;
+    bool        text_is_raw  = false;
     bool        verbose_mode = false;
     std::string table_format = "new";
     std::string export_tree_file;
@@ -64,8 +64,8 @@ int main(int argc, char* argv[]) {
         }
 
         if (result.contains("text")) {
-            text_input   = result["text"].as<std::string>();
-            text_is_raw  = true;
+            text_input  = result["text"].as<std::string>();
+            text_is_raw = true;
         }
 
         if (result.contains("format")) {
@@ -84,8 +84,10 @@ int main(int argc, char* argv[]) {
     } catch (const cxxopts::exceptions::specification& e) {
         std::cerr << "Error parsing options: " << e.what() << "\n\n";
         std::cerr << "Use --help to view the available arguments.\n";
+        return 1;
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << "\n\n";
+        return 1;
     }
 
     if (!std::ifstream(grammar_filename)) {
@@ -130,15 +132,15 @@ int main(int argc, char* argv[]) {
             }
 
             if (!export_tree_file.empty()) {
-                LL1Parser::ParseTree tree =
-                    parser.ParseWithTree(text_is_raw ? text_input : text_filename);
+                LL1Parser::ParseTree tree = parser.ParseWithTree(
+                    text_is_raw ? text_input : text_filename);
                 if (!tree) {
                     return 1;
                 }
-                std::cout <<
-                    "Parsing successful.\nParse tree exported! Run "
-                    "'dot -Tpng " + export_tree_file +
-                    " -o output.png' to generate an image\n";
+                std::cout << "Parsing successful.\nParse tree exported! Run "
+                             "'dot -Tpng " +
+                                 export_tree_file +
+                                 " -o output.png' to generate an image\n";
                 parser.ExportTreeAsDot(tree, export_tree_file);
             } else {
                 if (!parser.Parse()) {
