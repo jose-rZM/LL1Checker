@@ -19,8 +19,8 @@ class LL1Parser {
 public:
     /// @brief Node used to build a parse tree.
     struct ParseNode {
-        std::string                             symbol;   ///< Grammar symbol.
-        std::vector<std::unique_ptr<ParseNode>> children; ///< Child nodes.
+        std::string                             symbol;    ///< Grammar symbol.
+        std::vector<std::unique_ptr<ParseNode>> children;  ///< Child nodes.
     };
 
     using ParseTree = std::unique_ptr<ParseNode>;
@@ -109,13 +109,15 @@ public:
      * stack.
      * @param current_symbol The current input symbol used to select a
      * production.
+     * @param symbol_stack Parser symbol stack
      *
      * @return true if a production was successfully applied or an empty
      * production exists, false if no valid production exists for the current
      * input.
      */
-    bool ProcessNonTerminal(symbol_table::TokenID top_symbol,
-                            symbol_table::TokenID current_symbol);
+    bool ProcessNonTerminal(symbol_table::TokenID              top_symbol,
+                            symbol_table::TokenID              current_symbol,
+                            std::stack<symbol_table::TokenID>& symbol_stack);
 
     /**
      * @brief Print the LL(1) parsing table to standard output.
@@ -319,9 +321,6 @@ private:
      */
     void PrintTableUsingTabulate();
 
-    /// @brief Size limit for symbol history trace, defaults to 5.
-    const size_t kTraceSize{5};
-
     /// @brief The LL(1) parsing table, mapping non-terminals and terminals to
     /// productions.
     ll1_table ll1_t_;
@@ -338,12 +337,6 @@ private:
     std::unordered_map<symbol_table::TokenID,
                        std::unordered_set<symbol_table::TokenID>>
         follow_sets_;
-
-    /// @brief Stack for managing parsing symbols.
-    std::stack<symbol_table::TokenID> symbol_stack_;
-
-    /// @brief Deque for tracking the most recent kTraceSize symbols parsed.
-    std::deque<symbol_table::TokenID> trace_;
 
     /// @brief Path to the grammar file used in this parser.
     std::string grammar_file_;

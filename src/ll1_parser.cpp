@@ -69,23 +69,19 @@ bool LL1Parser::CreateLL1Table() {
 
 bool LL1Parser::MatchTerminal(symbol_table::TokenID top_symbol,
                               symbol_table::TokenID current_symbol) {
-    trace_.push_back(current_symbol);
-    if (trace_.size() > kTraceSize) {
-        trace_.pop_front();
-    }
-
     return top_symbol == current_symbol;
 }
 
-bool LL1Parser::ProcessNonTerminal(symbol_table::TokenID top_symbol,
-                                   symbol_table::TokenID current_symbol) {
+bool LL1Parser::ProcessNonTerminal(
+    symbol_table::TokenID top_symbol, symbol_table::TokenID current_symbol,
+    std::stack<symbol_table::TokenID>& symbol_stack) {
     auto it = ll1_t_.find(top_symbol);
     if (it != ll1_t_.end()) {
         auto prod_it = it->second.find(current_symbol);
         if (prod_it != it->second.end()) {
             const production& d_symbols = prod_it->second[0];
             for (auto& d : std::ranges::reverse_view(d_symbols)) {
-                symbol_stack_.push(d);
+                symbol_stack.push(d);
             }
             return true;
         }
@@ -107,16 +103,17 @@ void LL1Parser::ReportParseError(const std::string& input, size_t err_pos,
 }
 
 bool LL1Parser::Parse() {
-    Lex lex(text_file_, text_is_raw_);
-    symbol_stack_.push(gr_.axiom_);
+    Lex                               lex(text_file_, text_is_raw_);
+    std::stack<symbol_table::TokenID> symbol_stack;
+    symbol_stack.push(gr_.axiom_);
     Lex::Token current_symbol = lex.Next();
-    while (!symbol_stack_.empty()) {
-        if (symbol_stack_.top() == symbol_table::EPSILON_ID) {
-            symbol_stack_.pop();
+    while (!symbol_stack.empty()) {
+        if (symbol_stack.top() == symbol_table::EPSILON_ID) {
+            symbol_stack.pop();
             continue;
         }
-        symbol_table::TokenID top_symbol = symbol_stack_.top();
-        symbol_stack_.pop();
+        symbol_table::TokenID top_symbol = symbol_stack.top();
+        symbol_stack.pop();
         if (symbol_table::IsTerminal(top_symbol)) {
             if (!MatchTerminal(top_symbol, current_symbol.type)) {
                 ReportParseError(lex.input(), current_symbol.pos, top_symbol,
@@ -126,7 +123,8 @@ bool LL1Parser::Parse() {
             current_symbol = lex.Next();
 
         } else {
-            if (!ProcessNonTerminal(top_symbol, current_symbol.type)) {
+            if (!ProcessNonTerminal(top_symbol, current_symbol.type,
+                                    symbol_stack)) {
                 ReportParseError(lex.input(), current_symbol.pos, top_symbol,
                                  current_symbol.type);
                 return false;
