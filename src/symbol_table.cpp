@@ -1,4 +1,5 @@
 #include "symbol_table.hpp"
+#include "grammar_error.hpp"
 #include <cstdio>
 #include <unordered_map>
 #include <vector>
@@ -6,7 +7,7 @@
 void symbol_table::PutSymbol(const std::string& identifier,
                              const std::string& regex) {
     if (lookup_.contains(identifier))
-        return;
+        throw GrammarError("Duplicate identifier detected");
 
     TokenID id          = next_id_++;
     lookup_[identifier] = id;
@@ -17,7 +18,7 @@ void symbol_table::PutSymbol(const std::string& identifier,
 
 void symbol_table::PutSymbol(const std::string& identifier) {
     if (lookup_.contains(identifier))
-        return;
+        throw GrammarError("Duplicate identifier detected");
 
     TokenID id          = next_id_++;
     lookup_[identifier] = id;
