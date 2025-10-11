@@ -232,7 +232,7 @@ void LL1Parser::ComputeFirstSets() {
 
     bool changed;
     do {
-        auto old_first_sets = first_sets_; // Copy current state
+        auto old_first_sets = first_sets_;  // Copy current state
 
         for (const auto& [nonTerminal, productions] : gr_.g_) {
             for (const auto& prod : productions) {
@@ -317,14 +317,14 @@ LL1Parser::Follow(symbol_table::TokenID arg) {
 std::unordered_set<symbol_table::TokenID>
 LL1Parser::PredictionSymbols(symbol_table::TokenID antecedent,
                              const production&     consequent) {
-    std::unordered_set<symbol_table::TokenID> hd{};
-    First({consequent}, hd);
-    if (!hd.contains(symbol_table::EPSILON_ID)) {
-        return hd;
+    std::unordered_set<symbol_table::TokenID> first{};
+    First({consequent}, first);
+    if (!first.contains(symbol_table::EPSILON_ID)) {
+        return first;
     }
-    hd.erase(symbol_table::EPSILON_ID);
-    hd.merge(Follow(antecedent));
-    return hd;
+    first.erase(symbol_table::EPSILON_ID);
+    first.merge(Follow(antecedent));
+    return first;
 }
 
 void LL1Parser::PrintTable() {
@@ -447,9 +447,10 @@ void LL1Parser::ExportTreeAsDot(const ParseTree&   tree,
     std::function<size_t(const ParseNode*)> dump = [&](const ParseNode* node) {
         size_t current = id++;
         out << "  node" << current << " [label=\"" << node->symbol << "\"";
-        bool is_leaf     = node->children.empty();
-        bool is_terminal = symbol_table::In(node->symbol) &&
-                           symbol_table::IsTerminal(symbol_table::ToID(node->symbol));
+        bool is_leaf = node->children.empty();
+        bool is_terminal =
+            symbol_table::In(node->symbol) &&
+            symbol_table::IsTerminal(symbol_table::ToID(node->symbol));
         if (is_leaf && is_terminal && node->symbol != symbol_table::EPSILON_ &&
             node->symbol != symbol_table::EOF_) {
             out << ", style=filled, fillcolor=lightblue";
