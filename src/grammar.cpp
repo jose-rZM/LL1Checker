@@ -188,29 +188,8 @@ Grammar::FilterRulesByConsequent(symbol_table::TokenID arg) {
 void Grammar::Debug() {
     std::cout << "Grammar:\n";
 
-    std::cout << symbol_table::ToString(axiom_) << " -> ";
-    const auto& axiom_productions = g_.at(axiom_);
-    for (size_t i = 0; i < axiom_productions.size(); ++i) {
-        for (symbol_table::TokenID symbol : axiom_productions[i]) {
-            std::cout << symbol_table::ToString(symbol) << " ";
-        }
-        if (i < axiom_productions.size() - 1) {
-            std::cout << "| ";
-        }
-    }
-    std::cout << "\n";
-
-    std::vector<symbol_table::TokenID> non_terminals;
-    for (const auto& entry : g_) {
-        if (entry.first != axiom_) {
-            non_terminals.push_back(entry.first);
-        }
-    }
-
-    std::sort(non_terminals.begin(), non_terminals.end());
-
-    for (symbol_table::TokenID nt : non_terminals) {
-        std::cout << symbol_table::ToString(nt) << " -> ";
+    for (symbol_table::TokenID nt : nt_order_) {
+        std::cout << symbol_table::ToString(nt) + " -> ";
         const auto& productions = g_.at(nt);
         for (size_t i = 0; i < productions.size(); ++i) {
             for (symbol_table::TokenID symbol : productions[i]) {
