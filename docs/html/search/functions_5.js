@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['hasemptyproduction_0',['HasEmptyProduction',['../structGrammar.html#a67c3e8fa5bb1bc874c66a85d42222e92',1,'Grammar']]],
-  ['hasleftrecursion_1',['HasLeftRecursion',['../structGrammar.html#a5f08bb51ba6f87ed6a636f4cd354330e',1,'Grammar']]]
+  ['generatenewnonterminal_0',['GenerateNewNonTerminal',['../structGrammar.html#a1292224f6afedaa080aeab04af081a37',1,'Grammar']]],
+  ['getvalue_1',['GetValue',['../structsymbol__table.html#a8cbe04520f691afef1a1a557a05e8703',1,'symbol_table']]],
+  ['grammar_2',['Grammar',['../structGrammar.html#a3700f92e52d3df01fe1d814126e08a79',1,'Grammar']]]
 ];

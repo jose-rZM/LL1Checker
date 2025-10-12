@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <cstddef>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <ranges>
 #include <span>
@@ -9,40 +11,32 @@
 #include <unordered_set>
 #include <utility>
 
-#include "../include/grammar.hpp"
-#include "../include/grammar_error.hpp"
-#include "../include/lexer.hpp"
-#include "../include/ll1_parser.hpp"
-#include "../include/symbol_table.hpp"
-#include "../include/tabulate.hpp"
+#include "grammar.hpp"
+#include "grammar_error.hpp"
+#include "lexer.hpp"
+#include "ll1_parser.hpp"
+#include "symbol_table.hpp"
+#include "tabulate.hpp"
 
-LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format)
+LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format,
+                     bool text_is_raw)
     : gr_(std::move(gr)), text_file_(std::move(text_file)),
-      print_table_format_(table_format) {
+      text_is_raw_(text_is_raw), print_table_format_(table_format) {
     if (!CreateLL1Table()) {
         gr_.Debug();
         PrintTable();
-        throw GrammarError("Grammar provided is not LL1.");
+        throw GrammarError("Provided grammar is not LL(1).");
     }
 }
 
 LL1Parser::LL1Parser(const std::string& grammar_file, std::string text_file,
-                     bool table_format)
+                     bool table_format, bool text_is_raw)
     : gr_(grammar_file), text_file_(std::move(text_file)),
-      print_table_format_(table_format) {
+      text_is_raw_(text_is_raw), print_table_format_(table_format) {
     if (!CreateLL1Table()) {
         gr_.Debug();
         PrintTable();
-        throw GrammarError("Grammar provided is not LL1.");
-    }
-}
-
-LL1Parser::LL1Parser(const std::string& grammar_file, bool table_format)
-    : gr_(grammar_file), print_table_format_(table_format) {
-    if (!CreateLL1Table()) {
-        gr_.Debug();
-        PrintTable();
-        throw GrammarError("Grammar provided is not LL1.");
+        throw GrammarError("Provided grammar is not LL(1).");
     }
 }
 
@@ -54,12 +48,13 @@ bool LL1Parser::CreateLL1Table() {
     ll1_t_.reserve(nrows);
     bool has_conflict{false};
     for (const auto& rule : gr_.g_) {
-        std::unordered_map<std::string, std::vector<production>> column;
+        std::unordered_map<symbol_table::TokenID, std::vector<production>>
+            column;
         for (const production& p : rule.second) {
-            std::unordered_set<std::string> ds =
+            std::unordered_set<symbol_table::TokenID> ds =
                 PredictionSymbols(rule.first, p);
             column.reserve(ds.size());
-            for (const std::string& symbol : ds) {
+            for (symbol_table::TokenID symbol : ds) {
                 auto& cell = column[symbol];
                 if (!cell.empty()) {
                     has_conflict = true;
@@ -72,103 +67,159 @@ bool LL1Parser::CreateLL1Table() {
     return !has_conflict;
 }
 
-void LL1Parser::PrintStackTrace() {
-    std::cout << "Parser stack trace : [ ";
-    while (!symbol_stack_.empty()) {
-        std::cout << symbol_stack_.top() << " ";
-        symbol_stack_.pop();
-    }
-    std::cout << "]\n";
-}
-
-void LL1Parser::PrintSymbolHist() {
-    std::cout << "Last 5 processed symbols : [ ";
-    while (!trace_.empty()) {
-        std::cout << trace_.front() << " ";
-        trace_.pop_front();
-    }
-    std::cout << "]\n";
-}
-
-bool LL1Parser::MatchTerminal(const std::string& top_symbol,
-                              const std::string& current_symbol) {
-    trace_.push_back(current_symbol);
-    if (trace_.size() > kTraceSize) {
-        trace_.pop_front();
-    }
-
+bool LL1Parser::MatchTerminal(symbol_table::TokenID top_symbol,
+                              symbol_table::TokenID current_symbol) {
     return top_symbol == current_symbol;
 }
 
-bool LL1Parser::ProcessNonTerminal(const std::string& top_symbol,
-                                   const std::string& current_symbol) {
+bool LL1Parser::ProcessNonTerminal(
+    symbol_table::TokenID top_symbol, symbol_table::TokenID current_symbol,
+    std::stack<symbol_table::TokenID>& symbol_stack) {
     auto it = ll1_t_.find(top_symbol);
     if (it != ll1_t_.end()) {
         auto prod_it = it->second.find(current_symbol);
         if (prod_it != it->second.end()) {
             const production& d_symbols = prod_it->second[0];
             for (auto& d : std::ranges::reverse_view(d_symbols)) {
-                symbol_stack_.push(d);
+                symbol_stack.push(d);
             }
             return true;
         }
     }
-    return gr_.HasEmptyProduction(top_symbol);
+    return false;
+}
+
+void LL1Parser::ReportParseError(const std::string& input, size_t err_pos,
+                                 symbol_table::TokenID expected,
+                                 symbol_table::TokenID found) {
+    size_t      line, col;
+    std::string snippet = Lex::format_error_window(input, err_pos, line, col);
+
+    std::cerr << "Parse error at line " << (line + 1) << ", column "
+              << (col + 1) << ":\n"
+              << "  expected `" << symbol_table::ToString(expected)
+              << "` but found `" << symbol_table::ToString(found) << "`\n\n"
+              << snippet << "\n";
 }
 
 bool LL1Parser::Parse() {
-    Lex lex(text_file_);
-    symbol_stack_.push(gr_.axiom_);
-    std::string current_symbol = lex.Next();
-    while (!current_symbol.empty() && !symbol_stack_.empty()) {
-        if (symbol_stack_.top() == symbol_table::EPSILON_) {
-            symbol_stack_.pop();
+    Lex                               lex(text_file_, text_is_raw_);
+    std::stack<symbol_table::TokenID> symbol_stack;
+    symbol_stack.push(gr_.axiom_);
+    Lex::Token current_symbol = lex.Next();
+    while (!symbol_stack.empty()) {
+        if (symbol_stack.top() == symbol_table::EPSILON_ID) {
+            symbol_stack.pop();
             continue;
         }
-        const std::string& top_symbol = symbol_stack_.top();
-        symbol_stack_.pop();
+        symbol_table::TokenID top_symbol = symbol_stack.top();
+        symbol_stack.pop();
         if (symbol_table::IsTerminal(top_symbol)) {
-            if (!MatchTerminal(top_symbol, current_symbol))
+            if (!MatchTerminal(top_symbol, current_symbol.type)) {
+                ReportParseError(lex.input(), current_symbol.pos, top_symbol,
+                                 current_symbol.type);
                 return false;
+            }
             current_symbol = lex.Next();
 
         } else {
-            if (!ProcessNonTerminal(top_symbol, current_symbol))
+            if (!ProcessNonTerminal(top_symbol, current_symbol.type,
+                                    symbol_stack)) {
+                ReportParseError(lex.input(), current_symbol.pos, top_symbol,
+                                 current_symbol.type);
                 return false;
+            }
         }
     }
     return true;
 }
 
-void LL1Parser::First(std::span<const std::string>     rule,
-                      std::unordered_set<std::string>& result) {
+LL1Parser::ParseTree LL1Parser::ParseWithTree(const std::string& file) {
+    Lex lex(file, text_is_raw_);
+    std::stack<std::pair<symbol_table::TokenID, ParseNode*>> stack;
+
+    ParseTree tree = std::make_unique<ParseNode>();
+    tree->symbol   = symbol_table::ToString(gr_.axiom_);
+    stack.push({gr_.axiom_, tree.get()});
+
+    Lex::Token current = lex.Next();
+    while (!stack.empty()) {
+        auto [top_symbol, node] = stack.top();
+        stack.pop();
+
+        if (top_symbol == symbol_table::EPSILON_ID) {
+            node->symbol = symbol_table::EPSILON_;
+            continue;
+        }
+
+        node->symbol = symbol_table::ToString(top_symbol);
+
+        if (symbol_table::IsTerminal(top_symbol)) {
+            if (!MatchTerminal(top_symbol, current.type)) {
+                ReportParseError(lex.input(), current.pos, top_symbol,
+                                 current.type);
+                return nullptr;
+            }
+            current = lex.Next();
+        } else {
+            auto it = ll1_t_.find(top_symbol);
+            if (it == ll1_t_.end()) {
+                ReportParseError(lex.input(), current.pos, top_symbol,
+                                 current.type);
+                return nullptr;
+            }
+
+            auto prod_it = it->second.find(current.type);
+            if (prod_it == it->second.end()) {
+                ReportParseError(lex.input(), current.pos, top_symbol,
+                                 current.type);
+                return nullptr;
+            }
+
+            const production& prod = prod_it->second[0];
+            std::vector<std::pair<symbol_table::TokenID, ParseNode*>> pushes;
+            pushes.reserve(prod.size());
+
+            for (symbol_table::TokenID sym : prod) {
+                auto child           = std::make_unique<ParseNode>();
+                child->symbol        = symbol_table::ToString(sym);
+                ParseNode* child_ptr = child.get();
+                node->children.push_back(std::move(child));
+                pushes.push_back({sym, child_ptr});
+            }
+
+            for (auto itp = pushes.rbegin(); itp != pushes.rend(); ++itp) {
+                stack.push(*itp);
+            }
+        }
+    }
+
+    return tree;
+}
+
+void LL1Parser::First(std::span<const symbol_table::TokenID>     rule,
+                      std::unordered_set<symbol_table::TokenID>& result) {
     if (rule.empty() ||
-        (rule.size() == 1 && rule[0] == symbol_table::EPSILON_)) {
-        result.insert(symbol_table::EPSILON_);
+        (rule.size() == 1 && rule[0] == symbol_table::EPSILON_ID)) {
+        result.insert(symbol_table::EPSILON_ID);
         return;
     }
 
-    bool allEpsilon = true;
-
     if (symbol_table::IsTerminal(rule[0])) {
-        if (rule[0] == symbol_table::EOL_) {
-            result.insert(symbol_table::EPSILON_);
-            return;
-        }
         result.insert(rule[0]);
         return;
     }
 
-    const std::unordered_set<std::string>& fii = first_sets_[rule[0]];
+    const auto& fii = first_sets_[rule[0]];
     for (const auto& s : fii) {
-        if (s != symbol_table::EPSILON_) {
+        if (s != symbol_table::EPSILON_ID) {
             result.insert(s);
         }
     }
-    if (fii.find(symbol_table::EPSILON_) == fii.cend()) {
+    if (!fii.contains(symbol_table::EPSILON_ID)) {
         return;
     }
-    First(std::span<const std::string>(rule.begin() + 1, rule.end()), result);
+    First(rule.subspan(1), result);
 }
 
 void LL1Parser::ComputeFirstSets() {
@@ -179,17 +230,13 @@ void LL1Parser::ComputeFirstSets() {
 
     bool changed;
     do {
-        auto old_first_sets = first_sets_; // Copy current state
+        auto old_first_sets = first_sets_;  // Copy current state
 
         for (const auto& [nonTerminal, productions] : gr_.g_) {
             for (const auto& prod : productions) {
-                std::unordered_set<std::string> tempFirst;
+                std::unordered_set<symbol_table::TokenID> tempFirst;
                 First(prod, tempFirst);
 
-                if (tempFirst.contains(symbol_table::EOL_)) {
-                    tempFirst.erase(symbol_table::EOL_);
-                    tempFirst.insert(symbol_table::EPSILON_);
-                }
                 // Insert the computed FIRST into the non-terminal's set
                 auto& current_set = first_sets_[nonTerminal];
                 current_set.insert(tempFirst.begin(), tempFirst.end());
@@ -206,16 +253,16 @@ void LL1Parser::ComputeFollowSets() {
     for (const auto& [nt, _] : gr_.g_) {
         follow_sets_[nt] = {};
     }
-    follow_sets_[gr_.axiom_].insert(symbol_table::EOL_);
+    follow_sets_[gr_.axiom_].insert(symbol_table::EOF_ID);
 
     bool changed;
     do {
         changed = false;
         for (const auto& rule : gr_.g_) {
-            const std::string& lhs = rule.first;
+            symbol_table::TokenID lhs = rule.first;
             for (const production& rhs : rule.second) {
                 for (size_t i = 0; i < rhs.size(); ++i) {
-                    const std::string& symbol = rhs[i];
+                    symbol_table::TokenID symbol = rhs[i];
                     if (!symbol_table::IsTerminal(symbol)) {
                         changed |= UpdateFollow(symbol, lhs, rhs, i);
                     }
@@ -225,27 +272,29 @@ void LL1Parser::ComputeFollowSets() {
     } while (changed);
 }
 
-bool LL1Parser::UpdateFollow(const std::string& symbol, const std::string& lhs,
-                             const production& rhs, size_t i) {
+bool LL1Parser::UpdateFollow(symbol_table::TokenID symbol,
+                             symbol_table::TokenID lhs, const production& rhs,
+                             size_t i) {
     bool changed = false;
 
-    std::unordered_set<std::string> first_remaining;
+    std::unordered_set<symbol_table::TokenID> first_remaining;
     if (i + 1 < rhs.size()) {
-        First(std::span<const std::string>(rhs.begin() + i + 1, rhs.end()),
+        First(std::span<const symbol_table::TokenID>(rhs.begin() + i + 1,
+                                                     rhs.end()),
               first_remaining);
     } else {
-        first_remaining.insert(symbol_table::EPSILON_);
+        first_remaining.insert(symbol_table::EPSILON_ID);
     }
 
     // Add FIRST(β) \ {ε}
     for (const auto& terminal : first_remaining) {
-        if (terminal != symbol_table::EPSILON_) {
+        if (terminal != symbol_table::EPSILON_ID) {
             changed |= follow_sets_[symbol].insert(terminal).second;
         }
     }
 
     // If FIRST(β) contains ε, add FOLLOW(lhs)
-    if (first_remaining.contains(symbol_table::EPSILON_)) {
+    if (first_remaining.contains(symbol_table::EPSILON_ID)) {
         for (const auto& terminal : follow_sets_[lhs]) {
             changed |= follow_sets_[symbol].insert(terminal).second;
         }
@@ -254,7 +303,8 @@ bool LL1Parser::UpdateFollow(const std::string& symbol, const std::string& lhs,
     return changed;
 }
 
-std::unordered_set<std::string> LL1Parser::Follow(const std::string& arg) {
+std::unordered_set<symbol_table::TokenID>
+LL1Parser::Follow(symbol_table::TokenID arg) {
     auto it = follow_sets_.find(arg);
     if (it != follow_sets_.end()) {
         return it->second;
@@ -262,17 +312,17 @@ std::unordered_set<std::string> LL1Parser::Follow(const std::string& arg) {
     return {};
 }
 
-std::unordered_set<std::string>
-LL1Parser::PredictionSymbols(const std::string&              antecedent,
-                             const std::vector<std::string>& consequent) {
-    std::unordered_set<std::string> hd{};
-    First({consequent}, hd);
-    if (!hd.contains(symbol_table::EPSILON_)) {
-        return hd;
+std::unordered_set<symbol_table::TokenID>
+LL1Parser::PredictionSymbols(symbol_table::TokenID antecedent,
+                             const production&     consequent) {
+    std::unordered_set<symbol_table::TokenID> first{};
+    First({consequent}, first);
+    if (!first.contains(symbol_table::EPSILON_ID)) {
+        return first;
     }
-    hd.erase(symbol_table::EPSILON_);
-    hd.merge(Follow(antecedent));
-    return hd;
+    first.erase(symbol_table::EPSILON_ID);
+    first.merge(Follow(antecedent));
+    return first;
 }
 
 void LL1Parser::PrintTable() {
@@ -280,22 +330,37 @@ void LL1Parser::PrintTable() {
         PrintTableUsingTabulate();
         return;
     }
-    for (const auto& outerPair : ll1_t_) {
-        const std::string& nonTerminal = outerPair.first;
-        std::cout << "Non-terminal: " << nonTerminal << "\n";
+    for (const auto& nonTerminal : gr_.nt_order_) {
+        auto it = ll1_t_.find(nonTerminal);
+        if (it == ll1_t_.end())
+            continue;
 
-        for (const auto& innerPair : outerPair.second) {
-            const std::string& symbol      = innerPair.first;
-            const auto&        productions = innerPair.second;
+        const auto& row = it->second;
+        std::cout << "Non-terminal: " << symbol_table::ToString(nonTerminal)
+                  << "\n";
 
-            std::cout << "\tSymbol: " << symbol << " -> { ";
+        size_t maxSymLen = 0;
+        for (const auto& innerPair : row) {
+            maxSymLen = std::max(
+                maxSymLen, symbol_table::ToString(innerPair.first).size());
+        }
+
+        for (const auto& innerPair : row) {
+            symbol_table::TokenID symbol      = innerPair.first;
+            const auto&           productions = innerPair.second;
+
+            std::cout << "\tSymbol: " << std::setw(static_cast<int>(maxSymLen))
+                      << std::left << symbol_table::ToString(symbol)
+                      << " -> { ";
+
             for (const auto& prod : productions) {
                 std::cout << "[ ";
-                for (const std::string& elem : prod) {
-                    std::cout << elem << " ";
+                for (auto elem : prod) {
+                    std::cout << symbol_table::ToString(elem) << " ";
                 }
                 std::cout << "] ";
             }
+
             std::cout << "}\n";
         }
         std::cout << "\n";
@@ -306,8 +371,8 @@ void LL1Parser::PrintTableUsingTabulate() {
     using namespace tabulate;
     Table table;
 
-    Table::Row_t                          headers = {"Non-terminal"};
-    std::unordered_map<std::string, bool> columns;
+    Table::Row_t                                    headers = {"Non-terminal"};
+    std::unordered_map<symbol_table::TokenID, bool> columns;
 
     for (const auto& outerPair : ll1_t_) {
         for (const auto& innerPair : outerPair.second) {
@@ -316,7 +381,7 @@ void LL1Parser::PrintTableUsingTabulate() {
     }
 
     for (const auto& col : columns) {
-        headers.push_back(col.first);
+        headers.push_back(symbol_table::ToString(col.first));
     }
 
     auto& header_row = table.add_row(headers);
@@ -325,19 +390,13 @@ void LL1Parser::PrintTableUsingTabulate() {
         .font_color(Color::yellow)
         .font_style({FontStyle::bold});
 
-    std::vector<std::string> non_terminals;
-    for (const auto& outerPair : ll1_t_) {
-        non_terminals.push_back(outerPair.first);
+    std::vector<symbol_table::TokenID> non_terminals;
+    for (const auto& nt : gr_.nt_order_) {
+        non_terminals.push_back(nt);
     }
 
-    std::ranges::sort(non_terminals, [this](const std::string& a, const std::string& b) {
-        return (a == gr_.axiom_) ? true 
-            : (b == gr_.axiom_) ? false
-            : a < b;
-    });
-
-    for (const std::string& nonTerminal : non_terminals) {
-        Table::Row_t row_data = {nonTerminal};
+    for (symbol_table::TokenID nonTerminal : non_terminals) {
+        Table::Row_t row_data = {symbol_table::ToString(nonTerminal)};
 
         for (const auto& col : columns) {
             auto innerIt = ll1_t_.at(nonTerminal).find(col.first);
@@ -345,8 +404,8 @@ void LL1Parser::PrintTableUsingTabulate() {
                 std::string cell_content;
                 for (const auto& prod : innerIt->second) {
                     cell_content += "[ ";
-                    for (const std::string& elem : prod) {
-                        cell_content += elem + " ";
+                    for (auto elem : prod) {
+                        cell_content += symbol_table::ToString(elem) + " ";
                     }
                     cell_content += "] ";
                 }
@@ -372,4 +431,38 @@ void LL1Parser::PrintTableUsingTabulate() {
 
     // Print the table
     std::cout << table << "\n";
+}
+
+void LL1Parser::ExportTreeAsDot(const ParseTree&   tree,
+                                const std::string& filename) {
+    if (!tree)
+        return;
+
+    std::ofstream out(filename);
+    if (!out)
+        throw std::runtime_error("Cannot open file '" + filename + "'");
+    out << "digraph ParseTree {\n";
+    size_t id = 0;
+
+    std::function<size_t(const ParseNode*)> dump = [&](const ParseNode* node) {
+        size_t current = id++;
+        out << "  node" << current << " [label=\"" << node->symbol << "\"";
+        bool is_leaf = node->children.empty();
+        bool is_terminal =
+            symbol_table::In(node->symbol) &&
+            symbol_table::IsTerminal(symbol_table::ToID(node->symbol));
+        if (is_leaf && is_terminal && node->symbol != symbol_table::EPSILON_ &&
+            node->symbol != symbol_table::EOF_) {
+            out << ", style=filled, fillcolor=lightblue";
+        }
+        out << "]\n";
+        for (const auto& child : node->children) {
+            size_t child_id = dump(child.get());
+            out << "  node" << current << " -> node" << child_id << "\n";
+        }
+        return current;
+    };
+
+    dump(tree.get());
+    out << "}\n";
 }

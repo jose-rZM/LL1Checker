@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['lex_0',['Lex',['../classLex.html#a613c8aca4a26fcb26ec5d255e0b39ab4',1,'Lex']]],
-  ['ll1parser_1',['LL1Parser',['../classLL1Parser.html#a419899deba2324f6018dff5aa8f1c933',1,'LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format=true)'],['../classLL1Parser.html#a573b8200f9a1dce0e22caa9ea633c4a1',1,'LL1Parser::LL1Parser(const std::string &amp;grammar_file, std::string text_file, bool table_format=true)'],['../classLL1Parser.html#ac3644ed0d218effcaa8ac25ef329a5d5',1,'LL1Parser::LL1Parser(const std::string &amp;grammar_file, bool table_format=true)']]]
+  ['lex_0',['Lex',['../classLex.html#af7bda79c671dbae0e2fb6f4d21988d6d',1,'Lex']]],
+  ['ll1parser_1',['LL1Parser',['../classLL1Parser.html#a48c99d9c03693c3ca3dd114345b78e77',1,'LL1Parser::LL1Parser(Grammar gr, std::string text_file, bool table_format=true, bool text_is_raw=false)'],['../classLL1Parser.html#a1e1eb179119f88a8314f4233855a92ff',1,'LL1Parser::LL1Parser(const std::string &amp;grammar_file, std::string text_file, bool table_format=true, bool text_is_raw=false)']]]
 ];

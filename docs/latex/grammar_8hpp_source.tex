@@ -3,11 +3,11 @@
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{keyword}{using\ }production\ =\ std::vector<std::string>;}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}symbol\_table.hpp"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{keyword}{using\ }production\ =\ std::vector<symbol\_table::TokenID>;}
 \DoxyCodeLine{00007\ }
 \DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGrammar_a3700f92e52d3df01fe1d814126e08a79}{Grammar}}\ \{}
 \DoxyCodeLine{00009\ }
@@ -15,27 +15,27 @@
 \DoxyCodeLine{00019\ }
 \DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structGrammar_ac2ef7218be4c6d7a778035b89f5a20a5}{ReadFromFile}}();}
 \DoxyCodeLine{00031\ }
-\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structGrammar_a539261e8ebcc688020f43d98510a79a0}{AddRule}}(\textcolor{keyword}{const}\ std::string\&\ antecedent,\ \textcolor{keyword}{const}\ std::string\&\ consequent);}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structGrammar_a27ecdbca735ffb275a2bad9d1ea539c3}{SetAxiom}}(\textcolor{keyword}{const}\ std::string\&\ axiom);}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structGrammar_a67c3e8fa5bb1bc874c66a85d42222e92}{HasEmptyProduction}}(\textcolor{keyword}{const}\ std::string\&\ antecedent);}
-\DoxyCodeLine{00065\ }
-\DoxyCodeLine{00077\ \ \ \ \ std::vector<std::pair<const\ std::string,\ production>>}
-\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{structGrammar_a9666d9181ec616ffdb8f090b60a3aba1}{FilterRulesByConsequent}}(\textcolor{keyword}{const}\ std::string\&\ arg);}
-\DoxyCodeLine{00079\ }
-\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structGrammar_aefb03447a650b7601edc6b10e790bc50}{Debug}}();}
-\DoxyCodeLine{00087\ }
-\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{static}\ std::vector<std::string>\ \mbox{\hyperlink{structGrammar_add2f414fe2ddf7e578a70c255daa1996}{Split}}(\textcolor{keyword}{const}\ std::string\&\ s);}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structGrammar_a5f08bb51ba6f87ed6a636f4cd354330e}{HasLeftRecursion}}(\textcolor{keyword}{const}\ std::string\&\ \ \ \ \ \ \ \ \ \ \ \ \ \ antecedent,}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<std::string>\&\ consequent);}
-\DoxyCodeLine{00115\ }
-\DoxyCodeLine{00120\ \ \ \ \ std::unordered\_map<std::string,\ std::vector<production>>\ \mbox{\hyperlink{structGrammar_ac16e6ae6c52586612ecf1ceb19fb1dd5}{g\_}};}
-\DoxyCodeLine{00121\ }
-\DoxyCodeLine{00125\ \ \ \ \ std::string\ \mbox{\hyperlink{structGrammar_a8bdbc1072253034fab2c1269a4660f57}{axiom\_}};}
-\DoxyCodeLine{00126\ }
-\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \mbox{\hyperlink{structGrammar_aad7a482e4c371a110ef69a6558900c7a}{kFilename}};}
-\DoxyCodeLine{00131\ \};}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structGrammar_a011f3595326dbcda598efb3eb3cab74c}{AddRule}}(symbol\_table::TokenID\ antecedent,}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ production\&\ \ \ \ \ consequent);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structGrammar_a4485d0341409272b6e656abf6c94dc31}{SetAxiom}}(symbol\_table::TokenID\ axiom);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00066\ \ \ \ \ std::vector<std::pair<symbol\_table::TokenID,\ production>>}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{structGrammar_ac264fca129c173f5a5f6c1e5066a2adb}{FilterRulesByConsequent}}(symbol\_table::TokenID\ arg);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structGrammar_aefb03447a650b7601edc6b10e790bc50}{Debug}}();}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keyword}{static}\ std::vector<symbol\_table::TokenID>\ \mbox{\hyperlink{structGrammar_add6e0b9e24f431fddedf85c2aa3f2053}{Split}}(\textcolor{keyword}{const}\ std::string\&\ s);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00097\ \ \ \ \ std::string\ \mbox{\hyperlink{structGrammar_a1292224f6afedaa080aeab04af081a37}{GenerateNewNonTerminal}}(\textcolor{keyword}{const}\ std::string\&\ base);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00103\ \ \ \ \ std::unordered\_map<symbol\_table::TokenID,\ std::vector<production>>\ \mbox{\hyperlink{structGrammar_ad453fcc26407fcbeba027cfcf7d74210}{g\_}};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00108\ \ \ \ \ std::vector<symbol\_table::TokenID>\ \mbox{\hyperlink{structGrammar_aba191981f90d1aad9a82ae960a1b86dc}{nt\_order\_}}\{\};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00113\ \ \ \ \ symbol\_table::TokenID\ \mbox{\hyperlink{structGrammar_a512fefc3a166df80c36c0ed9cf496daf}{axiom\_}}\{\};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \mbox{\hyperlink{structGrammar_aad7a482e4c371a110ef69a6558900c7a}{kFilename}};}
+\DoxyCodeLine{00119\ \};}
 
 \end{DoxyCode}

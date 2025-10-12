@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['eol_5f_0',['EOL_',['../structsymbol__table.html#accf710aa9a16c51be6b9060505d2d753',1,'symbol_table']]],
-  ['epsilon_5f_1',['EPSILON_',['../structsymbol__table.html#abbd8e15ddf0c452ee640db2af5d868f5',1,'symbol_table']]]
+  ['children_0',['children',['../structLL1Parser_1_1ParseNode.html#a36addcb2df0669fd4bd54b570501d2fd',1,'LL1Parser::ParseNode']]]
 ];

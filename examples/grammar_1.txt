@@ -1,11 +1,11 @@
-terminal ac "[";
-terminal cp "]";
-terminal comma ",";
-terminal pyc ";";
-terminal elem "a";
+terminal ac \[;
+terminal cp \];
+terminal comma ,;
+terminal pyc ;;
+terminal elem [a-zA-Z$]+;
 start with S;
 ;
-S -> E$;
+S -> E;
 E -> ac A cp;
 A ->;
 A -> BC;

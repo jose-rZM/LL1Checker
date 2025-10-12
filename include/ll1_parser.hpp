@@ -1,5 +1,7 @@
 #pragma once
 #include "grammar.hpp"
+#include "lexer.hpp"
+#include "symbol_table.hpp"
 #include <deque>
 #include <queue>
 #include <span>
@@ -11,16 +13,25 @@
 
 class LL1Parser {
     using ll1_table = std::unordered_map<
-        std::string, std::unordered_map<std::string, std::vector<production>>>;
+        symbol_table::TokenID,
+        std::unordered_map<symbol_table::TokenID, std::vector<production>>>;
 
-  public:
+public:
+    /// @brief Node used to build a parse tree.
+    struct ParseNode {
+        std::string                             symbol;    ///< Grammar symbol.
+        std::vector<std::unique_ptr<ParseNode>> children;  ///< Child nodes.
+    };
+
+    using ParseTree = std::unique_ptr<ParseNode>;
     /**
      * @brief Constructs an LL1Parser with a grammar object and an input file.
      *
      * @param gr Grammar object to parse with.
      * @param text_file Name of the file containing input to parse.
      */
-    LL1Parser(Grammar gr, std::string text_file, bool table_format = true);
+    LL1Parser(Grammar gr, std::string text_file, bool table_format = true,
+              bool text_is_raw = false);
 
     /**
      * @brief Constructs an LL1Parser with a grammar file and an input file.
@@ -29,15 +40,7 @@ class LL1Parser {
      * @param text_file Name of the file containing input to parse.
      */
     LL1Parser(const std::string& grammar_file, std::string text_file,
-              bool table_format = true);
-
-    /**
-     * @brief Constructs an LL1Parser with a grammar file.
-     *
-     * @param grammar_file Path to the grammar file.
-     */
-    explicit LL1Parser(const std::string& grammar_file,
-                       bool               table_format = true);
+              bool table_format = true, bool text_is_raw = false);
 
     /**
      * @brief Parses an input string or file using the LL(1) parsing algorithm.
@@ -68,6 +71,11 @@ class LL1Parser {
      */
     bool Parse();
 
+    /// @brief Parse a file and return the parse tree.
+    /// @param file Path to the input text file.
+    /// @return Root of the parse tree on success, nullptr on failure.
+    ParseTree ParseWithTree(const std::string& file);
+
     /**
      * @brief Matches a terminal symbol from the stack with the current input
      * symbol.
@@ -82,8 +90,8 @@ class LL1Parser {
      * @return true if the terminal symbol matches the current input symbol,
      * false otherwise.
      */
-    bool MatchTerminal(const std::string& top_symbol,
-                       const std::string& current_symbol);
+    bool MatchTerminal(symbol_table::TokenID top_symbol,
+                       symbol_table::TokenID current_symbol);
 
     /**
      * @brief Processes a non-terminal symbol by expanding it according to the
@@ -101,13 +109,15 @@ class LL1Parser {
      * stack.
      * @param current_symbol The current input symbol used to select a
      * production.
+     * @param symbol_stack Parser symbol stack
      *
      * @return true if a production was successfully applied or an empty
      * production exists, false if no valid production exists for the current
      * input.
      */
-    bool ProcessNonTerminal(const std::string& top_symbol,
-                            const std::string& current_symbol);
+    bool ProcessNonTerminal(symbol_table::TokenID              top_symbol,
+                            symbol_table::TokenID              current_symbol,
+                            std::stack<symbol_table::TokenID>& symbol_stack);
 
     /**
      * @brief Print the LL(1) parsing table to standard output.
@@ -121,27 +131,24 @@ class LL1Parser {
      */
     void PrintTable();
 
-    /**
-     * @brief Prints the remaining symbols in the parsing stack after the
-     * parsing process.
-     *
-     * This function outputs the contents of the parsing stack to standard
-     * output after the parsing attempt completes, showing any symbols left
-     * unresolved. It is useful for debugging and tracing parsing issues, as it
-     * provides insight into where the parsing process may have diverged from
-     * expected behavior.
-     */
-    void PrintStackTrace();
+    /// @brief Export the parse tree in GraphViz dot format.
+    void ExportTreeAsDot(const ParseTree& tree, const std::string& filename);
 
+private:
     /**
-     * @brief Prints the last kTraceSize symbols processed.
+     * @brief Reports a parsing error printing the problematic line and a
+     * context window of 2 lines.
      *
-     * Primarily used to identify the most recent tokens processed in case
-     * of parsing errors.
+     * @param input File content reference loaded in Lexer.
+     * @param err_pos Problematic token position in input.
+     * @param expected Expected token in the parser stack (terminal or grammar
+     * symbol).
+     * @param found Token found instead of the expected one
      */
-    void PrintSymbolHist();
+    void ReportParseError(const std::string& input, size_t err_pos,
+                          symbol_table::TokenID expected,
+                          symbol_table::TokenID found);
 
-  private:
     /**
      * @brief Calculates the FIRST set for a given production rule in a grammar.
      *
@@ -168,8 +175,8 @@ class LL1Parser {
      * symbols that can start derivations of the rule, and possibly epsilon if
      * the rule can derive an empty string.
      */
-    void First(std::span<const std::string>     rule,
-               std::unordered_set<std::string>& result);
+    void First(std::span<const symbol_table::TokenID>     rule,
+               std::unordered_set<symbol_table::TokenID>& result);
 
     /**
      * @brief Computes the FIRST sets for all non-terminal symbols in the
@@ -229,7 +236,7 @@ class LL1Parser {
      * @return true if the FOLLOW set was modified (new elements were added),
      * false otherwise.
      */
-    bool UpdateFollow(const std::string& symbol, const std::string& lhs,
+    bool UpdateFollow(symbol_table::TokenID symbol, symbol_table::TokenID lhs,
                       const production& rhs, size_t i);
 
     /**
@@ -249,7 +256,7 @@ class LL1Parser {
      * @return An unordered set of strings containing symbols that form the
      * FOLLOW set for `arg`.
      */
-    std::unordered_set<std::string> Follow(const std::string& arg);
+    std::unordered_set<symbol_table::TokenID> Follow(symbol_table::TokenID arg);
 
     /**
      * @brief Computes the prediction symbols for a given
@@ -273,9 +280,9 @@ class LL1Parser {
      * @return An unordered set of strings containing the prediction symbols for
      * the specified rule.
      */
-    std::unordered_set<std::string>
-    PredictionSymbols(const std::string&              antecedent,
-                      const std::vector<std::string>& consequent);
+    std::unordered_set<symbol_table::TokenID>
+    PredictionSymbols(symbol_table::TokenID antecedent,
+                      const production&     consequent);
 
     /**
      * @brief Creates the LL(1) parsing table for the grammar.
@@ -314,9 +321,6 @@ class LL1Parser {
      */
     void PrintTableUsingTabulate();
 
-    /// @brief Size limit for symbol history trace, defaults to 5.
-    const size_t kTraceSize{5};
-
     /// @brief The LL(1) parsing table, mapping non-terminals and terminals to
     /// productions.
     ll1_table ll1_t_;
@@ -325,24 +329,23 @@ class LL1Parser {
     Grammar gr_;
 
     /// @brief FIRST sets for each non-terminal in the grammar.
-    std::unordered_map<std::string, std::unordered_set<std::string>>
+    std::unordered_map<symbol_table::TokenID,
+                       std::unordered_set<symbol_table::TokenID>>
         first_sets_;
 
     /// @brief FOLLOW sets for each non-terminal in the grammar.
-    std::unordered_map<std::string, std::unordered_set<std::string>>
+    std::unordered_map<symbol_table::TokenID,
+                       std::unordered_set<symbol_table::TokenID>>
         follow_sets_;
-
-    /// @brief Stack for managing parsing symbols.
-    std::stack<std::string> symbol_stack_;
-
-    /// @brief Deque for tracking the most recent kTraceSize symbols parsed.
-    std::deque<std::string> trace_;
 
     /// @brief Path to the grammar file used in this parser.
     std::string grammar_file_;
 
     /// @brief Path to the input text file to be parsed.
     std::string text_file_;
+
+    /// @brief If true, treat text_file_ as raw input rather than a filename.
+    bool text_is_raw_{false};
 
     /// @brief True if new format is used when printing the table
     bool print_table_format_{true};

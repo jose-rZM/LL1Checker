@@ -1,9 +1,9 @@
 #pragma once
+#include "symbol_table.hpp"
 #include <string>
 #include <unordered_map>
 #include <vector>
-
-using production = std::vector<std::string>;
+using production = std::vector<symbol_table::TokenID>;
 
 struct Grammar {
 
@@ -39,7 +39,8 @@ struct Grammar {
      * consequent production. This function processes and adds each rule for
      * parsing.
      */
-    void AddRule(const std::string& antecedent, const std::string& consequent);
+    void AddRule(symbol_table::TokenID antecedent,
+                 const production&     consequent);
 
     /**
      * @brief Sets the axiom (entry point) of the grammar.
@@ -49,33 +50,21 @@ struct Grammar {
      * Defines the starting point for the grammar, which is used in parsing
      * algorithms and must be a non-terminal symbol present in the grammar.
      */
-    void SetAxiom(const std::string& axiom);
-
-    /**
-     * @brief Checks if a given antecedent has an empty production.
-     *
-     * @param antecedent The left-hand side (LHS) symbol to check.
-     * @return true if there exists an empty production for the antecedent,
-     *         otherwise false.
-     *
-     * An empty production is represented as `<antecedent> -> ;`, indicating
-     * that the antecedent can produce an empty string.
-     */
-    bool HasEmptyProduction(const std::string& antecedent);
+    void SetAxiom(symbol_table::TokenID axiom);
 
     /**
      * @brief Filters grammar rules that contain a specific token in their
      * consequent.
      *
-     * @param arg The token to search for within the consequents of the rules.
+     * @param arg The token to search for within the consequent of the rules.
      * @return std::vector of pairs where each pair contains an antecedent and
      * its respective production that includes the specified token.
      *
      * Searches for rules in which the specified token is part of the consequent
      * and returns those rules.
      */
-    std::vector<std::pair<const std::string, production>>
-    FilterRulesByConsequent(const std::string& arg);
+    std::vector<std::pair<symbol_table::TokenID, production>>
+    FilterRulesByConsequent(symbol_table::TokenID arg);
 
     /**
      * @brief Prints the current grammar structure to standard output.
@@ -96,33 +85,32 @@ struct Grammar {
      * on the symbol table, allowing terminals and non-terminals to be
      * identified.
      */
-    static std::vector<std::string> Split(const std::string& s);
+    static std::vector<symbol_table::TokenID> Split(const std::string& s);
 
     /**
-     * @brief Checks if a rule exhibits left recursion.
+     * @brief Generate a new non terminal symbol by appending ' to base until it
+     * is not in symbol table.
      *
-     * @param antecedent The left-hand side (LHS) symbol of the rule.
-     * @param consequent The right-hand side (RHS) vector of tokens of the rule.
-     * @return true if the rule has left recursion (e.g., A -> A + A), otherwise
-     * false.
-     *
-     * Left recursion is identified when the antecedent of a rule appears as the
-     * first symbol in its consequent, which may cause issues in top-down
-     * parsing algorithms.
+     * @param base Base non terminal used to generate the new one
+     * @return New non terminal
      */
-    static bool HasLeftRecursion(const std::string&              antecedent,
-                                 const std::vector<std::string>& consequent);
+    std::string GenerateNewNonTerminal(const std::string& base);
 
     /**
      * @brief Stores the grammar rules with each antecedent mapped to a list of
      * productions.
      */
-    std::unordered_map<std::string, std::vector<production>> g_;
+    std::unordered_map<symbol_table::TokenID, std::vector<production>> g_;
+
+    /**
+     * @brief Keeps the insertion order of non-terminal symbols.
+     */
+    std::vector<symbol_table::TokenID> nt_order_{};
 
     /**
      * @brief The axiom or entry point of the grammar.
      */
-    std::string axiom_;
+    symbol_table::TokenID axiom_{};
 
     /**
      * @brief The filename from which the grammar is read.

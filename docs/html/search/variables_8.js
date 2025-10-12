@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['print_5ftable_5fformat_5f_0',['print_table_format_',['../classLL1Parser.html#a20c0e1a3542584905c82e22156c35d92',1,'LL1Parser']]]
+  ['names_5f_0',['names_',['../structsymbol__table.html#a8eb25570e4869b1b00360e0301938d04',1,'symbol_table']]],
+  ['nt_5forder_5f_1',['nt_order_',['../structGrammar.html#aba191981f90d1aad9a82ae960a1b86dc',1,'Grammar']]]
 ];

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['g_5f_0',['g_',['../structGrammar.html#ac16e6ae6c52586612ecf1ceb19fb1dd5',1,'Grammar']]],
-  ['gr_5f_1',['gr_',['../classLL1Parser.html#a8148d39b8f39a98b4210490346beb3b4',1,'LL1Parser']]],
-  ['grammar_5ffile_5f_2',['grammar_file_',['../classLL1Parser.html#a69d3b82775755d12b9f2c5a874efa365',1,'LL1Parser']]]
+  ['filename_5f_0',['filename_',['../classLex.html#a2edfb30a2ba422c2f521eaa0211a1491',1,'Lex']]],
+  ['first_5fsets_5f_1',['first_sets_',['../classLL1Parser.html#a5e83ee8bad32c9e57cd0a9a47839b905',1,'LL1Parser']]],
+  ['follow_5fsets_5f_2',['follow_sets_',['../classLL1Parser.html#afe0b374dd1f750b0c7ec7f17d034ac9f',1,'LL1Parser']]]
 ];

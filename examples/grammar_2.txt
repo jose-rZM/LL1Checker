@@ -1,10 +1,10 @@
-terminal ac "[";
-terminal cc "]";
-terminal elem "a";
-terminal comma ",";
+terminal ac \[;
+terminal cc \];
+terminal elem a;
+terminal comma ,;
 start with S;
 ;
-S-> L $;
+S-> L;
 L -> ac A;
 A -> cc;
 A -> B cc;

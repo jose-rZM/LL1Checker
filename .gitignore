@@ -30,7 +30,7 @@
 *.exe
 *.out
 *.app
-parser
+ll1
 
 # Vscode
 .vscode
@@ -41,3 +41,7 @@ lex.yy.c
 
 # IDEA
 .idea
+
+build
+
+gen.py

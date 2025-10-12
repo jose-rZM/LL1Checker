@@ -1,31 +1,58 @@
-CXX = g++
-CXXFLAGS = -std=c++20 -O3
-SRC_DIR = src
-HPP_DIR = include
-OBJ_DIR = out
+# Configuration
+BUILD_DIR ?= build
+BUILD_TYPE ?= Debug
+STATIC ?= 0
+CMAKE := cmake
+EXECUTABLE := $(BUILD_DIR)/app/ll1
 
-all: program
+ifeq ($(filter 1 true TRUE on ON,$(STATIC)),)
+STATIC_FLAG := OFF
+else
+STATIC_FLAG := ON
+endif
+CMAKE_CONFIG_FLAGS := -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
+	-DLL1CHECKER_FORCE_STATIC_RUNTIME=$(STATIC_FLAG)
 
-program: $(OBJ_DIR)/main.o $(OBJ_DIR)/ll1_parser.o  $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/lexer.o $(OBJ_DIR)/grammar.o
-	$(CXX) $(CXXFLAGS) -o ll1 $^ /usr/lib/libboost_regex.a /usr/lib/libboost_program_options.a
+# Targets
+.PHONY: all build clean rebuild format run help
 
-$(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp $(HPP_DIR)/grammar.hpp  $(OBJ_DIR)/ll1_parser.o
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+all: build
 
-$(OBJ_DIR)/grammar.o: $(SRC_DIR)/grammar.cpp $(HPP_DIR)/grammar.hpp $(OBJ_DIR)/symbol_table.o
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/symbol_table.o: $(SRC_DIR)/symbol_table.cpp $(HPP_DIR)/symbol_table.hpp
-	 $(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/lexer.o: $(SRC_DIR)/lexer.cpp $(HPP_DIR)/lexer.hpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/ll1_parser.o: $(SRC_DIR)/ll1_parser.cpp $(HPP_DIR)/ll1_parser.hpp $(OBJ_DIR)/symbol_table.o $(OBJ_DIR)/lexer.o $(OBJ_DIR)/grammar.o
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-format:
-	@find . -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
+build:
+	@echo ">> Configuring build ($(BUILD_TYPE))..."
+	@$(CMAKE) -S . -B $(BUILD_DIR) $(CMAKE_CONFIG_FLAGS)
+	@echo ">> Building..."
+	@$(CMAKE) --build $(BUILD_DIR) -- -j$(shell nproc)
 
 clean:
-	rm -f ll1 $(OBJ_DIR)/*.o
+	@echo ">> Removing build directory..."
+	@rm -rf $(BUILD_DIR)
+
+rebuild: clean build
+
+format:
+	@echo ">> Formatting .cpp and .hpp files with clang-format..."
+	@find src include \( -name "*.cpp" -o -name "*.hpp" \) | grep -v "include/tabulate.hpp" | xargs clang-format -i
+
+run: build
+	@echo ">> Running $(EXECUTABLE)..."
+	@$(EXECUTABLE)
+
+static: BUILD_TYPE = Release
+static: STATIC = 1
+static: build
+
+help:
+	@echo "Available commands:"
+	@echo "  make build         - Configure and compile the project (Debug by default)"
+	@echo "  make clean         - Remove the build/ directory"
+	@echo "  make rebuild       - Clean and compile again"
+	@echo "  make format        - Run clang-format on all .cpp/.hpp files"
+	@echo "  make run           - Build (if needed) and run the executable"
+	@echo "  make               - Alias for build"
+	@echo
+	@echo "To change build type:"
+	@echo "  make BUILD_TYPE=Release build"
+	@echo "To force a static Release build:"
+	@echo "  make static"
+	@echo "  # or make BUILD_TYPE=Release STATIC=1 build"
