@@ -3,17 +3,28 @@
 
 ## 📖 Table of Contents
 1. [Project Status](#-project-status)
-2. [Run the Program](#%EF%B8%8F-run)
-3. [Considerations](#-considerations)
-4. [Structure of grammar.txt](#-structure-of-grammartxt)
-5. [Want to Contribute?](#-want-to-contribute)
-6. [Compilation](#%EF%B8%8F-compilation)
-7. [Documentation](#-documentation)
+2. [What's New in v5.0](#-whats-new-in-v50)
+3. [Run the Program](#%EF%B8%8F-run)
+4. [Dependencies](#-dependencies)
+5. [Considerations](#-considerations)
+6. [Structure of grammar.txt](#-structure-of-grammartxt)
+7. [Want to Contribute?](#-want-to-contribute)
+8. [Compilation](#%EF%B8%8F-compilation)
+9. [Documentation](#-documentation)
 
 ## 🚀 Project Status
 
 This project is complete, with all essential functionalities implemented and tested with various grammars. It is now in maintenance mode for potential enhancements or bug fixes.  
 If you encounter any issues or unexpected interpretations, please open an issue and include relevant details. Contributions for further improvement are welcome!
+
+## 🆕 What's New in v5.0
+
+- The lexer, parser, and symbol table now work with numeric token identifiers, improving table lookups and reducing memory usage for large grammars.
+- Boost.Spirit powers the dynamic lexer and the parser now mirrors its diagnostics, so both lexing and parsing errors display multi-line windows with a caret pointing at the failing token.
+- Parse sessions can export a full parse tree to GraphViz-compatible `.dot` files via `--export-tree`, making it easy to visualize derivations.
+- Grammar validation is stricter: duplicate terminal or non-terminal identifiers abort loading with a descriptive error, and parse tree exports now fail fast if the output file cannot be created.
+- Command-line handling exits immediately on invalid options, preventing partial runs when arguments are malformed.
+- The build system gained an opt-in static linking toggle (`LL1CHECKER_FORCE_STATIC_RUNTIME`) and a `make static` helper target; CMake will also fetch `cxxopts` automatically when it is not installed.
 
 ## ▶️ Run
 
@@ -32,6 +43,7 @@ You can run the program as follows:
   - If set, `verbose` mode is enabled automatically.
   - The default format is `"new"`.
 - `--text <STRING>`: Directly parse the provided text instead of reading a file.
+- `--export-tree <FILE>`: Write the parse tree to a GraphViz `.dot` file when parsing succeeds.
 
 ### Examples:
 
@@ -76,6 +88,11 @@ If the grammar provided is not LL1, an error will be displayed alongside its tab
 
 **Error Handling**:  
 If `<GRAMMAR_FILENAME>` or `<TEXT_FILENAME>` do not exist or cannot be opened, the program will print an error and exit.
+
+## 📦 Dependencies
+- C++20 capable compiler and CMake ≥ 3.16.
+- Boost headers (tested with Boost 1.78+); required for the lexer built on Boost.Spirit.
+- [`cxxopts`](https://github.com/jarro2783/cxxopts) for command-line parsing. CMake will reuse an existing installation or automatically fetch v3.1.1 during configuration.
 
 ## 📌 Considerations
 - The end-of-line character can be omitted in the grammar (see grammar.txt), but it's recommended to add a first rule, such as `S -> E EOL`, where `S` is the axiom.
@@ -139,7 +156,8 @@ LL1Checker/
 ## 🤝 Want to Contribute?
 
 To get started, you'll need the following:
-- `Cxxopts`: This header-only library is used to parse command line options.
+- A working C++20 toolchain plus the dependencies listed above.
+- Familiarity with CMake; configuration will fetch `cxxopts` automatically if it is not already available on your system.
 
 Feel free to reach out if you have any questions or suggestions! 😊
 
@@ -157,6 +175,13 @@ This will configure and compile the project using the default `Debug` build type
 ```bash
 make BUILD_TYPE=Release
 ```
+To produce a static Release build (when your toolchain supports it):
+```bash
+make static
+# or make BUILD_TYPE=Release STATIC=1 build
+```
+This passes `-DLL1CHECKER_FORCE_STATIC_RUNTIME=ON` to CMake and links the C++ runtime statically where available.
+
 The `ll1` executable will be located at `build/app/ll1`.
 
 ## 📚 Documentation
