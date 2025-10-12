@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(LL1Checker LANGUAGES CXX)
+project(LL1Checker VERSION 5.0.0 LANGUAGES CXX)
 
 cmake_policy(SET CMP0077 NEW)
 
