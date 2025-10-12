@@ -14,7 +14,7 @@
 
 ## 🚀 Project Status
 
-This project is complete, with all essential functionalities implemented and tested with various grammars. It is now in maintenance mode for potential enhancements or bug fixes.  
+This project is complete, with all essential functionalities implemented and tested with various grammars. It is now in maintenance mode for potential enhancements or bug fixes.
 If you encounter any issues or unexpected interpretations, please open an issue and include relevant details. Contributions for further improvement are welcome!
 
 ## 🆕 What's New in v5.0
@@ -23,15 +23,13 @@ If you encounter any issues or unexpected interpretations, please open an issue 
 - Boost.Spirit powers the dynamic lexer and the parser now mirrors its diagnostics, so both lexing and parsing errors display multi-line windows with a caret pointing at the failing token.
 - Parse sessions can export a full parse tree to GraphViz-compatible `.dot` files via `--export-tree`, making it easy to visualize derivations.
 - Grammar validation is stricter: duplicate terminal or non-terminal identifiers abort loading with a descriptive error, and parse tree exports now fail fast if the output file cannot be created.
-- Command-line handling exits immediately on invalid options, preventing partial runs when arguments are malformed.
-- The build system gained an opt-in static linking toggle (`LL1CHECKER_FORCE_STATIC_RUNTIME`) and a `make static` helper target; CMake will also fetch `cxxopts` automatically when it is not installed.
 
 ## ▶️ Run
 
 You can run the program as follows:
 ~~~
 ./ll1 <GRAMMAR_FILENAME> [TEXT_FILENAME] [OPTIONS]
-~~~ 
+~~~
 ### Positional Arguments:
 - `<GRAMMAR_FILENAME>`: Path to the file containing the grammar.
 - `[TEXT_FILENAME]` (optional): If provided, the program will validate whether the input string belongs to the language defined by the grammar.
@@ -51,7 +49,7 @@ You can run the program as follows:
 ~~~
 ./ll1 grammar.txt
 ~~~
-- Verifies if the provided grammar is LL(1).  
+- Verifies if the provided grammar is LL(1).
 
 #### No LL1 grammars
 If the grammar provided is not LL1, an error will be displayed alongside its table:
@@ -75,7 +73,7 @@ If the grammar provided is not LL1, an error will be displayed alongside its tab
 ./ll1 grammar.txt input.txt -v
 ~~~
 ![Verbose](.github/screenshots/parseinputverbose.png)
-- Displays the entire LL(1) table.  
+- Displays the entire LL(1) table.
 - Prints the contents of `input.txt` before parsing.
 
 #### Specifying the table format
@@ -86,7 +84,25 @@ If the grammar provided is not LL1, an error will be displayed alongside its tab
 
 - Use the old table format when the new format cannot be displayed correctly due to screen size
 
-**Error Handling**:  
+#### NEW! Reporting lexing errors
+- If a lexer error is raised, the program will print where it is produced:
+![Lexer error](.github/screenshots/caret_lexing_error.png)
+
+#### NEW! Reporting parsing errors
+- If a parse error is raised, the program will print where it is produced:
+![Parse error](.github/screenshots/caret_parse_error.png)
+
+#### NEW! Export tree as .dot file
+- Now you can export the parse tree to a graphviz file
+- run `./ll1 grammar.txt input.txt --export-tree tree.dot` this will generate a .dot file
+- Now you simply run `dot -Tpng tree.dot -o output.png` to generate an image
+~~~
+./ll1 examples/grammar_3.txt examples/input_3.txt --export-tree tree.dot
+dot -Tpng tree.png -o output.png
+~~~
+![Parse tree](.github/screenshots/output.png)
+
+**Error Handling**:
 If `<GRAMMAR_FILENAME>` or `<TEXT_FILENAME>` do not exist or cannot be opened, the program will print an error and exit.
 
 ## 📦 Dependencies
@@ -95,7 +111,7 @@ If `<GRAMMAR_FILENAME>` or `<TEXT_FILENAME>` do not exist or cannot be opened, t
 - [`cxxopts`](https://github.com/jarro2783/cxxopts) for command-line parsing. CMake will reuse an existing installation or automatically fetch v3.1.1 during configuration.
 
 ## 📌 Considerations
-- The end-of-line character can be omitted in the grammar (see grammar.txt), but it's recommended to add a first rule, such as `S -> E EOL`, where `S` is the axiom.
+- There are two reserved symbols you must not use `<<EPSILON>>` and `<<EOF>>`.
 - For terminal symbols, note that order matters. If two regexes have common elements, place the more specific one first, as in the example:
 ~~~
 terminal WH "while";
@@ -107,10 +123,6 @@ terminal WORD [a-zA-Z][a-zA-Z]*;
 The grammar file has two sections separated by `;`: **symbol definition** and **grammar definition**.
 
 ### Symbol definition
-~~~
-start with S;
-~~~
-You should write the last line to designate S as the axiom.
 The terminal symbols follow the following structure: `terminal <IDENTIFIER> <REGEX>;` (like a variable!). The `<IDENTIFIER>` should adhere to the following regex pattern: `[a-zA-Z_\'][a-zA-Z_\'0-9]*`.
 An example of the first section would be:
 ~~~
@@ -118,6 +130,9 @@ terminal a a;
 start with S;
 ;
 ~~~
+You should write the last line to designate S as the axiom. The grammar will be augmented internally to generate a new non terminal whose production will be `S' -> S <<EOF>>`
+
+
 ### Grammar definition
 The grammar follows the following structure:
 ~~~
@@ -186,5 +201,5 @@ The `ll1` executable will be located at `build/app/ll1`.
 
 ## 📚 Documentation
 
-The complete API documentation is available here:  
+The complete API documentation is available here:
 [**LL1Checker Documentation**](https://jose-rzm.github.io/LL1Checker/)
