@@ -1,25 +1,9 @@
 var searchData=
 [
-  ['s0_0',['S0',['../structnonstd_1_1variants_1_1detail_1_1S0.html',1,'nonstd::variants::detail']]],
-  ['s1_1',['S1',['../structnonstd_1_1variants_1_1detail_1_1S1.html',1,'nonstd::variants::detail']]],
-  ['s10_2',['S10',['../structnonstd_1_1variants_1_1detail_1_1S10.html',1,'nonstd::variants::detail']]],
-  ['s11_3',['S11',['../structnonstd_1_1variants_1_1detail_1_1S11.html',1,'nonstd::variants::detail']]],
-  ['s12_4',['S12',['../structnonstd_1_1variants_1_1detail_1_1S12.html',1,'nonstd::variants::detail']]],
-  ['s13_5',['S13',['../structnonstd_1_1variants_1_1detail_1_1S13.html',1,'nonstd::variants::detail']]],
-  ['s14_6',['S14',['../structnonstd_1_1variants_1_1detail_1_1S14.html',1,'nonstd::variants::detail']]],
-  ['s15_7',['S15',['../structnonstd_1_1variants_1_1detail_1_1S15.html',1,'nonstd::variants::detail']]],
-  ['s2_8',['S2',['../structnonstd_1_1variants_1_1detail_1_1S2.html',1,'nonstd::variants::detail']]],
-  ['s3_9',['S3',['../structnonstd_1_1variants_1_1detail_1_1S3.html',1,'nonstd::variants::detail']]],
-  ['s4_10',['S4',['../structnonstd_1_1variants_1_1detail_1_1S4.html',1,'nonstd::variants::detail']]],
-  ['s5_11',['S5',['../structnonstd_1_1variants_1_1detail_1_1S5.html',1,'nonstd::variants::detail']]],
-  ['s6_12',['S6',['../structnonstd_1_1variants_1_1detail_1_1S6.html',1,'nonstd::variants::detail']]],
-  ['s7_13',['S7',['../structnonstd_1_1variants_1_1detail_1_1S7.html',1,'nonstd::variants::detail']]],
-  ['s8_14',['S8',['../structnonstd_1_1variants_1_1detail_1_1S8.html',1,'nonstd::variants::detail']]],
-  ['s9_15',['S9',['../structnonstd_1_1variants_1_1detail_1_1S9.html',1,'nonstd::variants::detail']]],
-  ['setaxiom_16',['SetAxiom',['../structGrammar.html#a4485d0341409272b6e656abf6c94dc31',1,'Grammar']]],
-  ['split_17',['Split',['../structGrammar.html#add6e0b9e24f431fddedf85c2aa3f2053',1,'Grammar']]],
-  ['st_5f_18',['st_',['../structsymbol__table.html#af24a2fe6fcfd751db1a7c54a0a79fd36',1,'symbol_table']]],
-  ['struct_5ft_19',['struct_t',['../structnonstd_1_1variants_1_1detail_1_1struct__t.html',1,'nonstd::variants::detail']]],
-  ['symbol_20',['symbol',['../structLL1Parser_1_1ParseNode.html#aaf268edd76b360bfabbf77ab48768f93',1,'LL1Parser::ParseNode']]],
-  ['symbol_5ftable_21',['symbol_table',['../structsymbol__table.html',1,'']]]
+  ['text_5ffile_5f_0',['text_file_',['../classLL1Parser.html#a608a4c6bd4f7e3408f1e5edcc0faf30a',1,'LL1Parser']]],
+  ['text_5fis_5fraw_5f_1',['text_is_raw_',['../classLL1Parser.html#a7c6248b5c699036d75fd4e63c88e0460',1,'LL1Parser']]],
+  ['toid_2',['ToID',['../structsymbol__table.html#a89022aafcb7db8ae6452e4de95dfa5e3',1,'symbol_table']]],
+  ['token_3',['Token',['../structLex_1_1Token.html',1,'Lex']]],
+  ['tostring_4',['ToString',['../structsymbol__table.html#af9783697c4ced31ff9a306213471e7c3',1,'symbol_table']]],
+  ['type_5',['type',['../structLex_1_1Token.html#ab5814778cd2f93fcf64b7dfc7d4f2d7c',1,'Lex::Token::type'],['../structLex_1_1Pattern.html#a9d3886aa3e155e29c11a029fac76d69d',1,'Lex::Pattern::type']]]
 ];
