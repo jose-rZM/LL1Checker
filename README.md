@@ -21,8 +21,10 @@ If you encounter any issues or unexpected interpretations, please open an issue 
 
 - The lexer, parser, and symbol table now work with numeric token identifiers, improving table lookups and reducing memory usage for large grammars.
 - Boost.Spirit powers the dynamic lexer and the parser now mirrors its diagnostics, so both lexing and parsing errors display multi-line windows with a caret pointing at the failing token.
-- Parse sessions can export a full parse tree to GraphViz-compatible `.dot` files via `--export-tree`, making it easy to visualize derivations.
+- Parse sessions can export a full parse tree to Graphviz-compatible `.dot` files via `--export-tree`, making it easy to visualize derivations.
 - Grammar validation is stricter: duplicate terminal or non-terminal identifiers abort loading with a descriptive error, and parse tree exports now fail fast if the output file cannot be created.
+- Command-line handling exits immediately on invalid options, preventing partial runs when arguments are malformed.
+- The build system gained an opt-in static linking toggle (`LL1CHECKER_FORCE_STATIC_RUNTIME`) and a `make static` helper target; CMake will also fetch `cxxopts` automatically when it is not installed.
 
 ## ▶️ Run
 
@@ -41,7 +43,7 @@ You can run the program as follows:
   - If set, `verbose` mode is enabled automatically.
   - The default format is `"new"`.
 - `--text <STRING>`: Directly parse the provided text instead of reading a file.
-- `--export-tree <FILE>`: Write the parse tree to a GraphViz `.dot` file when parsing succeeds.
+- `--export-tree <FILE>`: Write the parse tree to a Graphviz `.dot` file when parsing succeeds.
 
 ### Examples:
 
@@ -53,7 +55,8 @@ You can run the program as follows:
 
 #### No LL1 grammars
 If the grammar provided is not LL1, an error will be displayed alongside its table:
-![No LL1](.github/screenshots/noll1.png)
+
+<img src=".github/screenshots/noll1.png" alt="Non-LL1 grammar error screenshot" width="520">
 
 #### Checking if an input string belongs to the grammar
 ~~~
@@ -72,7 +75,8 @@ If the grammar provided is not LL1, an error will be displayed alongside its tab
 ~~~
 ./ll1 grammar.txt input.txt -v
 ~~~
-![Verbose](.github/screenshots/parseinputverbose.png)
+<img src=".github/screenshots/parseinputverbose.png" alt="Verbose parsing screenshot" width="520">
+
 - Displays the entire LL(1) table.
 - Prints the contents of `input.txt` before parsing.
 
@@ -80,30 +84,32 @@ If the grammar provided is not LL1, an error will be displayed alongside its tab
 ~~~
 ./ll1 grammar.txt -v --format old
 ~~~
-![Old Verbose](.github/screenshots/ll1old.png)
+<img src=".github/screenshots/ll1old.png" alt="Legacy LL1 table screenshot" width="520">
 
-- Use the old table format when the new format cannot be displayed correctly due to screen size
+- Use the old table format when the new format cannot be displayed correctly due to screen size.
 
 #### NEW! Reporting lexing errors
-- If a lexer error is raised, the program will print where it is produced:
-![Lexer error](.github/screenshots/caret_lexing_error.png)
+- When a lexer error occurs, the program pinpoints the location:
+
+<img src=".github/screenshots/caret_lexing_error.png" alt="Lexer error with caret indicator" width="520">
 
 #### NEW! Reporting parsing errors
-- If a parse error is raised, the program will print where it is produced:
-![Parse error](.github/screenshots/caret_parse_error.png)
+- When a parse error occurs, the program highlights the offending token:
+
+<img src=".github/screenshots/caret_parse_error.png" alt="Parse error with caret indicator" width="520">
 
 #### NEW! Export tree as .dot file
-- Now you can export the parse tree to a graphviz file
-- run `./ll1 grammar.txt input.txt --export-tree tree.dot` this will generate a .dot file
-- Now you simply run `dot -Tpng tree.dot -o output.png` to generate an image
+- Export the parse tree to a Graphviz `.dot` file with `--export-tree`.
+- Run `./ll1 grammar.txt input.txt --export-tree tree.dot` to generate `tree.dot`.
+- Convert the output with `dot -Tpng tree.dot -o output.png` to obtain an image.
 ~~~
 ./ll1 examples/grammar_3.txt examples/input_3.txt --export-tree tree.dot
-dot -Tpng tree.png -o output.png
+dot -Tpng tree.dot -o output.png
 ~~~
-![Parse tree](.github/screenshots/output.png)
+<img src=".github/screenshots/output.png" alt="Parse tree rendered from dot output" width="520">
 
 **Error Handling**:
-If `<GRAMMAR_FILENAME>` or `<TEXT_FILENAME>` do not exist or cannot be opened, the program will print an error and exit.
+If `<GRAMMAR_FILENAME>` or `<TEXT_FILENAME>` do not exist or cannot be opened, the program prints an error and exits.
 
 ## 📦 Dependencies
 - C++20 capable compiler and CMake ≥ 3.16.
@@ -111,7 +117,7 @@ If `<GRAMMAR_FILENAME>` or `<TEXT_FILENAME>` do not exist or cannot be opened, t
 - [`cxxopts`](https://github.com/jarro2783/cxxopts) for command-line parsing. CMake will reuse an existing installation or automatically fetch v3.1.1 during configuration.
 
 ## 📌 Considerations
-- There are two reserved symbols you must not use `<<EPSILON>>` and `<<EOF>>`.
+- Avoid using the reserved symbols `<<EPSILON>>` and `<<EOF>>`.
 - For terminal symbols, note that order matters. If two regexes have common elements, place the more specific one first, as in the example:
 ~~~
 terminal WH "while";
@@ -123,18 +129,18 @@ terminal WORD [a-zA-Z][a-zA-Z]*;
 The grammar file has two sections separated by `;`: **symbol definition** and **grammar definition**.
 
 ### Symbol definition
-The terminal symbols follow the following structure: `terminal <IDENTIFIER> <REGEX>;` (like a variable!). The `<IDENTIFIER>` should adhere to the following regex pattern: `[a-zA-Z_\'][a-zA-Z_\'0-9]*`.
+The terminal symbols follow the structure `terminal <IDENTIFIER> <REGEX>;` (just like declaring a variable). The `<IDENTIFIER>` should adhere to the regex pattern `[a-zA-Z_\'][a-zA-Z_\'0-9]*`.
 An example of the first section would be:
 ~~~
 terminal a a;
 start with S;
 ;
 ~~~
-You should write the last line to designate S as the axiom. The grammar will be augmented internally to generate a new non terminal whose production will be `S' -> S <<EOF>>`
+You should write the last line to designate `S` as the axiom. The grammar is augmented internally with a new non-terminal whose production is `S' -> S <<EOF>>`.
 
 
 ### Grammar definition
-The grammar follows the following structure:
+The grammar follows this structure:
 ~~~
 S -> A$;
 A -> aaA;
@@ -153,7 +159,7 @@ A ->;
 ;
 ~~~
 This grammar generates the following language: `L(G) = {aa, aaaa, aaaaaa, ...}`, that is, a language with an even number of 'a'.
-And in **input.txt** file, you place the line you want to check.
+Place the string you want to validate in **input.txt**.
 
 ## 🗂️ Project Structure
 The repository follows a simple layout keeping sources and headers separated:
