@@ -1,5 +1,11 @@
 \doxysection{symbol\+\_\+table Struct Reference}
 \hypertarget{structsymbol__table}{}\label{structsymbol__table}\index{symbol\_table@{symbol\_table}}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structsymbol__table_a3a299949f410db9c621cbb8802338c84}\label{structsymbol__table_a3a299949f410db9c621cbb8802338c84} 
+using {\bfseries Token\+ID} = unsigned long
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -7,18 +13,37 @@ static void \mbox{\hyperlink{structsymbol__table_a22e98263e8882139ae3966ec0faf71
 \begin{DoxyCompactList}\small\item\em Adds a terminal symbol with its associated regex to the symbol table. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{structsymbol__table_ae9711f44f6f0da7f45a3262d05706a21}{Put\+Symbol}} (const std\+::string \&identifier)
 \begin{DoxyCompactList}\small\item\em Adds a non-\/terminal symbol to the symbol table. \end{DoxyCompactList}\item 
-static bool \mbox{\hyperlink{structsymbol__table_a9d5bf79abc5552a3bdb77fb56faa9bac}{In}} (const std\+::string \&s)
+static bool \mbox{\hyperlink{structsymbol__table_a00667b2ed99fa0706cbf59744cf0ed38}{In}} (Token\+ID id)
 \begin{DoxyCompactList}\small\item\em Checks if a symbol exists in the symbol table. \end{DoxyCompactList}\item 
-static bool \mbox{\hyperlink{structsymbol__table_a9036c8eb037cd42a3ebe0cb7ccf29b1d}{Is\+Terminal}} (const std\+::string \&s)
+\Hypertarget{structsymbol__table_a14b9bc4243bef278c3905eba0c795aa5}\label{structsymbol__table_a14b9bc4243bef278c3905eba0c795aa5} 
+static bool {\bfseries In} (const std\+::string \&identifier)
+\item 
+static bool \mbox{\hyperlink{structsymbol__table_af719e08b462fc1b9aad48fb78cb5d82c}{Is\+Terminal}} (Token\+ID id)
 \begin{DoxyCompactList}\small\item\em Checks if a symbol is a terminal. \end{DoxyCompactList}\item 
-static std\+::string \mbox{\hyperlink{structsymbol__table_a1c7d6c6b17d53abe11343d8a86cd84d6}{Get\+Value}} (const std\+::string \&terminal)
+static std\+::string \mbox{\hyperlink{structsymbol__table_a8cbe04520f691afef1a1a557a05e8703}{Get\+Value}} (Token\+ID id)
 \begin{DoxyCompactList}\small\item\em Retrieves the regex pattern for a terminal symbol. \end{DoxyCompactList}\item 
+\Hypertarget{structsymbol__table_af9783697c4ced31ff9a306213471e7c3}\label{structsymbol__table_af9783697c4ced31ff9a306213471e7c3} 
+static const std\+::string \& {\bfseries To\+String} (Token\+ID id)
+\begin{DoxyCompactList}\small\item\em Convert a token ID to its identifier string. \end{DoxyCompactList}\item 
+\Hypertarget{structsymbol__table_a89022aafcb7db8ae6452e4de95dfa5e3}\label{structsymbol__table_a89022aafcb7db8ae6452e4de95dfa5e3} 
+static Token\+ID {\bfseries To\+ID} (const std\+::string \&identifier)
+\begin{DoxyCompactList}\small\item\em Retrieve the token ID for a given identifier string. \end{DoxyCompactList}\item 
 static void \mbox{\hyperlink{structsymbol__table_ada236891259105c47129cbc6ec33ed7e}{Debug}} ()
-\begin{DoxyCompactList}\small\item\em Prints all symbols and their properties in the symbol table. \end{DoxyCompactList}\item 
-static void \mbox{\hyperlink{structsymbol__table_aee2384e91cb6defc5685b057c64fb4ea}{Set\+Eol}} (const std\+::string \&eol)
-\begin{DoxyCompactList}\small\item\em Sets the end-\/of-\/line symbol. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Prints all symbols and their properties in the symbol table. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structsymbol__table_ac8f7dccc5183b1893b4209d6e04c4fa5}\label{structsymbol__table_ac8f7dccc5183b1893b4209d6e04c4fa5} 
+static Token\+ID {\bfseries INVALID\+\_\+\+TOKEN} \{0\}
+\item 
+\Hypertarget{structsymbol__table_a39a54ebd1f8783c23d0fa5d27ecf299c}\label{structsymbol__table_a39a54ebd1f8783c23d0fa5d27ecf299c} 
+static Token\+ID {\bfseries EOF\+\_\+\+ID} \{1\}
+\item 
+\Hypertarget{structsymbol__table_a3f37ad16511ec320f42672dced7969f3}\label{structsymbol__table_a3f37ad16511ec320f42672dced7969f3} 
+static Token\+ID {\bfseries EPSILON\+\_\+\+ID} \{2\}
+\item 
+\Hypertarget{structsymbol__table_a67dcfcfe7f28aa4aa97ba362e0450303}\label{structsymbol__table_a67dcfcfe7f28aa4aa97ba362e0450303} 
+static Token\+ID {\bfseries next\+\_\+id\+\_\+} \{3\}
 \item 
 \Hypertarget{structsymbol__table_a6f09c254cb78237b2ccafaf01683508f}\label{structsymbol__table_a6f09c254cb78237b2ccafaf01683508f} 
 static std\+::string {\bfseries EOF\+\_\+} \{"{}$<$$<$EOF$>$$>$"{}\}
@@ -26,21 +51,16 @@ static std\+::string {\bfseries EOF\+\_\+} \{"{}$<$$<$EOF$>$$>$"{}\}
 \Hypertarget{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}\label{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5} 
 static std\+::string {\bfseries EPSILON\+\_\+} \{"{}$<$$<$EPSILON$>$$>$"{}\}
 \begin{DoxyCompactList}\small\item\em Epsilon symbol, representing empty transitions, initialized as "{}\+EPSILON"{}. \end{DoxyCompactList}\item 
-\Hypertarget{structsymbol__table_a2addd90b84742fbac617f848bfe6ab8f}\label{structsymbol__table_a2addd90b84742fbac617f848bfe6ab8f} 
-static std\+::unordered\+\_\+map$<$ std\+::string, std\+::pair$<$ symbol\+\_\+type, std\+::string $>$ $>$ {\bfseries st\+\_\+} \{\{\mbox{\hyperlink{structsymbol__table_a6f09c254cb78237b2ccafaf01683508f}{EOF\+\_\+}}, \{TERMINAL, "{}"{}\}\}, \{\mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\+\_\+}}, \{TERMINAL, "{}"{}\}\}\}
-\begin{DoxyCompactList}\small\item\em Main symbol table, mapping identifiers to a pair of symbol type and its regex. \end{DoxyCompactList}\item 
-\Hypertarget{structsymbol__table_ab73b498bc62bc4d89ad01f4543c980be}\label{structsymbol__table_ab73b498bc62bc4d89ad01f4543c980be} 
-static std\+::unordered\+\_\+map$<$ std\+::string, unsigned long $>$ {\bfseries token\+\_\+types\+\_\+}
-\begin{DoxyCompactList}\small\item\em Token types, mapping each symbol to a unique integer ID. \end{DoxyCompactList}\item 
-\Hypertarget{structsymbol__table_a27ce7afac1b94faae6511d224e1b3852}\label{structsymbol__table_a27ce7afac1b94faae6511d224e1b3852} 
-static std\+::unordered\+\_\+map$<$ unsigned long, std\+::string $>$ {\bfseries token\+\_\+types\+\_\+r\+\_\+}
-\begin{DoxyCompactList}\small\item\em Reverse mapping from integer token IDs back to symbols. \end{DoxyCompactList}\item 
-\Hypertarget{structsymbol__table_aa604c995cf5367aa42128d0ec5878ec5}\label{structsymbol__table_aa604c995cf5367aa42128d0ec5878ec5} 
-static std\+::vector$<$ unsigned long $>$ {\bfseries order\+\_\+} \{1\}
-\begin{DoxyCompactList}\small\item\em Tracks insertion order of token types. \end{DoxyCompactList}\item 
-\Hypertarget{structsymbol__table_a6e88c2b638d70fd91842775187803c0d}\label{structsymbol__table_a6e88c2b638d70fd91842775187803c0d} 
-static unsigned long {\bfseries i\+\_\+} \{2\}
-\begin{DoxyCompactList}\small\item\em Current index for assigning new token IDs, starting from 2. \end{DoxyCompactList}\end{DoxyCompactItemize}
+static std\+::vector$<$ std\+::pair$<$ symbol\+\_\+type, std\+::string $>$ $>$ \mbox{\hyperlink{structsymbol__table_af24a2fe6fcfd751db1a7c54a0a79fd36}{st\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Symbol table indexed by token ID storing type and regex. \end{DoxyCompactList}\item 
+static std\+::unordered\+\_\+map$<$ std\+::string, Token\+ID $>$ \mbox{\hyperlink{structsymbol__table_a5c851935dce799eeeef6551f8d634558}{lookup\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Mapping from identifier to token ID. \end{DoxyCompactList}\item 
+\Hypertarget{structsymbol__table_a8eb25570e4869b1b00360e0301938d04}\label{structsymbol__table_a8eb25570e4869b1b00360e0301938d04} 
+static std\+::vector$<$ std\+::string $>$ {\bfseries names\+\_\+} \{"{}"{}, \mbox{\hyperlink{structsymbol__table_a6f09c254cb78237b2ccafaf01683508f}{EOF\+\_\+}}, \mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\+\_\+}}\}
+\begin{DoxyCompactList}\small\item\em Reverse mapping from token ID to identifier. \end{DoxyCompactList}\item 
+\Hypertarget{structsymbol__table_a0e7abd76b4607b92181a95c10b7c9d08}\label{structsymbol__table_a0e7abd76b4607b92181a95c10b7c9d08} 
+static std\+::vector$<$ Token\+ID $>$ {\bfseries order\+\_\+} \{EOF\+\_\+\+ID\}
+\begin{DoxyCompactList}\small\item\em Tracks insertion order of terminal token types. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \label{doc-func-members}
@@ -56,11 +76,11 @@ void symbol\+\_\+table\+::\+Debug (\begin{DoxyParamCaption}{}{}\end{DoxyParamCap
 
 Prints all symbols and their properties in the symbol table. 
 
-Outputs the symbol table for debugging purposes. \Hypertarget{structsymbol__table_a1c7d6c6b17d53abe11343d8a86cd84d6}\index{symbol\_table@{symbol\_table}!GetValue@{GetValue}}
+Outputs the symbol table for debugging purposes. \Hypertarget{structsymbol__table_a8cbe04520f691afef1a1a557a05e8703}\index{symbol\_table@{symbol\_table}!GetValue@{GetValue}}
 \index{GetValue@{GetValue}!symbol\_table@{symbol\_table}}
 \doxysubsubsection{\texorpdfstring{GetValue()}{GetValue()}}
-{\footnotesize\ttfamily \label{structsymbol__table_a1c7d6c6b17d53abe11343d8a86cd84d6} 
-std\+::string symbol\+\_\+table\+::\+Get\+Value (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{terminal}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \label{structsymbol__table_a8cbe04520f691afef1a1a557a05e8703} 
+std\+::string symbol\+\_\+table\+::\+Get\+Value (\begin{DoxyParamCaption}\item[{Token\+ID}]{id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -74,11 +94,11 @@ Retrieves the regex pattern for a terminal symbol.
 \begin{DoxyReturn}{Returns}
 Regex pattern associated with the terminal symbol. 
 \end{DoxyReturn}
-\Hypertarget{structsymbol__table_a9d5bf79abc5552a3bdb77fb56faa9bac}\index{symbol\_table@{symbol\_table}!In@{In}}
+\Hypertarget{structsymbol__table_a00667b2ed99fa0706cbf59744cf0ed38}\index{symbol\_table@{symbol\_table}!In@{In}}
 \index{In@{In}!symbol\_table@{symbol\_table}}
 \doxysubsubsection{\texorpdfstring{In()}{In()}}
-{\footnotesize\ttfamily \label{structsymbol__table_a9d5bf79abc5552a3bdb77fb56faa9bac} 
-bool symbol\+\_\+table\+::\+In (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{s}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \label{structsymbol__table_a00667b2ed99fa0706cbf59744cf0ed38} 
+bool symbol\+\_\+table\+::\+In (\begin{DoxyParamCaption}\item[{Token\+ID}]{id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -92,11 +112,11 @@ Checks if a symbol exists in the symbol table.
 \begin{DoxyReturn}{Returns}
 true if the symbol is present, otherwise false. 
 \end{DoxyReturn}
-\Hypertarget{structsymbol__table_a9036c8eb037cd42a3ebe0cb7ccf29b1d}\index{symbol\_table@{symbol\_table}!IsTerminal@{IsTerminal}}
+\Hypertarget{structsymbol__table_af719e08b462fc1b9aad48fb78cb5d82c}\index{symbol\_table@{symbol\_table}!IsTerminal@{IsTerminal}}
 \index{IsTerminal@{IsTerminal}!symbol\_table@{symbol\_table}}
 \doxysubsubsection{\texorpdfstring{IsTerminal()}{IsTerminal()}}
-{\footnotesize\ttfamily \label{structsymbol__table_a9036c8eb037cd42a3ebe0cb7ccf29b1d} 
-bool symbol\+\_\+table\+::\+Is\+Terminal (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{s}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \label{structsymbol__table_af719e08b462fc1b9aad48fb78cb5d82c} 
+bool symbol\+\_\+table\+::\+Is\+Terminal (\begin{DoxyParamCaption}\item[{Token\+ID}]{id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -144,21 +164,46 @@ Updates the token type mappings and tracks insertion order.
 {\em regex} & Regular expression representing the terminal symbol. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{structsymbol__table_aee2384e91cb6defc5685b057c64fb4ea}\index{symbol\_table@{symbol\_table}!SetEol@{SetEol}}
-\index{SetEol@{SetEol}!symbol\_table@{symbol\_table}}
-\doxysubsubsection{\texorpdfstring{SetEol()}{SetEol()}}
-{\footnotesize\ttfamily \label{structsymbol__table_aee2384e91cb6defc5685b057c64fb4ea} 
-void symbol\+\_\+table\+::\+Set\+Eol (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{eol}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
+\label{doc-variable-members}
+\Hypertarget{structsymbol__table_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structsymbol__table_a5c851935dce799eeeef6551f8d634558}\index{symbol\_table@{symbol\_table}!lookup\_@{lookup\_}}
+\index{lookup\_@{lookup\_}!symbol\_table@{symbol\_table}}
+\doxysubsubsection{\texorpdfstring{lookup\_}{lookup\_}}
+{\footnotesize\ttfamily \label{structsymbol__table_a5c851935dce799eeeef6551f8d634558} 
+std\+::unordered\+\_\+map$<$std\+::string, Token\+ID$>$ symbol\+\_\+table\+::lookup\+\_\+\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
 
-Sets the end-\/of-\/line symbol. 
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{\mbox{\hyperlink{structsymbol__table_a6f09c254cb78237b2ccafaf01683508f}{EOF\_}},\ EOF\_ID\},\ \{\mbox{\hyperlink{structsymbol__table_abbd8e15ddf0c452ee640db2af5d868f5}{EPSILON\_}},\ EPSILON\_ID\}\}}
+
+\end{DoxyCode}
 
 
-\begin{DoxyParams}{Parameters}
-{\em eol} & String to use as the new end-\/of-\/line symbol. \\
-\hline
-\end{DoxyParams}
+Mapping from identifier to token ID. 
+
+\Hypertarget{structsymbol__table_af24a2fe6fcfd751db1a7c54a0a79fd36}\index{symbol\_table@{symbol\_table}!st\_@{st\_}}
+\index{st\_@{st\_}!symbol\_table@{symbol\_table}}
+\doxysubsubsection{\texorpdfstring{st\_}{st\_}}
+{\footnotesize\ttfamily \label{structsymbol__table_af24a2fe6fcfd751db1a7c54a0a79fd36} 
+std\+::vector$<$std\+::pair$<$symbol\+\_\+type, std\+::string$>$ $>$ symbol\+\_\+table\+::st\+\_\+\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{META,\ \textcolor{stringliteral}{"{}"{}}\},\ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{TERMINAL,\ \textcolor{stringliteral}{"{}"{}}\},\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{META,\ \textcolor{stringliteral}{"{}"{}}\},\ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Symbol table indexed by token ID storing type and regex. 
+
 
 
 The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}

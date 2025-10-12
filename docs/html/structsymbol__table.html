@@ -73,6 +73,7 @@ $(function() {
 <div id="doc-content">
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="structsymbol__table-members.html">List of all members</a>  </div>
@@ -80,46 +81,60 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a3a299949f410db9c621cbb8802338c84" id="r_a3a299949f410db9c621cbb8802338c84"><td class="memItemLeft" align="right" valign="top"><a id="a3a299949f410db9c621cbb8802338c84" name="a3a299949f410db9c621cbb8802338c84"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>TokenID</b> = unsigned long</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a22e98263e8882139ae3966ec0faf71c2" id="r_a22e98263e8882139ae3966ec0faf71c2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22e98263e8882139ae3966ec0faf71c2">PutSymbol</a> (const std::string &amp;identifier, const std::string &amp;regex)</td></tr>
 <tr class="memdesc:a22e98263e8882139ae3966ec0faf71c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a terminal symbol with its associated regex to the symbol table.  <br /></td></tr>
 <tr class="memitem:ae9711f44f6f0da7f45a3262d05706a21" id="r_ae9711f44f6f0da7f45a3262d05706a21"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9711f44f6f0da7f45a3262d05706a21">PutSymbol</a> (const std::string &amp;identifier)</td></tr>
 <tr class="memdesc:ae9711f44f6f0da7f45a3262d05706a21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a non-terminal symbol to the symbol table.  <br /></td></tr>
-<tr class="memitem:a9d5bf79abc5552a3bdb77fb56faa9bac" id="r_a9d5bf79abc5552a3bdb77fb56faa9bac"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d5bf79abc5552a3bdb77fb56faa9bac">In</a> (const std::string &amp;s)</td></tr>
-<tr class="memdesc:a9d5bf79abc5552a3bdb77fb56faa9bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a symbol exists in the symbol table.  <br /></td></tr>
-<tr class="memitem:a9036c8eb037cd42a3ebe0cb7ccf29b1d" id="r_a9036c8eb037cd42a3ebe0cb7ccf29b1d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9036c8eb037cd42a3ebe0cb7ccf29b1d">IsTerminal</a> (const std::string &amp;s)</td></tr>
-<tr class="memdesc:a9036c8eb037cd42a3ebe0cb7ccf29b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a symbol is a terminal.  <br /></td></tr>
-<tr class="memitem:a1c7d6c6b17d53abe11343d8a86cd84d6" id="r_a1c7d6c6b17d53abe11343d8a86cd84d6"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c7d6c6b17d53abe11343d8a86cd84d6">GetValue</a> (const std::string &amp;terminal)</td></tr>
-<tr class="memdesc:a1c7d6c6b17d53abe11343d8a86cd84d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the regex pattern for a terminal symbol.  <br /></td></tr>
+<tr class="memitem:a00667b2ed99fa0706cbf59744cf0ed38" id="r_a00667b2ed99fa0706cbf59744cf0ed38"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00667b2ed99fa0706cbf59744cf0ed38">In</a> (TokenID id)</td></tr>
+<tr class="memdesc:a00667b2ed99fa0706cbf59744cf0ed38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a symbol exists in the symbol table.  <br /></td></tr>
+<tr class="memitem:a14b9bc4243bef278c3905eba0c795aa5" id="r_a14b9bc4243bef278c3905eba0c795aa5"><td class="memItemLeft" align="right" valign="top"><a id="a14b9bc4243bef278c3905eba0c795aa5" name="a14b9bc4243bef278c3905eba0c795aa5"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>In</b> (const std::string &amp;identifier)</td></tr>
+<tr class="memitem:af719e08b462fc1b9aad48fb78cb5d82c" id="r_af719e08b462fc1b9aad48fb78cb5d82c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af719e08b462fc1b9aad48fb78cb5d82c">IsTerminal</a> (TokenID id)</td></tr>
+<tr class="memdesc:af719e08b462fc1b9aad48fb78cb5d82c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a symbol is a terminal.  <br /></td></tr>
+<tr class="memitem:a8cbe04520f691afef1a1a557a05e8703" id="r_a8cbe04520f691afef1a1a557a05e8703"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8cbe04520f691afef1a1a557a05e8703">GetValue</a> (TokenID id)</td></tr>
+<tr class="memdesc:a8cbe04520f691afef1a1a557a05e8703"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the regex pattern for a terminal symbol.  <br /></td></tr>
+<tr class="memitem:af9783697c4ced31ff9a306213471e7c3" id="r_af9783697c4ced31ff9a306213471e7c3"><td class="memItemLeft" align="right" valign="top"><a id="af9783697c4ced31ff9a306213471e7c3" name="af9783697c4ced31ff9a306213471e7c3"></a>
+static const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> (TokenID id)</td></tr>
+<tr class="memdesc:af9783697c4ced31ff9a306213471e7c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a token ID to its identifier string. <br /></td></tr>
+<tr class="memitem:a89022aafcb7db8ae6452e4de95dfa5e3" id="r_a89022aafcb7db8ae6452e4de95dfa5e3"><td class="memItemLeft" align="right" valign="top"><a id="a89022aafcb7db8ae6452e4de95dfa5e3" name="a89022aafcb7db8ae6452e4de95dfa5e3"></a>
+static TokenID&#160;</td><td class="memItemRight" valign="bottom"><b>ToID</b> (const std::string &amp;identifier)</td></tr>
+<tr class="memdesc:a89022aafcb7db8ae6452e4de95dfa5e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the token ID for a given identifier string. <br /></td></tr>
 <tr class="memitem:ada236891259105c47129cbc6ec33ed7e" id="r_ada236891259105c47129cbc6ec33ed7e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada236891259105c47129cbc6ec33ed7e">Debug</a> ()</td></tr>
 <tr class="memdesc:ada236891259105c47129cbc6ec33ed7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints all symbols and their properties in the symbol table.  <br /></td></tr>
-<tr class="memitem:aee2384e91cb6defc5685b057c64fb4ea" id="r_aee2384e91cb6defc5685b057c64fb4ea"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee2384e91cb6defc5685b057c64fb4ea">SetEol</a> (const std::string &amp;eol)</td></tr>
-<tr class="memdesc:aee2384e91cb6defc5685b057c64fb4ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the end-of-line symbol.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
+<tr class="memitem:ac8f7dccc5183b1893b4209d6e04c4fa5" id="r_ac8f7dccc5183b1893b4209d6e04c4fa5"><td class="memItemLeft" align="right" valign="top"><a id="ac8f7dccc5183b1893b4209d6e04c4fa5" name="ac8f7dccc5183b1893b4209d6e04c4fa5"></a>
+static TokenID&#160;</td><td class="memItemRight" valign="bottom"><b>INVALID_TOKEN</b> {0}</td></tr>
+<tr class="memitem:a39a54ebd1f8783c23d0fa5d27ecf299c" id="r_a39a54ebd1f8783c23d0fa5d27ecf299c"><td class="memItemLeft" align="right" valign="top"><a id="a39a54ebd1f8783c23d0fa5d27ecf299c" name="a39a54ebd1f8783c23d0fa5d27ecf299c"></a>
+static TokenID&#160;</td><td class="memItemRight" valign="bottom"><b>EOF_ID</b> {1}</td></tr>
+<tr class="memitem:a3f37ad16511ec320f42672dced7969f3" id="r_a3f37ad16511ec320f42672dced7969f3"><td class="memItemLeft" align="right" valign="top"><a id="a3f37ad16511ec320f42672dced7969f3" name="a3f37ad16511ec320f42672dced7969f3"></a>
+static TokenID&#160;</td><td class="memItemRight" valign="bottom"><b>EPSILON_ID</b> {2}</td></tr>
+<tr class="memitem:a67dcfcfe7f28aa4aa97ba362e0450303" id="r_a67dcfcfe7f28aa4aa97ba362e0450303"><td class="memItemLeft" align="right" valign="top"><a id="a67dcfcfe7f28aa4aa97ba362e0450303" name="a67dcfcfe7f28aa4aa97ba362e0450303"></a>
+static TokenID&#160;</td><td class="memItemRight" valign="bottom"><b>next_id_</b> {3}</td></tr>
 <tr class="memitem:a6f09c254cb78237b2ccafaf01683508f" id="r_a6f09c254cb78237b2ccafaf01683508f"><td class="memItemLeft" align="right" valign="top"><a id="a6f09c254cb78237b2ccafaf01683508f" name="a6f09c254cb78237b2ccafaf01683508f"></a>
 static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>EOF_</b> {&quot;&lt;&lt;EOF&gt;&gt;&quot;}</td></tr>
 <tr class="memdesc:a6f09c254cb78237b2ccafaf01683508f"><td class="mdescLeft">&#160;</td><td class="mdescRight">End-of-line symbol used in parsing, initialized as "EOF". <br /></td></tr>
 <tr class="memitem:abbd8e15ddf0c452ee640db2af5d868f5" id="r_abbd8e15ddf0c452ee640db2af5d868f5"><td class="memItemLeft" align="right" valign="top"><a id="abbd8e15ddf0c452ee640db2af5d868f5" name="abbd8e15ddf0c452ee640db2af5d868f5"></a>
 static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>EPSILON_</b> {&quot;&lt;&lt;EPSILON&gt;&gt;&quot;}</td></tr>
 <tr class="memdesc:abbd8e15ddf0c452ee640db2af5d868f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Epsilon symbol, representing empty transitions, initialized as "EPSILON". <br /></td></tr>
-<tr class="memitem:a2addd90b84742fbac617f848bfe6ab8f" id="r_a2addd90b84742fbac617f848bfe6ab8f"><td class="memItemLeft" align="right" valign="top"><a id="a2addd90b84742fbac617f848bfe6ab8f" name="a2addd90b84742fbac617f848bfe6ab8f"></a>
-static std::unordered_map&lt; std::string, std::pair&lt; symbol_type, std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>st_</b> {{<a class="el" href="#a6f09c254cb78237b2ccafaf01683508f">EOF_</a>, {TERMINAL, &quot;&quot;}}, {<a class="el" href="#abbd8e15ddf0c452ee640db2af5d868f5">EPSILON_</a>, {TERMINAL, &quot;&quot;}}}</td></tr>
-<tr class="memdesc:a2addd90b84742fbac617f848bfe6ab8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main symbol table, mapping identifiers to a pair of symbol type and its regex. <br /></td></tr>
-<tr class="memitem:ab73b498bc62bc4d89ad01f4543c980be" id="r_ab73b498bc62bc4d89ad01f4543c980be"><td class="memItemLeft" align="right" valign="top"><a id="ab73b498bc62bc4d89ad01f4543c980be" name="ab73b498bc62bc4d89ad01f4543c980be"></a>
-static std::unordered_map&lt; std::string, unsigned long &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>token_types_</b></td></tr>
-<tr class="memdesc:ab73b498bc62bc4d89ad01f4543c980be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Token types, mapping each symbol to a unique integer ID. <br /></td></tr>
-<tr class="memitem:a27ce7afac1b94faae6511d224e1b3852" id="r_a27ce7afac1b94faae6511d224e1b3852"><td class="memItemLeft" align="right" valign="top"><a id="a27ce7afac1b94faae6511d224e1b3852" name="a27ce7afac1b94faae6511d224e1b3852"></a>
-static std::unordered_map&lt; unsigned long, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>token_types_r_</b></td></tr>
-<tr class="memdesc:a27ce7afac1b94faae6511d224e1b3852"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse mapping from integer token IDs back to symbols. <br /></td></tr>
-<tr class="memitem:aa604c995cf5367aa42128d0ec5878ec5" id="r_aa604c995cf5367aa42128d0ec5878ec5"><td class="memItemLeft" align="right" valign="top"><a id="aa604c995cf5367aa42128d0ec5878ec5" name="aa604c995cf5367aa42128d0ec5878ec5"></a>
-static std::vector&lt; unsigned long &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>order_</b> {1}</td></tr>
-<tr class="memdesc:aa604c995cf5367aa42128d0ec5878ec5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tracks insertion order of token types. <br /></td></tr>
-<tr class="memitem:a6e88c2b638d70fd91842775187803c0d" id="r_a6e88c2b638d70fd91842775187803c0d"><td class="memItemLeft" align="right" valign="top"><a id="a6e88c2b638d70fd91842775187803c0d" name="a6e88c2b638d70fd91842775187803c0d"></a>
-static unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>i_</b> {2}</td></tr>
-<tr class="memdesc:a6e88c2b638d70fd91842775187803c0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current index for assigning new token IDs, starting from 2. <br /></td></tr>
+<tr class="memitem:af24a2fe6fcfd751db1a7c54a0a79fd36" id="r_af24a2fe6fcfd751db1a7c54a0a79fd36"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; std::pair&lt; symbol_type, std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af24a2fe6fcfd751db1a7c54a0a79fd36">st_</a></td></tr>
+<tr class="memdesc:af24a2fe6fcfd751db1a7c54a0a79fd36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Symbol table indexed by token ID storing type and regex.  <br /></td></tr>
+<tr class="memitem:a5c851935dce799eeeef6551f8d634558" id="r_a5c851935dce799eeeef6551f8d634558"><td class="memItemLeft" align="right" valign="top">static std::unordered_map&lt; std::string, TokenID &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c851935dce799eeeef6551f8d634558">lookup_</a></td></tr>
+<tr class="memdesc:a5c851935dce799eeeef6551f8d634558"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapping from identifier to token ID.  <br /></td></tr>
+<tr class="memitem:a8eb25570e4869b1b00360e0301938d04" id="r_a8eb25570e4869b1b00360e0301938d04"><td class="memItemLeft" align="right" valign="top"><a id="a8eb25570e4869b1b00360e0301938d04" name="a8eb25570e4869b1b00360e0301938d04"></a>
+static std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>names_</b> {&quot;&quot;, <a class="el" href="#a6f09c254cb78237b2ccafaf01683508f">EOF_</a>, <a class="el" href="#abbd8e15ddf0c452ee640db2af5d868f5">EPSILON_</a>}</td></tr>
+<tr class="memdesc:a8eb25570e4869b1b00360e0301938d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse mapping from token ID to identifier. <br /></td></tr>
+<tr class="memitem:a0e7abd76b4607b92181a95c10b7c9d08" id="r_a0e7abd76b4607b92181a95c10b7c9d08"><td class="memItemLeft" align="right" valign="top"><a id="a0e7abd76b4607b92181a95c10b7c9d08" name="a0e7abd76b4607b92181a95c10b7c9d08"></a>
+static std::vector&lt; TokenID &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>order_</b> {EOF_ID}</td></tr>
+<tr class="memdesc:a0e7abd76b4607b92181a95c10b7c9d08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tracks insertion order of terminal token types. <br /></td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="ada236891259105c47129cbc6ec33ed7e" name="ada236891259105c47129cbc6ec33ed7e"></a>
@@ -150,8 +165,8 @@ static unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>i_</b
 
 </div>
 </div>
-<a id="a1c7d6c6b17d53abe11343d8a86cd84d6" name="a1c7d6c6b17d53abe11343d8a86cd84d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c7d6c6b17d53abe11343d8a86cd84d6">&#9670;&#160;</a></span>GetValue()</h2>
+<a id="a8cbe04520f691afef1a1a557a05e8703" name="a8cbe04520f691afef1a1a557a05e8703"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cbe04520f691afef1a1a557a05e8703">&#9670;&#160;</a></span>GetValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -162,7 +177,7 @@ static unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>i_</b
         <tr>
           <td class="memname">std::string symbol_table::GetValue </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>terminal</em></span></td><td>)</td>
+          <td class="paramtype">TokenID</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -184,8 +199,8 @@ static unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>i_</b
 
 </div>
 </div>
-<a id="a9d5bf79abc5552a3bdb77fb56faa9bac" name="a9d5bf79abc5552a3bdb77fb56faa9bac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d5bf79abc5552a3bdb77fb56faa9bac">&#9670;&#160;</a></span>In()</h2>
+<a id="a00667b2ed99fa0706cbf59744cf0ed38" name="a00667b2ed99fa0706cbf59744cf0ed38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00667b2ed99fa0706cbf59744cf0ed38">&#9670;&#160;</a></span>In()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -196,7 +211,7 @@ static unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>i_</b
         <tr>
           <td class="memname">bool symbol_table::In </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>s</em></span></td><td>)</td>
+          <td class="paramtype">TokenID</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -218,8 +233,8 @@ static unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>i_</b
 
 </div>
 </div>
-<a id="a9036c8eb037cd42a3ebe0cb7ccf29b1d" name="a9036c8eb037cd42a3ebe0cb7ccf29b1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9036c8eb037cd42a3ebe0cb7ccf29b1d">&#9670;&#160;</a></span>IsTerminal()</h2>
+<a id="af719e08b462fc1b9aad48fb78cb5d82c" name="af719e08b462fc1b9aad48fb78cb5d82c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af719e08b462fc1b9aad48fb78cb5d82c">&#9670;&#160;</a></span>IsTerminal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -230,7 +245,7 @@ static unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>i_</b
         <tr>
           <td class="memname">bool symbol_table::IsTerminal </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>s</em></span></td><td>)</td>
+          <td class="paramtype">TokenID</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -324,8 +339,9 @@ static unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>i_</b
 
 </div>
 </div>
-<a id="aee2384e91cb6defc5685b057c64fb4ea" name="aee2384e91cb6defc5685b057c64fb4ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee2384e91cb6defc5685b057c64fb4ea">&#9670;&#160;</a></span>SetEol()</h2>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a5c851935dce799eeeef6551f8d634558" name="a5c851935dce799eeeef6551f8d634558"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c851935dce799eeeef6551f8d634558">&#9670;&#160;</a></span>lookup_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -334,26 +350,50 @@ static unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>i_</b
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void symbol_table::SetEol </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>eol</em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">std::unordered_map&lt;std::string, TokenID&gt; symbol_table::lookup_</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">        {<a class="code hl_variable" href="#a6f09c254cb78237b2ccafaf01683508f">EOF_</a>, EOF_ID}, {<a class="code hl_variable" href="#abbd8e15ddf0c452ee640db2af5d868f5">EPSILON_</a>, EPSILON_ID}}</div>
+<div class="ttc" id="astructsymbol__table_html_a6f09c254cb78237b2ccafaf01683508f"><div class="ttname"><a href="#a6f09c254cb78237b2ccafaf01683508f">symbol_table::EOF_</a></div><div class="ttdeci">static std::string EOF_</div><div class="ttdoc">End-of-line symbol used in parsing, initialized as &quot;EOF&quot;.</div><div class="ttdef"><b>Definition</b> symbol_table.hpp:19</div></div>
+<div class="ttc" id="astructsymbol__table_html_abbd8e15ddf0c452ee640db2af5d868f5"><div class="ttname"><a href="#abbd8e15ddf0c452ee640db2af5d868f5">symbol_table::EPSILON_</a></div><div class="ttdeci">static std::string EPSILON_</div><div class="ttdoc">Epsilon symbol, representing empty transitions, initialized as &quot;EPSILON&quot;.</div><div class="ttdef"><b>Definition</b> symbol_table.hpp:23</div></div>
+</div><!-- fragment -->
+<p>Mapping from identifier to token ID. </p>
 
-<p>Sets the end-of-line symbol. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">eol</td><td>String to use as the new end-of-line symbol. </td></tr>
-  </table>
-  </dd>
-</dl>
+</div>
+</div>
+<a id="af24a2fe6fcfd751db1a7c54a0a79fd36" name="af24a2fe6fcfd751db1a7c54a0a79fd36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af24a2fe6fcfd751db1a7c54a0a79fd36">&#9670;&#160;</a></span>st_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::pair&lt;symbol_type, std::string&gt; &gt; symbol_table::st_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">        {META, <span class="stringliteral">&quot;&quot;</span>},     </div>
+<div class="line">        {TERMINAL, <span class="stringliteral">&quot;&quot;</span>}, </div>
+<div class="line">        {META, <span class="stringliteral">&quot;&quot;</span>},     </div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Symbol table indexed by token ID storing type and regex. </p>
 
 </div>
 </div>

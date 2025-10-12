@@ -73,6 +73,8 @@ $(function() {
 <div id="doc-content">
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
@@ -82,43 +84,56 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:ParseNode" id="r_ParseNode"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLL1Parser_1_1ParseNode.html">ParseNode</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Node used to build a parse tree.  <a href="structLL1Parser_1_1ParseNode.html#details">More...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ae5f0066cd4f3ed3548258677eb6f555e" id="r_ae5f0066cd4f3ed3548258677eb6f555e"><td class="memItemLeft" align="right" valign="top"><a id="ae5f0066cd4f3ed3548258677eb6f555e" name="ae5f0066cd4f3ed3548258677eb6f555e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ParseTree</b> = std::unique_ptr&lt;<a class="el" href="structLL1Parser_1_1ParseNode.html">ParseNode</a>&gt;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a419899deba2324f6018dff5aa8f1c933" id="r_a419899deba2324f6018dff5aa8f1c933"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a419899deba2324f6018dff5aa8f1c933">LL1Parser</a> (<a class="el" href="structGrammar.html">Grammar</a> gr, std::string text_file, bool table_format=true)</td></tr>
-<tr class="memdesc:a419899deba2324f6018dff5aa8f1c933"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classLL1Parser.html">LL1Parser</a> with a grammar object and an input file.  <br /></td></tr>
-<tr class="memitem:a573b8200f9a1dce0e22caa9ea633c4a1" id="r_a573b8200f9a1dce0e22caa9ea633c4a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a573b8200f9a1dce0e22caa9ea633c4a1">LL1Parser</a> (const std::string &amp;grammar_file, std::string text_file, bool table_format=true)</td></tr>
-<tr class="memdesc:a573b8200f9a1dce0e22caa9ea633c4a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classLL1Parser.html">LL1Parser</a> with a grammar file and an input file.  <br /></td></tr>
-<tr class="memitem:ac3644ed0d218effcaa8ac25ef329a5d5" id="r_ac3644ed0d218effcaa8ac25ef329a5d5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3644ed0d218effcaa8ac25ef329a5d5">LL1Parser</a> (const std::string &amp;grammar_file, bool table_format=true)</td></tr>
-<tr class="memdesc:ac3644ed0d218effcaa8ac25ef329a5d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classLL1Parser.html">LL1Parser</a> with a grammar file.  <br /></td></tr>
+<tr class="memitem:a48c99d9c03693c3ca3dd114345b78e77" id="r_a48c99d9c03693c3ca3dd114345b78e77"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48c99d9c03693c3ca3dd114345b78e77">LL1Parser</a> (<a class="el" href="structGrammar.html">Grammar</a> gr, std::string text_file, bool table_format=true, bool text_is_raw=false)</td></tr>
+<tr class="memdesc:a48c99d9c03693c3ca3dd114345b78e77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classLL1Parser.html">LL1Parser</a> with a grammar object and an input file.  <br /></td></tr>
+<tr class="memitem:a1e1eb179119f88a8314f4233855a92ff" id="r_a1e1eb179119f88a8314f4233855a92ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e1eb179119f88a8314f4233855a92ff">LL1Parser</a> (const std::string &amp;grammar_file, std::string text_file, bool table_format=true, bool text_is_raw=false)</td></tr>
+<tr class="memdesc:a1e1eb179119f88a8314f4233855a92ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classLL1Parser.html">LL1Parser</a> with a grammar file and an input file.  <br /></td></tr>
 <tr class="memitem:a658cc49bf42de998962dba95c06ee2ab" id="r_a658cc49bf42de998962dba95c06ee2ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a658cc49bf42de998962dba95c06ee2ab">Parse</a> ()</td></tr>
 <tr class="memdesc:a658cc49bf42de998962dba95c06ee2ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses an input string or file using the LL(1) parsing algorithm.  <br /></td></tr>
-<tr class="memitem:a235e19d551647775130eddfd0661311b" id="r_a235e19d551647775130eddfd0661311b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a235e19d551647775130eddfd0661311b">MatchTerminal</a> (const std::string &amp;top_symbol, const std::string &amp;current_symbol)</td></tr>
-<tr class="memdesc:a235e19d551647775130eddfd0661311b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Matches a terminal symbol from the stack with the current input symbol.  <br /></td></tr>
-<tr class="memitem:aed1fa3255a089e2fa52a11b015490975" id="r_aed1fa3255a089e2fa52a11b015490975"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed1fa3255a089e2fa52a11b015490975">ProcessNonTerminal</a> (const std::string &amp;top_symbol, const std::string &amp;current_symbol)</td></tr>
-<tr class="memdesc:aed1fa3255a089e2fa52a11b015490975"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes a non-terminal symbol by expanding it according to the LL(1) parsing table.  <br /></td></tr>
+<tr class="memitem:a578e9d237d71c4be6151b568c8c92355" id="r_a578e9d237d71c4be6151b568c8c92355"><td class="memItemLeft" align="right" valign="top">ParseTree&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a578e9d237d71c4be6151b568c8c92355">ParseWithTree</a> (const std::string &amp;file)</td></tr>
+<tr class="memdesc:a578e9d237d71c4be6151b568c8c92355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a file and return the parse tree.  <br /></td></tr>
+<tr class="memitem:a46cdf3ea2da909fad7f105d0e7d82043" id="r_a46cdf3ea2da909fad7f105d0e7d82043"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46cdf3ea2da909fad7f105d0e7d82043">MatchTerminal</a> (symbol_table::TokenID top_symbol, symbol_table::TokenID current_symbol)</td></tr>
+<tr class="memdesc:a46cdf3ea2da909fad7f105d0e7d82043"><td class="mdescLeft">&#160;</td><td class="mdescRight">Matches a terminal symbol from the stack with the current input symbol.  <br /></td></tr>
+<tr class="memitem:ac1b8358a2fc6ce171ca2b240853b0a1b" id="r_ac1b8358a2fc6ce171ca2b240853b0a1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1b8358a2fc6ce171ca2b240853b0a1b">ProcessNonTerminal</a> (symbol_table::TokenID top_symbol, symbol_table::TokenID current_symbol, std::stack&lt; symbol_table::TokenID &gt; &amp;symbol_stack)</td></tr>
+<tr class="memdesc:ac1b8358a2fc6ce171ca2b240853b0a1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes a non-terminal symbol by expanding it according to the LL(1) parsing table.  <br /></td></tr>
 <tr class="memitem:a964e6f48a2941f4925dd65f63f5123ca" id="r_a964e6f48a2941f4925dd65f63f5123ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a964e6f48a2941f4925dd65f63f5123ca">PrintTable</a> ()</td></tr>
 <tr class="memdesc:a964e6f48a2941f4925dd65f63f5123ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the LL(1) parsing table to standard output.  <br /></td></tr>
+<tr class="memitem:a8a3e9f29a13f8ca1c003032509972ffd" id="r_a8a3e9f29a13f8ca1c003032509972ffd"><td class="memItemLeft" align="right" valign="top"><a id="a8a3e9f29a13f8ca1c003032509972ffd" name="a8a3e9f29a13f8ca1c003032509972ffd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>ExportTreeAsDot</b> (const ParseTree &amp;tree, const std::string &amp;filename)</td></tr>
+<tr class="memdesc:a8a3e9f29a13f8ca1c003032509972ffd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Export the parse tree in GraphViz dot format. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
 Private Types</h2></td></tr>
-<tr class="memitem:aa240d93c411bc895acadcfdd7abd0320" id="r_aa240d93c411bc895acadcfdd7abd0320"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa240d93c411bc895acadcfdd7abd0320">ll1_table</a></td></tr>
+<tr class="memitem:aae44d88a60c960bb665efee553910d99" id="r_aae44d88a60c960bb665efee553910d99"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae44d88a60c960bb665efee553910d99">ll1_table</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a8ba808383f0980a851834cdf48907447" id="r_a8ba808383f0980a851834cdf48907447"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ba808383f0980a851834cdf48907447">ReportParseError</a> (const std::string &amp;input, size_t err_pos, const std::string &amp;expected, const std::string &amp;found)</td></tr>
-<tr class="memdesc:a8ba808383f0980a851834cdf48907447"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports a parsing error printing the problematic line and a context window of 2 lines.  <br /></td></tr>
-<tr class="memitem:af556dd5a7357b97ec5d078983db62553" id="r_af556dd5a7357b97ec5d078983db62553"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af556dd5a7357b97ec5d078983db62553">First</a> (std::span&lt; const std::string &gt; rule, std::unordered_set&lt; std::string &gt; &amp;result)</td></tr>
-<tr class="memdesc:af556dd5a7357b97ec5d078983db62553"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the FIRST set for a given production rule in a grammar.  <br /></td></tr>
+<tr class="memitem:afd02f6912b16f4044dc465e9e6c0ed5c" id="r_afd02f6912b16f4044dc465e9e6c0ed5c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd02f6912b16f4044dc465e9e6c0ed5c">ReportParseError</a> (const std::string &amp;input, size_t err_pos, symbol_table::TokenID expected, symbol_table::TokenID found)</td></tr>
+<tr class="memdesc:afd02f6912b16f4044dc465e9e6c0ed5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports a parsing error printing the problematic line and a context window of 2 lines.  <br /></td></tr>
+<tr class="memitem:a1cdbd5b641cd3cd842f8d17c86569c35" id="r_a1cdbd5b641cd3cd842f8d17c86569c35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cdbd5b641cd3cd842f8d17c86569c35">First</a> (std::span&lt; const symbol_table::TokenID &gt; rule, std::unordered_set&lt; symbol_table::TokenID &gt; &amp;result)</td></tr>
+<tr class="memdesc:a1cdbd5b641cd3cd842f8d17c86569c35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the FIRST set for a given production rule in a grammar.  <br /></td></tr>
 <tr class="memitem:a2f702d940802a8b02538cb173a6c7e5e" id="r_a2f702d940802a8b02538cb173a6c7e5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f702d940802a8b02538cb173a6c7e5e">ComputeFirstSets</a> ()</td></tr>
 <tr class="memdesc:a2f702d940802a8b02538cb173a6c7e5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the FIRST sets for all non-terminal symbols in the grammar.  <br /></td></tr>
 <tr class="memitem:a02ee1f3ebc4cedacbb11204e3e8cbfdc" id="r_a02ee1f3ebc4cedacbb11204e3e8cbfdc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02ee1f3ebc4cedacbb11204e3e8cbfdc">ComputeFollowSets</a> ()</td></tr>
 <tr class="memdesc:a02ee1f3ebc4cedacbb11204e3e8cbfdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the FOLLOW sets for all non-terminal symbols in the grammar.  <br /></td></tr>
-<tr class="memitem:a44706610e5fad3f4d2fd437f64c8884b" id="r_a44706610e5fad3f4d2fd437f64c8884b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44706610e5fad3f4d2fd437f64c8884b">UpdateFollow</a> (const std::string &amp;symbol, const std::string &amp;lhs, const production &amp;rhs, size_t i)</td></tr>
-<tr class="memdesc:a44706610e5fad3f4d2fd437f64c8884b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the FOLLOW set for a non-terminal based on a production.  <br /></td></tr>
-<tr class="memitem:a0f9dc60f3f6a8332b0ed727d4c8fd40f" id="r_a0f9dc60f3f6a8332b0ed727d4c8fd40f"><td class="memItemLeft" align="right" valign="top">std::unordered_set&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f9dc60f3f6a8332b0ed727d4c8fd40f">Follow</a> (const std::string &amp;arg)</td></tr>
-<tr class="memdesc:a0f9dc60f3f6a8332b0ed727d4c8fd40f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the FOLLOW set for a given non-terminal symbol in the grammar.  <br /></td></tr>
-<tr class="memitem:a5e5817b02a5ea7faa4480cb64ad31dd2" id="r_a5e5817b02a5ea7faa4480cb64ad31dd2"><td class="memItemLeft" align="right" valign="top">std::unordered_set&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e5817b02a5ea7faa4480cb64ad31dd2">PredictionSymbols</a> (const std::string &amp;antecedent, const std::vector&lt; std::string &gt; &amp;consequent)</td></tr>
-<tr class="memdesc:a5e5817b02a5ea7faa4480cb64ad31dd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the prediction symbols for a given production rule.  <br /></td></tr>
+<tr class="memitem:a7abaa8e36b23e55e2846ae25ceb1cbf7" id="r_a7abaa8e36b23e55e2846ae25ceb1cbf7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7abaa8e36b23e55e2846ae25ceb1cbf7">UpdateFollow</a> (symbol_table::TokenID symbol, symbol_table::TokenID lhs, const production &amp;rhs, size_t i)</td></tr>
+<tr class="memdesc:a7abaa8e36b23e55e2846ae25ceb1cbf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the FOLLOW set for a non-terminal based on a production.  <br /></td></tr>
+<tr class="memitem:a41eb4fc258da8d7df56fba1027813021" id="r_a41eb4fc258da8d7df56fba1027813021"><td class="memItemLeft" align="right" valign="top">std::unordered_set&lt; symbol_table::TokenID &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41eb4fc258da8d7df56fba1027813021">Follow</a> (symbol_table::TokenID arg)</td></tr>
+<tr class="memdesc:a41eb4fc258da8d7df56fba1027813021"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the FOLLOW set for a given non-terminal symbol in the grammar.  <br /></td></tr>
+<tr class="memitem:a586443649c23c3af47d746037c8317ff" id="r_a586443649c23c3af47d746037c8317ff"><td class="memItemLeft" align="right" valign="top">std::unordered_set&lt; symbol_table::TokenID &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a586443649c23c3af47d746037c8317ff">PredictionSymbols</a> (symbol_table::TokenID antecedent, const production &amp;consequent)</td></tr>
+<tr class="memdesc:a586443649c23c3af47d746037c8317ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the prediction symbols for a given production rule.  <br /></td></tr>
 <tr class="memitem:a7b33aead1b94c61884afb06f204fd3e4" id="r_a7b33aead1b94c61884afb06f204fd3e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b33aead1b94c61884afb06f204fd3e4">CreateLL1Table</a> ()</td></tr>
 <tr class="memdesc:a7b33aead1b94c61884afb06f204fd3e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the LL(1) parsing table for the grammar.  <br /></td></tr>
 <tr class="memitem:a00cc4c090b6a32d97f5ed035da9cba9d" id="r_a00cc4c090b6a32d97f5ed035da9cba9d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00cc4c090b6a32d97f5ed035da9cba9d">PrintTableUsingTabulate</a> ()</td></tr>
@@ -126,40 +141,34 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a4952d42125fbfc00daf0ce45a3532b0c" id="r_a4952d42125fbfc00daf0ce45a3532b0c"><td class="memItemLeft" align="right" valign="top"><a id="a4952d42125fbfc00daf0ce45a3532b0c" name="a4952d42125fbfc00daf0ce45a3532b0c"></a>
-const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>kTraceSize</b> {5}</td></tr>
-<tr class="memdesc:a4952d42125fbfc00daf0ce45a3532b0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size limit for symbol history trace, defaults to 5. <br /></td></tr>
 <tr class="memitem:a29cba4eed3d7b262f17509779934f1fd" id="r_a29cba4eed3d7b262f17509779934f1fd"><td class="memItemLeft" align="right" valign="top"><a id="a29cba4eed3d7b262f17509779934f1fd" name="a29cba4eed3d7b262f17509779934f1fd"></a>
 ll1_table&#160;</td><td class="memItemRight" valign="bottom"><b>ll1_t_</b></td></tr>
 <tr class="memdesc:a29cba4eed3d7b262f17509779934f1fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The LL(1) parsing table, mapping non-terminals and terminals to productions. <br /></td></tr>
 <tr class="memitem:a8148d39b8f39a98b4210490346beb3b4" id="r_a8148d39b8f39a98b4210490346beb3b4"><td class="memItemLeft" align="right" valign="top"><a id="a8148d39b8f39a98b4210490346beb3b4" name="a8148d39b8f39a98b4210490346beb3b4"></a>
 <a class="el" href="structGrammar.html">Grammar</a>&#160;</td><td class="memItemRight" valign="bottom"><b>gr_</b></td></tr>
 <tr class="memdesc:a8148d39b8f39a98b4210490346beb3b4"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structGrammar.html">Grammar</a> object associated with this parser. <br /></td></tr>
-<tr class="memitem:a99111137eeeeb3d44b7b20417297df9b" id="r_a99111137eeeeb3d44b7b20417297df9b"><td class="memItemLeft" align="right" valign="top"><a id="a99111137eeeeb3d44b7b20417297df9b" name="a99111137eeeeb3d44b7b20417297df9b"></a>
-std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>first_sets_</b></td></tr>
-<tr class="memdesc:a99111137eeeeb3d44b7b20417297df9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">FIRST sets for each non-terminal in the grammar. <br /></td></tr>
-<tr class="memitem:a9faec5578f60af3641a5bb6bde66aa8f" id="r_a9faec5578f60af3641a5bb6bde66aa8f"><td class="memItemLeft" align="right" valign="top"><a id="a9faec5578f60af3641a5bb6bde66aa8f" name="a9faec5578f60af3641a5bb6bde66aa8f"></a>
-std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>follow_sets_</b></td></tr>
-<tr class="memdesc:a9faec5578f60af3641a5bb6bde66aa8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">FOLLOW sets for each non-terminal in the grammar. <br /></td></tr>
-<tr class="memitem:adc998981a7a6635e498d36954781aea0" id="r_adc998981a7a6635e498d36954781aea0"><td class="memItemLeft" align="right" valign="top"><a id="adc998981a7a6635e498d36954781aea0" name="adc998981a7a6635e498d36954781aea0"></a>
-std::stack&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>symbol_stack_</b></td></tr>
-<tr class="memdesc:adc998981a7a6635e498d36954781aea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stack for managing parsing symbols. <br /></td></tr>
-<tr class="memitem:a925dde74d4f9e5a40eeba14d10b08bbb" id="r_a925dde74d4f9e5a40eeba14d10b08bbb"><td class="memItemLeft" align="right" valign="top"><a id="a925dde74d4f9e5a40eeba14d10b08bbb" name="a925dde74d4f9e5a40eeba14d10b08bbb"></a>
-std::deque&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>trace_</b></td></tr>
-<tr class="memdesc:a925dde74d4f9e5a40eeba14d10b08bbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deque for tracking the most recent kTraceSize symbols parsed. <br /></td></tr>
+<tr class="memitem:a5e83ee8bad32c9e57cd0a9a47839b905" id="r_a5e83ee8bad32c9e57cd0a9a47839b905"><td class="memItemLeft" align="right" valign="top"><a id="a5e83ee8bad32c9e57cd0a9a47839b905" name="a5e83ee8bad32c9e57cd0a9a47839b905"></a>
+std::unordered_map&lt; symbol_table::TokenID, std::unordered_set&lt; symbol_table::TokenID &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>first_sets_</b></td></tr>
+<tr class="memdesc:a5e83ee8bad32c9e57cd0a9a47839b905"><td class="mdescLeft">&#160;</td><td class="mdescRight">FIRST sets for each non-terminal in the grammar. <br /></td></tr>
+<tr class="memitem:afe0b374dd1f750b0c7ec7f17d034ac9f" id="r_afe0b374dd1f750b0c7ec7f17d034ac9f"><td class="memItemLeft" align="right" valign="top"><a id="afe0b374dd1f750b0c7ec7f17d034ac9f" name="afe0b374dd1f750b0c7ec7f17d034ac9f"></a>
+std::unordered_map&lt; symbol_table::TokenID, std::unordered_set&lt; symbol_table::TokenID &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>follow_sets_</b></td></tr>
+<tr class="memdesc:afe0b374dd1f750b0c7ec7f17d034ac9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">FOLLOW sets for each non-terminal in the grammar. <br /></td></tr>
 <tr class="memitem:a69d3b82775755d12b9f2c5a874efa365" id="r_a69d3b82775755d12b9f2c5a874efa365"><td class="memItemLeft" align="right" valign="top"><a id="a69d3b82775755d12b9f2c5a874efa365" name="a69d3b82775755d12b9f2c5a874efa365"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>grammar_file_</b></td></tr>
 <tr class="memdesc:a69d3b82775755d12b9f2c5a874efa365"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the grammar file used in this parser. <br /></td></tr>
 <tr class="memitem:a608a4c6bd4f7e3408f1e5edcc0faf30a" id="r_a608a4c6bd4f7e3408f1e5edcc0faf30a"><td class="memItemLeft" align="right" valign="top"><a id="a608a4c6bd4f7e3408f1e5edcc0faf30a" name="a608a4c6bd4f7e3408f1e5edcc0faf30a"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>text_file_</b></td></tr>
 <tr class="memdesc:a608a4c6bd4f7e3408f1e5edcc0faf30a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the input text file to be parsed. <br /></td></tr>
+<tr class="memitem:a7c6248b5c699036d75fd4e63c88e0460" id="r_a7c6248b5c699036d75fd4e63c88e0460"><td class="memItemLeft" align="right" valign="top"><a id="a7c6248b5c699036d75fd4e63c88e0460" name="a7c6248b5c699036d75fd4e63c88e0460"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>text_is_raw_</b> {false}</td></tr>
+<tr class="memdesc:a7c6248b5c699036d75fd4e63c88e0460"><td class="mdescLeft">&#160;</td><td class="mdescRight">If true, treat text_file_ as raw input rather than a filename. <br /></td></tr>
 <tr class="memitem:a20c0e1a3542584905c82e22156c35d92" id="r_a20c0e1a3542584905c82e22156c35d92"><td class="memItemLeft" align="right" valign="top"><a id="a20c0e1a3542584905c82e22156c35d92" name="a20c0e1a3542584905c82e22156c35d92"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</b> {true}</td></tr>
 <tr class="memdesc:a20c0e1a3542584905c82e22156c35d92"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if new format is used when printing the table. <br /></td></tr>
 </table>
 <a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
-<a id="aa240d93c411bc895acadcfdd7abd0320" name="aa240d93c411bc895acadcfdd7abd0320"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa240d93c411bc895acadcfdd7abd0320">&#9670;&#160;</a></span>ll1_table</h2>
+<a id="aae44d88a60c960bb665efee553910d99" name="aae44d88a60c960bb665efee553910d99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae44d88a60c960bb665efee553910d99">&#9670;&#160;</a></span>ll1_table</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -178,13 +187,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line"> std::unordered_map&lt;</div>
-<div class="line">        std::string, std::unordered_map&lt;std::string, std::vector&lt;production&gt;&gt;&gt;</div>
+<div class="line">        symbol_table::TokenID,</div>
+<div class="line">        std::unordered_map&lt;symbol_table::TokenID, std::vector&lt;production&gt;&gt;&gt;</div>
 </div><!-- fragment -->
 </div>
 </div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a419899deba2324f6018dff5aa8f1c933" name="a419899deba2324f6018dff5aa8f1c933"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a419899deba2324f6018dff5aa8f1c933">&#9670;&#160;</a></span>LL1Parser() <span class="overload">[1/3]</span></h2>
+<a id="a48c99d9c03693c3ca3dd114345b78e77" name="a48c99d9c03693c3ca3dd114345b78e77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48c99d9c03693c3ca3dd114345b78e77">&#9670;&#160;</a></span>LL1Parser() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -202,7 +212,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>table_format</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>table_format</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>text_is_raw</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -218,8 +233,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 
 </div>
 </div>
-<a id="a573b8200f9a1dce0e22caa9ea633c4a1" name="a573b8200f9a1dce0e22caa9ea633c4a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a573b8200f9a1dce0e22caa9ea633c4a1">&#9670;&#160;</a></span>LL1Parser() <span class="overload">[2/3]</span></h2>
+<a id="a1e1eb179119f88a8314f4233855a92ff" name="a1e1eb179119f88a8314f4233855a92ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e1eb179119f88a8314f4233855a92ff">&#9670;&#160;</a></span>LL1Parser() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -237,7 +252,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>table_format</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>table_format</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>text_is_raw</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -247,43 +267,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
   <table class="params">
     <tr><td class="paramname">grammar_file</td><td>Path to the grammar file. </td></tr>
     <tr><td class="paramname">text_file</td><td>Name of the file containing input to parse. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ac3644ed0d218effcaa8ac25ef329a5d5" name="ac3644ed0d218effcaa8ac25ef329a5d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3644ed0d218effcaa8ac25ef329a5d5">&#9670;&#160;</a></span>LL1Parser() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">LL1Parser::LL1Parser </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>grammar_file</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>table_format</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel explicit">explicit</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Constructs an <a class="el" href="classLL1Parser.html">LL1Parser</a> with a grammar file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">grammar_file</td><td>Path to the grammar file. </td></tr>
   </table>
   </dd>
 </dl>
@@ -355,9 +338,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 </ol>
 <p>The computed FOLLOW sets are cached in the <span class="tt">follow_sets_</span> member variable for later use by the parser.</p>
 <dl class="section note"><dt>Note</dt><dd>This function assumes that the FIRST sets for all symbols have already been computed and are available in the <span class="tt">first_sets_</span> member variable.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="#af556dd5a7357b97ec5d078983db62553" title="Calculates the FIRST set for a given production rule in a grammar.">First</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a1cdbd5b641cd3cd842f8d17c86569c35" title="Calculates the FIRST set for a given production rule in a grammar.">First</a> </dd>
 <dd>
-<a class="el" href="#a9faec5578f60af3641a5bb6bde66aa8f" title="FOLLOW sets for each non-terminal in the grammar.">follow_sets_</a> </dd></dl>
+<a class="el" href="#afe0b374dd1f750b0c7ec7f17d034ac9f" title="FOLLOW sets for each non-terminal in the grammar.">follow_sets_</a> </dd></dl>
 
 </div>
 </div>
@@ -395,8 +378,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 
 </div>
 </div>
-<a id="af556dd5a7357b97ec5d078983db62553" name="af556dd5a7357b97ec5d078983db62553"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af556dd5a7357b97ec5d078983db62553">&#9670;&#160;</a></span>First()</h2>
+<a id="a1cdbd5b641cd3cd842f8d17c86569c35" name="a1cdbd5b641cd3cd842f8d17c86569c35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cdbd5b641cd3cd842f8d17c86569c35">&#9670;&#160;</a></span>First()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -407,12 +390,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
         <tr>
           <td class="memname">void LL1Parser::First </td>
           <td>(</td>
-          <td class="paramtype">std::span&lt; const std::string &gt;</td>          <td class="paramname"><span class="paramname"><em>rule</em></span>, </td>
+          <td class="paramtype">std::span&lt; const symbol_table::TokenID &gt;</td>          <td class="paramname"><span class="paramname"><em>rule</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::unordered_set&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
+          <td class="paramtype">std::unordered_set&lt; symbol_table::TokenID &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -439,8 +422,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 
 </div>
 </div>
-<a id="a0f9dc60f3f6a8332b0ed727d4c8fd40f" name="a0f9dc60f3f6a8332b0ed727d4c8fd40f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f9dc60f3f6a8332b0ed727d4c8fd40f">&#9670;&#160;</a></span>Follow()</h2>
+<a id="a41eb4fc258da8d7df56fba1027813021" name="a41eb4fc258da8d7df56fba1027813021"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41eb4fc258da8d7df56fba1027813021">&#9670;&#160;</a></span>Follow()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -449,9 +432,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_set&lt; std::string &gt; LL1Parser::Follow </td>
+          <td class="memname">std::unordered_set&lt; symbol_table::TokenID &gt; LL1Parser::Follow </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -475,8 +458,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 
 </div>
 </div>
-<a id="a235e19d551647775130eddfd0661311b" name="a235e19d551647775130eddfd0661311b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a235e19d551647775130eddfd0661311b">&#9670;&#160;</a></span>MatchTerminal()</h2>
+<a id="a46cdf3ea2da909fad7f105d0e7d82043" name="a46cdf3ea2da909fad7f105d0e7d82043"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46cdf3ea2da909fad7f105d0e7d82043">&#9670;&#160;</a></span>MatchTerminal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -484,12 +467,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
         <tr>
           <td class="memname">bool LL1Parser::MatchTerminal </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>top_symbol</em></span>, </td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>top_symbol</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>current_symbol</em></span>&#160;)</td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>current_symbol</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -536,8 +519,34 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 
 </div>
 </div>
-<a id="a5e5817b02a5ea7faa4480cb64ad31dd2" name="a5e5817b02a5ea7faa4480cb64ad31dd2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e5817b02a5ea7faa4480cb64ad31dd2">&#9670;&#160;</a></span>PredictionSymbols()</h2>
+<a id="a578e9d237d71c4be6151b568c8c92355" name="a578e9d237d71c4be6151b568c8c92355"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a578e9d237d71c4be6151b568c8c92355">&#9670;&#160;</a></span>ParseWithTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LL1Parser::ParseTree LL1Parser::ParseWithTree </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>file</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Parse a file and return the parse tree. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file</td><td>Path to the input text file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Root of the parse tree on success, nullptr on failure. </dd></dl>
+
+</div>
+</div>
+<a id="a586443649c23c3af47d746037c8317ff" name="a586443649c23c3af47d746037c8317ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a586443649c23c3af47d746037c8317ff">&#9670;&#160;</a></span>PredictionSymbols()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -546,14 +555,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_set&lt; std::string &gt; LL1Parser::PredictionSymbols </td>
+          <td class="memname">std::unordered_set&lt; symbol_table::TokenID &gt; LL1Parser::PredictionSymbols </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>antecedent</em></span>, </td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>antecedent</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>consequent</em></span>&#160;)</td>
+          <td class="paramtype">const production &amp;</td>          <td class="paramname"><span class="paramname"><em>consequent</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -636,8 +645,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 
 </div>
 </div>
-<a id="aed1fa3255a089e2fa52a11b015490975" name="aed1fa3255a089e2fa52a11b015490975"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed1fa3255a089e2fa52a11b015490975">&#9670;&#160;</a></span>ProcessNonTerminal()</h2>
+<a id="ac1b8358a2fc6ce171ca2b240853b0a1b" name="ac1b8358a2fc6ce171ca2b240853b0a1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1b8358a2fc6ce171ca2b240853b0a1b">&#9670;&#160;</a></span>ProcessNonTerminal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -645,12 +654,17 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
         <tr>
           <td class="memname">bool LL1Parser::ProcessNonTerminal </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>top_symbol</em></span>, </td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>top_symbol</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>current_symbol</em></span>&#160;)</td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>current_symbol</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::stack&lt; symbol_table::TokenID &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>symbol_stack</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -661,7 +675,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">top_symbol</td><td>The non-terminal symbol popped from the top of the stack. </td></tr>
-    <tr><td class="paramname">current_symbol</td><td>The current input symbol used to select a production.</td></tr>
+    <tr><td class="paramname">current_symbol</td><td>The current input symbol used to select a production. </td></tr>
+    <tr><td class="paramname">symbol_stack</td><td>Parser symbol stack</td></tr>
   </table>
   </dd>
 </dl>
@@ -669,8 +684,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 
 </div>
 </div>
-<a id="a8ba808383f0980a851834cdf48907447" name="a8ba808383f0980a851834cdf48907447"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ba808383f0980a851834cdf48907447">&#9670;&#160;</a></span>ReportParseError()</h2>
+<a id="afd02f6912b16f4044dc465e9e6c0ed5c" name="afd02f6912b16f4044dc465e9e6c0ed5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd02f6912b16f4044dc465e9e6c0ed5c">&#9670;&#160;</a></span>ReportParseError()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -691,12 +706,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>expected</em></span>, </td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>expected</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>found</em></span>&#160;)</td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>found</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -719,8 +734,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
 
 </div>
 </div>
-<a id="a44706610e5fad3f4d2fd437f64c8884b" name="a44706610e5fad3f4d2fd437f64c8884b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44706610e5fad3f4d2fd437f64c8884b">&#9670;&#160;</a></span>UpdateFollow()</h2>
+<a id="a7abaa8e36b23e55e2846ae25ceb1cbf7" name="a7abaa8e36b23e55e2846ae25ceb1cbf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7abaa8e36b23e55e2846ae25ceb1cbf7">&#9670;&#160;</a></span>UpdateFollow()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -731,12 +746,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>print_table_format_</
         <tr>
           <td class="memname">bool LL1Parser::UpdateFollow </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>symbol</em></span>, </td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>symbol</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>lhs</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

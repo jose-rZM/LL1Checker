@@ -7,13 +7,11 @@
 \begin{DoxyCompactList}\small\item\em Constructs a grammar by reading from the specified file. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{structGrammar_ac2ef7218be4c6d7a778035b89f5a20a5}{Read\+From\+File}} ()
 \begin{DoxyCompactList}\small\item\em Reads and loads the grammar from a file. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{structGrammar_a539261e8ebcc688020f43d98510a79a0}{Add\+Rule}} (const std\+::string \&antecedent, const std\+::string \&consequent)
+void \mbox{\hyperlink{structGrammar_a011f3595326dbcda598efb3eb3cab74c}{Add\+Rule}} (symbol\+\_\+table\+::\+Token\+ID antecedent, const production \&consequent)
 \begin{DoxyCompactList}\small\item\em Adds a rule to the grammar. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{structGrammar_a27ecdbca735ffb275a2bad9d1ea539c3}{Set\+Axiom}} (const std\+::string \&axiom)
+void \mbox{\hyperlink{structGrammar_a4485d0341409272b6e656abf6c94dc31}{Set\+Axiom}} (symbol\+\_\+table\+::\+Token\+ID axiom)
 \begin{DoxyCompactList}\small\item\em Sets the axiom (entry point) of the grammar. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{structGrammar_a67c3e8fa5bb1bc874c66a85d42222e92}{Has\+Empty\+Production}} (const std\+::string \&antecedent)
-\begin{DoxyCompactList}\small\item\em Checks if a given antecedent has an empty production. \end{DoxyCompactList}\item 
-std\+::vector$<$ std\+::pair$<$ const std\+::string, production $>$ $>$ \mbox{\hyperlink{structGrammar_a9666d9181ec616ffdb8f090b60a3aba1}{Filter\+Rules\+By\+Consequent}} (const std\+::string \&arg)
+std\+::vector$<$ std\+::pair$<$ symbol\+\_\+table\+::\+Token\+ID, production $>$ $>$ \mbox{\hyperlink{structGrammar_ac264fca129c173f5a5f6c1e5066a2adb}{Filter\+Rules\+By\+Consequent}} (symbol\+\_\+table\+::\+Token\+ID arg)
 \begin{DoxyCompactList}\small\item\em Filters grammar rules that contain a specific token in their consequent. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{structGrammar_aefb03447a650b7601edc6b10e790bc50}{Debug}} ()
 \begin{DoxyCompactList}\small\item\em Prints the current grammar structure to standard output. \end{DoxyCompactList}\item 
@@ -22,18 +20,19 @@ std\+::string \mbox{\hyperlink{structGrammar_a1292224f6afedaa080aeab04af081a37}{
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{structGrammar_add2f414fe2ddf7e578a70c255daa1996}{Split}} (const std\+::string \&s)
-\begin{DoxyCompactList}\small\item\em Splits a production string into individual tokens. \end{DoxyCompactList}\item 
-static bool \mbox{\hyperlink{structGrammar_a5f08bb51ba6f87ed6a636f4cd354330e}{Has\+Left\+Recursion}} (const std\+::string \&antecedent, const std\+::vector$<$ std\+::string $>$ \&consequent)
-\begin{DoxyCompactList}\small\item\em Checks if a rule exhibits left recursion. \end{DoxyCompactList}\end{DoxyCompactItemize}
+static std\+::vector$<$ symbol\+\_\+table\+::\+Token\+ID $>$ \mbox{\hyperlink{structGrammar_add6e0b9e24f431fddedf85c2aa3f2053}{Split}} (const std\+::string \&s)
+\begin{DoxyCompactList}\small\item\em Splits a production string into individual tokens. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{structGrammar_ac16e6ae6c52586612ecf1ceb19fb1dd5}\label{structGrammar_ac16e6ae6c52586612ecf1ceb19fb1dd5} 
-std\+::unordered\+\_\+map$<$ std\+::string, std\+::vector$<$ production $>$ $>$ {\bfseries g\+\_\+}
+\Hypertarget{structGrammar_ad453fcc26407fcbeba027cfcf7d74210}\label{structGrammar_ad453fcc26407fcbeba027cfcf7d74210} 
+std\+::unordered\+\_\+map$<$ symbol\+\_\+table\+::\+Token\+ID, std\+::vector$<$ production $>$ $>$ {\bfseries g\+\_\+}
 \begin{DoxyCompactList}\small\item\em Stores the grammar rules with each antecedent mapped to a list of productions. \end{DoxyCompactList}\item 
-\Hypertarget{structGrammar_a8bdbc1072253034fab2c1269a4660f57}\label{structGrammar_a8bdbc1072253034fab2c1269a4660f57} 
-std\+::string {\bfseries axiom\+\_\+}
+\Hypertarget{structGrammar_aba191981f90d1aad9a82ae960a1b86dc}\label{structGrammar_aba191981f90d1aad9a82ae960a1b86dc} 
+std\+::vector$<$ symbol\+\_\+table\+::\+Token\+ID $>$ {\bfseries nt\+\_\+order\+\_\+} \{\}
+\begin{DoxyCompactList}\small\item\em Keeps the insertion order of non-\/terminal symbols. \end{DoxyCompactList}\item 
+\Hypertarget{structGrammar_a512fefc3a166df80c36c0ed9cf496daf}\label{structGrammar_a512fefc3a166df80c36c0ed9cf496daf} 
+symbol\+\_\+table\+::\+Token\+ID {\bfseries axiom\+\_\+} \{\}
 \begin{DoxyCompactList}\small\item\em The axiom or entry point of the grammar. \end{DoxyCompactList}\item 
 \Hypertarget{structGrammar_aad7a482e4c371a110ef69a6558900c7a}\label{structGrammar_aad7a482e4c371a110ef69a6558900c7a} 
 const std\+::string {\bfseries k\+Filename}
@@ -63,11 +62,11 @@ Initializes the grammar by setting the filename for input. The actual grammar da
 \label{doc-func-members}
 \Hypertarget{structGrammar_doc-func-members}
 \doxysubsection{Member Function Documentation}
-\Hypertarget{structGrammar_a539261e8ebcc688020f43d98510a79a0}\index{Grammar@{Grammar}!AddRule@{AddRule}}
+\Hypertarget{structGrammar_a011f3595326dbcda598efb3eb3cab74c}\index{Grammar@{Grammar}!AddRule@{AddRule}}
 \index{AddRule@{AddRule}!Grammar@{Grammar}}
 \doxysubsubsection{\texorpdfstring{AddRule()}{AddRule()}}
-{\footnotesize\ttfamily \label{structGrammar_a539261e8ebcc688020f43d98510a79a0} 
-void Grammar\+::\+Add\+Rule (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{antecedent}{, }\item[{const std\+::string \&}]{consequent}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{structGrammar_a011f3595326dbcda598efb3eb3cab74c} 
+void Grammar\+::\+Add\+Rule (\begin{DoxyParamCaption}\item[{symbol\+\_\+table\+::\+Token\+ID}]{antecedent}{, }\item[{const production \&}]{consequent}{}\end{DoxyParamCaption})}
 
 
 
@@ -90,11 +89,11 @@ void Grammar\+::\+Debug (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
 
 Prints the current grammar structure to standard output. 
 
-This function provides a debug view of the grammar by printing out all rules, the axiom, and other relevant details. \Hypertarget{structGrammar_a9666d9181ec616ffdb8f090b60a3aba1}\index{Grammar@{Grammar}!FilterRulesByConsequent@{FilterRulesByConsequent}}
+This function provides a debug view of the grammar by printing out all rules, the axiom, and other relevant details. \Hypertarget{structGrammar_ac264fca129c173f5a5f6c1e5066a2adb}\index{Grammar@{Grammar}!FilterRulesByConsequent@{FilterRulesByConsequent}}
 \index{FilterRulesByConsequent@{FilterRulesByConsequent}!Grammar@{Grammar}}
 \doxysubsubsection{\texorpdfstring{FilterRulesByConsequent()}{FilterRulesByConsequent()}}
-{\footnotesize\ttfamily \label{structGrammar_a9666d9181ec616ffdb8f090b60a3aba1} 
-std\+::vector$<$ std\+::pair$<$ const std\+::string, production $>$ $>$ Grammar\+::\+Filter\+Rules\+By\+Consequent (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{arg}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{structGrammar_ac264fca129c173f5a5f6c1e5066a2adb} 
+std\+::vector$<$ std\+::pair$<$ symbol\+\_\+table\+::\+Token\+ID, production $>$ $>$ Grammar\+::\+Filter\+Rules\+By\+Consequent (\begin{DoxyParamCaption}\item[{symbol\+\_\+table\+::\+Token\+ID}]{arg}{}\end{DoxyParamCaption})}
 
 
 
@@ -102,7 +101,7 @@ Filters grammar rules that contain a specific token in their consequent.
 
 
 \begin{DoxyParams}{Parameters}
-{\em arg} & The token to search for within the consequents of the rules. \\
+{\em arg} & The token to search for within the consequent of the rules. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -126,45 +125,7 @@ Generate a new non terminal symbol by appending \textquotesingle{} to base until
 \begin{DoxyReturn}{Returns}
 New non terminal 
 \end{DoxyReturn}
-\Hypertarget{structGrammar_a67c3e8fa5bb1bc874c66a85d42222e92}\index{Grammar@{Grammar}!HasEmptyProduction@{HasEmptyProduction}}
-\index{HasEmptyProduction@{HasEmptyProduction}!Grammar@{Grammar}}
-\doxysubsubsection{\texorpdfstring{HasEmptyProduction()}{HasEmptyProduction()}}
-{\footnotesize\ttfamily \label{structGrammar_a67c3e8fa5bb1bc874c66a85d42222e92} 
-bool Grammar\+::\+Has\+Empty\+Production (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{antecedent}{}\end{DoxyParamCaption})}
-
-
-
-Checks if a given antecedent has an empty production. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em antecedent} & The left-\/hand side (LHS) symbol to check. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-true if there exists an empty production for the antecedent, otherwise false.
-\end{DoxyReturn}
-An empty production is represented as {\ttfamily \texorpdfstring{$<$}{<}antecedent\texorpdfstring{$>$}{>} -\/\texorpdfstring{$>$}{>} ;}, indicating that the antecedent can produce an empty string. \Hypertarget{structGrammar_a5f08bb51ba6f87ed6a636f4cd354330e}\index{Grammar@{Grammar}!HasLeftRecursion@{HasLeftRecursion}}
-\index{HasLeftRecursion@{HasLeftRecursion}!Grammar@{Grammar}}
-\doxysubsubsection{\texorpdfstring{HasLeftRecursion()}{HasLeftRecursion()}}
-{\footnotesize\ttfamily \label{structGrammar_a5f08bb51ba6f87ed6a636f4cd354330e} 
-bool Grammar\+::\+Has\+Left\+Recursion (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{antecedent}{, }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{consequent}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Checks if a rule exhibits left recursion. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em antecedent} & The left-\/hand side (LHS) symbol of the rule. \\
-\hline
-{\em consequent} & The right-\/hand side (RHS) vector of tokens of the rule. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-true if the rule has left recursion (e.\+g., A -\/\texorpdfstring{$>$}{>} A + A), otherwise false.
-\end{DoxyReturn}
-Left recursion is identified when the antecedent of a rule appears as the first symbol in its consequent, which may cause issues in top-\/down parsing algorithms. \Hypertarget{structGrammar_ac2ef7218be4c6d7a778035b89f5a20a5}\index{Grammar@{Grammar}!ReadFromFile@{ReadFromFile}}
+\Hypertarget{structGrammar_ac2ef7218be4c6d7a778035b89f5a20a5}\index{Grammar@{Grammar}!ReadFromFile@{ReadFromFile}}
 \index{ReadFromFile@{ReadFromFile}!Grammar@{Grammar}}
 \doxysubsubsection{\texorpdfstring{ReadFromFile()}{ReadFromFile()}}
 {\footnotesize\ttfamily \label{structGrammar_ac2ef7218be4c6d7a778035b89f5a20a5} 
@@ -181,11 +142,11 @@ This function reads the grammar rules from the specified file, parsing each rule
 {\em \doxylink{classGrammarError}{Grammar\+Error}} & if there are errors reading symbols, parsing the grammar, or splitting the rules as specified in the input file. \\
 \hline
 \end{DoxyExceptions}
-\Hypertarget{structGrammar_a27ecdbca735ffb275a2bad9d1ea539c3}\index{Grammar@{Grammar}!SetAxiom@{SetAxiom}}
+\Hypertarget{structGrammar_a4485d0341409272b6e656abf6c94dc31}\index{Grammar@{Grammar}!SetAxiom@{SetAxiom}}
 \index{SetAxiom@{SetAxiom}!Grammar@{Grammar}}
 \doxysubsubsection{\texorpdfstring{SetAxiom()}{SetAxiom()}}
-{\footnotesize\ttfamily \label{structGrammar_a27ecdbca735ffb275a2bad9d1ea539c3} 
-void Grammar\+::\+Set\+Axiom (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{axiom}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{structGrammar_a4485d0341409272b6e656abf6c94dc31} 
+void Grammar\+::\+Set\+Axiom (\begin{DoxyParamCaption}\item[{symbol\+\_\+table\+::\+Token\+ID}]{axiom}{}\end{DoxyParamCaption})}
 
 
 
@@ -196,11 +157,11 @@ Sets the axiom (entry point) of the grammar.
 {\em axiom} & The entry point or start symbol of the grammar.\\
 \hline
 \end{DoxyParams}
-Defines the starting point for the grammar, which is used in parsing algorithms and must be a non-\/terminal symbol present in the grammar. \Hypertarget{structGrammar_add2f414fe2ddf7e578a70c255daa1996}\index{Grammar@{Grammar}!Split@{Split}}
+Defines the starting point for the grammar, which is used in parsing algorithms and must be a non-\/terminal symbol present in the grammar. \Hypertarget{structGrammar_add6e0b9e24f431fddedf85c2aa3f2053}\index{Grammar@{Grammar}!Split@{Split}}
 \index{Split@{Split}!Grammar@{Grammar}}
 \doxysubsubsection{\texorpdfstring{Split()}{Split()}}
-{\footnotesize\ttfamily \label{structGrammar_add2f414fe2ddf7e578a70c255daa1996} 
-std\+::vector$<$ std\+::string $>$ Grammar\+::\+Split (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{s}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \label{structGrammar_add6e0b9e24f431fddedf85c2aa3f2053} 
+std\+::vector$<$ symbol\+\_\+table\+::\+Token\+ID $>$ Grammar\+::\+Split (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{s}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 

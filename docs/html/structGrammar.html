@@ -87,14 +87,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a3700f92e52d3df01fe1d814126e08a79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a grammar by reading from the specified file.  <br /></td></tr>
 <tr class="memitem:ac2ef7218be4c6d7a778035b89f5a20a5" id="r_ac2ef7218be4c6d7a778035b89f5a20a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2ef7218be4c6d7a778035b89f5a20a5">ReadFromFile</a> ()</td></tr>
 <tr class="memdesc:ac2ef7218be4c6d7a778035b89f5a20a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads and loads the grammar from a file.  <br /></td></tr>
-<tr class="memitem:a539261e8ebcc688020f43d98510a79a0" id="r_a539261e8ebcc688020f43d98510a79a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a539261e8ebcc688020f43d98510a79a0">AddRule</a> (const std::string &amp;antecedent, const std::string &amp;consequent)</td></tr>
-<tr class="memdesc:a539261e8ebcc688020f43d98510a79a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a rule to the grammar.  <br /></td></tr>
-<tr class="memitem:a27ecdbca735ffb275a2bad9d1ea539c3" id="r_a27ecdbca735ffb275a2bad9d1ea539c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27ecdbca735ffb275a2bad9d1ea539c3">SetAxiom</a> (const std::string &amp;axiom)</td></tr>
-<tr class="memdesc:a27ecdbca735ffb275a2bad9d1ea539c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the axiom (entry point) of the grammar.  <br /></td></tr>
-<tr class="memitem:a67c3e8fa5bb1bc874c66a85d42222e92" id="r_a67c3e8fa5bb1bc874c66a85d42222e92"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67c3e8fa5bb1bc874c66a85d42222e92">HasEmptyProduction</a> (const std::string &amp;antecedent)</td></tr>
-<tr class="memdesc:a67c3e8fa5bb1bc874c66a85d42222e92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a given antecedent has an empty production.  <br /></td></tr>
-<tr class="memitem:a9666d9181ec616ffdb8f090b60a3aba1" id="r_a9666d9181ec616ffdb8f090b60a3aba1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; const std::string, production &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9666d9181ec616ffdb8f090b60a3aba1">FilterRulesByConsequent</a> (const std::string &amp;arg)</td></tr>
-<tr class="memdesc:a9666d9181ec616ffdb8f090b60a3aba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filters grammar rules that contain a specific token in their consequent.  <br /></td></tr>
+<tr class="memitem:a011f3595326dbcda598efb3eb3cab74c" id="r_a011f3595326dbcda598efb3eb3cab74c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a011f3595326dbcda598efb3eb3cab74c">AddRule</a> (symbol_table::TokenID antecedent, const production &amp;consequent)</td></tr>
+<tr class="memdesc:a011f3595326dbcda598efb3eb3cab74c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a rule to the grammar.  <br /></td></tr>
+<tr class="memitem:a4485d0341409272b6e656abf6c94dc31" id="r_a4485d0341409272b6e656abf6c94dc31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4485d0341409272b6e656abf6c94dc31">SetAxiom</a> (symbol_table::TokenID axiom)</td></tr>
+<tr class="memdesc:a4485d0341409272b6e656abf6c94dc31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the axiom (entry point) of the grammar.  <br /></td></tr>
+<tr class="memitem:ac264fca129c173f5a5f6c1e5066a2adb" id="r_ac264fca129c173f5a5f6c1e5066a2adb"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; symbol_table::TokenID, production &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac264fca129c173f5a5f6c1e5066a2adb">FilterRulesByConsequent</a> (symbol_table::TokenID arg)</td></tr>
+<tr class="memdesc:ac264fca129c173f5a5f6c1e5066a2adb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filters grammar rules that contain a specific token in their consequent.  <br /></td></tr>
 <tr class="memitem:aefb03447a650b7601edc6b10e790bc50" id="r_aefb03447a650b7601edc6b10e790bc50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefb03447a650b7601edc6b10e790bc50">Debug</a> ()</td></tr>
 <tr class="memdesc:aefb03447a650b7601edc6b10e790bc50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the current grammar structure to standard output.  <br /></td></tr>
 <tr class="memitem:a1292224f6afedaa080aeab04af081a37" id="r_a1292224f6afedaa080aeab04af081a37"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1292224f6afedaa080aeab04af081a37">GenerateNewNonTerminal</a> (const std::string &amp;base)</td></tr>
@@ -102,19 +100,20 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:add2f414fe2ddf7e578a70c255daa1996" id="r_add2f414fe2ddf7e578a70c255daa1996"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add2f414fe2ddf7e578a70c255daa1996">Split</a> (const std::string &amp;s)</td></tr>
-<tr class="memdesc:add2f414fe2ddf7e578a70c255daa1996"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a production string into individual tokens.  <br /></td></tr>
-<tr class="memitem:a5f08bb51ba6f87ed6a636f4cd354330e" id="r_a5f08bb51ba6f87ed6a636f4cd354330e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f08bb51ba6f87ed6a636f4cd354330e">HasLeftRecursion</a> (const std::string &amp;antecedent, const std::vector&lt; std::string &gt; &amp;consequent)</td></tr>
-<tr class="memdesc:a5f08bb51ba6f87ed6a636f4cd354330e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a rule exhibits left recursion.  <br /></td></tr>
+<tr class="memitem:add6e0b9e24f431fddedf85c2aa3f2053" id="r_add6e0b9e24f431fddedf85c2aa3f2053"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; symbol_table::TokenID &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add6e0b9e24f431fddedf85c2aa3f2053">Split</a> (const std::string &amp;s)</td></tr>
+<tr class="memdesc:add6e0b9e24f431fddedf85c2aa3f2053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a production string into individual tokens.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ac16e6ae6c52586612ecf1ceb19fb1dd5" id="r_ac16e6ae6c52586612ecf1ceb19fb1dd5"><td class="memItemLeft" align="right" valign="top"><a id="ac16e6ae6c52586612ecf1ceb19fb1dd5" name="ac16e6ae6c52586612ecf1ceb19fb1dd5"></a>
-std::unordered_map&lt; std::string, std::vector&lt; production &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>g_</b></td></tr>
-<tr class="memdesc:ac16e6ae6c52586612ecf1ceb19fb1dd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the grammar rules with each antecedent mapped to a list of productions. <br /></td></tr>
-<tr class="memitem:a8bdbc1072253034fab2c1269a4660f57" id="r_a8bdbc1072253034fab2c1269a4660f57"><td class="memItemLeft" align="right" valign="top"><a id="a8bdbc1072253034fab2c1269a4660f57" name="a8bdbc1072253034fab2c1269a4660f57"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>axiom_</b></td></tr>
-<tr class="memdesc:a8bdbc1072253034fab2c1269a4660f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">The axiom or entry point of the grammar. <br /></td></tr>
+<tr class="memitem:ad453fcc26407fcbeba027cfcf7d74210" id="r_ad453fcc26407fcbeba027cfcf7d74210"><td class="memItemLeft" align="right" valign="top"><a id="ad453fcc26407fcbeba027cfcf7d74210" name="ad453fcc26407fcbeba027cfcf7d74210"></a>
+std::unordered_map&lt; symbol_table::TokenID, std::vector&lt; production &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>g_</b></td></tr>
+<tr class="memdesc:ad453fcc26407fcbeba027cfcf7d74210"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the grammar rules with each antecedent mapped to a list of productions. <br /></td></tr>
+<tr class="memitem:aba191981f90d1aad9a82ae960a1b86dc" id="r_aba191981f90d1aad9a82ae960a1b86dc"><td class="memItemLeft" align="right" valign="top"><a id="aba191981f90d1aad9a82ae960a1b86dc" name="aba191981f90d1aad9a82ae960a1b86dc"></a>
+std::vector&lt; symbol_table::TokenID &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>nt_order_</b> {}</td></tr>
+<tr class="memdesc:aba191981f90d1aad9a82ae960a1b86dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keeps the insertion order of non-terminal symbols. <br /></td></tr>
+<tr class="memitem:a512fefc3a166df80c36c0ed9cf496daf" id="r_a512fefc3a166df80c36c0ed9cf496daf"><td class="memItemLeft" align="right" valign="top"><a id="a512fefc3a166df80c36c0ed9cf496daf" name="a512fefc3a166df80c36c0ed9cf496daf"></a>
+symbol_table::TokenID&#160;</td><td class="memItemRight" valign="bottom"><b>axiom_</b> {}</td></tr>
+<tr class="memdesc:a512fefc3a166df80c36c0ed9cf496daf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The axiom or entry point of the grammar. <br /></td></tr>
 <tr class="memitem:aad7a482e4c371a110ef69a6558900c7a" id="r_aad7a482e4c371a110ef69a6558900c7a"><td class="memItemLeft" align="right" valign="top"><a id="aad7a482e4c371a110ef69a6558900c7a" name="aad7a482e4c371a110ef69a6558900c7a"></a>
 const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kFilename</b></td></tr>
 <tr class="memdesc:aad7a482e4c371a110ef69a6558900c7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The filename from which the grammar is read. <br /></td></tr>
@@ -155,8 +154,8 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kFilenam
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a539261e8ebcc688020f43d98510a79a0" name="a539261e8ebcc688020f43d98510a79a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a539261e8ebcc688020f43d98510a79a0">&#9670;&#160;</a></span>AddRule()</h2>
+<a id="a011f3595326dbcda598efb3eb3cab74c" name="a011f3595326dbcda598efb3eb3cab74c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a011f3595326dbcda598efb3eb3cab74c">&#9670;&#160;</a></span>AddRule()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -164,12 +163,12 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kFilenam
         <tr>
           <td class="memname">void Grammar::AddRule </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>antecedent</em></span>, </td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>antecedent</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>consequent</em></span>&#160;)</td>
+          <td class="paramtype">const production &amp;</td>          <td class="paramname"><span class="paramname"><em>consequent</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -206,16 +205,16 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kFilenam
 
 </div>
 </div>
-<a id="a9666d9181ec616ffdb8f090b60a3aba1" name="a9666d9181ec616ffdb8f090b60a3aba1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9666d9181ec616ffdb8f090b60a3aba1">&#9670;&#160;</a></span>FilterRulesByConsequent()</h2>
+<a id="ac264fca129c173f5a5f6c1e5066a2adb" name="ac264fca129c173f5a5f6c1e5066a2adb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac264fca129c173f5a5f6c1e5066a2adb">&#9670;&#160;</a></span>FilterRulesByConsequent()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; std::pair&lt; const std::string, production &gt; &gt; Grammar::FilterRulesByConsequent </td>
+          <td class="memname">std::vector&lt; std::pair&lt; symbol_table::TokenID, production &gt; &gt; Grammar::FilterRulesByConsequent </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -224,7 +223,7 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kFilenam
 <p>Filters grammar rules that contain a specific token in their consequent. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">arg</td><td>The token to search for within the consequents of the rules. </td></tr>
+    <tr><td class="paramname">arg</td><td>The token to search for within the consequent of the rules. </td></tr>
   </table>
   </dd>
 </dl>
@@ -259,73 +258,6 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kFilenam
 
 </div>
 </div>
-<a id="a67c3e8fa5bb1bc874c66a85d42222e92" name="a67c3e8fa5bb1bc874c66a85d42222e92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67c3e8fa5bb1bc874c66a85d42222e92">&#9670;&#160;</a></span>HasEmptyProduction()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Grammar::HasEmptyProduction </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>antecedent</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Checks if a given antecedent has an empty production. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">antecedent</td><td>The left-hand side (LHS) symbol to check. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if there exists an empty production for the antecedent, otherwise false.</dd></dl>
-<p>An empty production is represented as <span class="tt">&lt;antecedent&gt; -&gt; ;</span>, indicating that the antecedent can produce an empty string. </p>
-
-</div>
-</div>
-<a id="a5f08bb51ba6f87ed6a636f4cd354330e" name="a5f08bb51ba6f87ed6a636f4cd354330e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f08bb51ba6f87ed6a636f4cd354330e">&#9670;&#160;</a></span>HasLeftRecursion()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Grammar::HasLeftRecursion </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>antecedent</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>consequent</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Checks if a rule exhibits left recursion. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">antecedent</td><td>The left-hand side (LHS) symbol of the rule. </td></tr>
-    <tr><td class="paramname">consequent</td><td>The right-hand side (RHS) vector of tokens of the rule. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the rule has left recursion (e.g., A -&gt; A + A), otherwise false.</dd></dl>
-<p>Left recursion is identified when the antecedent of a rule appears as the first symbol in its consequent, which may cause issues in top-down parsing algorithms. </p>
-
-</div>
-</div>
 <a id="ac2ef7218be4c6d7a778035b89f5a20a5" name="ac2ef7218be4c6d7a778035b89f5a20a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac2ef7218be4c6d7a778035b89f5a20a5">&#9670;&#160;</a></span>ReadFromFile()</h2>
 
@@ -352,8 +284,8 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kFilenam
 
 </div>
 </div>
-<a id="a27ecdbca735ffb275a2bad9d1ea539c3" name="a27ecdbca735ffb275a2bad9d1ea539c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27ecdbca735ffb275a2bad9d1ea539c3">&#9670;&#160;</a></span>SetAxiom()</h2>
+<a id="a4485d0341409272b6e656abf6c94dc31" name="a4485d0341409272b6e656abf6c94dc31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4485d0341409272b6e656abf6c94dc31">&#9670;&#160;</a></span>SetAxiom()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -361,7 +293,7 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kFilenam
         <tr>
           <td class="memname">void Grammar::SetAxiom </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>axiom</em></span></td><td>)</td>
+          <td class="paramtype">symbol_table::TokenID</td>          <td class="paramname"><span class="paramname"><em>axiom</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -378,8 +310,8 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kFilenam
 
 </div>
 </div>
-<a id="add2f414fe2ddf7e578a70c255daa1996" name="add2f414fe2ddf7e578a70c255daa1996"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add2f414fe2ddf7e578a70c255daa1996">&#9670;&#160;</a></span>Split()</h2>
+<a id="add6e0b9e24f431fddedf85c2aa3f2053" name="add6e0b9e24f431fddedf85c2aa3f2053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add6e0b9e24f431fddedf85c2aa3f2053">&#9670;&#160;</a></span>Split()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -388,7 +320,7 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kFilenam
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; std::string &gt; Grammar::Split </td>
+          <td class="memname">std::vector&lt; symbol_table::TokenID &gt; Grammar::Split </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>s</em></span></td><td>)</td>
           <td></td>

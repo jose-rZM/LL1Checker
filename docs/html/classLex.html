@@ -76,7 +76,6 @@ $(function() {
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classLex-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Lex Class Reference</div></div>
@@ -97,8 +96,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a613c8aca4a26fcb26ec5d255e0b39ab4" id="r_a613c8aca4a26fcb26ec5d255e0b39ab4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a613c8aca4a26fcb26ec5d255e0b39ab4">Lex</a> (std::string filename)</td></tr>
-<tr class="memdesc:a613c8aca4a26fcb26ec5d255e0b39ab4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a lexer.  <br /></td></tr>
+<tr class="memitem:af7bda79c671dbae0e2fb6f4d21988d6d" id="r_af7bda79c671dbae0e2fb6f4d21988d6d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7bda79c671dbae0e2fb6f4d21988d6d">Lex</a> (std::string <a class="el" href="#add55a62bf95c768d2109c4f9dc44dd6c">input</a>, bool from_string)</td></tr>
+<tr class="memitem:accee7b6aa528e7fdf3891870ec35fef8" id="r_accee7b6aa528e7fdf3891870ec35fef8"><td class="memItemLeft" align="right" valign="top"><a id="accee7b6aa528e7fdf3891870ec35fef8" name="accee7b6aa528e7fdf3891870ec35fef8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Tokenize</b> ()</td></tr>
 <tr class="memitem:ad69437303204c7325e3af53c2cc387cd" id="r_ad69437303204c7325e3af53c2cc387cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structLex_1_1Token.html">Token</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad69437303204c7325e3af53c2cc387cd">Next</a> ()</td></tr>
 <tr class="memdesc:ad69437303204c7325e3af53c2cc387cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the next token from input string in a lazy way.  <br /></td></tr>
 <tr class="memitem:add55a62bf95c768d2109c4f9dc44dd6c" id="r_add55a62bf95c768d2109c4f9dc44dd6c"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add55a62bf95c768d2109c4f9dc44dd6c">input</a> ()</td></tr>
@@ -109,11 +109,6 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a112b943edf59d6c6a8628fd219b5a2bc" id="r_a112b943edf59d6c6a8628fd219b5a2bc"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a112b943edf59d6c6a8628fd219b5a2bc">format_error_window</a> (const std::string &amp;<a class="el" href="#add55a62bf95c768d2109c4f9dc44dd6c">input</a>, size_t pos, size_t &amp;out_err_line, size_t &amp;out_err_col, size_t context_lines=2, size_t max_line_width=40, size_t window_width=20)</td></tr>
 <tr class="memdesc:a112b943edf59d6c6a8628fd219b5a2bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a formatted snippet around an error location.  <br /></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:aebdc8145be3e0bfbabfd919104c14c75" id="r_aebdc8145be3e0bfbabfd919104c14c75"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebdc8145be3e0bfbabfd919104c14c75">skip_ws</a> ()</td></tr>
-<tr class="memdesc:aebdc8145be3e0bfbabfd919104c14c75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Skip over whitespace in the input buffer.  <br /></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a2edfb30a2ba422c2f521eaa0211a1491" id="r_a2edfb30a2ba422c2f521eaa0211a1491"><td class="memItemLeft" align="right" valign="top"><a id="a2edfb30a2ba422c2f521eaa0211a1491" name="a2edfb30a2ba422c2f521eaa0211a1491"></a>
@@ -122,47 +117,37 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>filename_</b><
 <tr class="memitem:a1f3ab46f1f6b730c29477e125a2664b2" id="r_a1f3ab46f1f6b730c29477e125a2664b2"><td class="memItemLeft" align="right" valign="top"><a id="a1f3ab46f1f6b730c29477e125a2664b2" name="a1f3ab46f1f6b730c29477e125a2664b2"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>input_</b></td></tr>
 <tr class="memdesc:a1f3ab46f1f6b730c29477e125a2664b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Complete contents of the input file. <br /></td></tr>
-<tr class="memitem:ac53d427736c483e91b6bdd233212d1b2" id="r_ac53d427736c483e91b6bdd233212d1b2"><td class="memItemLeft" align="right" valign="top"><a id="ac53d427736c483e91b6bdd233212d1b2" name="ac53d427736c483e91b6bdd233212d1b2"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>pos_</b> {0}</td></tr>
-<tr class="memdesc:ac53d427736c483e91b6bdd233212d1b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current byte-offset in <code>input_</code>. <br /></td></tr>
-<tr class="memitem:ace47c5ca6a56a62028c48bee29d5962f" id="r_ace47c5ca6a56a62028c48bee29d5962f"><td class="memItemLeft" align="right" valign="top"><a id="ace47c5ca6a56a62028c48bee29d5962f" name="ace47c5ca6a56a62028c48bee29d5962f"></a>
-std::vector&lt; <a class="el" href="structLex_1_1Pattern.html">Pattern</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>patterns_</b></td></tr>
-<tr class="memdesc:ace47c5ca6a56a62028c48bee29d5962f"><td class="mdescLeft">&#160;</td><td class="mdescRight">All regex patterns used for tokenization. <br /></td></tr>
+<tr class="memitem:ae71383e1d5c1c1ad41063ff788905136" id="r_ae71383e1d5c1c1ad41063ff788905136"><td class="memItemLeft" align="right" valign="top"><a id="ae71383e1d5c1c1ad41063ff788905136" name="ae71383e1d5c1c1ad41063ff788905136"></a>
+Iterator&#160;</td><td class="memItemRight" valign="bottom"><b>iter_</b></td></tr>
+<tr class="memitem:ae9f6ab4a2cbb6452b9184af94c31ded8" id="r_ae9f6ab4a2cbb6452b9184af94c31ded8"><td class="memItemLeft" align="right" valign="top"><a id="ae9f6ab4a2cbb6452b9184af94c31ded8" name="ae9f6ab4a2cbb6452b9184af94c31ded8"></a>
+Iterator&#160;</td><td class="memItemRight" valign="bottom"><b>end_</b></td></tr>
+<tr class="memitem:a78affd6d42b552d0739c2f98a3e1a1f5" id="r_a78affd6d42b552d0739c2f98a3e1a1f5"><td class="memItemLeft" align="right" valign="top"><a id="a78affd6d42b552d0739c2f98a3e1a1f5" name="a78affd6d42b552d0739c2f98a3e1a1f5"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>current_</b> {0}</td></tr>
+<tr class="memitem:a2d93fb607197b5bc3803cbe8c5d9f7cd" id="r_a2d93fb607197b5bc3803cbe8c5d9f7cd"><td class="memItemLeft" align="right" valign="top"><a id="a2d93fb607197b5bc3803cbe8c5d9f7cd" name="a2d93fb607197b5bc3803cbe8c5d9f7cd"></a>
+std::vector&lt; <a class="el" href="structLex_1_1Token.html">Token</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tokens_</b></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A simple lexer for tokenizing an input string and reporting errors. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a613c8aca4a26fcb26ec5d255e0b39ab4" name="a613c8aca4a26fcb26ec5d255e0b39ab4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a613c8aca4a26fcb26ec5d255e0b39ab4">&#9670;&#160;</a></span>Lex()</h2>
+<a id="af7bda79c671dbae0e2fb6f4d21988d6d" name="af7bda79c671dbae0e2fb6f4d21988d6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7bda79c671dbae0e2fb6f4d21988d6d">&#9670;&#160;</a></span>Lex()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Lex::Lex </td>
           <td>(</td>
-          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>filename</em></span></td><td>)</td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>from_string</em></span>&#160;)</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel explicit">explicit</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Constructs a lexer. </p>
-<p>Opens the file at <code class="param">filename</code>, reads its entire contents into memory, then configures the patterns filling the vector of patterns.. Aborts the program on I/O or regex errors.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">filename</td><td>Path to the input file containing the text to lex. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Construct a lexer from a raw string instead of a file. The boolean argument is only used to differentiate the constructor signature. </p>
 
 </div>
 </div>
@@ -274,34 +259,6 @@ std::vector&lt; <a class="el" href="structLex_1_1Pattern.html">Pattern</a> &gt;&
 
 <p>Retrieves the next token from input string in a lazy way. </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="structLex_1_1Token.html" title="Represents a single token produced by the lexer.">Token</a> The next token in the sequence; EOF if there is no more symbols. </dd></dl>
-
-</div>
-</div>
-<a id="aebdc8145be3e0bfbabfd919104c14c75" name="aebdc8145be3e0bfbabfd919104c14c75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebdc8145be3e0bfbabfd919104c14c75">&#9670;&#160;</a></span>skip_ws()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Lex::skip_ws </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Skip over whitespace in the input buffer. </p>
-<p>Advances <code>pos_</code> past any spaces, tabs, newlines, etc., until the next non-whitespace character or end-of-input is reached. </p>
 
 </div>
 </div>

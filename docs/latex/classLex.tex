@@ -19,8 +19,11 @@ struct \mbox{\hyperlink{structLex_1_1Token}{Token}}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classLex_a613c8aca4a26fcb26ec5d255e0b39ab4}{Lex}} (std\+::string filename)
-\begin{DoxyCompactList}\small\item\em Constructs a lexer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classLex_af7bda79c671dbae0e2fb6f4d21988d6d}{Lex}} (std\+::string \mbox{\hyperlink{classLex_add55a62bf95c768d2109c4f9dc44dd6c}{input}}, bool from\+\_\+string)
+\item 
+\Hypertarget{classLex_accee7b6aa528e7fdf3891870ec35fef8}\label{classLex_accee7b6aa528e7fdf3891870ec35fef8} 
+void {\bfseries Tokenize} ()
+\item 
 \mbox{\hyperlink{structLex_1_1Token}{Token}} \mbox{\hyperlink{classLex_ad69437303204c7325e3af53c2cc387cd}{Next}} ()
 \begin{DoxyCompactList}\small\item\em Retrieves the next token from input string in a lazy way. \end{DoxyCompactList}\item 
 std\+::string \& \mbox{\hyperlink{classLex_add55a62bf95c768d2109c4f9dc44dd6c}{input}} ()
@@ -30,11 +33,6 @@ std\+::string \& \mbox{\hyperlink{classLex_add55a62bf95c768d2109c4f9dc44dd6c}{in
 \item 
 static std\+::string \mbox{\hyperlink{classLex_a112b943edf59d6c6a8628fd219b5a2bc}{format\+\_\+error\+\_\+window}} (const std\+::string \&\mbox{\hyperlink{classLex_add55a62bf95c768d2109c4f9dc44dd6c}{input}}, size\+\_\+t pos, size\+\_\+t \&out\+\_\+err\+\_\+line, size\+\_\+t \&out\+\_\+err\+\_\+col, size\+\_\+t context\+\_\+lines=2, size\+\_\+t max\+\_\+line\+\_\+width=40, size\+\_\+t window\+\_\+width=20)
 \begin{DoxyCompactList}\small\item\em Generate a formatted snippet around an error location. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-void \mbox{\hyperlink{classLex_aebdc8145be3e0bfbabfd919104c14c75}{skip\+\_\+ws}} ()
-\begin{DoxyCompactList}\small\item\em Skip over whitespace in the input buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -44,12 +42,18 @@ std\+::string {\bfseries filename\+\_\+}
 \Hypertarget{classLex_a1f3ab46f1f6b730c29477e125a2664b2}\label{classLex_a1f3ab46f1f6b730c29477e125a2664b2} 
 std\+::string {\bfseries input\+\_\+}
 \begin{DoxyCompactList}\small\item\em Complete contents of the input file. \end{DoxyCompactList}\item 
-\Hypertarget{classLex_ac53d427736c483e91b6bdd233212d1b2}\label{classLex_ac53d427736c483e91b6bdd233212d1b2} 
-size\+\_\+t {\bfseries pos\+\_\+} \{0\}
-\begin{DoxyCompactList}\small\item\em Current byte-\/offset in {\ttfamily input\+\_\+}. \end{DoxyCompactList}\item 
-\Hypertarget{classLex_ace47c5ca6a56a62028c48bee29d5962f}\label{classLex_ace47c5ca6a56a62028c48bee29d5962f} 
-std\+::vector$<$ \mbox{\hyperlink{structLex_1_1Pattern}{Pattern}} $>$ {\bfseries patterns\+\_\+}
-\begin{DoxyCompactList}\small\item\em All regex patterns used for tokenization. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\Hypertarget{classLex_ae71383e1d5c1c1ad41063ff788905136}\label{classLex_ae71383e1d5c1c1ad41063ff788905136} 
+Iterator {\bfseries iter\+\_\+}
+\item 
+\Hypertarget{classLex_ae9f6ab4a2cbb6452b9184af94c31ded8}\label{classLex_ae9f6ab4a2cbb6452b9184af94c31ded8} 
+Iterator {\bfseries end\+\_\+}
+\item 
+\Hypertarget{classLex_a78affd6d42b552d0739c2f98a3e1a1f5}\label{classLex_a78affd6d42b552d0739c2f98a3e1a1f5} 
+size\+\_\+t {\bfseries current\+\_\+} \{0\}
+\item 
+\Hypertarget{classLex_a2d93fb607197b5bc3803cbe8c5d9f7cd}\label{classLex_a2d93fb607197b5bc3803cbe8c5d9f7cd} 
+std\+::vector$<$ \mbox{\hyperlink{structLex_1_1Token}{Token}} $>$ {\bfseries tokens\+\_\+}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -58,24 +62,13 @@ A simple lexer for tokenizing an input string and reporting errors.
 \label{doc-constructors}
 \Hypertarget{classLex_doc-constructors}
 \doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{classLex_a613c8aca4a26fcb26ec5d255e0b39ab4}\index{Lex@{Lex}!Lex@{Lex}}
+\Hypertarget{classLex_af7bda79c671dbae0e2fb6f4d21988d6d}\index{Lex@{Lex}!Lex@{Lex}}
 \index{Lex@{Lex}!Lex@{Lex}}
 \doxysubsubsection{\texorpdfstring{Lex()}{Lex()}}
-{\footnotesize\ttfamily \label{classLex_a613c8aca4a26fcb26ec5d255e0b39ab4} 
-Lex\+::\+Lex (\begin{DoxyParamCaption}\item[{std\+::string}]{filename}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+{\footnotesize\ttfamily \label{classLex_af7bda79c671dbae0e2fb6f4d21988d6d} 
+Lex\+::\+Lex (\begin{DoxyParamCaption}\item[{std\+::string}]{input}{, }\item[{bool}]{from\+\_\+string}{}\end{DoxyParamCaption})}
 
-
-
-Constructs a lexer. 
-
-Opens the file at {\ttfamily filename}, reads its entire contents into memory, then configures the patterns filling the vector of patterns.. Aborts the program on I/O or regex errors.
-
-
-\begin{DoxyParams}{Parameters}
-{\em filename} & Path to the input file containing the text to lex. \\
-\hline
-\end{DoxyParams}
-
+Construct a lexer from a raw string instead of a file. The boolean argument is only used to differentiate the constructor signature. 
 
 \label{doc-func-members}
 \Hypertarget{classLex_doc-func-members}
@@ -138,17 +131,7 @@ Retrieves the next token from input string in a lazy way.
 \begin{DoxyReturn}{Returns}
 \doxylink{structLex_1_1Token}{Token} The next token in the sequence; EOF if there is no more symbols. 
 \end{DoxyReturn}
-\Hypertarget{classLex_aebdc8145be3e0bfbabfd919104c14c75}\index{Lex@{Lex}!skip\_ws@{skip\_ws}}
-\index{skip\_ws@{skip\_ws}!Lex@{Lex}}
-\doxysubsubsection{\texorpdfstring{skip\_ws()}{skip\_ws()}}
-{\footnotesize\ttfamily \label{classLex_aebdc8145be3e0bfbabfd919104c14c75} 
-void Lex\+::skip\+\_\+ws (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
-
-
-Skip over whitespace in the input buffer. 
-
-Advances {\ttfamily pos\+\_\+} past any spaces, tabs, newlines, etc., until the next non-\/whitespace character or end-\/of-\/input is reached. 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

@@ -5,84 +5,93 @@
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}grammar.hpp"{}}}
 \DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}lexer.hpp"{}}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <deque>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <queue>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <span>}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stack>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLL1Parser_a419899deba2324f6018dff5aa8f1c933}{LL1Parser}}\ \{}
-\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{using\ }ll1\_table\ =\ std::unordered\_map<}
-\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ std::string,\ std::unordered\_map<std::string,\ std::vector<production>>>;}
-\DoxyCodeLine{00016\ }
-\DoxyCodeLine{00017\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classLL1Parser_a419899deba2324f6018dff5aa8f1c933}{LL1Parser}}(\mbox{\hyperlink{structGrammar}{Grammar}}\ gr,\ std::string\ text\_file,\ \textcolor{keywordtype}{bool}\ table\_format\ =\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}symbol\_table.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <deque>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <stack>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLL1Parser_a48c99d9c03693c3ca3dd114345b78e77}{LL1Parser}}\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{using\ }ll1\_table\ =\ std::unordered\_map<}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ symbol\_table::TokenID,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ std::unordered\_map<symbol\_table::TokenID,\ std::vector<production>>>;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structLL1Parser_1_1ParseNode}{ParseNode}}\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ std::string\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structLL1Parser_1_1ParseNode_aaf268edd76b360bfabbf77ab48768f93}{symbol}};\ \ \ \ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ std::vector<std::unique\_ptr<ParseNode>>\ \mbox{\hyperlink{structLL1Parser_1_1ParseNode_a36addcb2df0669fd4bd54b570501d2fd}{children}};\ \ }
+\DoxyCodeLine{00024\ \ \ \ \ \};}
 \DoxyCodeLine{00025\ }
-\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{classLL1Parser_a419899deba2324f6018dff5aa8f1c933}{LL1Parser}}(\textcolor{keyword}{const}\ std::string\&\ grammar\_file,\ std::string\ text\_file,}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ table\_format\ =\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00034\ }
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classLL1Parser_a419899deba2324f6018dff5aa8f1c933}{LL1Parser}}(\textcolor{keyword}{const}\ std::string\&\ grammar\_file,}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table\_format\ =\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a658cc49bf42de998962dba95c06ee2ab}{Parse}}();}
-\DoxyCodeLine{00071\ }
-\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a235e19d551647775130eddfd0661311b}{MatchTerminal}}(\textcolor{keyword}{const}\ std::string\&\ top\_symbol,}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ current\_symbol);}
-\DoxyCodeLine{00088\ }
-\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_aed1fa3255a089e2fa52a11b015490975}{ProcessNonTerminal}}(\textcolor{keyword}{const}\ std::string\&\ top\_symbol,}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ current\_symbol);}
-\DoxyCodeLine{00112\ }
-\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a964e6f48a2941f4925dd65f63f5123ca}{PrintTable}}();}
-\DoxyCodeLine{00124\ }
-\DoxyCodeLine{00125\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a8ba808383f0980a851834cdf48907447}{ReportParseError}}(\textcolor{keyword}{const}\ std::string\&\ input,\ \textcolor{keywordtype}{size\_t}\ err\_pos,}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ expected,}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ found);}
-\DoxyCodeLine{00139\ }
-\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_af556dd5a7357b97ec5d078983db62553}{First}}(std::span<const\ std::string>\ \ \ \ \ rule,}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::unordered\_set<std::string>\&\ result);}
-\DoxyCodeLine{00168\ }
-\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a2f702d940802a8b02538cb173a6c7e5e}{ComputeFirstSets}}();}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{using\ }ParseTree\ =\ std::unique\_ptr<ParseNode>;}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{classLL1Parser_a48c99d9c03693c3ca3dd114345b78e77}{LL1Parser}}(\mbox{\hyperlink{structGrammar}{Grammar}}\ gr,\ std::string\ text\_file,\ \textcolor{keywordtype}{bool}\ table\_format\ =\ \textcolor{keyword}{true},}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ text\_is\_raw\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{classLL1Parser_a48c99d9c03693c3ca3dd114345b78e77}{LL1Parser}}(\textcolor{keyword}{const}\ std::string\&\ grammar\_file,\ std::string\ text\_file,}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ table\_format\ =\ \textcolor{keyword}{true},\ \textcolor{keywordtype}{bool}\ text\_is\_raw\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a658cc49bf42de998962dba95c06ee2ab}{Parse}}();}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00077\ \ \ \ \ ParseTree\ \mbox{\hyperlink{classLL1Parser_a578e9d237d71c4be6151b568c8c92355}{ParseWithTree}}(\textcolor{keyword}{const}\ std::string\&\ file);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a46cdf3ea2da909fad7f105d0e7d82043}{MatchTerminal}}(symbol\_table::TokenID\ top\_symbol,}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ symbol\_table::TokenID\ current\_symbol);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_ac1b8358a2fc6ce171ca2b240853b0a1b}{ProcessNonTerminal}}(symbol\_table::TokenID\ \ \ \ \ \ \ \ \ \ \ \ \ \ top\_symbol,}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ symbol\_table::TokenID\ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_symbol,}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::stack<symbol\_table::TokenID>\&\ symbol\_stack);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a964e6f48a2941f4925dd65f63f5123ca}{PrintTable}}();}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a8a3e9f29a13f8ca1c003032509972ffd}{ExportTreeAsDot}}(\textcolor{keyword}{const}\ ParseTree\&\ tree,\ \textcolor{keyword}{const}\ std::string\&\ filename);}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_afd02f6912b16f4044dc465e9e6c0ed5c}{ReportParseError}}(\textcolor{keyword}{const}\ std::string\&\ input,\ \textcolor{keywordtype}{size\_t}\ err\_pos,}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ symbol\_table::TokenID\ expected,}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ symbol\_table::TokenID\ found);}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a1cdbd5b641cd3cd842f8d17c86569c35}{First}}(std::span<const\ symbol\_table::TokenID>\ \ \ \ \ rule,}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::unordered\_set<symbol\_table::TokenID>\&\ result);}
 \DoxyCodeLine{00180\ }
-\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a02ee1f3ebc4cedacbb11204e3e8cbfdc}{ComputeFollowSets}}();}
-\DoxyCodeLine{00209\ }
-\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a44706610e5fad3f4d2fd437f64c8884b}{UpdateFollow}}(\textcolor{keyword}{const}\ std::string\&\ symbol,\ \textcolor{keyword}{const}\ std::string\&\ lhs,}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ production\&\ rhs,\ \textcolor{keywordtype}{size\_t}\ i);}
-\DoxyCodeLine{00229\ }
-\DoxyCodeLine{00247\ \ \ \ \ std::unordered\_set<std::string>\ \mbox{\hyperlink{classLL1Parser_a0f9dc60f3f6a8332b0ed727d4c8fd40f}{Follow}}(\textcolor{keyword}{const}\ std::string\&\ arg);}
-\DoxyCodeLine{00248\ }
-\DoxyCodeLine{00271\ \ \ \ \ std::unordered\_set<std::string>}
-\DoxyCodeLine{00272\ \ \ \ \ \mbox{\hyperlink{classLL1Parser_a5e5817b02a5ea7faa4480cb64ad31dd2}{PredictionSymbols}}(\textcolor{keyword}{const}\ std::string\&\ \ \ \ \ \ \ \ \ \ \ \ \ \ antecedent,}
-\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<std::string>\&\ consequent);}
-\DoxyCodeLine{00274\ }
-\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a7b33aead1b94c61884afb06f204fd3e4}{CreateLL1Table}}();}
-\DoxyCodeLine{00297\ }
-\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a00cc4c090b6a32d97f5ed035da9cba9d}{PrintTableUsingTabulate}}();}
-\DoxyCodeLine{00311\ }
-\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classLL1Parser_a4952d42125fbfc00daf0ce45a3532b0c}{kTraceSize}}\{5\};}
-\DoxyCodeLine{00314\ }
-\DoxyCodeLine{00317\ \ \ \ \ ll1\_table\ \mbox{\hyperlink{classLL1Parser_a29cba4eed3d7b262f17509779934f1fd}{ll1\_t\_}};}
-\DoxyCodeLine{00318\ }
-\DoxyCodeLine{00320\ \ \ \ \ \mbox{\hyperlink{structGrammar}{Grammar}}\ \mbox{\hyperlink{classLL1Parser_a8148d39b8f39a98b4210490346beb3b4}{gr\_}};}
-\DoxyCodeLine{00321\ }
-\DoxyCodeLine{00323\ \ \ \ \ std::unordered\_map<std::string,\ std::unordered\_set<std::string>>}
-\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLL1Parser_a99111137eeeeb3d44b7b20417297df9b}{first\_sets\_}};}
-\DoxyCodeLine{00325\ }
-\DoxyCodeLine{00327\ \ \ \ \ std::unordered\_map<std::string,\ std::unordered\_set<std::string>>}
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLL1Parser_a9faec5578f60af3641a5bb6bde66aa8f}{follow\_sets\_}};}
-\DoxyCodeLine{00329\ }
-\DoxyCodeLine{00331\ \ \ \ \ std::stack<std::string>\ \mbox{\hyperlink{classLL1Parser_adc998981a7a6635e498d36954781aea0}{symbol\_stack\_}};}
-\DoxyCodeLine{00332\ }
-\DoxyCodeLine{00334\ \ \ \ \ std::deque<std::string>\ \mbox{\hyperlink{classLL1Parser_a925dde74d4f9e5a40eeba14d10b08bbb}{trace\_}};}
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a2f702d940802a8b02538cb173a6c7e5e}{ComputeFirstSets}}();}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a02ee1f3ebc4cedacbb11204e3e8cbfdc}{ComputeFollowSets}}();}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a7abaa8e36b23e55e2846ae25ceb1cbf7}{UpdateFollow}}(symbol\_table::TokenID\ symbol,\ symbol\_table::TokenID\ lhs,}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ production\&\ rhs,\ \textcolor{keywordtype}{size\_t}\ i);}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00259\ \ \ \ \ std::unordered\_set<symbol\_table::TokenID>\ \mbox{\hyperlink{classLL1Parser_a41eb4fc258da8d7df56fba1027813021}{Follow}}(symbol\_table::TokenID\ arg);}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00283\ \ \ \ \ std::unordered\_set<symbol\_table::TokenID>}
+\DoxyCodeLine{00284\ \ \ \ \ \mbox{\hyperlink{classLL1Parser_a586443649c23c3af47d746037c8317ff}{PredictionSymbols}}(symbol\_table::TokenID\ antecedent,}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ production\&\ \ \ \ \ consequent);}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00308\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a7b33aead1b94c61884afb06f204fd3e4}{CreateLL1Table}}();}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00322\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLL1Parser_a00cc4c090b6a32d97f5ed035da9cba9d}{PrintTableUsingTabulate}}();}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00326\ \ \ \ \ ll1\_table\ \mbox{\hyperlink{classLL1Parser_a29cba4eed3d7b262f17509779934f1fd}{ll1\_t\_}};}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00329\ \ \ \ \ \mbox{\hyperlink{structGrammar}{Grammar}}\ \mbox{\hyperlink{classLL1Parser_a8148d39b8f39a98b4210490346beb3b4}{gr\_}};}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00332\ \ \ \ \ std::unordered\_map<symbol\_table::TokenID,}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::unordered\_set<symbol\_table::TokenID>>}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLL1Parser_a5e83ee8bad32c9e57cd0a9a47839b905}{first\_sets\_}};}
 \DoxyCodeLine{00335\ }
-\DoxyCodeLine{00337\ \ \ \ \ std::string\ \mbox{\hyperlink{classLL1Parser_a69d3b82775755d12b9f2c5a874efa365}{grammar\_file\_}};}
-\DoxyCodeLine{00338\ }
-\DoxyCodeLine{00340\ \ \ \ \ std::string\ \mbox{\hyperlink{classLL1Parser_a608a4c6bd4f7e3408f1e5edcc0faf30a}{text\_file\_}};}
-\DoxyCodeLine{00341\ }
-\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a20c0e1a3542584905c82e22156c35d92}{print\_table\_format\_}}\{\textcolor{keyword}{true}\};}
-\DoxyCodeLine{00344\ \};}
+\DoxyCodeLine{00337\ \ \ \ \ std::unordered\_map<symbol\_table::TokenID,}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::unordered\_set<symbol\_table::TokenID>>}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLL1Parser_afe0b374dd1f750b0c7ec7f17d034ac9f}{follow\_sets\_}};}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00342\ \ \ \ \ std::string\ \mbox{\hyperlink{classLL1Parser_a69d3b82775755d12b9f2c5a874efa365}{grammar\_file\_}};}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00345\ \ \ \ \ std::string\ \mbox{\hyperlink{classLL1Parser_a608a4c6bd4f7e3408f1e5edcc0faf30a}{text\_file\_}};}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00348\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a7c6248b5c699036d75fd4e63c88e0460}{text\_is\_raw\_}}\{\textcolor{keyword}{false}\};}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classLL1Parser_a20c0e1a3542584905c82e22156c35d92}{print\_table\_format\_}}\{\textcolor{keyword}{true}\};}
+\DoxyCodeLine{00352\ \};}
 
 \end{DoxyCode}
